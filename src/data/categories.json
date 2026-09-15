@@ -1,0 +1,11 @@
+[
+  { "id": "bike-shop",  "label": "Bike shops",  "icon": "bike",       "color": "#3D7EA6" },
+  { "id": "brewery",    "label": "Breweries",   "icon": "beer",       "color": "#C8823C" },
+  { "id": "ice-cream",  "label": "Ice cream",   "icon": "ice-cream",  "color": "#E8846B" },
+  { "id": "playground", "label": "Playgrounds", "icon": "swing",      "color": "#6BA368" },
+  { "id": "trailhead",  "label": "Trailheads",  "icon": "tree",       "color": "#3F7351" },
+  { "id": "pool",       "label": "Pool",        "icon": "water",      "color": "#4FA3B8" },
+  { "id": "coffee",     "label": "Coffee",      "icon": "coffee",     "color": "#8A6A52" },
+  { "id": "food",       "label": "Food",        "icon": "food",       "color": "#B5524A" },
+  { "id": "park",       "label": "Parks",       "icon": "park",       "color": "#5C8C5A" }
+]

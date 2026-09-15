@@ -1,0 +1,18 @@
+[
+  {
+    "id": "sample-downtown-anchor",
+    "name": "SAMPLE — Downtown anchor",
+    "category": "coffee",
+    "coordinates": [-82.7343, 35.2334],
+    "description": "Placeholder entry. Replace this file with the real Brevard destination data.",
+    "bikeParking": true
+  },
+  {
+    "id": "sample-greenway-north",
+    "name": "SAMPLE — Greenway north access",
+    "category": "trailhead",
+    "coordinates": [-82.7380, 35.2450],
+    "description": "Placeholder entry. Replace this file with the real Brevard destination data.",
+    "bikeParking": false
+  }
+]

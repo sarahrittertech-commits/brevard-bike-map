@@ -1,0 +1,19 @@
+[
+  {
+    "id": "sample-downtown-anchor-to-sample-greenway-north",
+    "from": "sample-downtown-anchor",
+    "to": "sample-greenway-north",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7343, 35.2334],
+        [-82.7361, 35.2392],
+        [-82.7380, 35.2450]
+      ]
+    },
+    "distanceMiles": 0.9,
+    "estimatedMinutes": 6,
+    "surface": "greenway",
+    "confidence": "unverified"
+  }
+]
