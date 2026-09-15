@@ -108,5 +108,7 @@ final afternoon that the build is broken.
 
 ## Full documentation
 
-`../docs-site/docs/brevard-bike-map/` — requirements, personas, use cases, data
-model, ADRs, test cases, release notes, runbook.
+`docs/` in this repository — requirements, personas, use cases, data model,
+ADRs, test cases, release notes and runbook. Documentation is versioned with
+the code, so a change that invalidates a document updates it in the same
+commit. The PushPopDev docs site renders this folder; it holds no copy.

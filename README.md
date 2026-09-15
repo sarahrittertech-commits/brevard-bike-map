@@ -14,12 +14,18 @@ In development. Targeting a ship date of **30 September 2026**.
 
 ## Documentation
 
-Full project documentation — requirements, personas, data model, architecture
-decisions, test cases and runbook — lives on the PushPopDev docs site under
-[Brevard Bike Map](../docs-site/docs/brevard-bike-map/).
+Full project documentation lives in [`docs/`](./docs/) in this repository —
+requirements, personas, use cases, data model, architecture decisions, test
+cases, release notes and runbook. It is versioned alongside the code it
+describes, so a decision record and the commit that implemented it move
+together.
 
-Start with the [product requirements](../docs-site/docs/brevard-bike-map/prd.md)
-and [ADR-0003](../docs-site/docs/brevard-bike-map/architecture/adr-0003-route-data.md),
+The PushPopDev docs site renders this folder at `/brevard-bike-map/`. It mounts
+it by relative path rather than holding a copy, so this repository needs to be
+checked out as a sibling of `docs-site` for that site to build.
+
+Start with the [product requirements](./docs/prd.md)
+and [ADR-0003](./docs/architecture/adr-0003-route-data.md),
 which explains why routes here are hand-curated rather than computed.
 
 ## Getting started
@@ -31,15 +37,15 @@ npx create-expo-app@latest . --template blank
 npx expo install react-native-maps
 ```
 
-See [ADR-0001](../docs-site/docs/brevard-bike-map/architecture/adr-0001-app-platform.md)
-for why Expo, and [ADR-0002](../docs-site/docs/brevard-bike-map/architecture/adr-0002-map-rendering.md)
+See [ADR-0001](./docs/architecture/adr-0001-app-platform.md)
+for why Expo, and [ADR-0002](./docs/architecture/adr-0002-map-rendering.md)
 for why react-native-maps.
 
 ## Data
 
 Route and destination data lives in `src/data/` as static JSON bundled into the
 app. There is no backend — see
-[ADR-0004](../docs-site/docs/brevard-bike-map/architecture/adr-0004-storage-and-costs.md).
+[ADR-0004](./docs/architecture/adr-0004-storage-and-costs.md).
 
 The files currently contain **placeholder sample data** which must be replaced
 with the real Brevard dataset.
