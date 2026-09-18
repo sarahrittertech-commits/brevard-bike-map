@@ -27,8 +27,11 @@ Each record has a status:
 | [0003](./adr-0003-route-data) | Hand-curate routes rather than compute them | Proposed |
 | [0004](./adr-0004-storage-and-costs) | Ship static data, run no backend | Proposed |
 
-:::note All four are Proposed
-These were drafted during project setup and reflect a recommendation, not a
-commitment. Read the alternatives in each before accepting — particularly
-0003, which is the one with a real argument on both sides.
+:::note All four are Proposed — and all four are now built on
+These were drafted during project setup as a recommendation. On 18 September
+2026 the app was built on all of them: Expo, react-native-maps, hand-curated
+routes (as adventures over a drawn network) and bundled JSON. Sarah has not
+formally marked them Accepted; reversing any of them now means rework, so
+the honest status is "in effect, pending a decision". 0003's alternatives are
+still worth reading — it is the one with a real argument on both sides.
 :::

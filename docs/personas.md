@@ -48,13 +48,14 @@ cream, string two or three stops together.
 **Behaviour:** rides most weeks, knows the town well, is looking for variety
 rather than information.
 
-**What she needs from the app:** ideas. This is the persona the "adventures"
-feature (R8) serves — curated multi-stop rides she wouldn't have assembled
+**What she needs from the app:** ideas. This is the persona the Adventures
+tab (R8) serves — curated multi-stop rides she wouldn't have assembled
 herself.
 
-**Design implication:** justifies R8 if time allows, and nothing else. This
-persona is already served adequately by her own knowledge, so she is the
-lowest-priority of the three.
+**Design implication:** the app design made Adventures a first-class tab
+rather than an extra, so this persona now carries more weight than the
+original plan gave her. Adventures are also how the other two personas get a
+route at all, since the design has no pair-picking.
 
 ---
 

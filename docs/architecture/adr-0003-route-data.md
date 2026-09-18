@@ -31,8 +31,9 @@ But the app does not need every pair. The [use cases](../use-cases) list five
 journey types, and in a town this size those resolve to roughly **12 to 15
 routes** — the greenway spine plus its spurs. Riders combine them naturally.
 
-Every one of those routes is a line Sarah has personally ridden or verified,
-which is what the `confidence` field exists to record.
+Every one of those routes is a line Sarah has personally ridden or verified.
+(An earlier data model carried a per-route `confidence` field; the design
+dropped it in favour of only shipping rides that are known good.)
 
 ### Computed routing over a path network
 
@@ -75,9 +76,9 @@ optimality.
 **Good:** no routing engine, no graph code, no tuning. Every route is verified.
 Route quality is a data problem, and data is the thing already collected.
 
-**Bad:** a pair with no stored route has no answer. The app must handle this
-honestly — "no verified route yet" rather than a guess or an error. Adding a
-destination means drawing its connections, not just adding a pin.
+**Bad:** a journey with no adventure drawn for it has no route line — the
+rider reads the network and the pin's position instead. Adding a destination
+that deserves a route means adding or extending an adventure, not just a pin.
 
 **Scaling limit:** this approach holds while the destination count is small.
 Past roughly 25 destinations, or if the app extends beyond Brevard, the

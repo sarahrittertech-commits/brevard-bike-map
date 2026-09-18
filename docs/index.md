@@ -38,7 +38,7 @@ That framing drives every scope decision on this project:
 | Phase | Build |
 | Target ship date | 30 September 2026 |
 | Owner | Sarah Ritter |
-| Repository | `brevard-bike-map` (local, not yet pushed) |
+| Repository | [sarahrittertech-commits/brevard-bike-map](https://github.com/sarahrittertech-commits/brevard-bike-map) |
 | Platform | Mobile |
 
 ## Document set
@@ -48,7 +48,7 @@ That framing drives every scope decision on this project:
 | [Product requirements](./prd) | What gets built and what explicitly does not |
 | [Personas](./personas) | Who rides, and what they need |
 | [Use cases](./use-cases) | The specific journeys the app supports |
-| [Data model](./data-model) | How routes and destinations are structured |
+| [Data model](./data-model) | Destinations, the path network, landmarks and adventures |
 | [Architecture decisions](./architecture/) | Stack, map rendering, storage, costs |
 | [Test cases](./test-cases) | What "working" means before ship |
 | [Release notes](./release-notes) | What shipped, when |
