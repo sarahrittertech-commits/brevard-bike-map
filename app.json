@@ -24,6 +24,9 @@
         "projectId": "3fecc21b-af13-4633-8059-fcc141ef7db4"
       }
     },
-    "owner": "sarahbuildsapps"
+    "owner": "sarahbuildsapps",
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

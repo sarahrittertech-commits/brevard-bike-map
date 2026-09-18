@@ -8,13 +8,24 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "validate": "node scripts/validate-data.cjs",
-    "validate:release": "node scripts/validate-data.cjs --release"
+    "validate:release": "node scripts/validate-data.cjs --release",
+    "lint": "eslint ."
   },
   "dependencies": {
+    "@expo-google-fonts/fraunces": "^0.4.1",
+    "@expo-google-fonts/inter": "^0.4.2",
     "expo": "~57.0.23",
+    "expo-font": "~57.0.4",
     "expo-status-bar": "~57.0.1",
+    "lucide-react-native": "^1.47.0",
     "react": "19.2.3",
     "react-native": "0.86.3",
-    "react-native-maps": "1.27.2"
+    "react-native-maps": "1.27.2",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-svg": "15.15.4"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~57.0.2"
   }
 }
