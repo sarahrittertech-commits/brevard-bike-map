@@ -33,9 +33,10 @@ much easier to read locally.
 1. Add an entry to `src/data/destinations.json` following the
    [data model](./data-model).
 2. Confirm the coordinate order is `[longitude, latitude]`.
-3. Draw at least one route connecting it to the existing network.
+3. Give it a `mileMarker` so it sorts into the list correctly.
 4. Run `npm run validate`.
-5. Commit the destination and its routes together in one commit.
+5. If it belongs on an adventure, add it as a stop with a `destination`
+   reference in the same commit.
 
 ## Building for a device
 
@@ -50,9 +51,9 @@ Do a throwaway build in week one to find the signing problems early.
 
 ## Release checklist
 
-1. All automated tests green — `npm test && npm run validate`
+1. Lint and data checks green — `npm run lint && npm run validate:release`
 2. Manual tests MT-1 to MT-6 pass on a physical phone
-3. No routes with `confidence: "unverified"`
+3. No placeholder names in the data (`validate:release` enforces this)
 4. Version bumped in `package.json` and `app.json`
 5. [Release notes](./release-notes) updated
 6. Tag the commit: `git tag v1.0.0 && git push --tags`

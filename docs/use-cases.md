@@ -16,11 +16,13 @@ Each use case maps to requirements in the [PRD](./prd) and to test cases in
 
 **Flow:**
 
-1. Opens the app. Map of Brevard loads with destinations visible.
-2. Taps the pool marker.
-3. Sets her current area as the start.
-4. App displays the connecting route, distance and approximate ride time.
-5. She reads the route and decides whether to go.
+1. Opens the app. Map of Brevard loads with the path and connectors drawn.
+2. Switches on Playgrounds. Pins appear; the sheet lists them by mile marker.
+3. Taps the one she means. The sheet shows what it is and how far along the
+   path it sits.
+4. Reads the map: the dotted connector from her street to the path, then the
+   solid line to the pin.
+5. Decides whether to go.
 
 **Requirements:** R1, R2, R3, R5, R6
 
@@ -36,10 +38,10 @@ bike-friendly connection exists.
 **Flow:**
 
 1. Opens the app for the first time. No signup, no permissions wall.
-2. Sees the map with all destinations and the path network.
-3. Filters to breweries and food.
-4. Taps two or three to read what they are.
-5. Picks one and views the route.
+2. Sees the map with the path network and the town's landmarks labelled.
+3. Switches on Breweries and Ice Cream.
+4. Taps two or three pins to read what they are.
+5. Pulls the sheet up and reads the list end to end.
 
 **Requirements:** R1, R2, R4, R7
 
@@ -71,10 +73,10 @@ thirty seconds of first launch.
 
 **Flow:**
 
-1. Filters to bike shops.
-2. Selects one as the start.
-3. Selects a trailhead as the destination.
-4. Views the route.
+1. Switches on Bike Shops and reads the list.
+2. Opens Adventures and picks "Gateway to Pisgah".
+3. Reads the stop-by-stop notes.
+4. Taps "Show route on map" and follows it.
 
 **Requirements:** R2, R5, R7
 
@@ -86,10 +88,9 @@ the data.
 
 ## Journeys the data must cover
 
-From the collected route data, these specific pairs should all resolve:
+These journeys should each be answered by at least one adventure:
 
-- Bike shop → trailhead
-- Brewery → brewery
-- Ice cream / slushy → public pool
-- Playground → playground
-- Downtown → greenway access point
+- Bike shop → trailhead — *Gateway to Pisgah*
+- Brewery → brewery — *Taproom Traverse*
+- Playground → ice cream — *Playground to Dolly's*
+- Downtown → greenway access point — *Ride to a Downtown Festival*

@@ -61,6 +61,10 @@ A hosted routing service also becomes a cost the moment it stops being free.
 
 **Hand-curate the routes.**
 
+*18 September 2026:* the app design realises this as a drawn path network
+plus curated **adventures**, each with its own route line and ordered stops,
+rather than pairwise start/end routes. Same principle, different packaging.
+
 For the specific set of journeys this app serves, curation is both less work and
 higher quality. Every displayed route is one a person has confirmed, which
 directly serves the persona whose requirement is confidence rather than

@@ -27,15 +27,15 @@ would be embarrassing in a demo.
 
 | ID | Unit | Assertion |
 | --- | --- | --- |
-| UT-1 | Route lookup | Returns the same route for A→B and B→A |
-| UT-2 | Route lookup, reversed | B→A returns geometry in reverse order |
-| UT-3 | Route lookup, missing | Returns null, does not throw |
-| UT-4 | Ride time estimate | 1.0 miles at casual pace returns 6–8 minutes |
-| UT-5 | Category filter | Filtering to one category returns only that category |
-| UT-6 | Category filter, none selected | Returns all destinations, not none |
+| UT-1 | `visibleDestinations` | One category on returns only places in that category, ordered by mile marker |
+| UT-2 | `visibleDestinations`, none on | Returns an empty list — the map shows just the path by design |
+| UT-3 | `displayCategory` | A two-category place draws as whichever of its categories is switched on |
+| UT-4 | `adventureStopPins` | Stops without a `destination` are skipped; numbering keeps the original index |
+| UT-5 | `toLatLng` | `[-82.73, 35.23]` becomes `{ latitude: 35.23, longitude: -82.73 }` |
 
-UT-6 is listed because "no filters selected" returning an empty map is a classic
-off-by-default bug.
+UT-2 reverses the earlier assumption: the design treats "no filters" as "just
+the path", with the rail's clear button making that explicit. These are not
+yet automated; `src/lib/data.js` is where they would run against.
 
 ## Manual — on a real device
 
@@ -43,12 +43,12 @@ Run before every release. A simulator does not count.
 
 | ID | Steps | Pass condition |
 | --- | --- | --- |
-| MT-1 | Cold launch | Map visible with markers in under 3 seconds, no signup |
-| MT-2 | Tap any marker | Name, category and description shown; panel dismisses cleanly |
-| MT-3 | Select start and end, view route | Route drawn on map, distance and time shown |
-| MT-4 | UC-4: bike shop → trailhead | Route is correct and matches local knowledge |
-| MT-5 | Filter to one category | Only that category's markers remain |
-| MT-6 | Clear all filters | All markers return |
+| MT-1 | Cold launch | Map visible with the path drawn in under 3 seconds, no signup |
+| MT-2 | Switch on a category, tap a pin | Name, category, description and mile marker in the sheet; close returns to the list |
+| MT-3 | Adventures → detail → Show route on map | Route drawn in clay over the faded network, numbered stops, header shows miles and minutes |
+| MT-4 | UC-4: Taproom Traverse | Route is correct and matches local knowledge |
+| MT-5 | Filter to one category | Only that category's pins remain; list count matches |
+| MT-6 | Just the path button | All pins clear, sheet returns to trail facts |
 | MT-7 | Rotate device | Layout survives, map keeps its position |
 | MT-8 | Airplane mode, then cold launch | Map data and markers still load (R9) |
 | MT-9 | Pinch to zoom out fully, then back in | No crash, markers re-render |

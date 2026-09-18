@@ -3,10 +3,11 @@
 A hyperlocal mobile app for getting between places in Brevard, North Carolina
 by bike.
 
-Pick two local destinations — a bike shop and a trailhead, one brewery and
-another, the ice cream place and the pool — and see the bikeable way between
-them, using connections local riders actually use rather than whatever a
-general-purpose routing engine suggests.
+The paved path and the sidewalks and quiet streets that connect it to town,
+the places worth riding to along it — ice cream, playgrounds, breweries, bike
+shops, repair stands — and a handful of curated rides with stop-by-stop notes.
+Every route is one a local has actually ridden, not what a routing engine
+guesses.
 
 ## Status
 
@@ -27,6 +28,8 @@ checked out as a sibling of `docs-site` for that site to build.
 Start with the [product requirements](./docs/prd.md)
 and [ADR-0003](./docs/architecture/adr-0003-route-data.md),
 which explains why routes here are hand-curated rather than computed.
+The visual design lives in a
+[separate repo](https://github.com/sarahrittertech-commits/Bike-Path-Adventures-Map-Design).
 
 ## Getting started
 
@@ -42,31 +45,28 @@ for why react-native-maps.
 
 ## Data
 
-Route and destination data lives in `src/data/` as static JSON bundled into the
-app. There is no backend — see
+Destinations, the path network, landmarks and adventures live in `src/data/`
+as static JSON bundled into the app. There is no backend — see
 [ADR-0004](./docs/architecture/adr-0004-storage-and-costs.md).
-
-The files currently contain **placeholder sample data** which must be replaced
-with the real Brevard dataset.
 
 After any data change:
 
 ```bash
-node scripts/validate-data.cjs
+npm run validate
 ```
 
-The validator checks that categories and destinations resolve, that IDs are
-unique, that stored distances match drawn geometry, and — most usefully — that
-no coordinate has had its latitude and longitude swapped. It runs in CI on
-every push.
+The validator checks that categories and stop references resolve, that IDs
+are unique, that stated distances are plausible against drawn geometry, and —
+most usefully — that no coordinate has had its latitude and longitude
+swapped. It runs in CI on every push, alongside `npm run lint`.
 
 Before a release:
 
 ```bash
-node scripts/validate-data.cjs --release
+npm run validate:release
 ```
 
-which additionally refuses any route still marked `unverified`.
+which additionally refuses any placeholder content.
 
 ## Licence
 

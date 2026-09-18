@@ -5,8 +5,9 @@ development window starts with full project context without re-explaining it.
 
 ## What this is
 
-A hyperlocal mobile app for Brevard, North Carolina. A rider picks two local
-destinations and sees the bikeable route between them.
+A hyperlocal mobile app for Brevard, North Carolina. A map of the town's bike
+path and its connectors, the places worth riding to along it, and a handful of
+curated "adventures" — rides locals actually do, with stop-by-stop notes.
 
 Owner: Sarah Ritter (PushPopDev). Ship date: **30 September 2026**.
 
@@ -30,9 +31,14 @@ Consequences that should shape every suggestion made in this repo:
 
 ## Scope
 
-In scope: map of Brevard, tappable destination markers by category, the bike
-path network, tap for detail, pick start and end to see a route with distance
-and ride time, category filtering.
+In scope: map of Brevard with the path network drawn, category toggles that
+show tappable pins, a bottom sheet with the filtered list and place detail,
+an Adventures tab with a detail screen, and "show route on map" which overlays
+the ride with numbered stops.
+
+**Design:** https://github.com/sarahrittertech-commits/Bike-Path-Adventures-Map-Design
+(a Magic Patterns web mock — Leaflet + Tailwind). The native app is built to
+match it. Its coordinates are `[lat, lon]`; ours are `[lon, lat]`.
 
 Out of scope — these are decisions, not backlog items: accounts, logins,
 user-generated content, reviews, turn-by-turn navigation, GPS tracking, any
@@ -55,13 +61,15 @@ touching route logic.
 
 ## Current state
 
-Expo app scaffolded (SDK 57, blank JavaScript template) with
-`react-native-maps` installed. The map opens centred on Brevard (R1). Nothing
-else is built yet.
+Built to the design, not yet run on a phone (as of 18 September 2026).
+Expo SDK 57, JavaScript, `react-native-maps` on Apple Maps. Both tabs, the
+detail screen and route-following are implemented. Metro bundles cleanly,
+lint and validator pass.
 
 ```bash
 npm install
 npm start          # scan the QR code with Expo Go
+npm run lint
 npm run validate   # data checks; also runs in CI
 ```
 
@@ -71,31 +79,35 @@ before writing Expo-specific code rather than relying on older patterns.
 ### Layout
 
 ```
-App.js                 root component, renders MapScreen
-index.js               Expo entry point, do not touch
-app.json               Expo config (name, slug, bundle ids)
-assets/                icon and splash images (template defaults for now)
-src/data/              the four JSON data files
-src/lib/data.js        the only way the UI reads data; owns [lon, lat] -> {latitude, longitude}
-src/screens/           one file per full-screen view
-scripts/               validate-data.cjs
+App.js                      fonts, tab/detail/following state, renders screens — no nav library
+src/theme.js                colours, font names, radii from the design's Tailwind config
+src/lib/data.js             the only way the UI reads data; owns [lon, lat] -> {latitude, longitude}
+src/data/                   five JSON files (see docs/data-model.md)
+src/screens/                MapScreen, AdventuresScreen, AdventureDetailScreen
+src/components/TrailMap     MapView + network polylines + all markers
+src/components/MapPins      pin / landmark / trailhead / stop marker views
+src/components/MapSheet     draggable bottom sheet (Animated + PanResponder, no library)
+src/components/CategoryRail right-edge category toggles
+src/components/*Icon        Lucide icons + the custom playground glyph
+assets/adventures/          one photo per adventure
+scripts/validate-data.cjs   data checks
 ```
 
-Components go in `src/components/` when the first one exists. Keep the tree
-this flat — there is no reason for it to grow beyond these folders.
+Dependencies beyond Expo: react-native-maps, react-native-svg,
+lucide-react-native, react-native-safe-area-context, expo-font and two
+Google Fonts packages. Nothing else is needed; resist adding a navigation or
+bottom-sheet library.
 
-Android builds outside Expo Go need a Google Maps API key in
-`app.json` under `android.config.googleMaps.apiKey`. Expo Go supplies its own,
-so this is a week-one EAS build task, not a today task.
+Android builds outside Expo Go need a Google Maps API key in `app.json`
+under `android.config.googleMaps.apiKey`. iOS needs nothing.
 
 ## Data
 
-`src/data/` holds `destinations.json`, `routes.json`, `categories.json`,
-`adventures.json`.
-
-**The data currently in these files is placeholder sample data.** Sarah has the
-real Brevard dataset. Getting that data in is an early task, and its format is
-still an open question — ask rather than assume.
+`src/data/` holds `categories.json`, `destinations.json`, `network.json`,
+`landmarks.json` and `adventures.json`. This is the real Brevard dataset,
+converted from the design repo. The network geometry is traced rather than
+surveyed; the design notes it should be replaced with the town GIS centerline
+before launch.
 
 Coordinates are GeoJSON order: **`[longitude, latitude]`**. Brevard is roughly
 `[-82.73, 35.23]`, so longitude is the negative one. Swapping these is the most
