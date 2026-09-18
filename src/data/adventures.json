@@ -1,1 +1,683 @@
-[]
+[
+  {
+    "id": "playground-to-dollys",
+    "title": "Playground to Dolly's",
+    "tagline": "The after-school classic",
+    "story": "Start downtown, let everyone burn off a first round of energy at the playground, then roll out Main St to where the path begins at W Main. From there it is flat, shaded pavement the whole way northeast past the depot, and the new bridge at the far end drops you right at Dolly's window. It is the ride most Brevard kids learn the path on.",
+    "image": "playground-to-dollys",
+    "miles": 4.7,
+    "minutes": 45,
+    "difficulty": "easy",
+    "kidFriendly": true,
+    "stops": [
+      {
+        "name": "Silvermont Park",
+        "note": "Playground, pavilion, and shade before you start.",
+        "destination": "silvermont-park"
+      },
+      {
+        "name": "Railroad Depot Repair Stand",
+        "note": "Parking and restrooms here. Top off tires — it saves a walk later.",
+        "destination": "repair-depot"
+      },
+      {
+        "name": "Mid-Path Fix-It Stand",
+        "note": "Halfway breather. Water filler beside the stand.",
+        "destination": "repair-midpath"
+      },
+      {
+        "name": "Dolly's Dairy Bar",
+        "note": "Over the new bridge from the north end. Mostly flat, 25 minutes from town.",
+        "destination": "dollys"
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7345, 35.2337],
+        [-82.736, 35.234],
+        [-82.7376, 35.2342],
+        [-82.7392, 35.2344],
+        [-82.7392, 35.2344],
+        [-82.7385, 35.2356],
+        [-82.7376, 35.2369],
+        [-82.7365, 35.2383],
+        [-82.7356, 35.2394],
+        [-82.7349, 35.2402],
+        [-82.7331, 35.2413],
+        [-82.7311, 35.2425],
+        [-82.7287, 35.2446],
+        [-82.7263, 35.2453],
+        [-82.724, 35.246],
+        [-82.722, 35.2472],
+        [-82.7213, 35.2487],
+        [-82.7219, 35.2503],
+        [-82.7216, 35.2516],
+        [-82.7203, 35.2526],
+        [-82.7182, 35.2538],
+        [-82.716, 35.255],
+        [-82.7139, 35.256],
+        [-82.712, 35.2569],
+        [-82.71, 35.2574],
+        [-82.7085, 35.2582],
+        [-82.7074, 35.2595],
+        [-82.7068, 35.2611],
+        [-82.7065, 35.2634],
+        [-82.7062, 35.2659],
+        [-82.7061, 35.2679],
+        [-82.706, 35.2701],
+        [-82.706, 35.2701],
+        [-82.7054, 35.2723],
+        [-82.705, 35.2734],
+        [-82.7057, 35.2745],
+        [-82.7069, 35.2757]
+      ]
+    }
+  },
+  {
+    "id": "ballfield-library-loop",
+    "title": "Ball Field to Library Loop",
+    "tagline": "A whole Saturday on two wheels",
+    "story": "Park at the ball fields and make a day of it. The Ninja Park is right there, so start with a lap of the course before anyone has earned lunch. Then it is a straight, flat run down the path into town — lock up on Main, eat, and roll the last few blocks to the library to trade in a stack of books. The ride home is the same path in reverse, with an ice cream stop at The Yard before you load the bikes.",
+    "image": "ballfield-library-loop",
+    "miles": 6.2,
+    "minutes": 70,
+    "difficulty": "moderate",
+    "kidFriendly": true,
+    "stops": [
+      {
+        "name": "Brevard Ball Fields",
+        "note": "Park here off Ecusta Rd. Restrooms and plenty of room to get sorted."
+      },
+      {
+        "name": "Jameson's Joy (Ninja Park)",
+        "note": "Right beside the fields. Burn off the first round of energy here.",
+        "destination": "jamesons-joy"
+      },
+      {
+        "name": "Lunch downtown",
+        "note": "Lock up on Main — everything is within a block of where the path lands."
+      },
+      {
+        "name": "Transylvania County Library",
+        "note": "A few blocks south on S Gaston. Racks out front, books for the ride home."
+      },
+      {
+        "name": "The Yard",
+        "note": "Ice cream and the kids’ bike park on Railroad Ave — the last stop before the fields.",
+        "destination": "the-yard-treats"
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7085, 35.258],
+        [-82.71, 35.2574],
+        [-82.7203, 35.2526],
+        [-82.7216, 35.2516],
+        [-82.7219, 35.2503],
+        [-82.7213, 35.2487],
+        [-82.722, 35.2472],
+        [-82.724, 35.246],
+        [-82.7263, 35.2453],
+        [-82.7287, 35.2446],
+        [-82.7311, 35.2425],
+        [-82.7331, 35.2413],
+        [-82.7349, 35.2402],
+        [-82.7356, 35.2394],
+        [-82.7365, 35.2383],
+        [-82.7376, 35.2369],
+        [-82.7385, 35.2356],
+        [-82.7392, 35.2344],
+        [-82.7378, 35.2335],
+        [-82.7362, 35.2325],
+        [-82.7355, 35.232]
+      ]
+    }
+  },
+  {
+    "id": "brewery-to-brewery",
+    "title": "Taproom Traverse",
+    "tagline": "The Hub to downtown, all downhill in spirit",
+    "story": "Adults only, and best started early enough that the last leg is still light. Begin at the Pisgah Tavern inside The Hub, roll down past Dolly’s and over the new bridge, then pick up the path and work your way back toward town — Ecusta on the Ecusta Rd side, Oskar Blues off Mountain Industrial, the King St row in the middle, and Brevard Brewing to finish on E Main. One direction, flat the whole way, and it ends where the food is.",
+    "image": "taproom-traverse",
+    "miles": 5.4,
+    "minutes": 70,
+    "difficulty": "easy",
+    "kidFriendly": false,
+    "stops": [
+      {
+        "name": "The Hub & Pisgah Tavern",
+        "note": "Start at the forest gateway. One pour, then point the bikes downhill.",
+        "destination": "the-hub"
+      },
+      {
+        "name": "Ecusta Brewing Company",
+        "note": "Steps off the path at 451 Ecusta Rd. First stop after the bridge.",
+        "destination": "ecusta-brewing"
+      },
+      {
+        "name": "Oskar Blues (Tasty Weasel Taproom)",
+        "note": "Big lawn and food on Mountain Industrial. The natural mid-ride sit-down.",
+        "destination": "oskar-blues"
+      },
+      {
+        "name": "Squatch Bikes & Brews",
+        "note": "King St row. Noblebräu and Griffon & Sphynx are both a short walk from here.",
+        "destination": "squatch"
+      },
+      {
+        "name": "Brevard Brewing Company",
+        "note": "Finish on E Main, a block from everything. Walk from here.",
+        "destination": "brevard-brewing"
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7148, 35.2828],
+        [-82.711, 35.2782],
+        [-82.7069, 35.2757],
+        [-82.7057, 35.2745],
+        [-82.705, 35.2734],
+        [-82.7054, 35.2723],
+        [-82.706, 35.2701],
+        [-82.706, 35.2701],
+        [-82.7061, 35.2679],
+        [-82.7062, 35.2659],
+        [-82.7065, 35.2634],
+        [-82.7068, 35.2611],
+        [-82.7074, 35.2595],
+        [-82.7085, 35.2582],
+        [-82.71, 35.2574],
+        [-82.712, 35.2569],
+        [-82.7139, 35.256],
+        [-82.716, 35.255],
+        [-82.7182, 35.2538],
+        [-82.7203, 35.2526],
+        [-82.7216, 35.2516],
+        [-82.7219, 35.2503],
+        [-82.7213, 35.2487],
+        [-82.722, 35.2472],
+        [-82.724, 35.246],
+        [-82.7263, 35.2453],
+        [-82.7287, 35.2446],
+        [-82.7311, 35.2425],
+        [-82.7331, 35.2413],
+        [-82.7349, 35.2402],
+        [-82.7356, 35.2394],
+        [-82.7365, 35.2383],
+        [-82.7376, 35.2369],
+        [-82.7385, 35.2356],
+        [-82.7392, 35.2344],
+        [-82.7392, 35.2344],
+        [-82.7376, 35.2342],
+        [-82.736, 35.234],
+        [-82.7345, 35.2337]
+      ]
+    }
+  },
+  {
+    "id": "downtown-festival",
+    "title": "Ride to a Downtown Festival",
+    "tagline": "Skip the parking, arrive on two wheels",
+    "story": "Festival weekends turn downtown parking into a sport nobody wins. The path carries all the way to W Main instead, so you arrive a block from the tents. Leave from the Pisgah Forest end, ride southwest past the depot into town, and lock up on Main. Coming home after dark is easy, but bring a light — the far end is unlit by design.",
+    "image": "downtown-festival",
+    "miles": 3.8,
+    "minutes": 30,
+    "difficulty": "easy",
+    "kidFriendly": true,
+    "stops": [
+      {
+        "name": "Pisgah Forest End",
+        "note": "Free parking near Ecusta Rd. Fills by late morning on festival days."
+      },
+      {
+        "name": "Mid-Path Fix-It Stand",
+        "note": "Halfway breather, with water.",
+        "destination": "repair-midpath"
+      },
+      {
+        "name": "Railroad Depot Park",
+        "note": "Lock up here. Restrooms, pavilion, and the ballerina sculpture.",
+        "destination": "repair-depot"
+      },
+      {
+        "name": "Rocky's Grill & Soda Shop",
+        "note": "Open late on festival nights. Shorter line after the band starts.",
+        "destination": "rockys"
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.706, 35.2701],
+        [-82.7061, 35.2679],
+        [-82.7062, 35.2659],
+        [-82.7065, 35.2634],
+        [-82.7068, 35.2611],
+        [-82.7074, 35.2595],
+        [-82.7085, 35.2582],
+        [-82.71, 35.2574],
+        [-82.712, 35.2569],
+        [-82.7139, 35.256],
+        [-82.716, 35.255],
+        [-82.7182, 35.2538],
+        [-82.7203, 35.2526],
+        [-82.7216, 35.2516],
+        [-82.7219, 35.2503],
+        [-82.7213, 35.2487],
+        [-82.722, 35.2472],
+        [-82.724, 35.246],
+        [-82.7263, 35.2453],
+        [-82.7287, 35.2446],
+        [-82.7311, 35.2425],
+        [-82.7331, 35.2413],
+        [-82.7349, 35.2402],
+        [-82.7356, 35.2394],
+        [-82.7365, 35.2383],
+        [-82.7376, 35.2369],
+        [-82.7385, 35.2356],
+        [-82.7392, 35.2344],
+        [-82.7392, 35.2344],
+        [-82.7376, 35.2342],
+        [-82.736, 35.234],
+        [-82.7345, 35.2337]
+      ]
+    }
+  },
+  {
+    "id": "pisgah-gateway",
+    "title": "Gateway to Pisgah",
+    "tagline": "Pavement out, forest air back",
+    "story": "The network gets you all the way to the national forest without riding Hwy 64. Pick up the path at W Main, ride the full length northeast past the depot, then cross the new bridge and carry on past Dolly’s to the forest gateway, where the shop and the tavern sit side by side. Flat, paved, and separated nearly the whole way.",
+    "image": "pisgah-gateway",
+    "miles": 5.5,
+    "minutes": 55,
+    "difficulty": "moderate",
+    "kidFriendly": false,
+    "stops": [
+      {
+        "name": "Earth Mountain",
+        "note": "Borrow a floor pump before you go. Ask what the forest roads are doing.",
+        "destination": "earth-mountain"
+      },
+      {
+        "name": "Pisgah Forest Repair Stand",
+        "note": "Last water and tools before the bridge crossing.",
+        "destination": "repair-pisgah"
+      },
+      {
+        "name": "Dolly's Dairy Bar",
+        "note": "First thing on the far side of the bridge. Obligatory.",
+        "destination": "dollys"
+      },
+      {
+        "name": "The Hub & Pisgah Tavern",
+        "note": "Forest gateway. Shop on one side, tavern on the other.",
+        "destination": "the-hub"
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7345, 35.2337],
+        [-82.736, 35.234],
+        [-82.7376, 35.2342],
+        [-82.7392, 35.2344],
+        [-82.7392, 35.2344],
+        [-82.7385, 35.2356],
+        [-82.7376, 35.2369],
+        [-82.7365, 35.2383],
+        [-82.7356, 35.2394],
+        [-82.7349, 35.2402],
+        [-82.7331, 35.2413],
+        [-82.7311, 35.2425],
+        [-82.7287, 35.2446],
+        [-82.7263, 35.2453],
+        [-82.724, 35.246],
+        [-82.722, 35.2472],
+        [-82.7213, 35.2487],
+        [-82.7219, 35.2503],
+        [-82.7216, 35.2516],
+        [-82.7203, 35.2526],
+        [-82.7182, 35.2538],
+        [-82.716, 35.255],
+        [-82.7139, 35.256],
+        [-82.712, 35.2569],
+        [-82.71, 35.2574],
+        [-82.7085, 35.2582],
+        [-82.7074, 35.2595],
+        [-82.7068, 35.2611],
+        [-82.7065, 35.2634],
+        [-82.7062, 35.2659],
+        [-82.7061, 35.2679],
+        [-82.706, 35.2701],
+        [-82.706, 35.2701],
+        [-82.7054, 35.2723],
+        [-82.705, 35.2734],
+        [-82.7057, 35.2745],
+        [-82.7069, 35.2757],
+        [-82.711, 35.2782],
+        [-82.7148, 35.2828]
+      ]
+    }
+  },
+  {
+    "id": "concert-night",
+    "title": "Concert Night at the Music Center",
+    "tagline": "Dinner downtown, then the lawn",
+    "story": "Music Center nights turn the west side of town into a parking problem, so leave the car at the ball fields instead. The path runs flat and straight from there into downtown — time it so you arrive with an hour to eat on Main — then it is a short climb out Probart to the Music Center. Bring a blanket, bring lights for the ride home, and you will be past the traffic before it starts moving.",
+    "image": "concert-night",
+    "miles": 6.4,
+    "minutes": 60,
+    "difficulty": "easy",
+    "kidFriendly": true,
+    "stops": [
+      {
+        "name": "Brevard Ball Fields",
+        "note": "Park off Ecusta Rd. Free, and empty on concert nights."
+      },
+      {
+        "name": "Railroad Depot Park",
+        "note": "Restrooms and a repair stand, roughly two thirds of the way in.",
+        "destination": "repair-depot"
+      },
+      {
+        "name": "Dinner on Main",
+        "note": "The path lands a block off Main. Lock up once and walk to whatever is open."
+      },
+      {
+        "name": "Brevard Music Center",
+        "note": "Short climb out Probart. Lawn seating, and far easier to leave on a bike."
+      },
+      {
+        "name": "The Yard",
+        "note": "If it is still open on the way back, ice cream on Railroad Ave.",
+        "destination": "the-yard-treats"
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7085, 35.258],
+        [-82.71, 35.2574],
+        [-82.7203, 35.2526],
+        [-82.7216, 35.2516],
+        [-82.7219, 35.2503],
+        [-82.7213, 35.2487],
+        [-82.722, 35.2472],
+        [-82.724, 35.246],
+        [-82.7263, 35.2453],
+        [-82.7287, 35.2446],
+        [-82.7311, 35.2425],
+        [-82.7331, 35.2413],
+        [-82.7349, 35.2402],
+        [-82.7356, 35.2394],
+        [-82.7365, 35.2383],
+        [-82.7376, 35.2369],
+        [-82.7385, 35.2356],
+        [-82.7392, 35.2344],
+        [-82.7415, 35.236],
+        [-82.7438, 35.2385],
+        [-82.745, 35.2405]
+      ]
+    }
+  },
+  {
+    "id": "river-run",
+    "title": "Downtown to the River",
+    "tagline": "Main St to Sycamore Flats",
+    "story": "The long one, and the reason the network matters. Start downtown, take the path its full length past the depot, cross the new bridge, and keep going up Pisgah Hwy. At Lowe’s the path crosses the road and carries on into the national forest, following the Davidson River past the campground all the way to Sycamore Flats. The air changes about a mile in. Seven miles out — most people turn around at the campground, or make a day of it and picnic at the Flats.",
+    "image": "river-run",
+    "miles": 7,
+    "minutes": 80,
+    "difficulty": "ambitious",
+    "kidFriendly": false,
+    "stops": [
+      {
+        "name": "Railroad Depot Repair Stand",
+        "note": "Top off here. It is the last full repair stand before the forest.",
+        "destination": "repair-depot"
+      },
+      {
+        "name": "Dolly's Dairy Bar",
+        "note": "Over the bridge. Worth stopping on the way out and the way back.",
+        "destination": "dollys"
+      },
+      {
+        "name": "Lowe’s Crossing",
+        "note": "The path crosses the road here — dismount, cross, and pick it up on the far side."
+      },
+      {
+        "name": "Davidson River Campground",
+        "note": "Restrooms, water, and river access. A fine turnaround if legs are done."
+      },
+      {
+        "name": "Sycamore Flats",
+        "note": "Picnic tables under the sycamores, right on the river. The destination."
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7345, 35.2337],
+        [-82.736, 35.234],
+        [-82.7376, 35.2342],
+        [-82.7392, 35.2344],
+        [-82.7392, 35.2344],
+        [-82.7385, 35.2356],
+        [-82.7376, 35.2369],
+        [-82.7365, 35.2383],
+        [-82.7356, 35.2394],
+        [-82.7349, 35.2402],
+        [-82.7331, 35.2413],
+        [-82.7311, 35.2425],
+        [-82.7287, 35.2446],
+        [-82.7263, 35.2453],
+        [-82.724, 35.246],
+        [-82.722, 35.2472],
+        [-82.7213, 35.2487],
+        [-82.7219, 35.2503],
+        [-82.7216, 35.2516],
+        [-82.7203, 35.2526],
+        [-82.7182, 35.2538],
+        [-82.716, 35.255],
+        [-82.7139, 35.256],
+        [-82.712, 35.2569],
+        [-82.71, 35.2574],
+        [-82.7085, 35.2582],
+        [-82.7074, 35.2595],
+        [-82.7068, 35.2611],
+        [-82.7065, 35.2634],
+        [-82.7062, 35.2659],
+        [-82.7061, 35.2679],
+        [-82.706, 35.2701],
+        [-82.706, 35.2701],
+        [-82.7054, 35.2723],
+        [-82.705, 35.2734],
+        [-82.7057, 35.2745],
+        [-82.7069, 35.2757],
+        [-82.7069, 35.2757],
+        [-82.7112, 35.2771],
+        [-82.7162, 35.2783],
+        [-82.7208, 35.2792],
+        [-82.7238, 35.2803],
+        [-82.7265, 35.2815],
+        [-82.7292, 35.2823],
+        [-82.7322, 35.2831],
+        [-82.7368, 35.2842],
+        [-82.7418, 35.2853],
+        [-82.7466, 35.2862]
+      ]
+    }
+  },
+  {
+    "id": "bracken-loop",
+    "title": "The Hub to Bracken and Back",
+    "tagline": "Pavement out, dirt over the mountain, pavement home",
+    "story": "The big loop, and the only ride here that needs knobby tires. Roll out of The Hub, down the bridge connector and the full length of the path into town, then out Probart to the Bracken Mountain trailhead. From there it is natural-surface singletrack up and over the ridge into the national forest, dropping you near Sycamore Flats. Pick up the campground connector back past Davidson River, cross at Lowe’s, and you are on pavement again for the last stretch to Dolly’s and home. Plan a full day, carry water, and check trail conditions before you go.",
+    "image": "bracken-loop",
+    "miles": 15.5,
+    "minutes": 150,
+    "difficulty": "ambitious",
+    "kidFriendly": false,
+    "stops": [
+      {
+        "name": "The Hub & Pisgah Tavern",
+        "note": "Start and finish here. Check conditions at the shop before you roll out.",
+        "destination": "the-hub"
+      },
+      {
+        "name": "Bracken Mountain Trailhead",
+        "note": "End of Probart St. Last chance to bail back into town if the legs are not there."
+      },
+      {
+        "name": "Bracken Mountain Trail",
+        "note": "Natural-surface singletrack over the ridge into the forest. Mountain bike only."
+      },
+      {
+        "name": "Sycamore Flats",
+        "note": "You pop out here. Picnic tables and the river — a good place to eat."
+      },
+      {
+        "name": "Davidson River Campground",
+        "note": "Water and restrooms on the campground connector heading back."
+      },
+      {
+        "name": "Dolly's Dairy Bar",
+        "note": "Past the Lowe’s crossing, a mile from the finish. Earned.",
+        "destination": "dollys"
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7148, 35.2828],
+        [-82.711, 35.2782],
+        [-82.7069, 35.2757],
+        [-82.7057, 35.2745],
+        [-82.705, 35.2734],
+        [-82.7054, 35.2723],
+        [-82.706, 35.2701],
+        [-82.706, 35.2701],
+        [-82.7061, 35.2679],
+        [-82.7062, 35.2659],
+        [-82.7065, 35.2634],
+        [-82.7068, 35.2611],
+        [-82.7074, 35.2595],
+        [-82.7085, 35.2582],
+        [-82.71, 35.2574],
+        [-82.712, 35.2569],
+        [-82.7139, 35.256],
+        [-82.716, 35.255],
+        [-82.7182, 35.2538],
+        [-82.7203, 35.2526],
+        [-82.7216, 35.2516],
+        [-82.7219, 35.2503],
+        [-82.7213, 35.2487],
+        [-82.722, 35.2472],
+        [-82.724, 35.246],
+        [-82.7263, 35.2453],
+        [-82.7287, 35.2446],
+        [-82.7311, 35.2425],
+        [-82.7331, 35.2413],
+        [-82.7349, 35.2402],
+        [-82.7356, 35.2394],
+        [-82.7365, 35.2383],
+        [-82.7376, 35.2369],
+        [-82.7385, 35.2356],
+        [-82.7392, 35.2344],
+        [-82.7415, 35.2325],
+        [-82.7442, 35.23],
+        [-82.7476, 35.2272],
+        [-82.753, 35.231],
+        [-82.7562, 35.238],
+        [-82.757, 35.247],
+        [-82.7548, 35.256],
+        [-82.752, 35.265],
+        [-82.7496, 35.274],
+        [-82.748, 35.282],
+        [-82.7466, 35.2862],
+        [-82.7418, 35.2853],
+        [-82.7368, 35.2842],
+        [-82.7322, 35.2831],
+        [-82.7292, 35.2823],
+        [-82.7265, 35.2815],
+        [-82.7238, 35.2803],
+        [-82.7208, 35.2792],
+        [-82.7162, 35.2783],
+        [-82.7112, 35.2771],
+        [-82.7069, 35.2757],
+        [-82.711, 35.2782],
+        [-82.7148, 35.2828]
+      ]
+    }
+  },
+  {
+    "id": "full-trail",
+    "title": "End to End",
+    "tagline": "The whole path, W Main to Pisgah and back",
+    "story": "The full length of the Brevard Bike Path in one go: 3.5 miles of old rail grade each way, from W Main out to the Pisgah Forest end, flat the entire distance, with the long shaded stretch in the middle where it stays cool even in August. Most riders do it in a morning, stop downtown for lunch, and coast home in the afternoon.",
+    "image": "end-to-end",
+    "miles": 7,
+    "minutes": 70,
+    "difficulty": "moderate",
+    "kidFriendly": false,
+    "stops": [
+      {
+        "name": "Railroad Depot Repair Stand",
+        "note": "Start here — parking, restrooms, and a stand to top off before a long day.",
+        "destination": "repair-depot"
+      },
+      {
+        "name": "Cyckel Worx",
+        "note": "Mile 2 bail-out if something goes wrong. Open Tue–Sat.",
+        "destination": "cyckel-worx"
+      },
+      {
+        "name": "Oskar Blues Brewery",
+        "note": "Near the turnaround. Food, shade, and somewhere to sit.",
+        "destination": "oskar-blues"
+      },
+      {
+        "name": "Pisgah Forest Repair Stand",
+        "note": "Turnaround point. Working pump gauge and shaded benches.",
+        "destination": "repair-pisgah"
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7392, 35.2344],
+        [-82.7385, 35.2356],
+        [-82.7376, 35.2369],
+        [-82.7365, 35.2383],
+        [-82.7356, 35.2394],
+        [-82.7349, 35.2402],
+        [-82.7331, 35.2413],
+        [-82.7311, 35.2425],
+        [-82.7287, 35.2446],
+        [-82.7263, 35.2453],
+        [-82.724, 35.246],
+        [-82.722, 35.2472],
+        [-82.7213, 35.2487],
+        [-82.7219, 35.2503],
+        [-82.7216, 35.2516],
+        [-82.7203, 35.2526],
+        [-82.7182, 35.2538],
+        [-82.716, 35.255],
+        [-82.7139, 35.256],
+        [-82.712, 35.2569],
+        [-82.71, 35.2574],
+        [-82.7085, 35.2582],
+        [-82.7074, 35.2595],
+        [-82.7068, 35.2611],
+        [-82.7065, 35.2634],
+        [-82.7062, 35.2659],
+        [-82.7061, 35.2679],
+        [-82.706, 35.2701]
+      ]
+    }
+  }
+]

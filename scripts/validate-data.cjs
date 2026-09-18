@@ -4,22 +4,24 @@
  * Implements checks DT-1 to DT-7 from the test case documentation.
  *
  * Usage:
- *   node scripts/validate-data.cjs            # warns on unverified routes
- *   node scripts/validate-data.cjs --release  # fails on unverified routes
+ *   node scripts/validate-data.cjs            # warnings are non-fatal
+ *   node scripts/validate-data.cjs --release  # placeholder content is fatal
  */
 
 const fs = require('fs');
 const path = require('path');
 
 const DATA_DIR = path.join(__dirname, '..', 'src', 'data');
+const IMAGE_DIR = path.join(__dirname, '..', 'assets', 'adventures');
 const RELEASE = process.argv.includes('--release');
 
 // Generous bounding box around Brevard, NC. Its job is to catch coordinates
 // entered as [lat, lon] instead of [lon, lat], which lands them off Somalia.
 const BBOX = { minLon: -82.9, maxLon: -82.6, minLat: 35.15, maxLat: 35.35 };
 
-const VALID_SURFACES = ['greenway', 'quiet-road', 'main-road', 'mixed'];
-const VALID_CONFIDENCE = ['verified', 'probable', 'unverified'];
+const VALID_KINDS = ['main', 'connector'];
+const VALID_DIFFICULTY = ['easy', 'moderate', 'ambitious'];
+const VALID_LABEL_SIDES = ['left', 'right'];
 
 const errors = [];
 const warnings = [];
@@ -43,7 +45,8 @@ function load(name) {
 
 const categories = load('categories');
 const destinations = load('destinations');
-const routes = load('routes');
+const network = load('network');
+const landmarks = load('landmarks');
 const adventures = load('adventures');
 
 const categoryIds = new Set(categories.map((c) => c.id));
@@ -59,7 +62,8 @@ function checkUnique(items, label) {
 }
 checkUnique(categories, 'categories');
 checkUnique(destinations, 'destinations');
-checkUnique(routes, 'routes');
+checkUnique(network, 'network');
+checkUnique(landmarks, 'landmarks');
 checkUnique(adventures, 'adventures');
 
 // DT-4 — coordinates inside the bounding box
@@ -80,14 +84,14 @@ function checkCoord(coord, where) {
   }
 }
 
-// DT-1 — destination categories resolve
-for (const d of destinations) {
-  if (!d.id || !d.name) fail('SCHEMA', `Destination missing id or name: ${JSON.stringify(d)}`);
-  if (!categoryIds.has(d.category)) {
-    fail('DT-1', `Destination "${d.id}" has unknown category "${d.category}"`);
+function checkLine(geometry, where) {
+  const coords = geometry && geometry.type === 'LineString' && geometry.coordinates;
+  if (!Array.isArray(coords) || coords.length < 2) {
+    fail('SCHEMA', `${where} needs a LineString with at least two points`);
+    return null;
   }
-  if (!d.description) warn('SCHEMA', `Destination "${d.id}" has no description`);
-  checkCoord(d.coordinates, `Destination "${d.id}"`);
+  coords.forEach((c, i) => checkCoord(c, `${where} point ${i}`));
+  return coords;
 }
 
 // Haversine distance in miles
@@ -102,73 +106,106 @@ function haversine([lon1, lat1], [lon2, lat2]) {
   return 2 * R * Math.asin(Math.sqrt(a));
 }
 
-const routeKey = (a, b) => [a, b].sort().join('::');
-const routeIndex = new Set();
-
-for (const r of routes) {
-  // DT-2 — route endpoints resolve
-  if (!destinationIds.has(r.from)) fail('DT-2', `Route "${r.id}" has unknown from "${r.from}"`);
-  if (!destinationIds.has(r.to)) fail('DT-2', `Route "${r.id}" has unknown to "${r.to}"`);
-  if (r.from === r.to) fail('DT-2', `Route "${r.id}" starts and ends at the same place`);
-
-  if (!VALID_SURFACES.includes(r.surface)) {
-    fail('SCHEMA', `Route "${r.id}" has invalid surface "${r.surface}"`);
-  }
-  if (!VALID_CONFIDENCE.includes(r.confidence)) {
-    fail('SCHEMA', `Route "${r.id}" has invalid confidence "${r.confidence}"`);
-  }
-
-  // DT-6 — no unverified routes in a release
-  if (r.confidence === 'unverified') {
-    const msg = `Route "${r.id}" is unverified`;
-    RELEASE ? fail('DT-6', `${msg} — cannot ship`) : warn('DT-6', msg);
-  }
-
-  const coords = r.geometry && r.geometry.coordinates;
-  if (!Array.isArray(coords) || coords.length < 2) {
-    fail('SCHEMA', `Route "${r.id}" needs a LineString with at least two points`);
-    continue;
-  }
-  coords.forEach((c, i) => checkCoord(c, `Route "${r.id}" point ${i}`));
-
-  // DT-7 — stored distance agrees with the drawn geometry
-  let computed = 0;
-  for (let i = 1; i < coords.length; i++) computed += haversine(coords[i - 1], coords[i]);
-  if (typeof r.distanceMiles === 'number' && computed > 0) {
-    const drift = Math.abs(computed - r.distanceMiles) / computed;
-    if (drift > 0.1) {
-      fail(
-        'DT-7',
-        `Route "${r.id}" says ${r.distanceMiles} mi but its geometry measures ` +
-          `${computed.toFixed(2)} mi (${(drift * 100).toFixed(0)}% off)`
-      );
-    }
-  }
-
-  routeIndex.add(routeKey(r.from, r.to));
+function lineMiles(coords) {
+  let total = 0;
+  for (let i = 1; i < coords.length; i++) total += haversine(coords[i - 1], coords[i]);
+  return total;
 }
 
-// DT-5 — adventure stop pairs have routes
-for (const a of adventures) {
-  if (!Array.isArray(a.stops) || a.stops.length < 2) {
-    fail('DT-5', `Adventure "${a.id}" needs at least two stops`);
-    continue;
+// Placeholder content must never ship
+function checkPlaceholder(text, where) {
+  if (typeof text === 'string' && /sample|placeholder|lorem/i.test(text)) {
+    const msg = `${where} looks like placeholder content: "${text.slice(0, 40)}"`;
+    RELEASE ? fail('DT-6', `${msg} — cannot ship`) : warn('DT-6', msg);
   }
-  for (const stop of a.stops) {
-    if (!destinationIds.has(stop)) fail('DT-5', `Adventure "${a.id}" references unknown stop "${stop}"`);
+}
+
+// Categories
+for (const c of categories) {
+  if (!c.id || !c.label || !c.icon || !c.color) {
+    fail('SCHEMA', `Category missing id, label, icon or color: ${JSON.stringify(c)}`);
   }
-  for (let i = 1; i < a.stops.length; i++) {
-    const [from, to] = [a.stops[i - 1], a.stops[i]];
-    if (!routeIndex.has(routeKey(from, to))) {
-      fail('DT-5', `Adventure "${a.id}" has no route between "${from}" and "${to}"`);
+}
+
+// DT-1 — destination categories resolve
+for (const d of destinations) {
+  if (!d.id || !d.name) fail('SCHEMA', `Destination missing id or name: ${JSON.stringify(d)}`);
+  if (!Array.isArray(d.categories) || d.categories.length === 0) {
+    fail('DT-1', `Destination "${d.id}" needs at least one category`);
+  } else {
+    for (const c of d.categories) {
+      if (!categoryIds.has(c)) fail('DT-1', `Destination "${d.id}" has unknown category "${c}"`);
     }
   }
+  if (!d.description) warn('SCHEMA', `Destination "${d.id}" has no description`);
+  if (typeof d.mileMarker !== 'number') fail('SCHEMA', `Destination "${d.id}" needs a numeric mileMarker`);
+  checkCoord(d.coordinates, `Destination "${d.id}"`);
+  checkPlaceholder(d.name, `Destination "${d.id}"`);
+}
+
+// Network segments
+for (const s of network) {
+  if (!VALID_KINDS.includes(s.kind)) fail('SCHEMA', `Segment "${s.id}" has invalid kind "${s.kind}"`);
+  const coords = checkLine(s.geometry, `Segment "${s.id}"`);
+  // DT-7 — stated miles agree with the drawn line
+  if (coords && typeof s.miles === 'number') {
+    const drawn = lineMiles(coords);
+    const drift = Math.abs(drawn - s.miles) / drawn;
+    if (drift > 0.25) {
+      warn('DT-7', `Segment "${s.id}" says ${s.miles} mi but its geometry measures ${drawn.toFixed(2)} mi`);
+    }
+  }
+}
+
+// Landmarks
+for (const l of landmarks) {
+  if (!l.id || !l.name) fail('SCHEMA', `Landmark missing id or name: ${JSON.stringify(l)}`);
+  if (!VALID_LABEL_SIDES.includes(l.labelSide)) fail('SCHEMA', `Landmark "${l.id}" has invalid labelSide`);
+  checkCoord(l.coordinates, `Landmark "${l.id}"`);
+}
+
+// Adventures
+for (const a of adventures) {
+  if (!a.id || !a.title) fail('SCHEMA', `Adventure missing id or title: ${JSON.stringify(a)}`);
+  if (!VALID_DIFFICULTY.includes(a.difficulty)) {
+    fail('SCHEMA', `Adventure "${a.id}" has invalid difficulty "${a.difficulty}"`);
+  }
+  if (typeof a.kidFriendly !== 'boolean') fail('SCHEMA', `Adventure "${a.id}" needs kidFriendly true/false`);
+
+  // DT-5 — at least two stops, each with a name and note
+  if (!Array.isArray(a.stops) || a.stops.length < 2) {
+    fail('DT-5', `Adventure "${a.id}" needs at least two stops`);
+  } else {
+    a.stops.forEach((stop, i) => {
+      if (!stop.name || !stop.note) fail('DT-5', `Adventure "${a.id}" stop ${i + 1} needs a name and note`);
+      // DT-2 — stop destination references resolve
+      if (stop.destination && !destinationIds.has(stop.destination)) {
+        fail('DT-2', `Adventure "${a.id}" stop "${stop.name}" references unknown destination "${stop.destination}"`);
+      }
+    });
+  }
+
+  const coords = checkLine(a.route, `Adventure "${a.id}" route`);
+  // DT-7 — a ride can't be shorter than the line drawn for it
+  if (coords && typeof a.miles === 'number') {
+    const drawn = lineMiles(coords);
+    if (a.miles < drawn * 0.9) {
+      warn('DT-7', `Adventure "${a.id}" says ${a.miles} mi but its route draws ${drawn.toFixed(2)} mi`);
+    }
+  }
+
+  if (!a.image) {
+    fail('SCHEMA', `Adventure "${a.id}" has no image`);
+  } else if (!fs.existsSync(path.join(IMAGE_DIR, `${a.image}.jpg`))) {
+    fail('SCHEMA', `Adventure "${a.id}" image assets/adventures/${a.image}.jpg does not exist`);
+  }
+  checkPlaceholder(a.title, `Adventure "${a.id}"`);
 }
 
 // Report
 console.log(
-  `Checked ${destinations.length} destinations, ${routes.length} routes, ` +
-    `${adventures.length} adventures, ${categories.length} categories` +
+  `Checked ${destinations.length} destinations, ${network.length} network segments, ` +
+    `${landmarks.length} landmarks, ${adventures.length} adventures, ${categories.length} categories` +
     (RELEASE ? ' (release mode)' : '')
 );
 

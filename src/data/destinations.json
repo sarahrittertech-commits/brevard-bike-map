@@ -1,18 +1,248 @@
 [
   {
-    "id": "sample-downtown-anchor",
-    "name": "SAMPLE — Downtown anchor",
-    "category": "coffee",
-    "coordinates": [-82.7343, 35.2334],
-    "description": "Placeholder entry. Replace this file with the real Brevard destination data.",
-    "bikeParking": true
+    "id": "sunset-slush",
+    "name": "Sunset Slush",
+    "categories": ["ice-cream"],
+    "coordinates": [-82.7368, 35.2343],
+    "description": "Shaved ice downtown. The hot-afternoon answer on the W Main end.",
+    "mileMarker": 0.3,
+    "hours": "Seasonal · daily 12–8pm"
   },
   {
-    "id": "sample-greenway-north",
-    "name": "SAMPLE — Greenway north access",
-    "category": "trailhead",
-    "coordinates": [-82.7380, 35.2450],
-    "description": "Placeholder entry. Replace this file with the real Brevard destination data.",
-    "bikeParking": false
+    "id": "downtown-chocolates",
+    "name": "Brevard Downtown Chocolates",
+    "categories": ["ice-cream"],
+    "coordinates": [-82.7356, 35.234],
+    "description": "Chocolates and scoops on W Main, a block from the trailhead.",
+    "mileMarker": 0.3,
+    "hours": "Mon–Sat 10–6pm"
+  },
+  {
+    "id": "the-yard-treats",
+    "name": "The Yard",
+    "categories": ["playground", "ice-cream"],
+    "coordinates": [-82.7353, 35.2391],
+    "description": "Playset, kids’ bike park, and ice cream at 284 Railroad Ave — the one stop that gets them riding.",
+    "mileMarker": 0.4
+  },
+  {
+    "id": "rockys",
+    "name": "Rocky's Grill & Soda Shop",
+    "categories": ["ice-cream"],
+    "coordinates": [-82.7344, 35.2333],
+    "description": "Soda fountain on Broad St. Milkshakes, floats, and a lunch counter.",
+    "mileMarker": 0.4,
+    "hours": "Mon–Sat 11–8pm"
+  },
+  {
+    "id": "kilwins",
+    "name": "Kilwins",
+    "categories": ["ice-cream"],
+    "coordinates": [-82.7338, 35.2337],
+    "description": "Hand-paddled ice cream and fudge on E Main. Easy downtown stop.",
+    "mileMarker": 0.4,
+    "hours": "Daily 11–9pm"
+  },
+  {
+    "id": "white-squirrel-arcade",
+    "name": "White Squirrel Arcade",
+    "categories": ["ice-cream"],
+    "coordinates": [-82.7334, 35.2345],
+    "description": "Italian ice at 40 N Caldwell St, with arcade games to go with it.",
+    "mileMarker": 0.5,
+    "hours": "Daily 12–9pm"
+  },
+  {
+    "id": "dollys",
+    "name": "Dolly's Dairy Bar",
+    "categories": ["ice-cream"],
+    "coordinates": [-82.7069, 35.2757],
+    "description": "The Pisgah classic, at the far end of the bridge connector. Mostly flat the whole way from town.",
+    "mileMarker": 4.4,
+    "hours": "Seasonal · daily 11–9pm"
+  },
+  {
+    "id": "silversteen-park",
+    "name": "Silversteen Park",
+    "categories": ["playground"],
+    "coordinates": [-82.7404, 35.2356],
+    "description": "Neighborhood park on Hillview St, a couple of blocks off the West Main trailhead.",
+    "mileMarker": 0.3
+  },
+  {
+    "id": "brevard-first-umc",
+    "name": "Brevard First United Methodist",
+    "categories": ["playground"],
+    "coordinates": [-82.7362, 35.2365],
+    "description": "Church playground open to the public after 12pm Monday through Friday.",
+    "mileMarker": 0.3,
+    "hours": "Mon–Fri after 12pm"
+  },
+  {
+    "id": "franklin-park",
+    "name": "Franklin Park",
+    "categories": ["playground"],
+    "coordinates": [-82.7301, 35.2299],
+    "description": "Neighborhood playground and shade just south of downtown.",
+    "mileMarker": 0.5
+  },
+  {
+    "id": "silvermont-park",
+    "name": "Silvermont Mansion & Park",
+    "categories": ["playground"],
+    "coordinates": [-82.7283, 35.2342],
+    "description": "Big playground on the Silvermont lawn at 364 E Main, with a picnic pavilion and the mansion grounds to wander.",
+    "mileMarker": 0.7
+  },
+  {
+    "id": "jamesons-joy",
+    "name": "Jameson's Joy (Ninja Park)",
+    "categories": ["playground"],
+    "coordinates": [-82.7073, 35.2567],
+    "description": "Ninja-course fitness park at the Parks & Rec fields. Open 24 hours and fully accessible.",
+    "mileMarker": 2.4,
+    "hours": "Open 24 hours"
+  },
+  {
+    "id": "broad-street-wines",
+    "name": "Broad Street Wines",
+    "categories": ["brewery"],
+    "coordinates": [-82.7341, 35.2333],
+    "description": "Bottle shop and wine bar at 30 S Broad, right in the middle of town.",
+    "mileMarker": 0.4,
+    "hours": "Tue–Sat 12–9pm"
+  },
+  {
+    "id": "map-room",
+    "name": "The Map Room at D.D. Bullwinkel’s",
+    "categories": ["brewery"],
+    "coordinates": [-82.7333, 35.2335],
+    "description": "Beer and wine on draft at 60 E Main, plus events and film screenings.",
+    "mileMarker": 0.4,
+    "hours": "Daily 11–9pm"
+  },
+  {
+    "id": "brevard-brewing",
+    "name": "Brevard Brewing Company",
+    "categories": ["brewery"],
+    "coordinates": [-82.7331, 35.2339],
+    "description": "Lagers at 63 E Main, a block from the downtown link. Racks out front.",
+    "mileMarker": 0.5,
+    "hours": "Daily 2–10pm"
+  },
+  {
+    "id": "noblebrau",
+    "name": "Noblebräu Brewing · 185 King Street",
+    "categories": ["brewery"],
+    "coordinates": [-82.732, 35.2377],
+    "description": "Taproom on the King St row, a short block off the path.",
+    "mileMarker": 0.7,
+    "hours": "Wed–Sun 3–10pm"
+  },
+  {
+    "id": "griffon-sphynx",
+    "name": "Griffon & Sphynx",
+    "categories": ["brewery"],
+    "coordinates": [-82.7318, 35.2382],
+    "description": "Small taproom at 212 King St, at the north end of the King St row.",
+    "mileMarker": 0.8,
+    "hours": "Thu–Sun 4–10pm"
+  },
+  {
+    "id": "oskar-blues",
+    "name": "Oskar Blues (Tasty Weasel Taproom)",
+    "categories": ["brewery"],
+    "coordinates": [-82.7056, 35.2533],
+    "description": "Taproom, food, and a big lawn at 342 Mountain Industrial Dr.",
+    "mileMarker": 2.5,
+    "hours": "Wed–Sun 12–9pm"
+  },
+  {
+    "id": "ecusta-brewing",
+    "name": "Ecusta Brewing Company",
+    "categories": ["brewery"],
+    "coordinates": [-82.7105, 35.257],
+    "description": "At 451 Ecusta Rd, a few steps off the path. Easy post-ride pint.",
+    "mileMarker": 2.6,
+    "hours": "Tue–Sun 3–9pm"
+  },
+  {
+    "id": "earth-mountain",
+    "name": "Earth Mountain",
+    "categories": ["bike-shop"],
+    "coordinates": [-82.7341, 35.235],
+    "description": "Closest shop to the downtown end. Service, parts, and local advice.",
+    "mileMarker": 0.4,
+    "hours": "Mon–Sat 10–6pm"
+  },
+  {
+    "id": "cyckel-worx",
+    "name": "Cyckel Worx",
+    "categories": ["bike-shop"],
+    "coordinates": [-82.7175, 35.2532],
+    "description": "Mid-path repair shop. Handy if something goes wrong away from town.",
+    "mileMarker": 1.9,
+    "hours": "Tue–Sat 10–5pm"
+  },
+  {
+    "id": "sycamore-cycles",
+    "name": "Sycamore Cycles",
+    "categories": ["bike-shop"],
+    "coordinates": [-82.6995, 35.2665],
+    "description": "At 112 Hendersonville Hwy. From the roundabout, turn left instead of right — you do have to cross the road.",
+    "mileMarker": 3.4,
+    "hours": "Mon–Sat 10–6pm"
+  },
+  {
+    "id": "squatch",
+    "name": "Squatch Bikes & Brews",
+    "categories": ["bike-shop", "brewery"],
+    "coordinates": [-82.7322, 35.2374],
+    "description": "Shop and taproom in one at 170 King St, on the King St row.",
+    "mileMarker": 0.7,
+    "hours": "Wed–Sun 11–8pm"
+  },
+  {
+    "id": "weevil-weevil",
+    "name": "Weevil Outdoor Supply",
+    "categories": ["bike-shop", "brewery"],
+    "coordinates": [-82.6935, 35.261],
+    "description": "Gear shop with beer on tap at 367 Hendersonville Hwy, past the north end of the path.",
+    "mileMarker": 4,
+    "hours": "Wed–Sun 10–6pm"
+  },
+  {
+    "id": "the-hub",
+    "name": "The Hub & Pisgah Tavern",
+    "categories": ["bike-shop", "brewery"],
+    "coordinates": [-82.7148, 35.2828],
+    "description": "Shop and tavern at 11 Mama’s Pl, out past Dolly’s toward the forest entrance.",
+    "mileMarker": 5.1,
+    "hours": "Daily 9–7pm"
+  },
+  {
+    "id": "repair-depot",
+    "name": "Railroad Depot Repair Stand",
+    "categories": ["repair"],
+    "coordinates": [-82.7349, 35.2402],
+    "description": "At Jimmy Harris Railroad Depot Park — pump and tools, plus restrooms, parking, and the ballerina sculpture.",
+    "mileMarker": 0.5,
+    "hours": "Park open 7am–9pm"
+  },
+  {
+    "id": "repair-midpath",
+    "name": "Mid-Path Fix-It Stand",
+    "categories": ["repair"],
+    "coordinates": [-82.7179, 35.2541],
+    "description": "Pump plus a chain tool, with a water bottle filler beside it.",
+    "mileMarker": 2
+  },
+  {
+    "id": "repair-pisgah",
+    "name": "Pisgah Forest Repair Stand",
+    "categories": ["repair"],
+    "coordinates": [-82.7066, 35.2699],
+    "description": "Last stand before the bridge — the pump gauge actually works.",
+    "mileMarker": 3.5
   }
 ]

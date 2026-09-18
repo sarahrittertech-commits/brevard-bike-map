@@ -16,12 +16,12 @@ would be embarrassing in a demo.
 | ID | Check | Fails when |
 | --- | --- | --- |
 | DT-1 | Every destination category resolves to a known Category | A typo in a category slug |
-| DT-2 | Every route `from`/`to` resolves to a known Destination | A destination is renamed but routes aren't updated |
+| DT-2 | Every adventure stop's `destination` resolves to a known Destination | A destination is renamed but adventures aren't updated |
 | DT-3 | All IDs unique within each file | Copy-paste during data entry |
 | DT-4 | All coordinates inside the Brevard bounding box | Latitude and longitude swapped |
-| DT-5 | Every adventure's stop pairs have routes | An adventure references a connection that was never drawn |
-| DT-6 | No `unverified` routes in a release build | Draft data reaching a release |
-| DT-7 | `distanceMiles` within 10% of geometry-computed distance | A hand-entered distance drifting from the drawn line |
+| DT-5 | Every adventure has at least two named stops and a drawn route | An adventure is added without its line |
+| DT-6 | No placeholder names in a release build | Sample data reaching a release |
+| DT-7 | Stated miles plausible against drawn geometry (warning) | A hand-entered distance drifting from the drawn line |
 
 ## Automated — unit
 

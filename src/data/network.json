@@ -1,0 +1,98 @@
+[
+  {
+    "id": "downtown-connector",
+    "name": "Main St Link",
+    "kind": "connector",
+    "miles": 0.3,
+    "note": "Sidewalk link along Main St from the courthouse out to where the path begins.",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7345, 35.2337],
+        [-82.736, 35.234],
+        [-82.7376, 35.2342],
+        [-82.7392, 35.2344]
+      ]
+    }
+  },
+  {
+    "id": "main",
+    "name": "Brevard Bike Path",
+    "kind": "main",
+    "miles": 3.5,
+    "note": "Paved, flat, and separated from traffic the whole way.",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7392, 35.2344],
+        [-82.7385, 35.2356],
+        [-82.7376, 35.2369],
+        [-82.7365, 35.2383],
+        [-82.7356, 35.2394],
+        [-82.7349, 35.2402],
+        [-82.7331, 35.2413],
+        [-82.7311, 35.2425],
+        [-82.7287, 35.2446],
+        [-82.7263, 35.2453],
+        [-82.724, 35.246],
+        [-82.722, 35.2472],
+        [-82.7213, 35.2487],
+        [-82.7219, 35.2503],
+        [-82.7216, 35.2516],
+        [-82.7203, 35.2526],
+        [-82.7182, 35.2538],
+        [-82.716, 35.255],
+        [-82.7139, 35.256],
+        [-82.712, 35.2569],
+        [-82.71, 35.2574],
+        [-82.7085, 35.2582],
+        [-82.7074, 35.2595],
+        [-82.7068, 35.2611],
+        [-82.7065, 35.2634],
+        [-82.7062, 35.2659],
+        [-82.7061, 35.2679],
+        [-82.706, 35.2701]
+      ]
+    }
+  },
+  {
+    "id": "bridge-connector",
+    "name": "New Bridge Connector",
+    "kind": "connector",
+    "miles": 0.9,
+    "note": "Crosses the new bridge from the north end and continues to Dolly’s and the forest gateway.",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.706, 35.2701],
+        [-82.7054, 35.2723],
+        [-82.705, 35.2734],
+        [-82.7057, 35.2745],
+        [-82.7069, 35.2757]
+      ]
+    }
+  },
+  {
+    "id": "forest-connector",
+    "name": "Pisgah Forest Link",
+    "kind": "connector",
+    "miles": 2.6,
+    "note": "Up Pisgah Hwy, across the road at Lowe’s, then the forest path to Davidson River Campground and Sycamore Flats.",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7069, 35.2757],
+        [-82.7112, 35.2771],
+        [-82.7162, 35.2783],
+        [-82.7208, 35.2792],
+        [-82.7238, 35.2803],
+        [-82.7265, 35.2815],
+        [-82.7292, 35.2823],
+        [-82.7322, 35.2831],
+        [-82.7368, 35.2842],
+        [-82.7418, 35.2853],
+        [-82.7466, 35.2862]
+      ]
+    }
+  }
+]

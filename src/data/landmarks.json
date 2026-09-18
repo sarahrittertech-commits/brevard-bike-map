@@ -1,0 +1,74 @@
+[
+  {
+    "id": "sycamore-flats",
+    "name": "Sycamore Flats",
+    "coordinates": [-82.7466, 35.2862],
+    "labelSide": "right"
+  },
+  {
+    "id": "davidson-river",
+    "name": "Davidson River Campground",
+    "coordinates": [-82.7322, 35.2831],
+    "labelSide": "right"
+  },
+  {
+    "id": "pisgah-entrance",
+    "name": "Pisgah Forest Entrance",
+    "coordinates": [-82.7265, 35.2815],
+    "labelSide": "left"
+  },
+  {
+    "id": "lowes-crossing",
+    "name": "Lowe’s Crossing",
+    "coordinates": [-82.7208, 35.2792],
+    "labelSide": "left"
+  },
+  {
+    "id": "the-hospital",
+    "name": "Transylvania Regional Hospital",
+    "coordinates": [-82.7124, 35.2561],
+    "labelSide": "left"
+  },
+  {
+    "id": "music-center",
+    "name": "Brevard Music Center",
+    "coordinates": [-82.745, 35.2405],
+    "labelSide": "left"
+  },
+  {
+    "id": "brevard-college",
+    "name": "Brevard College",
+    "coordinates": [-82.7382, 35.2372],
+    "labelSide": "left"
+  },
+  {
+    "id": "bracken-preserve",
+    "name": "Bracken Mountain Preserve",
+    "coordinates": [-82.7476, 35.2272],
+    "labelSide": "right"
+  },
+  {
+    "id": "ball-fields",
+    "name": "Brevard Ball Fields",
+    "coordinates": [-82.7085, 35.258],
+    "labelSide": "right"
+  },
+  {
+    "id": "library",
+    "name": "Transylvania County Library",
+    "coordinates": [-82.7355, 35.232],
+    "labelSide": "left"
+  },
+  {
+    "id": "courthouse",
+    "name": "County Courthouse",
+    "coordinates": [-82.7345, 35.2337],
+    "labelSide": "left"
+  },
+  {
+    "id": "railroad-depot",
+    "name": "Railroad Depot Park",
+    "coordinates": [-82.7349, 35.2402],
+    "labelSide": "right"
+  }
+]
