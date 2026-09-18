@@ -13,6 +13,9 @@ const path = require('path');
 
 const DATA_DIR = path.join(__dirname, '..', 'src', 'data');
 const IMAGE_DIR = path.join(__dirname, '..', 'assets', 'adventures');
+// Photos are require()d statically in src/lib/data.js; the bundler only picks
+// up images listed there, so the jpg existing on disk is not enough.
+const IMAGE_MAP_FILE = path.join(__dirname, '..', 'src', 'lib', 'data.js');
 const RELEASE = process.argv.includes('--release');
 
 // Generous bounding box around Brevard, NC. Its job is to catch coordinates
@@ -73,6 +76,10 @@ function checkCoord(coord, where) {
     return;
   }
   const [lon, lat] = coord;
+  if (!Number.isFinite(lon) || !Number.isFinite(lat)) {
+    fail('DT-4', `${where}: coordinates must be numbers, got [${JSON.stringify(lon)}, ${JSON.stringify(lat)}]`);
+    return;
+  }
   if (lon < BBOX.minLon || lon > BBOX.maxLon || lat < BBOX.minLat || lat > BBOX.maxLat) {
     const swapped =
       lat >= BBOX.minLon && lat <= BBOX.maxLon && lon >= BBOX.minLat && lon <= BBOX.maxLat;
@@ -158,6 +165,15 @@ for (const s of network) {
   }
 }
 
+// src/lib/data.js takes the trailheads and path length from the one `main`
+// segment at import time, so the app cannot start without exactly one.
+const mainSegments = network.filter((s) => s.kind === 'main');
+if (mainSegments.length !== 1) {
+  fail('SCHEMA', `Network needs exactly one segment with kind "main", found ${mainSegments.length}`);
+} else if (typeof mainSegments[0].miles !== 'number') {
+  fail('SCHEMA', `Segment "${mainSegments[0].id}" needs a numeric miles`);
+}
+
 // Landmarks
 for (const l of landmarks) {
   if (!l.id || !l.name) fail('SCHEMA', `Landmark missing id or name: ${JSON.stringify(l)}`);
@@ -166,12 +182,18 @@ for (const l of landmarks) {
 }
 
 // Adventures
+const imageMapSource = fs.existsSync(IMAGE_MAP_FILE) ? fs.readFileSync(IMAGE_MAP_FILE, 'utf8') : '';
+const registeredImages = new Set(
+  [...imageMapSource.matchAll(/^\s*'([^']+)':\s*require\(/gm)].map((m) => m[1])
+);
 for (const a of adventures) {
   if (!a.id || !a.title) fail('SCHEMA', `Adventure missing id or title: ${JSON.stringify(a)}`);
   if (!VALID_DIFFICULTY.includes(a.difficulty)) {
     fail('SCHEMA', `Adventure "${a.id}" has invalid difficulty "${a.difficulty}"`);
   }
   if (typeof a.kidFriendly !== 'boolean') fail('SCHEMA', `Adventure "${a.id}" needs kidFriendly true/false`);
+  if (typeof a.miles !== 'number') fail('SCHEMA', `Adventure "${a.id}" needs a numeric miles`);
+  if (typeof a.minutes !== 'number') fail('SCHEMA', `Adventure "${a.id}" needs a numeric minutes`);
 
   // DT-5 — at least two stops, each with a name and note
   if (!Array.isArray(a.stops) || a.stops.length < 2) {
@@ -199,6 +221,8 @@ for (const a of adventures) {
     fail('SCHEMA', `Adventure "${a.id}" has no image`);
   } else if (!fs.existsSync(path.join(IMAGE_DIR, `${a.image}.jpg`))) {
     fail('SCHEMA', `Adventure "${a.id}" image assets/adventures/${a.image}.jpg does not exist`);
+  } else if (!registeredImages.has(a.image)) {
+    fail('SCHEMA', `Adventure "${a.id}" image "${a.image}" is not listed in adventureImages in src/lib/data.js`);
   }
   checkPlaceholder(a.title, `Adventure "${a.id}"`);
 }

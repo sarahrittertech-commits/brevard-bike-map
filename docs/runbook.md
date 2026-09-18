@@ -38,6 +38,14 @@ much easier to read locally.
 5. If it belongs on an adventure, add it as a stop with a `destination`
    reference in the same commit.
 
+## Adding an adventure
+
+1. Add an entry to `src/data/adventures.json` with its stops and drawn route.
+2. Drop the photo in `assets/adventures/<image>.jpg` **and** add it to the
+   `adventureImages` map in `src/lib/data.js` — the bundler only picks up
+   images that are `require()`d there. The validator checks both.
+3. Run `npm run validate`.
+
 ## Building for a device
 
 ```bash

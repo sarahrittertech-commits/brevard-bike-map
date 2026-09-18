@@ -20,7 +20,7 @@ import { colors } from './src/theme';
 // Two tabs and one pushed detail screen is the whole app, so navigation is
 // plain state rather than a navigation library.
 export default function App() {
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     Inter_400Regular,
     Inter_500Medium,
     Inter_600SemiBold,
@@ -43,7 +43,9 @@ export default function App() {
     return () => sub.remove();
   }, [detailId, closeDetail]);
 
-  if (!fontsLoaded) return null;
+  // If a font fails to load, fall back to system fonts rather than showing
+  // a blank screen forever.
+  if (!fontsLoaded && !fontError) return null;
 
   const detail = detailId ? adventureById[detailId] : null;
   const following = followingId ? adventureById[followingId] : null;
@@ -51,30 +53,30 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <View style={styles.app}>
-        {detail ? (
-          <AdventureDetailScreen
-            adventure={detail}
-            onBack={closeDetail}
-            onShowOnMap={() => {
-              setFollowingId(detail.id);
-              setDetailId(null);
-              setTab('map');
-            }}
-          />
-        ) : (
-          <>
-            {/* The map stays mounted underneath so switching tabs never
-                reloads it; the adventures list is laid over the top. */}
-            <View style={styles.tabPane}>
-              <MapScreen following={following} onStopFollowing={() => setFollowingId(null)} />
-              {tab === 'adventures' && (
-                <View style={styles.overlay}>
-                  <AdventuresScreen onOpen={setDetailId} />
-                </View>
-              )}
+        {/* The map stays mounted underneath so switching tabs or opening an
+            adventure never reloads it; the adventures list and the detail
+            screen are laid over the top. */}
+        <View style={styles.tabPane}>
+          <MapScreen following={following} onStopFollowing={() => setFollowingId(null)} />
+          {tab === 'adventures' && (
+            <View style={styles.overlay}>
+              <AdventuresScreen onOpen={setDetailId} />
             </View>
-            <BottomNav current={tab} onChange={setTab} />
-          </>
+          )}
+        </View>
+        <BottomNav current={tab} onChange={setTab} />
+        {detail && (
+          <View style={styles.overlay}>
+            <AdventureDetailScreen
+              adventure={detail}
+              onBack={closeDetail}
+              onShowOnMap={() => {
+                setFollowingId(detail.id);
+                setDetailId(null);
+                setTab('map');
+              }}
+            />
+          </View>
         )}
         <StatusBar style="dark" />
       </View>
