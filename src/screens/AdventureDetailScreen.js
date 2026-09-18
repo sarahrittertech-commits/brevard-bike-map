@@ -33,9 +33,9 @@ export default function AdventureDetailScreen({ adventure, onBack, onShowOnMap }
         </View>
 
         <View style={styles.stats}>
-          <Stat icon={Ruler} label="Distance" value={`${adventure.miles} mi`} />
+          <Stat icon={Ruler} label="Distance" value={`${adventure.miles} mi`} left />
           <Stat icon={Clock} label="Rolling time" value={`${adventure.minutes} min`} />
-          <Stat icon={Activity} label="Effort" value={DIFFICULTY_LABEL[adventure.difficulty]} />
+          <Stat icon={Activity} label="Effort" value={DIFFICULTY_LABEL[adventure.difficulty]} left />
           <Stat icon={Baby} label="With kids" value={adventure.kidFriendly ? 'Great' : 'Adults'} />
         </View>
 
@@ -79,9 +79,9 @@ export default function AdventureDetailScreen({ adventure, onBack, onShowOnMap }
   );
 }
 
-function Stat({ icon: Icon, label, value }) {
+function Stat({ icon: Icon, label, value, left }) {
   return (
-    <View style={styles.stat}>
+    <View style={[styles.stat, left && styles.statLeft]}>
       <View style={styles.statLabelRow}>
         <Icon size={12} color={colors.inkFaint} strokeWidth={2.4} />
         <Text style={styles.statLabel}>{label}</Text>
@@ -153,17 +153,17 @@ const styles = StyleSheet.create({
   stats: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: colors.line,
-    gap: 1,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.line,
   },
   stat: {
-    width: '49.9%',
-    flexGrow: 1,
-    backgroundColor: colors.surface,
+    width: '50%',
+    borderBottomWidth: 1,
+    borderBottomColor: colors.line,
     paddingHorizontal: 20,
     paddingVertical: 12,
+  },
+  statLeft: {
+    borderRightWidth: 1,
+    borderRightColor: colors.line,
   },
   statLabelRow: {
     flexDirection: 'row',

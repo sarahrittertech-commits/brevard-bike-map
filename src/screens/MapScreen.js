@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { X } from 'lucide-react-native';
 
 import CategoryRail from '../components/CategoryRail';
-import MapSheet, { PEEK } from '../components/MapSheet';
+import MapSheet, { PEEK, SHEET_FRACTION } from '../components/MapSheet';
 import TrailMap from '../components/TrailMap';
 import { APP_NAME, TOWN_NAME, adventureStopPins, lineToLatLngs, networkLatLngs, visibleDestinations } from '../lib/data';
 import { colors, fonts, radius, shadowFloat } from '../theme';
@@ -51,6 +51,8 @@ export default function MapScreen({ following, onStopFollowing }) {
         fitLatLngs={route ?? networkLatLngs}
         topInset={topInset + 84}
         bottomInset={PEEK + 28}
+        height={height}
+        sheetHeight={Math.round(height * SHEET_FRACTION)}
       />
 
       <View style={[styles.header, { top: topInset }]} pointerEvents="box-none">

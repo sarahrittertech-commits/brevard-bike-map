@@ -30,16 +30,22 @@ export default function TrailMap({
   fitLatLngs,
   topInset = 108,
   bottomInset = 160,
+  // Height of the map view and of the expanded sheet, so a selected pin can
+  // be centred in the strip of map that stays visible above the sheet.
+  height = 0,
+  sheetHeight = 0,
 }) {
   const mapRef = useRef(null);
   const [ready, setReady] = useState(false);
+  const regionRef = useRef(null);
   const selected = destinations.find((d) => d.id === selectedId);
 
   useEffect(() => {
     // fitToCoordinates is ignored until the native map has laid out.
     if (!ready || !mapRef.current || fitLatLngs.length === 0) return;
     mapRef.current.fitToCoordinates(fitLatLngs, {
-      edgePadding: { top: topInset, right: 36, bottom: bottomInset, left: 36 },
+      // Right edge clears the category rail (46 wide + 12 margin).
+      edgePadding: { top: topInset, right: 76, bottom: bottomInset, left: 28 },
       animated: true,
     });
     // Refit only when the caller changes the key, not on every render.
@@ -47,9 +53,22 @@ export default function TrailMap({
   }, [fitKey, ready]);
 
   useEffect(() => {
-    if (!mapRef.current || !selected) return;
-    mapRef.current.animateCamera({ center: toLatLng(selected.coordinates) }, { duration: 280 });
-  }, [selected]);
+    if (!mapRef.current || !selected || !height) return;
+    const latitudeDelta = Math.min(regionRef.current?.latitudeDelta ?? 0.012, 0.012);
+    // Keep longitude comfortably inside the phone's aspect ratio so the
+    // latitude span is what the map actually fits, and the shift below holds.
+    const longitudeDelta = latitudeDelta * 0.2;
+    // The screen centre sits under the sheet; aim for the middle of the
+    // visible strip instead, expressed as a latitude shift.
+    // Pin tip sits on the coordinate, so aim a little above centre for the body.
+    const visibleCentre = (topInset + (height - sheetHeight)) / 2 - 24;
+    const shift = ((height / 2 - visibleCentre) / height) * latitudeDelta;
+    const { latitude, longitude } = toLatLng(selected.coordinates);
+    mapRef.current.animateToRegion(
+      { latitude: latitude - shift, longitude, latitudeDelta, longitudeDelta },
+      280
+    );
+  }, [selected, height, sheetHeight, topInset]);
 
   const networkAlpha = route ? '4D' : '';
 
@@ -66,6 +85,9 @@ export default function TrailMap({
       pitchEnabled={false}
       rotateEnabled={false}
       onMapReady={() => setReady(true)}
+      onRegionChangeComplete={(region) => {
+        regionRef.current = region;
+      }}
       onPress={() => onSelect(null)}
     >
       {/* The network: a white casing under each segment, connectors dashed

@@ -91,7 +91,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   overlay: {
-    ...StyleSheet.absoluteFillObject,
+    // RN 0.86 dropped absoluteFillObject; only StyleSheet.absoluteFill remains.
+    ...StyleSheet.absoluteFill,
     backgroundColor: colors.canvas,
   },
 });

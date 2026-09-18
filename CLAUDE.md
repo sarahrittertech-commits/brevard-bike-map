@@ -73,8 +73,10 @@ npm run lint
 npm run validate   # data checks; also runs in CI
 ```
 
-Expo SDK 57 changed a lot — check https://docs.expo.dev/versions/v57.0.0/
-before writing Expo-specific code rather than relying on older patterns.
+Expo SDK 57 / React Native 0.86 changed a lot — check
+https://docs.expo.dev/versions/v57.0.0/ before writing Expo-specific code
+rather than relying on older patterns. Known trap: `StyleSheet.absoluteFillObject`
+is gone (spreading it silently yields nothing); use `StyleSheet.absoluteFill`.
 
 ### Layout
 

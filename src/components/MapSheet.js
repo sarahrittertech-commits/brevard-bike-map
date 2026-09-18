@@ -8,7 +8,7 @@ import { CONNECTOR_MILES, TRAIL_MILES, categories, categoryById, displayCategory
 import { colors, fonts, radius, tint } from '../theme';
 
 export const PEEK = 112;
-const SHEET_FRACTION = 0.64;
+export const SHEET_FRACTION = 0.64;
 const EASE = { duration: 260, useNativeDriver: true };
 
 // Bottom sheet over the map. Peeks at the bottom; drag or tap the handle to
