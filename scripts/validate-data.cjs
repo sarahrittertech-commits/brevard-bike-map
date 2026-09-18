@@ -116,7 +116,8 @@ function lineMiles(coords) {
 function checkPlaceholder(text, where) {
   if (typeof text === 'string' && /sample|placeholder|lorem/i.test(text)) {
     const msg = `${where} looks like placeholder content: "${text.slice(0, 40)}"`;
-    RELEASE ? fail('DT-6', `${msg} — cannot ship`) : warn('DT-6', msg);
+    if (RELEASE) fail('DT-6', `${msg} — cannot ship`);
+    else warn('DT-6', msg);
   }
 }
 
