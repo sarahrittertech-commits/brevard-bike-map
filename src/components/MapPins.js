@@ -18,7 +18,7 @@ export function PlacePin({ category, color, selected }) {
         <Path d={TEARDROP} fill={color} />
         {selected && <Path d={TEARDROP} fill="none" stroke={colors.white} strokeWidth={2.4} />}
       </Svg>
-      <View style={[styles.glyph, { width: w, top: selected ? 7 : 5 }]}>
+      <View style={[styles.glyph, { width: w, top: selected ? 8 : 6 }]}>
         <CategoryIcon category={category} size={glyph} color={colors.white} strokeWidth={2.7} />
       </View>
     </View>

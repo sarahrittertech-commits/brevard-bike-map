@@ -63,15 +63,16 @@ export default function App() {
           />
         ) : (
           <>
-            {/* Keep the map mounted across tab switches so it doesn't reload. */}
-            <View style={[styles.tabPane, tab !== 'map' && styles.hidden]}>
+            {/* The map stays mounted underneath so switching tabs never
+                reloads it; the adventures list is laid over the top. */}
+            <View style={styles.tabPane}>
               <MapScreen following={following} onStopFollowing={() => setFollowingId(null)} />
+              {tab === 'adventures' && (
+                <View style={styles.overlay}>
+                  <AdventuresScreen onOpen={setDetailId} />
+                </View>
+              )}
             </View>
-            {tab === 'adventures' && (
-              <View style={styles.tabPane}>
-                <AdventuresScreen onOpen={setDetailId} />
-              </View>
-            )}
             <BottomNav current={tab} onChange={setTab} />
           </>
         )}
@@ -89,7 +90,8 @@ const styles = StyleSheet.create({
   tabPane: {
     flex: 1,
   },
-  hidden: {
-    display: 'none',
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: colors.canvas,
   },
 });

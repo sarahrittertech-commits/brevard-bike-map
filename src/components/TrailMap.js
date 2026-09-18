@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 
@@ -32,17 +32,19 @@ export default function TrailMap({
   bottomInset = 160,
 }) {
   const mapRef = useRef(null);
+  const [ready, setReady] = useState(false);
   const selected = destinations.find((d) => d.id === selectedId);
 
   useEffect(() => {
-    if (!mapRef.current || fitLatLngs.length === 0) return;
+    // fitToCoordinates is ignored until the native map has laid out.
+    if (!ready || !mapRef.current || fitLatLngs.length === 0) return;
     mapRef.current.fitToCoordinates(fitLatLngs, {
       edgePadding: { top: topInset, right: 36, bottom: bottomInset, left: 36 },
       animated: true,
     });
     // Refit only when the caller changes the key, not on every render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fitKey]);
+  }, [fitKey, ready]);
 
   useEffect(() => {
     if (!mapRef.current || !selected) return;
@@ -63,6 +65,7 @@ export default function TrailMap({
       showsCompass={false}
       pitchEnabled={false}
       rotateEnabled={false}
+      onMapReady={() => setReady(true)}
       onPress={() => onSelect(null)}
     >
       {/* The network: a white casing under each segment, connectors dashed
