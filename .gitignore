@@ -33,3 +33,10 @@ yarn-error.log*
 # Editors
 .vscode/
 .idea/
+
+# Expo / Metro (added with the app scaffold)
+expo-env.d.ts
+.kotlin/
+.metro-health-check*
+*.pem
+*.tsbuildinfo

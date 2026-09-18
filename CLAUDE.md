@@ -55,21 +55,38 @@ touching route logic.
 
 ## Current state
 
-Scaffolded, not yet coded. The app has not been created. First step:
+Expo app scaffolded (SDK 57, blank JavaScript template) with
+`react-native-maps` installed. The map opens centred on Brevard (R1). Nothing
+else is built yet.
 
 ```bash
-npx create-expo-app@latest . --template blank
-npx expo install react-native-maps
+npm install
+npm start          # scan the QR code with Expo Go
+npm run validate   # data checks; also runs in CI
 ```
 
-Then add to `package.json`:
+Expo SDK 57 changed a lot — check https://docs.expo.dev/versions/v57.0.0/
+before writing Expo-specific code rather than relying on older patterns.
 
-```json
-"scripts": {
-  "validate": "node scripts/validate-data.cjs",
-  "validate:release": "node scripts/validate-data.cjs --release"
-}
+### Layout
+
 ```
+App.js                 root component, renders MapScreen
+index.js               Expo entry point, do not touch
+app.json               Expo config (name, slug, bundle ids)
+assets/                icon and splash images (template defaults for now)
+src/data/              the four JSON data files
+src/lib/data.js        the only way the UI reads data; owns [lon, lat] -> {latitude, longitude}
+src/screens/           one file per full-screen view
+scripts/               validate-data.cjs
+```
+
+Components go in `src/components/` when the first one exists. Keep the tree
+this flat — there is no reason for it to grow beyond these folders.
+
+Android builds outside Expo Go need a Google Maps API key in
+`app.json` under `android.config.googleMaps.apiKey`. Expo Go supplies its own,
+so this is a week-one EAS build task, not a today task.
 
 ## Data
 

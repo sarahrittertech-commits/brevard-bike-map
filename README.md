@@ -30,14 +30,13 @@ which explains why routes here are hand-curated rather than computed.
 
 ## Getting started
 
-The app itself has not been scaffolded yet. The first development step is:
-
 ```bash
-npx create-expo-app@latest . --template blank
-npx expo install react-native-maps
+npm install
+npm start
 ```
 
-See [ADR-0001](./docs/architecture/adr-0001-app-platform.md)
+Scan the QR code with Expo Go on a phone. The app is Expo (React Native) with
+`react-native-maps` — see [ADR-0001](./docs/architecture/adr-0001-app-platform.md)
 for why Expo, and [ADR-0002](./docs/architecture/adr-0002-map-rendering.md)
 for why react-native-maps.
 
