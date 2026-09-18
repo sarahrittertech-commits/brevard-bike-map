@@ -71,3 +71,16 @@ The fallback, in order:
    themselves a deliverable. Show the work.
 
 Deciding this now, rather than at 11pm on 30 September, is the point.
+
+## Running in the iOS Simulator
+
+Xcode 26 and the iOS 26.5 simulator runtime are installed on the Mac mini.
+
+```bash
+npm start                                  # in one terminal
+xcrun simctl boot "iPhone 17" && open -a Simulator
+xcrun simctl openurl booted exp://127.0.0.1:8081
+```
+
+Expo Go is already installed on the iPhone 17 simulator. It is a quick way to
+check a change; the release gate still requires a real phone.
