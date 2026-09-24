@@ -1,4 +1,4 @@
-# Brevard Bike Map — project context
+# Bike Brevard Map — project context
 
 This file is read automatically at the start of a session. It exists so a
 development window starts with full project context without re-explaining it.
@@ -10,6 +10,11 @@ path and its connectors, the places worth riding to along it, and a handful of
 curated "adventures" — rides locals actually do, with stop-by-stop notes.
 
 Owner: Sarah Ritter (PushPopDev). Ship date: **30 September 2026**.
+
+The app is **Bike Brevard Map** (24 September 2026 — matches the design and
+the launch screen). The repository, the Expo slug `brevard-bike-map` and the
+bundle id `dev.pushpop.brevardbikemap` keep their original spelling: they are
+identifiers, and changing the slug would unlink the EAS project.
 
 ## Why it exists — read this before suggesting anything
 

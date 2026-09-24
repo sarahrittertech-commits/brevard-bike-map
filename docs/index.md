@@ -3,7 +3,7 @@ sidebar_position: 1
 title: Overview
 ---
 
-# Brevard Bike Map
+# Bike Brevard Map
 
 A hyperlocal mobile app that answers one question: **how do I get from here to
 there in Brevard, on a bike, without ending up on a road I don't want to be on?**

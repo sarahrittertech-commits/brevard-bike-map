@@ -1,4 +1,4 @@
-# Brevard Bike Map
+# Bike Brevard Map
 
 A hyperlocal mobile app for getting between places in Brevard, North Carolina
 by bike.
@@ -8,6 +8,10 @@ the places worth riding to along it — ice cream, playgrounds, breweries, bike
 shops, repair stands — and a handful of curated rides with stop-by-stop notes.
 Every route is one a local has actually ridden, not what a routing engine
 guesses.
+
+The repository is named `brevard-bike-map`; the app is **Bike Brevard Map**.
+The repository name, the Expo slug and the bundle identifiers are left alone
+deliberately — they are identifiers, not the product name.
 
 ## Status
 
