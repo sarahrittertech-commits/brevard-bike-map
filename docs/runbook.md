@@ -46,6 +46,40 @@ much easier to read locally.
    images that are `require()`d there. The validator checks both.
 3. Run `npm run validate`.
 
+## App icon and launch screen
+
+Both come from the design, at
+`https://<render-id>-render.magicpatterns.app/app-icon`. The artwork is a
+bike over two ridgelines: background `#F7F4EC`, back ridge `#9DBFE3`, front
+ridge `#2C6BA8`, bike `#3F3794`.
+
+| Asset | Used for |
+| --- | --- |
+| `assets/icon-light.png` · `icon-dark.png` · `icon-tinted.png` | The three iOS 18 icon appearances |
+| `assets/icon.png` | Fallback icon |
+| `assets/android-icon-foreground.png` · `-background.png` · `-monochrome.png` | Android adaptive icon layers |
+| `assets/splash.png` | Launch screen: the mark plus the wordmark |
+
+Two things to know before changing them:
+
+- **iOS icons must not have an alpha channel** for the light and tinted
+  variants, or App Store submission rejects them. Flatten before exporting.
+- **The Android foreground is scaled to 66%** of the canvas, because Android
+  crops adaptive icons to a central safe zone.
+- **The launch screen wordmark is baked into the image.** A native splash
+  cannot lay out text, so "Bike Brevard Map" and "Brevard, North Carolina"
+  are converted to outlines using Fraunces and Inter. Changing the wording
+  means regenerating the PNG.
+
+Expo Go shows its own splash, so the launch screen cannot be checked there.
+To confirm it generates without waiting for a full build:
+
+```bash
+npx expo prebuild --platform ios --no-install --clean
+ls ios/*/Images.xcassets/          # AppIcon.appiconset, SplashScreenLogo.imageset
+rm -rf ios                         # managed workflow — do not keep it
+```
+
 ## Building for a device
 
 ```bash

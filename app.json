@@ -8,12 +8,17 @@
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "dev.pushpop.brevardbikemap"
+      "bundleIdentifier": "dev.pushpop.brevardbikemap",
+      "icon": {
+        "light": "./assets/icon-light.png",
+        "dark": "./assets/icon-dark.png",
+        "tinted": "./assets/icon-tinted.png"
+      }
     },
     "android": {
       "package": "dev.pushpop.brevardbikemap",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#F7F4EC",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
@@ -26,7 +31,16 @@
     },
     "owner": "sarahbuildsapps",
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#F7F4EC",
+          "image": "./assets/splash.png",
+          "imageWidth": 280,
+          "resizeMode": "contain"
+        }
+      ]
     ]
   }
 }

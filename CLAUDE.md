@@ -92,6 +92,9 @@ src/components/MapSheet     draggable bottom sheet (Animated + PanResponder, no 
 src/components/CategoryRail right-edge category toggles
 src/components/*Icon        Lucide icons + the custom playground glyph
 assets/adventures/          one photo per adventure
+assets/icon-{light,dark,tinted}.png   iOS 18 app icon variants
+assets/android-icon-*.png   Android adaptive icon layers
+assets/splash.png           launch screen mark + wordmark
 scripts/validate-data.cjs   data checks
 ```
 
@@ -102,6 +105,11 @@ bottom-sheet library.
 
 Android builds outside Expo Go need a Google Maps API key in `app.json`
 under `android.config.googleMaps.apiKey`. iOS needs nothing.
+
+The app icon and launch screen come from the design and are regenerated
+from SVG rather than hand-drawn — see the runbook. **Expo Go shows its own
+splash**, so the real launch screen only appears in an EAS or local build;
+`npx expo prebuild --platform ios` is the cheap way to check it generates.
 
 ## Data
 
