@@ -17,5 +17,7 @@ jobs:
       - run: npm ci
       - name: Validate route and destination data
         run: npm run validate
+      - name: Unit tests
+        run: npm test
       - name: Lint
         run: npm run lint

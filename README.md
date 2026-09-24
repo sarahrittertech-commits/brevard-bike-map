@@ -62,7 +62,17 @@ npm run validate
 The validator checks that categories and stop references resolve, that IDs
 are unique, that stated distances are plausible against drawn geometry, and —
 most usefully — that no coordinate has had its latitude and longitude
-swapped. It runs in CI on every push, alongside `npm run lint`.
+swapped. It runs in CI on every push, alongside `npm test` and `npm run lint`.
+
+## Tests
+
+```bash
+npm test
+```
+
+Unit tests for the data selection logic — which places a switched-on category
+shows, what colour a pin draws as, how adventure stops are numbered, and
+coordinate order. Plain node, no test runner. Also runs in CI.
 
 Before a release:
 

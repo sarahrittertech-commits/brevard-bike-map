@@ -8,18 +8,19 @@ import network from '../data/network.json';
 import landmarks from '../data/landmarks.json';
 import adventures from '../data/adventures.json';
 
+// require() rather than import: select.js is CommonJS so plain node can run
+// the unit tests against it, and this sidesteps ESM interop entirely.
+const select = require('./select');
+
 export { categories, destinations, network, landmarks, adventures };
 
 export const APP_NAME = 'Bike Brevard Map';
 export const TOWN_NAME = 'Brevard';
 
-// Data files store [longitude, latitude] (GeoJSON order); react-native-maps
-// wants { latitude, longitude }. Convert with toLatLng only.
-export function toLatLng([longitude, latitude]) {
-  return { latitude, longitude };
-}
-
-export const lineToLatLngs = (geometry) => geometry.coordinates.map(toLatLng);
+// The pure selection logic lives in select.js so plain node can test it; this
+// file is where it gets bound to the bundled data. Convert coordinates with
+// toLatLng only.
+export const { toLatLng, lineToLatLngs, displayCategory } = select;
 
 const byId = (items) => Object.fromEntries(items.map((item) => [item.id, item]));
 
@@ -47,29 +48,12 @@ export const trailheads = [
 // Every point on the rideable network, for fitting the map to it.
 export const networkLatLngs = network.flatMap((s) => lineToLatLngs(s.geometry));
 
-// Which category a place should be drawn as right now. A place can belong to
-// several; show the first one the rider has switched on so the pin colour
-// always answers "why am I seeing this?".
-export function displayCategory(destination, active) {
-  return destination.categories.find((c) => active.includes(c)) ?? destination.categories[0];
-}
-
 // Places matching any switched-on category, ordered along the path.
-export function visibleDestinations(active) {
-  return destinations
-    .filter((d) => d.categories.some((c) => active.includes(c)))
-    .sort((a, b) => a.mileMarker - b.mileMarker);
-}
+export const visibleDestinations = (active) => select.selectVisible(destinations, active);
 
 // Stops on an adventure that correspond to a pinned destination, in order.
-export function adventureStopPins(adventure) {
-  return adventure.stops
-    .map((stop, index) => {
-      const destination = stop.destination ? destinationById[stop.destination] : null;
-      return destination ? { index, name: stop.name, coordinates: destination.coordinates } : null;
-    })
-    .filter(Boolean);
-}
+export const adventureStopPins = (adventure) =>
+  select.selectStopPins(adventure, destinationById);
 
 // Photos have to be require()d statically for the bundler to pick them up.
 export const adventureImages = {

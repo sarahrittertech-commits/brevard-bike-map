@@ -9,6 +9,7 @@
     "ios": "expo start --ios",
     "validate": "node scripts/validate-data.cjs",
     "validate:release": "node scripts/validate-data.cjs --release",
+    "test": "node scripts/test-lib.cjs",
     "lint": "eslint ."
   },
   "dependencies": {

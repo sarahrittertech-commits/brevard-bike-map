@@ -115,7 +115,8 @@ Do a throwaway build in week one to find the signing problems early.
 
 ## Release checklist
 
-1. Lint and data checks green — `npm run lint && npm run validate:release`
+1. Lint, unit tests and data checks green —
+   `npm run lint && npm test && npm run validate:release`
 2. Manual tests MT-1 to MT-6 pass on a physical phone
 3. No placeholder names in the data (`validate:release` enforces this)
 4. Version bumped in `package.json` and `app.json`

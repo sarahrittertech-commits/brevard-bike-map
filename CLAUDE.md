@@ -69,12 +69,13 @@ touching route logic.
 Built to the design, not yet run on a phone (as of 18 September 2026).
 Expo SDK 57, JavaScript, `react-native-maps` on Apple Maps. Both tabs, the
 detail screen and route-following are implemented. Metro bundles cleanly,
-lint and validator pass.
+lint, unit tests and validator pass.
 
 ```bash
 npm install
 npm start          # scan the QR code with Expo Go
 npm run lint
+npm test           # unit tests for the selection logic; also runs in CI
 npm run validate   # data checks; also runs in CI
 ```
 
@@ -89,6 +90,7 @@ is gone (spreading it silently yields nothing); use `StyleSheet.absoluteFill`.
 App.js                      fonts, tab/detail/following state, renders screens — no nav library
 src/theme.js                colours, font names, radii from the design's Tailwind config
 src/lib/data.js             the only way the UI reads data; owns [lon, lat] -> {latitude, longitude}
+src/lib/select.js           the pure selection logic data.js binds data to; CommonJS so node can test it
 src/data/                   five JSON files (see docs/data-model.md)
 src/screens/                MapScreen, AdventuresScreen, AdventureDetailScreen
 src/components/TrailMap     MapView + network polylines + all markers
@@ -101,6 +103,7 @@ assets/icon-{light,dark,tinted}.png   iOS 18 app icon variants
 assets/android-icon-*.png   Android adaptive icon layers
 assets/splash.png           launch screen mark + wordmark
 scripts/validate-data.cjs   data checks
+scripts/test-lib.cjs        unit tests UT-1 to UT-5, no test runner
 ```
 
 Dependencies beyond Expo: react-native-maps, react-native-svg,

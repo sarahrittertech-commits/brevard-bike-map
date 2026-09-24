@@ -17,7 +17,7 @@ on 18 September 2026 and verified in the iOS Simulator. Not yet on a phone.
 - Adventures tab: nine curated rides with photos, stats, story and
   stop-by-stop notes; "Show route on map" overlays the ride with numbered stops
 - Real Brevard data: 28 destinations, 4 network segments, 12 landmarks
-- Validator, ESLint and CI
+- Validator, unit tests (UT-1 to UT-5), ESLint and CI
 
 Known gaps: network geometry is traced rather than surveyed (the bridge
 connector's stated 0.9 mi draws as 0.43 mi); landmark labels overlap downtown

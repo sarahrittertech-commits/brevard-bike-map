@@ -25,6 +25,12 @@ would be embarrassing in a demo.
 
 ## Automated — unit
 
+Run by `npm test` in CI on every push. These run against `src/lib/select.js`,
+which holds the pure selection logic that `src/lib/data.js` binds the bundled
+data to. They use fixtures rather than the real dataset, so they assert
+behaviour and do not start failing because a cafe closed — the real data is
+covered by DT-1 to DT-7 above.
+
 | ID | Unit | Assertion |
 | --- | --- | --- |
 | UT-1 | `visibleDestinations` | One category on returns only places in that category, ordered by mile marker |
@@ -34,8 +40,14 @@ would be embarrassing in a demo.
 | UT-5 | `toLatLng` | `[-82.73, 35.23]` becomes `{ latitude: 35.23, longitude: -82.73 }` |
 
 UT-2 reverses the earlier assumption: the design treats "no filters" as "just
-the path", with the rail's clear button making that explicit. These are not
-yet automated; `src/lib/data.js` is where they would run against.
+the path", with the rail's clear button making that explicit.
+
+Each case carries a few related assertions beyond the headline one: UT-1 also
+covers merging several switched-on categories, UT-3 that a two-category place
+keeps a stable colour whichever order the rail was tapped in, UT-4 that a pin
+shows the stop's own wording rather than the destination's name, and UT-5
+`lineToLatLngs`. Every assertion was checked by breaking the function it
+guards and confirming the test failed.
 
 ## Manual — on a real device
 
@@ -55,8 +67,8 @@ Run before every release. A simulator does not count.
 
 ## Release gate
 
-A release requires: all DT and UT tests green, and MT-1 through MT-6 passing on
-a physical phone. MT-7 through MT-9 are recorded but do not block.
+A release requires: all DT and UT tests green — `npm run validate:release`
+and `npm test` — and MT-1 through MT-6 passing on a physical phone. MT-7 through MT-9 are recorded but do not block.
 
 ## What is not tested
 
