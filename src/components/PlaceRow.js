@@ -1,9 +1,9 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { ChevronRight } from 'lucide-react-native';
+import ChevronRight from 'lucide-react-native/icons/chevron-right';
 
 import CategoryIcon from './CategoryIcon';
 import { categoryById } from '../lib/data';
-import { colors, fonts, radius, tint } from '../theme';
+import { colors, fillRow, fonts, radius, tint } from '../theme';
 
 // One destination in the sheet's list. `category` is which of the place's
 // categories to show it as — the one the rider actually switched on.
@@ -61,10 +61,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 2,
   },
-  body: {
-    flex: 1,
-    minWidth: 0,
-  },
+  body: fillRow,
   titleRow: {
     flexDirection: 'row',
     alignItems: 'baseline',

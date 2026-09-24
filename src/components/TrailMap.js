@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 
-import { LandmarkLabel, PlacePin, StopMarker, TrailheadMarker } from './MapPins';
+import { LandmarkLabel, PlacePin, SELECTED_PIN_HEIGHT, StopMarker, TrailheadMarker } from './MapPins';
 import {
   categoryById,
   displayCategory,
@@ -22,23 +22,22 @@ const MAX_ZOOM = 18;
 export default function TrailMap({
   destinations,
   active,
-  selectedId,
+  selected,
   onSelect,
   route,
   routeStops,
   fitKey,
   fitLatLngs,
-  topInset = 108,
-  bottomInset = 160,
+  topInset,
+  bottomInset,
   // Height of the map view and of the expanded sheet, so a selected pin can
   // be centred in the strip of map that stays visible above the sheet.
-  height = 0,
-  sheetHeight = 0,
+  height,
+  sheetHeight,
 }) {
   const mapRef = useRef(null);
   const [ready, setReady] = useState(false);
   const regionRef = useRef(null);
-  const selected = destinations.find((d) => d.id === selectedId);
 
   useEffect(() => {
     // fitToCoordinates is ignored until the native map has laid out.
@@ -62,7 +61,7 @@ export default function TrailMap({
     // The screen centre sits under the sheet; aim for the middle of the
     // visible strip instead, expressed as a latitude shift.
     // Pin tip sits on the coordinate, so aim a little above centre for the body.
-    const visibleCentre = (topInset + (height - sheetHeight)) / 2 - 24;
+    const visibleCentre = (topInset + (height - sheetHeight)) / 2 - SELECTED_PIN_HEIGHT / 2;
     const shift = ((height / 2 - visibleCentre) / height) * latitudeDelta;
     const { latitude, longitude } = toLatLng(selected.coordinates);
     mapRef.current.animateToRegion(
@@ -70,8 +69,6 @@ export default function TrailMap({
       280
     );
   }, [selected, height, sheetHeight, topInset]);
-
-  const networkAlpha = route ? '4D' : '';
 
   return (
     <MapView
@@ -105,7 +102,7 @@ export default function TrailMap({
         <Polyline
           key={segment.id}
           coordinates={lineToLatLngs(segment.geometry)}
-          strokeColor={`${colors.forest}${networkAlpha || (segment.kind === 'main' ? 'F2' : 'B3')}`}
+          strokeColor={`${colors.forest}${route ? '4D' : segment.kind === 'main' ? 'F2' : 'B3'}`}
           strokeWidth={segment.kind === 'main' ? 4.5 : 3.5}
           lineDashPattern={segment.kind === 'connector' ? [1, 7] : undefined}
           lineCap="round"
@@ -141,9 +138,11 @@ export default function TrailMap({
 
       {destinations.map((d) => {
         const category = displayCategory(d, active);
-        const isSelected = d.id === selectedId;
+        const isSelected = d === selected;
         return (
-          // Keyed on selection so the pin re-renders when it changes size.
+          // tracksViewChanges is false, so the native marker only repaints on
+          // remount. The key must therefore name every prop that changes how
+          // the pin looks, or a new visual state will silently not appear.
           <Marker
             key={`${d.id}-${category}-${isSelected}`}
             coordinate={toLatLng(d.coordinates)}

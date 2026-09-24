@@ -46,6 +46,23 @@ much easier to read locally.
    images that are `require()`d there. The validator checks both.
 3. Run `npm run validate`.
 
+## Adding a photo or an icon
+
+Adventure photos are re-encoded to 1110px wide at quality 72 before they are
+committed — the originals were 1264px and roughly three times the size, for
+no visible difference on a phone.
+
+Icons come from `lucide-react-native` and must be imported by their **deep
+path**, never from the package root:
+
+```js
+import Ruler from 'lucide-react-native/icons/ruler';   // yes
+import { Ruler } from 'lucide-react-native';           // no — ships all 1,851 icons
+```
+
+Metro does not tree-shake, so the second form put 1.9 MB of unused icons in
+the bundle.
+
 ## App icon and launch screen
 
 Both come from the design, at

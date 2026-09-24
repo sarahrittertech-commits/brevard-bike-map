@@ -30,7 +30,7 @@ export default function App() {
 
   const [tab, setTab] = useState('map');
   const [detailId, setDetailId] = useState(null);
-  const [followingId, setFollowingId] = useState(null);
+  const [following, setFollowing] = useState(null);
 
   const closeDetail = useCallback(() => setDetailId(null), []);
 
@@ -48,7 +48,6 @@ export default function App() {
   if (!fontsLoaded && !fontError) return null;
 
   const detail = detailId ? adventureById[detailId] : null;
-  const following = followingId ? adventureById[followingId] : null;
 
   return (
     <SafeAreaProvider>
@@ -57,7 +56,7 @@ export default function App() {
             adventure never reloads it; the adventures list and the detail
             screen are laid over the top. */}
         <View style={styles.tabPane}>
-          <MapScreen following={following} onStopFollowing={() => setFollowingId(null)} />
+          <MapScreen following={following} onStopFollowing={() => setFollowing(null)} />
           {tab === 'adventures' && (
             <View style={styles.overlay}>
               <AdventuresScreen onOpen={setDetailId} />
@@ -71,7 +70,7 @@ export default function App() {
               adventure={detail}
               onBack={closeDetail}
               onShowOnMap={() => {
-                setFollowingId(detail.id);
+                setFollowing(detail);
                 setDetailId(null);
                 setTab('map');
               }}

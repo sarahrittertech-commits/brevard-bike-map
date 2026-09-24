@@ -25,6 +25,9 @@ const BBOX = { minLon: -82.9, maxLon: -82.6, minLat: 35.15, maxLat: 35.35 };
 const VALID_KINDS = ['main', 'connector'];
 const VALID_DIFFICULTY = ['easy', 'moderate', 'ambitious'];
 const VALID_LABEL_SIDES = ['left', 'right'];
+// LANDMARK_TEXT_WIDTH in src/components/MapPins.js fits roughly this many
+// characters at Inter SemiBold 10 before numberOfLines={1} clips the name.
+const MAX_LANDMARK_NAME = 22;
 
 const errors = [];
 const warnings = [];
@@ -130,8 +133,8 @@ function checkPlaceholder(text, where) {
 
 // Categories
 for (const c of categories) {
-  if (!c.id || !c.label || !c.icon || !c.color) {
-    fail('SCHEMA', `Category missing id, label, icon or color: ${JSON.stringify(c)}`);
+  if (!c.id || !c.label || !c.color) {
+    fail('SCHEMA', `Category missing id, label or color: ${JSON.stringify(c)}`);
   }
 }
 
@@ -181,6 +184,9 @@ for (const l of landmarks) {
   if (l.labelOffsetY !== undefined && !Number.isFinite(l.labelOffsetY)) {
     fail('SCHEMA', `Landmark "${l.id}" labelOffsetY must be a number`);
   }
+  if (l.name && l.name.length > MAX_LANDMARK_NAME) {
+    warn('SCHEMA', `Landmark "${l.id}" name is ${l.name.length} characters; the map clips it at about ${MAX_LANDMARK_NAME}`);
+  }
   checkCoord(l.coordinates, `Landmark "${l.id}"`);
 }
 
@@ -189,6 +195,9 @@ const imageMapSource = fs.existsSync(IMAGE_MAP_FILE) ? fs.readFileSync(IMAGE_MAP
 const registeredImages = new Set(
   [...imageMapSource.matchAll(/^\s*'([^']+)':\s*require\(/gm)].map((m) => m[1])
 );
+if (adventures.length > 0 && registeredImages.size === 0) {
+  fail('SCHEMA', 'Could not read adventureImages in src/lib/data.js — has its formatting changed?');
+}
 for (const a of adventures) {
   if (!a.id || !a.title) fail('SCHEMA', `Adventure missing id or title: ${JSON.stringify(a)}`);
   if (!VALID_DIFFICULTY.includes(a.difficulty)) {

@@ -6,11 +6,14 @@ import { colors, fonts } from '../theme';
 
 const TEARDROP = 'M12 0C5.373 0 0 5.373 0 12c0 8.4 12 22 12 22s12-13.6 12-22C24 5.373 18.627 0 12 0Z';
 
+// The camera maths in TrailMap offsets by half this to centre a selected pin.
+export const SELECTED_PIN_HEIGHT = 48;
+
 // Teardrop pin carrying the category's own glyph, sized up when selected.
 // Anchor the Marker at { x: 0.5, y: 1 } so the tip sits on the coordinate.
 export function PlacePin({ category, color, selected }) {
   const w = selected ? 34 : 26;
-  const h = selected ? 48 : 37;
+  const h = selected ? SELECTED_PIN_HEIGHT : 37;
   const glyph = selected ? 18 : 14;
   return (
     <View style={{ width: w, height: h }}>
@@ -36,24 +39,20 @@ const LANDMARK_TEXT_WIDTH = 132;
 // right-hand label, x 1 for a left-hand one, y 0.5.
 export function LandmarkLabel({ name, side, offsetY = 0 }) {
   const right = side === 'right';
-  const dot = <View key="dot" style={styles.landmarkDot} />;
-  const label = (
-    <Text
-      key="label"
-      numberOfLines={1}
-      style={[
-        styles.landmarkText,
-        { textAlign: right ? 'left' : 'right' },
-        // Shifts the text only, so the dot stays on its coordinate.
-        offsetY ? { transform: [{ translateY: offsetY }] } : null,
-      ]}
-    >
-      {name}
-    </Text>
-  );
   return (
-    <View style={styles.landmarkRow} pointerEvents="none">
-      {right ? [dot, label] : [label, dot]}
+    <View style={[styles.landmarkRow, !right && styles.landmarkRowLeft]} pointerEvents="none">
+      <View style={styles.landmarkDot} />
+      <Text
+        numberOfLines={1}
+        style={[
+          styles.landmarkText,
+          { textAlign: right ? 'left' : 'right' },
+          // Shifts the text only, so the dot stays on its coordinate.
+          offsetY ? { transform: [{ translateY: offsetY }] } : null,
+        ]}
+      >
+        {name}
+      </Text>
     </View>
   );
 }
@@ -83,6 +82,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
     height: 16,
+  },
+  landmarkRowLeft: {
+    flexDirection: 'row-reverse',
   },
   landmarkDot: {
     width: 8,

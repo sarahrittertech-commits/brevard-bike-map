@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { X } from 'lucide-react-native';
+import X from 'lucide-react-native/icons/x';
 
 import CategoryRail from '../components/CategoryRail';
 import MapSheet, { PEEK, SHEET_FRACTION } from '../components/MapSheet';
 import TrailMap from '../components/TrailMap';
 import { APP_NAME, TOWN_NAME, adventureStopPins, lineToLatLngs, networkLatLngs, visibleDestinations } from '../lib/data';
-import { colors, fonts, radius, shadowFloat } from '../theme';
+import { cardFloat, colors, fillRow, fonts, radius, text } from '../theme';
 
 // The main screen: map, floating header, category rail, bottom sheet.
 // `following` is an adventure whose route is drawn on top of the network.
@@ -21,6 +21,7 @@ export default function MapScreen({ following, onStopFollowing }) {
 
   const shown = useMemo(() => visibleDestinations(active), [active]);
   const selected = shown.find((d) => d.id === selectedId) ?? null;
+  const sheetHeight = Math.round(height * SHEET_FRACTION);
 
   const route = useMemo(() => (following ? lineToLatLngs(following.route) : null), [following]);
   const routeStops = useMemo(() => (following ? adventureStopPins(following) : null), [following]);
@@ -43,7 +44,7 @@ export default function MapScreen({ following, onStopFollowing }) {
       <TrailMap
         destinations={shown}
         active={active}
-        selectedId={selectedId}
+        selected={selected}
         onSelect={select}
         route={route}
         routeStops={routeStops}
@@ -52,7 +53,7 @@ export default function MapScreen({ following, onStopFollowing }) {
         topInset={topInset + 84}
         bottomInset={PEEK + 28}
         height={height}
-        sheetHeight={Math.round(height * SHEET_FRACTION)}
+        sheetHeight={sheetHeight}
       />
 
       <View style={[styles.header, { top: topInset }]} pointerEvents="box-none">
@@ -98,7 +99,7 @@ export default function MapScreen({ following, onStopFollowing }) {
 
       {height > 0 && (
         <MapSheet
-          containerHeight={height}
+          height={sheetHeight}
           destinations={shown}
           active={active}
           selected={selected}
@@ -123,13 +124,9 @@ const styles = StyleSheet.create({
     right: 16,
   },
   card: {
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: colors.surface,
+    ...cardFloat,
     paddingHorizontal: 14,
     paddingVertical: 10,
-    ...shadowFloat,
   },
   followingCard: {
     flexDirection: 'row',
@@ -137,15 +134,9 @@ const styles = StyleSheet.create({
     gap: 12,
     borderColor: `${colors.clay}40`,
   },
-  cardBody: {
-    flex: 1,
-    minWidth: 0,
-  },
+  cardBody: fillRow,
   followingEyebrow: {
-    fontFamily: fonts.sansBold,
-    fontSize: 10.5,
-    letterSpacing: 0.8,
-    textTransform: 'uppercase',
+    ...text.eyebrowSmall,
     color: colors.clay,
   },
   title: {

@@ -26,15 +26,18 @@ app. The validator catches it.
 ## Category
 
 ```json
-{ "id": "ice-cream", "label": "Ice Cream", "icon": "ice-cream-cone", "color": "#D9538B" }
+{ "id": "ice-cream", "label": "Ice Cream", "color": "#D9538B" }
 ```
 
 | Field | Type | Notes |
 | --- | --- | --- |
 | `id` | string | Kebab-case slug |
 | `label` | string | Display name |
-| `icon` | string | Lucide icon name (`playground` is a custom glyph) |
 | `color` | hex string | Pin, chip and rail colour |
+
+The glyph for a category lives in `src/components/CategoryIcon.js`, keyed on
+the category `id`. It is deliberately not in the data: it is a component, not
+a value, and an icon name in JSON would be a second source of truth.
 
 Categories: `ice-cream`, `playground`, `brewery`, `bike-shop`, `repair`.
 

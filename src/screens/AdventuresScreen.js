@@ -1,11 +1,13 @@
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ArrowRight, Baby, Clock, Ruler } from 'lucide-react-native';
+import ArrowRight from 'lucide-react-native/icons/arrow-right';
+import Baby from 'lucide-react-native/icons/baby';
+import Clock from 'lucide-react-native/icons/clock';
+import Ruler from 'lucide-react-native/icons/ruler';
 
-import { adventureImages, adventures } from '../lib/data';
-import { colors, fonts, radius, shadowFloat } from '../theme';
+import { DIFFICULTY_LABEL, adventureImages, adventures } from '../lib/data';
+import { card, cardFloat, colors, fillRow, fonts, hairlineTop, radius, text } from '../theme';
 
-const DIFFICULTY_LABEL = { easy: 'Easy', moderate: 'Moderate', ambitious: 'Ambitious' };
 
 export default function AdventuresScreen({ onOpen }) {
   const insets = useSafeAreaInsets();
@@ -87,10 +89,7 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
   eyebrow: {
-    fontFamily: fonts.sansBold,
-    fontSize: 11,
-    letterSpacing: 0.8,
-    textTransform: 'uppercase',
+    ...text.eyebrow,
     color: colors.clay,
   },
   h1: {
@@ -108,13 +107,9 @@ const styles = StyleSheet.create({
     color: colors.inkSoft,
   },
   featured: {
+    ...cardFloat,
     marginHorizontal: 20,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: colors.surface,
     overflow: 'hidden',
-    ...shadowFloat,
   },
   pressedScale: {
     transform: [{ scale: 0.99 }],
@@ -137,10 +132,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   badgeText: {
-    fontFamily: fonts.sansBold,
-    fontSize: 10.5,
-    letterSpacing: 0.8,
-    textTransform: 'uppercase',
+    ...text.eyebrowSmall,
     color: colors.white,
   },
   featuredBody: {
@@ -185,21 +177,15 @@ const styles = StyleSheet.create({
     color: colors.inkSoft,
   },
   sectionLabel: {
+    ...text.eyebrow,
     marginTop: 28,
     marginBottom: 8,
     marginHorizontal: 20,
-    fontFamily: fonts.sansBold,
-    fontSize: 11,
-    letterSpacing: 0.8,
-    textTransform: 'uppercase',
     color: colors.inkFaint,
   },
   list: {
+    ...card,
     marginHorizontal: 20,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: colors.surface,
     overflow: 'hidden',
   },
   row: {
@@ -208,20 +194,14 @@ const styles = StyleSheet.create({
     gap: 12,
     padding: 12,
   },
-  rowDivider: {
-    borderTopWidth: 1,
-    borderTopColor: colors.line,
-  },
+  rowDivider: hairlineTop,
   thumb: {
     width: 64,
     height: 64,
     borderRadius: radius.md,
     backgroundColor: colors.line,
   },
-  rowBody: {
-    flex: 1,
-    minWidth: 0,
-  },
+  rowBody: fillRow,
   rowTitle: {
     fontFamily: fonts.display,
     fontSize: 16,

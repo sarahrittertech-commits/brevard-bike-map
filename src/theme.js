@@ -12,7 +12,6 @@ export const colors = {
   forestDeep: '#123227',
   forestSoft: '#E7EFE9',
   clay: '#BC5B27',
-  claySoft: '#FAEDE3',
   white: '#FFFFFF',
 };
 
@@ -29,9 +28,38 @@ export const radius = {
   sm: 8,
   md: 12,
   lg: 16,
-  xl: 20,
   pill: 999,
 };
+
+// Repeated text treatments. Callers add their own colour and margins.
+export const text = {
+  // Small uppercase label above a heading.
+  eyebrow: {
+    fontFamily: fonts.sansBold,
+    fontSize: 11,
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
+  },
+  // The same thing at the size used inside tiles and badges.
+  eyebrowSmall: {
+    fontFamily: fonts.sansBold,
+    fontSize: 10.5,
+    letterSpacing: 0.6,
+    textTransform: 'uppercase',
+  },
+};
+
+// The app has one card: a white panel with a hairline border.
+export const card = {
+  borderRadius: radius.lg,
+  borderWidth: 1,
+  borderColor: colors.line,
+  backgroundColor: colors.surface,
+};
+
+// A hairline between stacked rows, and the filler for a row's middle column.
+export const hairlineTop = { borderTopWidth: 1, borderTopColor: colors.line };
+export const fillRow = { flex: 1, minWidth: 0 };
 
 // "float" shadow from the design, expressed for both platforms.
 export const shadowFloat = {
@@ -44,3 +72,5 @@ export const shadowFloat = {
 
 // Tint a hex colour to ~10% opacity — the design's `${hex}1A` chips.
 export const tint = (hex, alpha = '1A') => `${hex}${alpha}`;
+
+export const cardFloat = { ...card, ...shadowFloat };

@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Compass, Map } from 'lucide-react-native';
+import Compass from 'lucide-react-native/icons/compass';
+import Map from 'lucide-react-native/icons/map';
 
 import { colors, fonts } from '../theme';
 

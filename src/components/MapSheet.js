@@ -1,11 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Animated, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { MapPinned, Route, Ruler, X } from 'lucide-react-native';
+import MapPinned from 'lucide-react-native/icons/map-pinned';
+import Route from 'lucide-react-native/icons/route';
+import Ruler from 'lucide-react-native/icons/ruler';
+import X from 'lucide-react-native/icons/x';
 
 import CategoryIcon from './CategoryIcon';
 import PlaceRow from './PlaceRow';
 import { CONNECTOR_MILES, TRAIL_MILES, categories, categoryById, displayCategory, trailheads } from '../lib/data';
-import { colors, fonts, radius, tint } from '../theme';
+import { colors, fillRow, fonts, hairlineTop, radius, text, tint } from '../theme';
 
 export const PEEK = 112;
 export const SHEET_FRACTION = 0.64;
@@ -15,7 +18,7 @@ const EASE = { duration: 260, useNativeDriver: true };
 // expand. Shows trail facts, the filtered list, or the selected place.
 // The screen owns `expanded` so selecting a pin on the map can open it.
 export default function MapSheet({
-  containerHeight,
+  height,
   destinations,
   active,
   selected,
@@ -23,7 +26,6 @@ export default function MapSheet({
   expanded,
   onExpandedChange,
 }) {
-  const height = Math.round(containerHeight * SHEET_FRACTION);
   const closedY = Math.max(height - PEEK, 0);
   const [y] = useState(() => new Animated.Value(closedY));
 
@@ -250,10 +252,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   factLabel: {
-    fontFamily: fonts.sansBold,
-    fontSize: 10.5,
-    letterSpacing: 0.6,
-    textTransform: 'uppercase',
+    ...text.eyebrowSmall,
     color: colors.inkFaint,
   },
   factValue: {
@@ -282,12 +281,9 @@ const styles = StyleSheet.create({
     color: colors.inkSoft,
   },
   eyebrow: {
+    ...text.eyebrow,
     marginTop: 20,
     marginBottom: 8,
-    fontFamily: fonts.sansBold,
-    fontSize: 11,
-    letterSpacing: 0.8,
-    textTransform: 'uppercase',
     color: colors.inkFaint,
   },
   trailheadRow: {
@@ -348,10 +344,7 @@ const styles = StyleSheet.create({
   listBody: {
     paddingBottom: 24,
   },
-  rowDivider: {
-    borderTopWidth: 1,
-    borderTopColor: colors.line,
-  },
+  rowDivider: hairlineTop,
   selectedHeader: {
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -365,16 +358,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 2,
   },
-  selectedTitle: {
-    flex: 1,
-    minWidth: 0,
-  },
-  selectedEyebrow: {
-    fontFamily: fonts.sansBold,
-    fontSize: 11,
-    letterSpacing: 0.8,
-    textTransform: 'uppercase',
-  },
+  selectedTitle: fillRow,
+  selectedEyebrow: text.eyebrow,
   close: {
     padding: 8,
     marginTop: -4,

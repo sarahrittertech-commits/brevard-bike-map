@@ -1,9 +1,10 @@
 import { Pressable, StyleSheet, View } from 'react-native';
-import { Crosshair, Route } from 'lucide-react-native';
+import Crosshair from 'lucide-react-native/icons/crosshair';
+import Route from 'lucide-react-native/icons/route';
 
 import CategoryIcon from './CategoryIcon';
 import { categories } from '../lib/data';
-import { colors, radius, shadowFloat } from '../theme';
+import { cardFloat, colors, hairlineTop } from '../theme';
 
 const SIZE = 46;
 
@@ -64,12 +65,8 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   group: {
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: colors.surface,
+    ...cardFloat,
     overflow: 'hidden',
-    ...shadowFloat,
   },
   button: {
     width: SIZE,
@@ -77,10 +74,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  divider: {
-    borderTopWidth: 1,
-    borderTopColor: colors.line,
-  },
+  divider: hairlineTop,
   pressed: {
     backgroundColor: colors.canvas,
   },

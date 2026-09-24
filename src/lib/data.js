@@ -24,12 +24,14 @@ export const lineToLatLngs = (geometry) => geometry.coordinates.map(toLatLng);
 const byId = (items) => Object.fromEntries(items.map((item) => [item.id, item]));
 
 export const categoryById = byId(categories);
+
+export const DIFFICULTY_LABEL = { easy: 'Easy', moderate: 'Moderate', ambitious: 'Ambitious' };
 export const destinationById = byId(destinations);
 export const adventureById = byId(adventures);
 
 // The paved path itself; its ends are the two trailheads.
-export const mainSegment = network.find((s) => s.kind === 'main');
-export const connectorSegments = network.filter((s) => s.kind === 'connector');
+const mainSegment = network.find((s) => s.kind === 'main');
+const connectorSegments = network.filter((s) => s.kind === 'connector');
 
 export const TRAIL_MILES = mainSegment.miles;
 export const CONNECTOR_MILES = Number(

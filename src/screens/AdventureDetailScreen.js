@@ -1,11 +1,15 @@
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Activity, Baby, ChevronLeft, Clock, Map, Ruler } from 'lucide-react-native';
+import Activity from 'lucide-react-native/icons/activity';
+import Baby from 'lucide-react-native/icons/baby';
+import ChevronLeft from 'lucide-react-native/icons/chevron-left';
+import Clock from 'lucide-react-native/icons/clock';
+import Map from 'lucide-react-native/icons/map';
+import Ruler from 'lucide-react-native/icons/ruler';
 
-import { adventureImages, categoryById, destinationById } from '../lib/data';
-import { colors, fonts, radius, shadowFloat } from '../theme';
+import { DIFFICULTY_LABEL, adventureImages, categoryById, destinationById } from '../lib/data';
+import { colors, fonts, radius, shadowFloat, text } from '../theme';
 
-const DIFFICULTY_LABEL = { easy: 'Easy', moderate: 'Moderate', ambitious: 'Ambitious' };
 
 export default function AdventureDetailScreen({ adventure, onBack, onShowOnMap }) {
   const insets = useSafeAreaInsets();
@@ -137,10 +141,7 @@ const styles = StyleSheet.create({
     bottom: 16,
   },
   heroTagline: {
-    fontFamily: fonts.sansBold,
-    fontSize: 11,
-    letterSpacing: 0.8,
-    textTransform: 'uppercase',
+    ...text.eyebrow,
     color: `${colors.white}CC`,
   },
   heroTitle: {
@@ -171,10 +172,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   statLabel: {
-    fontFamily: fonts.sansBold,
-    fontSize: 10.5,
-    letterSpacing: 0.6,
-    textTransform: 'uppercase',
+    ...text.eyebrowSmall,
     color: colors.inkFaint,
   },
   statValue: {

@@ -1,4 +1,7 @@
-import { Beer, Bike, IceCreamCone, Wrench } from 'lucide-react-native';
+import Beer from 'lucide-react-native/icons/beer';
+import Bike from 'lucide-react-native/icons/bike';
+import IceCreamCone from 'lucide-react-native/icons/ice-cream-cone';
+import Wrench from 'lucide-react-native/icons/wrench';
 
 import PlaygroundIcon from './PlaygroundIcon';
 
