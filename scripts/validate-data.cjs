@@ -178,6 +178,9 @@ if (mainSegments.length !== 1) {
 for (const l of landmarks) {
   if (!l.id || !l.name) fail('SCHEMA', `Landmark missing id or name: ${JSON.stringify(l)}`);
   if (!VALID_LABEL_SIDES.includes(l.labelSide)) fail('SCHEMA', `Landmark "${l.id}" has invalid labelSide`);
+  if (l.labelOffsetY !== undefined && !Number.isFinite(l.labelOffsetY)) {
+    fail('SCHEMA', `Landmark "${l.id}" labelOffsetY must be a number`);
+  }
   checkCoord(l.coordinates, `Landmark "${l.id}"`);
 }
 

@@ -25,15 +25,35 @@ export function PlacePin({ category, color, selected }) {
   );
 }
 
+// Width reserved for a landmark's text. The row is a fixed size on purpose:
+// a marker's view is measured before it is drawn, and text left to size
+// itself overflows that measurement, which puts the dot inside its own label
+// and lets neighbouring labels collide. A fixed box measures predictably, so
+// the dot lands on the coordinate and the text sits to one side of it.
+const LANDMARK_TEXT_WIDTH = 132;
+
 // Small dot with a haloed label on one side. Anchor at the dot: x 0 for a
 // right-hand label, x 1 for a left-hand one, y 0.5.
-export function LandmarkLabel({ name, side }) {
-  const dot = <View style={styles.landmarkDot} />;
-  const label = <Text style={styles.landmarkText}>{name}</Text>;
+export function LandmarkLabel({ name, side, offsetY = 0 }) {
+  const right = side === 'right';
+  const dot = <View key="dot" style={styles.landmarkDot} />;
+  const label = (
+    <Text
+      key="label"
+      numberOfLines={1}
+      style={[
+        styles.landmarkText,
+        { textAlign: right ? 'left' : 'right' },
+        // Shifts the text only, so the dot stays on its coordinate.
+        offsetY ? { transform: [{ translateY: offsetY }] } : null,
+      ]}
+    >
+      {name}
+    </Text>
+  );
   return (
     <View style={styles.landmarkRow} pointerEvents="none">
-      {side === 'right' ? dot : label}
-      {side === 'right' ? label : dot}
+      {right ? [dot, label] : [label, dot]}
     </View>
   );
 }
@@ -62,6 +82,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
+    height: 16,
   },
   landmarkDot: {
     width: 8,
@@ -72,6 +93,7 @@ const styles = StyleSheet.create({
     borderColor: colors.white,
   },
   landmarkText: {
+    width: LANDMARK_TEXT_WIDTH,
     fontFamily: fonts.sansSemiBold,
     fontSize: 10,
     color: '#3B4536',

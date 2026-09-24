@@ -91,10 +91,14 @@ Not filterable, not tappable; it exists so a rider can place themselves in
 town at a glance.
 
 ```json
-{ "id": "courthouse", "name": "County Courthouse", "coordinates": [-82.7345, 35.2337], "labelSide": "left" }
+{ "id": "courthouse", "name": "Courthouse", "coordinates": [-82.7345, 35.2337], "labelSide": "left" }
 ```
 
-`labelSide` says which side of the dot the label sits on so it stays on screen.
+| Field | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `name` | string | yes | Keep it short. The app only covers Brevard, so "Transylvania County Library" is just "Library" — long names crowd each other at the widest zoom |
+| `labelSide` | enum | yes | `left` · `right` — which side of the dot the label sits on, so it stays on screen |
+| `labelOffsetY` | number | no | Pixels to shift the text vertically. For the handful of landmarks that share a latitude and would otherwise print on top of each other. Moves the text only; the dot stays on its coordinate |
 
 ## Adventure
 

@@ -44,8 +44,9 @@ export default function TrailMap({
     // fitToCoordinates is ignored until the native map has laid out.
     if (!ready || !mapRef.current || fitLatLngs.length === 0) return;
     mapRef.current.fitToCoordinates(fitLatLngs, {
-      // Right edge clears the category rail (46 wide + 12 margin).
-      edgePadding: { top: topInset, right: 76, bottom: bottomInset, left: 28 },
+      // Right edge clears the category rail (46 wide + 12 margin); left edge
+      // leaves room for the westernmost landmark label.
+      edgePadding: { top: topInset, right: 76, bottom: bottomInset, left: 96 },
       animated: true,
     });
     // Refit only when the caller changes the key, not on every render.
@@ -122,7 +123,7 @@ export default function TrailMap({
           tracksViewChanges={false}
           zIndex={-1}
         >
-          <LandmarkLabel name={landmark.name} side={landmark.labelSide} />
+          <LandmarkLabel name={landmark.name} side={landmark.labelSide} offsetY={landmark.labelOffsetY} />
         </Marker>
       ))}
 

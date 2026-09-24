@@ -7,13 +7,13 @@
   },
   {
     "id": "davidson-river",
-    "name": "Davidson River Campground",
+    "name": "Davidson River",
     "coordinates": [-82.7322, 35.2831],
     "labelSide": "right"
   },
   {
     "id": "pisgah-entrance",
-    "name": "Pisgah Forest Entrance",
+    "name": "Pisgah Entrance",
     "coordinates": [-82.7265, 35.2815],
     "labelSide": "left"
   },
@@ -25,15 +25,16 @@
   },
   {
     "id": "the-hospital",
-    "name": "Transylvania Regional Hospital",
+    "name": "Hospital",
     "coordinates": [-82.7124, 35.2561],
     "labelSide": "left"
   },
   {
     "id": "music-center",
-    "name": "Brevard Music Center",
+    "name": "Music Center",
     "coordinates": [-82.745, 35.2405],
-    "labelSide": "left"
+    "labelSide": "left",
+    "labelOffsetY": -11
   },
   {
     "id": "brevard-college",
@@ -43,32 +44,33 @@
   },
   {
     "id": "bracken-preserve",
-    "name": "Bracken Mountain Preserve",
+    "name": "Bracken Preserve",
     "coordinates": [-82.7476, 35.2272],
     "labelSide": "right"
   },
   {
     "id": "ball-fields",
-    "name": "Brevard Ball Fields",
+    "name": "Ball Fields",
     "coordinates": [-82.7085, 35.258],
     "labelSide": "right"
   },
   {
     "id": "library",
-    "name": "Transylvania County Library",
+    "name": "Library",
     "coordinates": [-82.7355, 35.232],
     "labelSide": "left"
   },
   {
     "id": "courthouse",
-    "name": "County Courthouse",
+    "name": "Courthouse",
     "coordinates": [-82.7345, 35.2337],
     "labelSide": "left"
   },
   {
     "id": "railroad-depot",
-    "name": "Railroad Depot Park",
+    "name": "Depot Park",
     "coordinates": [-82.7349, 35.2402],
-    "labelSide": "right"
+    "labelSide": "right",
+    "labelOffsetY": 4
   }
 ]
