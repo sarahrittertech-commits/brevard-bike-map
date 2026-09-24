@@ -48,9 +48,14 @@ much easier to read locally.
 
 ## Adding a photo or an icon
 
-Adventure photos are re-encoded to 1110px wide at quality 72 before they are
-committed — the originals were 1264px and roughly three times the size, for
-no visible difference on a phone.
+Adventure photos are re-encoded to **960px wide at quality 60** before they
+are committed — the originals were 1264px and four times the size. The
+widest they are ever drawn is the detail-screen hero, 402pt full-bleed,
+which is 1206px on a 3x phone; at a 100% crop the difference against the
+original is not visible at arm's length.
+
+Re-encode from the original file, never from the committed one, or the JPEG
+loss compounds each time.
 
 Icons come from `lucide-react-native` and must be imported by their **deep
 path**, never from the package root:
