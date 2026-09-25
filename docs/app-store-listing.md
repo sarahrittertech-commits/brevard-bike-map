@@ -30,9 +30,16 @@ the binary and sending it for review, whenever approval lands.
 | SKU | `brevard-bike-map-001` | — |
 | Primary language | English (U.S.) | — |
 | Copyright | `2026 Sarah Ritter` | — |
-| Primary category | Navigation | — |
-| Secondary category | Sports | — |
+| Primary category | Travel | — |
+| Secondary category | Navigation | — |
 | Age rating | 4+ (no objectionable content, no web access, no user content) | — |
+
+Travel rather than Navigation as the primary: Navigation is the turn-by-turn
+category, and this app deliberately has no routing, no GPS and no turn-by-turn
+(ADR-0003). Travel describes what it is — a local guide to places worth going,
+with curated itineraries. Not Sports or Health & Fitness either: both imply
+activity tracking, which is explicitly out of scope. Categories can be changed
+in App Store Connect at any time without a new build.
 
 The subtitle above is one character over. Pick one of these instead:
 
