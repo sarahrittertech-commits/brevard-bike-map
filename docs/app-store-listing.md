@@ -68,9 +68,17 @@ flag them.
 *170 characters. Editable without a new build, unlike the description.*
 
 ```
-Nine rides locals actually do, twenty-eight places worth stopping, and the path
-that links them. Works with no signal, because the whole map is in the download.
+Mobile app that shows ice cream, playgrounds, local businesses on the bike path that links them. Works with no signal, because the whole map is in the download.
 ```
+
+Sarah's wording, chosen 25 September 2026. Note it says "local businesses"
+rather than naming the brewery category — the promotional text is the first
+thing a browser reads, and there is no reason for it to lead with alcohol when
+the category is mostly bike shops and places that serve food. See
+[age suitability](./age-rating).
+
+Promotional text can be changed at any time without submitting a new build,
+unlike the description.
 
 ## Description
 
