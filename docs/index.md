@@ -53,3 +53,5 @@ That framing drives every scope decision on this project:
 | [Test cases](./test-cases) | What "working" means before ship |
 | [Release notes](./release-notes) | What shipped, when |
 | [Runbook](./runbook) | How to build and release it |
+| [Privacy policy](./privacy) | What the app collects, which is nothing |
+| [App Store listing](./app-store-listing) | Listing copy and submission answers |
