@@ -32,7 +32,7 @@ the binary and sending it for review, whenever approval lands.
 | Copyright | `2026 Sarah Ritter` | — |
 | Primary category | Travel | — |
 | Secondary category | Navigation | — |
-| Age rating | 4+ (no objectionable content, no web access, no user content) | — |
+| Age rating | Answer the questionnaire honestly — see below | — |
 
 Travel rather than Navigation as the primary: Navigation is the turn-by-turn
 category, and this app deliberately has no routing, no GPS and no turn-by-turn
@@ -141,6 +141,25 @@ That single answer closes the whole questionnaire. It is accurate: there is no
 analytics, no crash reporting, no advertising identifier, no accounts, no
 network requests of our own, and no location permission. See the
 [privacy policy](./privacy).
+
+## Age rating
+
+Do **not** assume 4+. The app has a Breweries category containing ten licensed
+premises, so the questionnaire's alcohol question cannot be answered "none".
+Answer it truthfully and accept whatever rating results: a declaration that does
+not match the app risks rejection now or removal later, which is far worse than
+a higher rating.
+
+Apple revised its age rating tiers in 2025, so check the current questionnaire
+rather than relying on what a previous submission produced.
+
+For the optional "age suitability URL" field, use:
+
+`https://github.com/sarahrittertech-commits/brevard-bike-map/blob/main/docs/age-rating.md`
+
+That page explains what the brewery category actually is — four of the ten are
+bike shops with a taproom, most serve food, none can be bought from in the app,
+and the categories are off by default.
 
 ## Export compliance
 
