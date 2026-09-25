@@ -40,13 +40,19 @@ Known gaps:
   the fix means reworking the camera maths to use `fitToCoordinates` with
   `edgePadding`.
 - No Android Google Maps key yet, so Android builds outside Expo Go show no map.
-- The app icon sits low in its tile — 36% empty above the artwork against 12%
-  below, where centred would be about 24% each side — and is drawn in blue
-  `#2C6BA8` and purple `#3F3794`, which appear nowhere else in the app. Both
-  come from the design rather than having drifted. Nothing is clipped by the
-  iOS mask. Deferred to 1.0.1 because the icon lives in the binary, so changing
-  it means another build; recentring is arithmetic and recolouring to forest and
-  clay is a palette swap, so neither needs the artwork redrawn.
+- **The app icon's ridgelines read as water, not mountains.** That is the real
+  complaint and it is correct: blue plus sinuous S-curves is how water is drawn,
+  while mountains read through angular peaks and green or earth tones. The icon
+  has neither — the ridges are `#2C6BA8` and `#9DBFE3`, and the bike is purple
+  `#3F3794`, none of which appear anywhere else in the app.
+
+  Secondary: the artwork sits low, 36% empty above it against 12% below, where
+  centred would be about 24% each side. Nothing is clipped by the iOS mask.
+
+  Both came from the design rather than having drifted. Deferred to 1.0.1
+  because the icon lives in the binary, so changing it means another build.
+  Recolouring the ridges to forest green would fix most of the water reading on
+  its own, since the curves are far more forgiving once they are not blue.
 
 Landmark labels colliding downtown was listed here and is fixed (56be230);
 verified on a 6.9" screen on 25 September 2026.
