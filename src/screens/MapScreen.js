@@ -11,7 +11,7 @@ import { cardFloat, colors, fillRow, fonts, radius, text } from '../theme';
 
 // The main screen: map, floating header, category rail, bottom sheet.
 // `following` is an adventure whose route is drawn on top of the network.
-export default function MapScreen({ following, onStopFollowing }) {
+export default function MapScreen({ following, showNonce, onStopFollowing }) {
   const insets = useSafeAreaInsets();
   const [active, setActive] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
@@ -48,7 +48,7 @@ export default function MapScreen({ following, onStopFollowing }) {
         onSelect={select}
         route={route}
         routeStops={routeStops}
-        fitKey={`${following?.id ?? 'trail'}-${recenter}`}
+        fitKey={`${following?.id ?? 'trail'}-${recenter}-${showNonce}`}
         fitLatLngs={route ?? networkLatLngs}
         topInset={topInset + 84}
         bottomInset={PEEK + 28}

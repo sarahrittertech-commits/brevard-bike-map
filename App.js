@@ -31,6 +31,10 @@ export default function App() {
   const [tab, setTab] = useState('map');
   const [detailId, setDetailId] = useState(null);
   const [following, setFollowing] = useState(null);
+  // Bumped every time "Show route on map" is tapped. Setting `following` to the
+  // adventure already being followed is a no-op, so without this the map would
+  // not return to a route the rider had panned away from.
+  const [showNonce, setShowNonce] = useState(0);
 
   const closeDetail = useCallback(() => setDetailId(null), []);
 
@@ -56,7 +60,11 @@ export default function App() {
             adventure never reloads it; the adventures list and the detail
             screen are laid over the top. */}
         <View style={styles.tabPane}>
-          <MapScreen following={following} onStopFollowing={() => setFollowing(null)} />
+          <MapScreen
+            following={following}
+            showNonce={showNonce}
+            onStopFollowing={() => setFollowing(null)}
+          />
           {tab === 'adventures' && (
             <View style={styles.overlay}>
               <AdventuresScreen onOpen={setDetailId} />
@@ -71,6 +79,7 @@ export default function App() {
               onBack={closeDetail}
               onShowOnMap={() => {
                 setFollowing(detail);
+                setShowNonce((n) => n + 1);
                 setDetailId(null);
                 setTab('map');
               }}
