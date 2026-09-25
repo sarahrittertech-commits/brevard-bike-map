@@ -10,10 +10,14 @@ versioned with the app rather than living only in Apple's web forms. Character
 limits are Apple's and are counted below.
 
 :::note
-Submitting to the App Store was **not** part of the original plan — the
-[release notes](./release-notes) and [ADR-0001](./architecture/adr-0001-app-platform)
-call for ad hoc distribution to one phone. It was added on 25 September 2026.
-App Review timing is outside our control and is the main risk to the ship date.
+The Women in AI challenge requires the app to be **submitted to the App Store by
+30 September 2026**, so submission is the goal rather than an addition to it.
+This corrects the earlier plan, which described ad hoc distribution to one phone
+as sufficient.
+
+The requirement is to *submit*, not to be *approved*. Submission is within our
+control; App Review's timing is not. The deadline is therefore met by uploading
+the binary and sending it for review, whenever approval lands.
 :::
 
 ## Identity
@@ -41,13 +45,14 @@ The subtitle above is one character over. Pick one of these instead:
 
 | Field | Value | Required |
 | --- | --- | --- |
-| Privacy policy URL | *docs site base* + `/privacy` | **Yes** |
-| Support URL | *docs site base* + `/` | **Yes** |
+| Privacy policy URL | `https://github.com/sarahrittertech-commits/brevard-bike-map/blob/main/docs/privacy.md` | **Yes** |
+| Support URL | `https://github.com/sarahrittertech-commits/brevard-bike-map/issues` | **Yes** |
 | Marketing URL | `https://github.com/sarahrittertech-commits/brevard-bike-map` | No |
 
-Both required URLs need the PushPopDev docs site base URL, which is not recorded
-anywhere in this repository. Fill it in before submitting — Apple rejects
-listings whose privacy or support URL does not resolve.
+These resolve only while the repository is **public**. Making it public is
+already a v1.0.0 deliverable, and the commit history is part of the proof of
+work. If it is ever taken private again, these listing URLs break and Apple will
+flag them.
 
 ## Promotional text
 

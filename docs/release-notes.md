@@ -39,8 +39,13 @@ configuration problems. Needs the Apple Developer membership.
 
 Target: 30 September 2026
 
-Data corrections from riding the routes, MT-1 to MT-6 passing on a physical
-phone, `validate:release` green, release notes and repository public.
+**Submitted to the App Store.** The Women in AI challenge requires submission by
+30 September 2026 — submission, not approval, since App Review's timing is not
+ours to control.
+
+Also: data corrections from riding the routes, MT-1 to MT-6 passing on a
+physical phone, `validate:release` green, release notes, and the repository
+public (which the [App Store listing](./app-store-listing) URLs now depend on).
 
 R9 (offline) is already satisfied by bundling the data. Android ships in 1.0
 only if a Google Maps key is set up and an APK is tested; it is not on the
