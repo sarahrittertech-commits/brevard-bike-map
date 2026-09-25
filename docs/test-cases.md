@@ -68,7 +68,13 @@ Run before every release. A simulator does not count.
 ## Release gate
 
 A release requires: all DT and UT tests green — `npm run validate:release`
-and `npm test` — and MT-1 through MT-6 passing on a physical phone. MT-7 through MT-9 are recorded but do not block.
+and `npm test` — and MT-1 through MT-6 passing on a physical phone.
+
+**Gate met, 25 September 2026.** MT-1 to MT-6 passed on a physical iPhone
+against the ad hoc build of `15c74d8`. The binary submitted to the App Store
+was built from `8834bed`; the two differ only in the version string and the
+`ITSAppUsesNonExemptEncryption` flag, with no change to any JavaScript, so the
+result carries. DT-1 to DT-7 and UT-1 to UT-5 are green in CI on every push. MT-7 through MT-9 are recorded but do not block.
 
 ## What is not tested
 

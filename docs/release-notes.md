@@ -8,7 +8,8 @@ title: Release notes
 ## Unreleased
 
 Built to the [app design](https://github.com/sarahrittertech-commits/Bike-Path-Adventures-Map-Design)
-on 18 September 2026 and verified in the iOS Simulator. Not yet on a phone.
+on 18 September 2026. Run on a physical iPhone on 25 September 2026, with MT-1
+to MT-6 passing, and submitted to the App Store the same day.
 
 - Expo SDK 57 app with react-native-maps on Apple Maps
 - Trail map: paved path and dotted connectors, landmark labels, trailheads
