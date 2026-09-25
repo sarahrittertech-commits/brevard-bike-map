@@ -25,7 +25,7 @@ the binary and sending it for review, whenever approval lands.
 | Field | Value | Limit |
 | --- | --- | --- |
 | App name | `Bike Brevard Map` | 30 — using 16 |
-| Subtitle | `The bike path and where it goes` | 30 — using 31 ⚠️ see below |
+| Subtitle | `bike around town Brevard, NC` | 30 — using 28 |
 | Bundle ID | `dev.pushpop.brevardbikemap` | — |
 | SKU | `brevard-bike-map-001` | — |
 | Primary language | English (U.S.) | — |
@@ -41,12 +41,14 @@ with curated itineraries. Not Sports or Health & Fitness either: both imply
 activity tracking, which is explicitly out of scope. Categories can be changed
 in App Store Connect at any time without a new build.
 
-The subtitle above is one character over. Pick one of these instead:
+Sarah's wording, chosen 25 September 2026. It earns the "NC": Brevard County,
+Florida is a much larger place, so "Brevard" alone is ambiguous in search and
+the app name has no room to say which one. Earlier candidates are kept below
+only as a record of what was considered.
 
-- `The bike path and where it goes` — 31, too long by one
-- `Brevard's bike path, mapped` — 27 ✅
-- `Where the bike path can take you` — 32, too long
-- `The path, and what's along it` — 29 ✅
+- `The bike path and where it goes` — 31, one over the limit
+- `Brevard's bike path, mapped` — 27
+- `The path, and what's along it` — 29
 
 ## URLs
 
