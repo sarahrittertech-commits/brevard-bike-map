@@ -50,6 +50,24 @@ only as a record of what was considered.
 - `Brevard's bike path, mapped` — 27
 - `The path, and what's along it` — 29
 
+## Pricing and availability
+
+| Field | Value |
+| --- | --- |
+| Price | Free ($0), no in-app purchases |
+| Availability | United States only |
+
+Free is the decision the project already made — see the "no monetisation" note
+in the [product requirements](./prd). It also avoids the Paid Applications
+agreement, which needs banking and tax details and is a common way to lose days
+before a deadline.
+
+United States only, chosen 25 September 2026, because the app maps one town in
+North Carolina. The cost worth remembering: this app is the entry for a group
+challenge, and anyone in that group outside the US cannot download it — the
+listing does not exist in their store. Availability can be changed at any time
+without submitting a new build.
+
 ## URLs
 
 | Field | Value | Required |
