@@ -19,9 +19,22 @@ on 18 September 2026 and verified in the iOS Simulator. Not yet on a phone.
 - Real Brevard data: 28 destinations, 4 network segments, 12 landmarks
 - Validator, unit tests (UT-1 to UT-5), ESLint and CI
 
-Known gaps: network geometry is traced rather than surveyed (the bridge
-connector's stated 0.9 mi draws as 0.43 mi); landmark labels overlap downtown
-at the default zoom; no Android Google Maps key yet.
+Known gaps:
+
+- Network geometry is traced rather than surveyed — the bridge connector's
+  stated 0.9 mi draws as 0.43 mi (DT-7 warns about this).
+- A selected pin does not centre in the strip of map above the sheet. Measured
+  on an iPhone 17 Pro Max it sits about 54pt low, tip touching the sheet edge,
+  where the arithmetic in `TrailMap` says it should be centred. The cause is not
+  the pin-height offset or the zoom fence, both ruled out; the likely suspect is
+  assuming `animateToRegion` keeps the `latitudeDelta` it is given. Cosmetic —
+  the pin is visible and tappable — and deliberately left for after ship, since
+  the fix means reworking the camera maths to use `fitToCoordinates` with
+  `edgePadding`.
+- No Android Google Maps key yet, so Android builds outside Expo Go show no map.
+
+Landmark labels colliding downtown was listed here and is fixed (56be230);
+verified on a 6.9" screen on 25 September 2026.
 
 ---
 

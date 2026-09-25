@@ -63,9 +63,21 @@ export default function TrailMap({
     const stripCentre = (topInset + (height - sheetHeight)) / 2;
     // The marker is anchored at its tip ({ y: 1 }), so the pin's body hangs
     // above the coordinate. The coordinate therefore has to land half a pin
-    // BELOW the strip centre for the body to be what sits centred. Subtracting
-    // here instead pushes the pin a full SELECTED_PIN_HEIGHT too high, which on
-    // a short screen tucks its tip behind the floating header.
+    // BELOW the strip centre for the body to be what sits centred.
+    //
+    // KNOWN GAP: this does not land where the arithmetic says it should. Measured
+    // on an iPhone 17 Pro Max (25 Sep 2026) the strip is y 159-318pt, so the pin
+    // should centre on 238 with its tip at 262 — its tip actually lands at ~316,
+    // 54pt low, touching the sheet. The error is NOT this offset and not the zoom
+    // fence (0.012 deg is about zoom 16.4, inside MIN_ZOOM..MAX_ZOOM); the strip
+    // geometry itself is confirmed, its computed bottom of 318 matching the
+    // measured sheet edge. The suspect is the assumption below that the region
+    // ends up with the latitudeDelta we asked for, which MapKit is free to adjust.
+    //
+    // Deriving a latitude shift from an assumed span is the fragile part. The
+    // robust rewrite is fitToCoordinates with edgePadding, letting MapKit place
+    // it. Deliberately not attempted before the 30 Sep ship: the pin is visible
+    // and tappable, and this is cosmetic.
     const targetY = stripCentre + SELECTED_PIN_HEIGHT / 2;
     const shift = ((height / 2 - targetY) / height) * latitudeDelta;
     const { latitude, longitude } = toLatLng(selected.coordinates);
