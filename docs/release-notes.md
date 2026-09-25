@@ -51,8 +51,13 @@ Known gaps:
 
   Both came from the design rather than having drifted. Deferred to 1.0.1
   because the icon lives in the binary, so changing it means another build.
-  Recolouring the ridges to forest green would fix most of the water reading on
-  its own, since the curves are far more forgiving once they are not blue.
+
+  **Direction for 1.0.1: Sarah is sourcing line images.** Not a recolour of the
+  existing artwork. When the art arrives, the [runbook](./runbook) lists every
+  asset that has to be regenerated together — the three iOS appearances, the
+  fallback icon, the three Android adaptive layers and the launch screen — and
+  the trap that the light and tinted iOS variants must have no alpha channel or
+  submission is rejected.
 
 Landmark labels colliding downtown was listed here and is fixed (56be230);
 verified on a 6.9" screen on 25 September 2026.
