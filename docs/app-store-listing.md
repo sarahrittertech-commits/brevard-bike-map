@@ -82,13 +82,25 @@ unlike the description.
 
 ## Description
 
-*4000 characters. Using roughly 1,500.*
+*4000 characters. Using 1986.*
+
+Rewritten by Sarah on 25 September 2026, replacing an earlier draft of mine. The
+opening is the part that matters: it says who the app is for and why it exists,
+in her voice and from her own riding, which is what the first draft was reaching
+for when it claimed the app was "made by someone who rides here" — a claim that
+was not mine to make and was removed.
+
+The disclaimer before WHAT IT DOESN'T DO is hers too. It is worth keeping: not
+every destination sits directly on the path, and saying so plainly is both
+honest and the kind of thing that heads off complaints.
 
 ```
-Brevard has a greenway and a lot of places worth riding to. What it hasn't had
-is an answer to "can I bike from the taproom to the ice cream window, and how?"
-
-This is that answer, for this one town.
+Brevard, North Carolina has a greenway and a lot of places worth biking to even
+with small children in tow. This app is meant to encourage both visitors and
+local families to brave small adventures around town. Biking to the playground
+and then to ice cream has helped my little family enjoy this small Western North
+Carolina town. We hope this app helps us meet up with our friends and new faces
+in some of our favorite local places.
 
 THE PATH AND ITS CONNECTORS
 
@@ -111,6 +123,10 @@ Rides that locals actually do, from a 3.8-mile spin to a downtown festival up
 to the 15.5-mile Hub to Bracken and back. Each one has its distance, riding
 time, difficulty and a stop-by-stop itinerary — and "show route on map" draws
 the whole ride over the network with its stops numbered in order.
+
+*disclaimer not every destination is exactly on the bike path, but these are all
+destinations I have biked to with a small child, take your time and follow
+general safety rules
 
 WHAT IT DOESN'T DO
 
