@@ -69,9 +69,9 @@ that links them. Works with no signal, because the whole map is in the download.
 
 ```
 Brevard has a greenway and a lot of places worth riding to. What it hasn't had
-is an answer to "can I bike from the brewery to the pool, and how?"
+is an answer to "can I bike from the taproom to the ice cream window, and how?"
 
-This is that answer, for this one town, made by someone who rides here.
+This is that answer, for this one town.
 
 THE PATH AND ITS CONNECTORS
 
@@ -108,13 +108,14 @@ A map made for one town can know things a map of everywhere cannot.
 ## Keywords
 
 *100 characters total, comma-separated. Do not repeat the app name or category
-names — Apple already indexes those.*
+names — Apple already indexes those. Every term here must correspond to
+something the app actually contains; Apple rejects keywords that do not.*
 
 ```
-brevard,greenway,cycling,bike path,pisgah,dupont,trail map,offline,nc,transylvania
+brevard,greenway,cycling,bike path,pisgah,ice cream,trail map,offline,nc,transylvania
 ```
 
-82 characters.
+85 characters.
 
 ## What's New in this version
 
