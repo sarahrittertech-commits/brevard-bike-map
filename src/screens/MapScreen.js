@@ -37,6 +37,23 @@ export default function MapScreen({ following, showNonce, onStopFollowing }) {
     setActive((prev) => (prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]));
   };
 
+  // Following a route takes over the map: drop any selected pin and let the
+  // sheet fall back to peek, so the route gets the whole visible area. Without
+  // this the route is fitted against the PEEK bottom inset while an expanded
+  // sheet is actually covering 64% of the screen, hiding the bottom of it.
+  //
+  // Adjusting state during render is React's documented way to respond to a
+  // changed prop; doing it in an effect trips react-hooks/set-state-in-effect
+  // and costs an extra committed render. The trigger is showNonce rather than
+  // `following`, because tapping "Show route on map" for the adventure already
+  // being followed leaves `following` identical.
+  const [handledNonce, setHandledNonce] = useState(showNonce);
+  if (showNonce !== handledNonce) {
+    setHandledNonce(showNonce);
+    setSelectedId(null);
+    setSheetOpen(false);
+  }
+
   const topInset = insets.top + 12;
 
   return (
