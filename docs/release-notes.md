@@ -5,7 +5,14 @@ title: Release notes
 
 # Release notes
 
-## Unreleased
+## 1.0.0 — submitted 25 September 2026
+
+**Submitted to the App Store on 25 September 2026**, five days ahead of the
+30 September deadline, and awaiting App Review. App Store Connect app
+`6816144426`, build 3, free, United States only.
+
+The Women in AI challenge asked for an app submitted to the App Store by
+30 September. That is done. Approval is App Review's timing, not ours.
 
 Built to the [app design](https://github.com/sarahrittertech-commits/Bike-Path-Adventures-Map-Design)
 on 18 September 2026. Run on a physical iPhone on 25 September 2026, with MT-1
@@ -33,6 +40,13 @@ Known gaps:
   the fix means reworking the camera maths to use `fitToCoordinates` with
   `edgePadding`.
 - No Android Google Maps key yet, so Android builds outside Expo Go show no map.
+- The app icon sits low in its tile — 36% empty above the artwork against 12%
+  below, where centred would be about 24% each side — and is drawn in blue
+  `#2C6BA8` and purple `#3F3794`, which appear nowhere else in the app. Both
+  come from the design rather than having drifted. Nothing is clipped by the
+  iOS mask. Deferred to 1.0.1 because the icon lives in the binary, so changing
+  it means another build; recentring is arithmetic and recolouring to forest and
+  clay is a palette swap, so neither needs the artwork redrawn.
 
 Landmark labels colliding downtown was listed here and is fixed (56be230);
 verified on a 6.9" screen on 25 September 2026.
