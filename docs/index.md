@@ -56,3 +56,4 @@ That framing drives every scope decision on this project:
 | [Privacy policy](./privacy) | What the app collects, which is nothing |
 | [Age suitability](./age-rating) | What the brewery category is, for the App Store rating |
 | [App Store listing](./app-store-listing) | Listing copy and submission answers |
+| [Direction after 1.0](./post-1.0-direction) | What is decided, deferred and open after shipping |
