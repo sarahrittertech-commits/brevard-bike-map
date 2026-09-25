@@ -58,11 +58,16 @@ export default function TrailMap({
     // Keep longitude comfortably inside the phone's aspect ratio so the
     // latitude span is what the map actually fits, and the shift below holds.
     const longitudeDelta = latitudeDelta * 0.2;
-    // The screen centre sits under the sheet; aim for the middle of the
-    // visible strip instead, expressed as a latitude shift.
-    // Pin tip sits on the coordinate, so aim a little above centre for the body.
-    const visibleCentre = (topInset + (height - sheetHeight)) / 2 - SELECTED_PIN_HEIGHT / 2;
-    const shift = ((height / 2 - visibleCentre) / height) * latitudeDelta;
+    // The screen centre sits under the sheet, so aim for the middle of the strip
+    // of map that stays visible above it, expressed as a latitude shift.
+    const stripCentre = (topInset + (height - sheetHeight)) / 2;
+    // The marker is anchored at its tip ({ y: 1 }), so the pin's body hangs
+    // above the coordinate. The coordinate therefore has to land half a pin
+    // BELOW the strip centre for the body to be what sits centred. Subtracting
+    // here instead pushes the pin a full SELECTED_PIN_HEIGHT too high, which on
+    // a short screen tucks its tip behind the floating header.
+    const targetY = stripCentre + SELECTED_PIN_HEIGHT / 2;
+    const shift = ((height / 2 - targetY) / height) * latitudeDelta;
     const { latitude, longitude } = toLatLng(selected.coordinates);
     mapRef.current.animateToRegion(
       { latitude: latitude - shift, longitude, latitudeDelta, longitudeDelta },
