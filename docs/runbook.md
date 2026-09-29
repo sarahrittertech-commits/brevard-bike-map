@@ -113,6 +113,29 @@ Builds run on Expo's servers and take 10–20 minutes. The free tier queues
 behind paid builds, so **do not leave the first real build until ship day.**
 Do a throwaway build in week one to find the signing problems early.
 
+## Recording the App Review demo video
+
+Apple asks for a screen recording from a **physical device**, not the Simulator,
+beginning with the app launching.
+
+1. Install the submitted build from TestFlight, so the recording shows the
+   binary under review rather than an ad hoc one.
+2. Add Screen Recording to Control Centre if it is not there — Settings →
+   Control Centre.
+3. Start recording, then go to the Home Screen **before** opening the app:
+   Apple asks that the recording begin with the launch.
+4. Walk the whole app, unhurried, about ninety seconds:
+   launch and let the map settle · switch on ice cream, then breweries · tap a
+   pin and read the detail · close it · press the clear button to return to just
+   the path · Adventures tab · open a ride · Show route on map.
+5. Stop recording and attach the file to the App Store Connect reply.
+
+Nothing in the app needs an account, a purchase or user-generated content, so
+none of Apple's extra recording requirements apply.
+
+Turning on Airplane Mode before recording makes the offline claim visible, since
+the app keeps working. Optional, but it answers a question before it is asked.
+
 ## Release checklist
 
 1. Lint, unit tests and data checks green —
