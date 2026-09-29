@@ -57,3 +57,4 @@ That framing drives every scope decision on this project:
 | [Age suitability](./age-rating) | What the brewery category is, for the App Store rating |
 | [App Store listing](./app-store-listing) | Listing copy and submission answers |
 | [Direction after 1.0](./post-1.0-direction) | What is decided, deferred and open after shipping |
+| [App Review response](./app-review-response) | Answers to Apple's Guideline 2.1 questionnaire |
