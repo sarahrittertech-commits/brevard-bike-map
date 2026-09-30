@@ -215,9 +215,9 @@
     "id": "the-hub",
     "name": "The Hub & Pisgah Tavern",
     "categories": ["bike-shop", "brewery"],
-    "coordinates": [-82.7148, 35.2828],
-    "description": "Shop and tavern at 11 Mama’s Pl, out past Dolly’s toward the forest entrance.",
-    "mileMarker": 5.1,
+    "coordinates": [-82.7054, 35.2745],
+    "description": "Shop and tavern at 11 Mama’s Pl, at the forest gateway a couple of hundred feet short of Dolly’s.",
+    "mileMarker": 4.2,
     "hours": "Daily 9–7pm"
   },
   {
