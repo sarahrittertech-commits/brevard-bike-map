@@ -76,6 +76,14 @@ was built from `8834bed`; the two differ only in the version string and the
 `ITSAppUsesNonExemptEncryption` flag, with no change to any JavaScript, so the
 result carries. DT-1 to DT-7 and UT-1 to UT-5 are green in CI on every push. MT-7 through MT-9 are recorded but do not block.
 
+**MT-4 was passed in error.** It was signed off on the phone against the
+drawn route, which looked plausible, rather than against the ground. Riding
+it on 30 September 2026 showed the Taproom Traverse line never went to Oskar
+Blues at all — the closest it came was 1,969 ft, and the numbered stop hung
+off the end of nothing. Fixed in 1.0.1. The lesson for this table is that
+"matches local knowledge" cannot be checked from the sofa; MT-4 needs the
+route ridden, not read.
+
 ## What is not tested
 
 Stated so the gaps are deliberate rather than accidental:

@@ -5,6 +5,41 @@ title: Release notes
 
 # Release notes
 
+## 1.0.1 — unreleased
+
+### The Oskar Blues spur
+
+Surveyed on 30 September 2026 by riding the north half of the network with
+the camera on. 111 of the 125 photos carry EXIF coordinates, which makes them
+a GPS trace of the ride rather than an illustration of it.
+
+- **Oskar Blues was unreachable.** Nothing in `src/data` came closer to it
+  than 1,969 ft, although it is a stop on both Taproom Traverse and End to
+  End. The new `oskar-blues-spur` connector runs from the path out to the
+  taproom, and both routes now ride it and come back. This is MT-4.
+- **Oskar Blues moved 354 ft.** Its recorded coordinate sat in the field
+  behind the taproom. IMG_5211 is the entrance sign; Google's listing for
+  342 Mountain Industrial Dr agrees with it to within 263 ft.
+- **Connectors now read 4.2 mi** rather than 3.8 in the sheet's trail facts,
+  because there is one more of them.
+
+### What the survey found and did not fix
+
+The traced network is further off than 1.0.0 recorded. Along the stretch that
+was ridden, the drawn main path sits 400–1,000 ft from where the ride actually
+went, and the northern leg past Dolly's to the forest is out by 1,300–5,100 ft.
+The spur therefore has to cross 1,000 ft of that gap to reach the path at all,
+which is why it draws 0.48 mi against a real 0.4.
+
+Two destinations sit exactly on a network vertex rather than on the place they
+name — `dollys` and `repair-depot` — so their coordinates are joins in the
+drawn line, not survey points.
+
+None of this is fixed here. The honest repair is the town GIS centerline that
+[the data model](./data-model) has always called for, not another trace.
+
+---
+
 ## 1.0.0 — submitted 25 September 2026
 
 **Submitted to the App Store on 25 September 2026**, five days ahead of the
@@ -31,6 +66,8 @@ Known gaps:
 
 - Network geometry is traced rather than surveyed — the bridge connector's
   stated 0.9 mi draws as 0.43 mi (DT-7 warns about this).
+  Measured against a GPS ride on 30 September it is out by 400–5,100 ft
+  along the stretch that was ridden; see 1.0.1 above.
 - A selected pin does not centre in the strip of map above the sheet. Measured
   on an iPhone 17 Pro Max it sits about 54pt low, tip touching the sheet edge,
   where the arithmetic in `TrailMap` says it should be centred. The cause is not
