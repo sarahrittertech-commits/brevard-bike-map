@@ -67,6 +67,21 @@ went, and the northern leg past Dolly's to the forest is out by 1,300–5,100 ft
 The spur therefore has to cross 1,000 ft of that gap to reach the path at all,
 which is why it draws 0.48 mi against a real 0.4.
 
+The drawn network is also too coarse to wind. The path is a leisurely
+exercise trail that meanders and happens to get around town, not a transport
+link, and the geometry carries a vertex every 475 to 1,247 ft — the forest
+connector has eleven points for 2.36 mi. The measure of what that loses: over
+the 0.9 mi from the ball fields to Dolly's, the ride wandered up to 1,096 ft
+off the straight line between its two ends. A polyline this sparse cannot
+describe that, so it draws the wrong kind of thing.
+
+The spur added here is the worst of them, 1,341 ft of straight line across a
+gap in the photographs. It is left that way deliberately. Redrawing one
+segment in detail would make the rest look worse by contrast, and the 111
+points from this ride only cover the north half, so a retrace would leave the
+map fine-grained above the ball fields and blocky below it. It is the same
+job as the drift: one pass with the centreline, not a patch.
+
 The pattern behind all four is that coordinates were placed against the drawn
 line rather than the ground: `dollys` was byte-identical to the connector
 join, and `repair-depot` and the `ball-fields` landmark still are. The rest
