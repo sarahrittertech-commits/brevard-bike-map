@@ -20,8 +20,8 @@ a GPS trace of the ride rather than an illustration of it.
 - **Oskar Blues moved 354 ft.** Its recorded coordinate sat in the field
   behind the taproom. IMG_5211 is the entrance sign; Google's listing for
   342 Mountain Industrial Dr agrees with it to within 263 ft.
-- **Connectors now read 4.2 mi** rather than 3.8 in the sheet's trail facts,
-  because there is one more of them.
+- **Connectors now read 3.6 mi** rather than 3.8 in the sheet's trail facts:
+  one more of them, but two of the four measured shorter than they claimed.
 - **A fourth repair stand.** IMG_5209 shows a pump-and-tools stand and a bike
   rack at the taproom door, 16 ft from the spur.
 - **Broad St Crossing.** The path has two signalled road crossings and only
@@ -59,38 +59,73 @@ connector, so Taproom Traverse and Bracken both *started* there and Gateway
 to Pisgah *ended* there — three rides running most of a mile to a point that
 was never The Hub. All three now begin or end at the building.
 
-### What the survey found and did not fix
+### The network is redrawn from the ride
 
-The traced network is further off than 1.0.0 recorded. Along the stretch that
-was ridden, the drawn main path sits 400–1,000 ft from where the ride actually
-went, and the northern leg past Dolly's to the forest is out by 1,300–5,100 ft.
-The spur therefore has to cross 1,000 ft of that gap to reach the path at all,
-which is why it draws 0.48 mi against a real 0.4.
+Sarah exported the rides as GPX. An earlier reading had dismissed these as
+hand-drawn, because every timestamp inside each file is identical — but so is
+every elevation, which is the Trailforks exporter stripping both rather than
+evidence about the recording. The photographs settle it: across 366 recorded
+points the median distance from an EXIF photo position to the matching track
+is 5 ft, 3 ft and 2 ft. Nothing drawn on satellite imagery matches 111
+independent GPS fixes that closely.
 
-The drawn network is also too coarse to wind. The path is a leisurely
-exercise trail that meanders and happens to get around town, not a transport
-link, and the geometry carries a vertex every 475 to 1,247 ft — the forest
-connector has eleven points for 2.36 mi. The measure of what that loses: over
-the 0.9 mi from the ball fields to Dolly's, the ride wandered up to 1,096 ft
-off the straight line between its two ends. A polyline this sparse cannot
-describe that, so it draws the wrong kind of thing.
+The endpoints only looked wrong because the destinations were. The Hub to
+campground track begins 4,082 ft from where The Hub was recorded and 130 ft
+from where The Hub is. The track was right the whole time.
 
-The spur added here is the worst of them, 1,341 ft of straight line across a
-gap in the photographs. It is left that way deliberately. Redrawing one
-segment in detail would make the rest look worse by contrast, and the 111
-points from this ride only cover the north half, so a retrace would leave the
-map fine-grained above the ball fields and blocky below it. It is the same
-job as the drift: one pass with the centreline, not a patch.
+| Segment | Points | Drawn | Source |
+| --- | --- | --- | --- |
+| `main` | 28 → 49 | 3.40 → 4.01 mi | traced below Blue Ridge CC, recorded above |
+| `oskar-blues-spur` | 4 → 9 | 0.48 → 0.29 mi | recorded |
+| `bridge-connector` | 5 → 10 | 0.43 → 0.41 mi | recorded |
+| `forest-connector` | 11 → 34 | 2.36 → 2.92 mi | recorded to the campground, traced beyond |
 
-The pattern behind all four is that coordinates were placed against the drawn
-line rather than the ground: `dollys` was byte-identical to the connector
-join, and `repair-depot` and the `ball-fields` landmark still are. The rest
-of the dataset has not been checked, because the ride only covered the north
-half — every downtown destination is more than 5,000 ft from the nearest
-photograph.
+The spur's longest straight falls from 1,341 ft to 431, and the stated
+mileages that were guesses become measurements: the spur is 0.3 mi, not 0.4,
+and the bridge connector is 0.4, not 0.9. That last one had been the single
+DT-7 warning since 1.0.0 and was listed here as a known gap. It was not a
+drawing error — the connector is 0.4 mi and the recording says so.
+Validation is clean for the first time.
 
-None of this is fixed here. The honest repair is the town GIS centerline that
-[the data model](./data-model) has always called for, not another trace.
+Trailforks' own Estatoe Trail and Brevard Greenway files agree with the rides
+to a median of 4 ft and were used only to check the work, so every coordinate
+that ships is Sarah's own recording and no third-party licence has to be
+carried in the app.
+
+All nine adventure routes are built from network vertices, so all nine were
+re-projected: each route vertex located on the old geometry as a segment and
+a fraction along it, then re-emitted at the same fraction of the new. Stop
+order holds everywhere. Two classes of vertex are held out — a destination's
+own coordinate, so stops stay exactly on their places, and anything more than
+150 ft off the network, because Bracken's singletrack and Probart St are not
+network and snapping them to it drew a 3.2 mile straight line.
+
+Downtown Festival becomes 4.3 mi rather than 3.8. The ride did not change;
+the line stopped cutting the corners.
+
+### What is still traced
+
+- **Everything below Blue Ridge Community College.** The ride started there,
+  so the downtown half of `main` and all of `downtown-connector` are the
+  original trace, as is `forest-connector` beyond the campground. The map now
+  reads fine-grained in the north and blocky in the south; the second ride
+  fixes that.
+- **`main` still says 3.5 mi** while its line now draws 4.01. The drawn
+  figure is a lower bound, since the untraced half is still cutting corners,
+  and 3.5 is the published length of the path. Worth settling with the town
+  rather than by arithmetic.
+- **Three destinations are now further from their route than they were** —
+  `repair-midpath` 41 → 359 ft, `cyckel-worx` 298 → 651 ft and
+  `repair-pisgah` 176 → 287 ft. All three were placed against the traced
+  line, the same fault that moved the other five, and none of them has a
+  photograph to move it by. They are the first things to check on the next
+  ride.
+- **`repair-depot`, `ball-fields` and `lowes-crossing` still sit on network
+  vertices** rather than on the places they name. `lowes-crossing` is 952 ft
+  from the recorded route to the campground, which is the crossing it is
+  supposed to mark.
+- **Twenty of the twenty-nine destinations are unaudited**, all of them
+  downtown, every one more than 5,000 ft from the nearest photograph.
 
 ---
 
