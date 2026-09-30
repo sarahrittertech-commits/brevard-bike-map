@@ -56,6 +56,22 @@
     }
   },
   {
+    "id": "oskar-blues-spur",
+    "name": "Cherry Street Greenway",
+    "kind": "connector",
+    "miles": 0.4,
+    "note": "Leaves the path short of the Ecusta Rd end and runs east to the Oskar Blues taproom on Mountain Industrial Dr.",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7134, 35.2562],
+        [-82.7117, 35.2538],
+        [-82.7072, 35.2538],
+        [-82.7068, 35.2535]
+      ]
+    }
+  },
+  {
     "id": "bridge-connector",
     "name": "New Bridge Connector",
     "kind": "connector",
