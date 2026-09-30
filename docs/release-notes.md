@@ -23,6 +23,31 @@ a GPS trace of the ride rather than an illustration of it.
 - **Connectors now read 4.2 mi** rather than 3.8 in the sheet's trail facts,
   because there is one more of them.
 
+### Five destinations were in the wrong place
+
+Sarah identified what each photo shows, which turned the trace into a check
+on the dataset. Every move below is a photo of the building plus Google's
+listing for the address the description already carried, agreeing to within
+a few hundred feet.
+
+| Place | Was out by | Now |
+| --- | --- | --- |
+| The Hub & Pisgah Tavern | 4,108 ft | mile 4.2, off the bridge connector |
+| Ecusta Brewing | 3,447 ft | mile 3.2, near the Ecusta Rd end |
+| Dolly's Dairy Bar | 466 ft | mile 4.2, 212 ft past The Hub |
+| Oskar Blues | 354 ft | mile 2.5, at the end of the new spur |
+| Jameson's Joy | 342 ft | mile 2.4, unchanged — see below |
+
+Mile markers moved only where the coordinate moved far enough to mean it.
+Jameson's Joy kept 2.4 although the geometry computes 2.6, because the drawn
+path is 800 ft from the park there — that number describes the trace, not the
+playground.
+
+The Hub was the expensive one. Its coordinate sat 0.8 mi up the forest
+connector, so Taproom Traverse and Bracken both *started* there and Gateway
+to Pisgah *ended* there — three rides running most of a mile to a point that
+was never The Hub. All three now begin or end at the building.
+
 ### What the survey found and did not fix
 
 The traced network is further off than 1.0.0 recorded. Along the stretch that
@@ -31,9 +56,12 @@ went, and the northern leg past Dolly's to the forest is out by 1,300–5,100 ft
 The spur therefore has to cross 1,000 ft of that gap to reach the path at all,
 which is why it draws 0.48 mi against a real 0.4.
 
-Two destinations sit exactly on a network vertex rather than on the place they
-name — `dollys` and `repair-depot` — so their coordinates are joins in the
-drawn line, not survey points.
+The pattern behind all four is that coordinates were placed against the drawn
+line rather than the ground: `dollys` was byte-identical to the connector
+join, and `repair-depot` and the `ball-fields` landmark still are. The rest
+of the dataset has not been checked, because the ride only covered the north
+half — every downtown destination is more than 5,000 ft from the nearest
+photograph.
 
 None of this is fixed here. The honest repair is the town GIS centerline that
 [the data model](./data-model) has always called for, not another trace.
