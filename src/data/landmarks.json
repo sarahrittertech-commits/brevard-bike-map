@@ -49,6 +49,12 @@
     "labelSide": "right"
   },
   {
+    "id": "broad-st-crossing",
+    "name": "Broad St Crossing",
+    "coordinates": [-82.7216, 35.2496],
+    "labelSide": "left"
+  },
+  {
     "id": "ball-fields",
     "name": "Ball Fields",
     "coordinates": [-82.7085, 35.258],
