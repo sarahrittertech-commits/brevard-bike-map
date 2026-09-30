@@ -22,6 +22,13 @@ a GPS trace of the ride rather than an illustration of it.
   342 Mountain Industrial Dr agrees with it to within 263 ft.
 - **Connectors now read 4.2 mi** rather than 3.8 in the sheet's trail facts,
   because there is one more of them.
+- **A fourth repair stand.** IMG_5209 shows a pump-and-tools stand and a bike
+  rack at the taproom door, 16 ft from the spur.
+
+Three photographs confirm the spur independently of the gap that suggested it:
+IMG_5203 is the right turn off the Estatoe Trail, IMG_5224 the turn back on to
+it, and IMG_5209 the rack at the far end. The junction they agree on is within
+40 ft of the vertex the trace implied.
 
 ### Five destinations were in the wrong place
 
