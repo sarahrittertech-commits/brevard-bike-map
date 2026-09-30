@@ -238,6 +238,14 @@
     "mileMarker": 2
   },
   {
+    "id": "repair-oskar-blues",
+    "name": "Oskar Blues Repair Stand",
+    "categories": ["repair"],
+    "coordinates": [-82.7072, 35.2538],
+    "description": "Pump and tools by the bike racks at the taproom door, at the end of the spur.",
+    "mileMarker": 2.5
+  },
+  {
     "id": "repair-pisgah",
     "name": "Pisgah Forest Repair Stand",
     "categories": ["repair"],
