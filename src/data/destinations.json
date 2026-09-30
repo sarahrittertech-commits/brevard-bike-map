@@ -161,9 +161,9 @@
     "id": "ecusta-brewing",
     "name": "Ecusta Brewing Company",
     "categories": ["brewery"],
-    "coordinates": [-82.7105, 35.257],
+    "coordinates": [-82.7052, 35.2654],
     "description": "At 451 Ecusta Rd, a few steps off the path. Easy post-ride pint.",
-    "mileMarker": 2.6,
+    "mileMarker": 3.2,
     "hours": "Tue–Sun 3–9pm"
   },
   {
