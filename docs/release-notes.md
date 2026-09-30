@@ -24,6 +24,10 @@ a GPS trace of the ride rather than an illustration of it.
   because there is one more of them.
 - **A fourth repair stand.** IMG_5209 shows a pump-and-tools stand and a bike
   rack at the taproom door, 16 ft from the spur.
+- **Broad St Crossing.** The path has two signalled road crossings and only
+  Lowe's was labelled. The southern one, where the path crosses N Broad St /
+  Hwy 64 at Osborne Rd by Blue Ridge Community College, now is too
+  (IMG_5186).
 
 Three photographs confirm the spur independently of the gap that suggested it:
 IMG_5203 is the right turn off the Estatoe Trail, IMG_5224 the turn back on to
