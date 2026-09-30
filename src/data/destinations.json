@@ -56,9 +56,9 @@
     "id": "dollys",
     "name": "Dolly's Dairy Bar",
     "categories": ["ice-cream"],
-    "coordinates": [-82.7069, 35.2757],
+    "coordinates": [-82.7061, 35.2746],
     "description": "The Pisgah classic, at the far end of the bridge connector. Mostly flat the whole way from town.",
-    "mileMarker": 4.4,
+    "mileMarker": 4.2,
     "hours": "Seasonal · daily 11–9pm"
   },
   {
