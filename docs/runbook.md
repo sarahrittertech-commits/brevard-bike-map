@@ -203,6 +203,40 @@ none of Apple's extra recording requirements apply.
 Turning on Airplane Mode before recording makes the offline claim visible, since
 the app keeps working. Optional, but it answers a question before it is asked.
 
+## App Store screenshots
+
+Ten shots, five screens at two sizes, in `~/Desktop/bike-brevard-screenshots/`:
+`6.9-inch` at 1320x2868 and `6.5-inch` at 1284x2778, which are the exact
+pixel sizes App Store Connect wants.
+
+They come from simulators, which is allowed for the listing — only the App
+Review demo video has to be a physical device.
+
+```bash
+eas build -p ios --profile simulator      # a .app, not an .ipa
+xcrun simctl install <udid> BikeBrevardMap.app
+xcrun simctl status_bar <udid> override --time 9:41 --batteryState charged --batteryLevel 100
+xcrun simctl io <udid> screenshot out.png
+```
+
+iPhone 17 Pro Max gives 6.9-inch; iPhone 14 Plus gives 6.5-inch and has to be
+created with `simctl create`.
+
+Three traps, all of which cost time once:
+
+- **simctl cannot write into ~/Desktop.** macOS privacy blocks it and the
+  error only appears if stderr is not swallowed. Capture somewhere else and
+  copy the files over.
+- **simctl cannot tap.** Driving the app needs Simulator.app, which only
+  exists once Xcode is fully installed. Without it the screens have to be
+  reached another way — the 1.0.1 set was captured from a build temporarily
+  patched to cycle through them on a timer, which is not something to leave
+  in the tree.
+- **Opening a URL in Expo Go raises a confirmation dialog** that cannot be
+  dismissed without tapping, so Expo Go is no use for this. A `simulator`
+  profile build installs and launches without one, and is the real binary
+  rather than Expo Go hosting the JS.
+
 ## Release checklist
 
 1. Lint, unit tests and data checks green —
