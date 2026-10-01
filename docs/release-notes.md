@@ -28,6 +28,12 @@ a GPS trace of the ride rather than an illustration of it.
   Lowe's was labelled. The southern one, where the path crosses N Broad St /
   Hwy 64 at Osborne Rd by Blue Ridge Community College, now is too
   (IMG_5186).
+- **The river pull-off.** Downtown to the River is the ride people think of
+  as biking to the river for a swim and it never said so. IMG_5296 is a flat
+  dirt landing with the bank shelving into the water, 21 ft off the route at
+  mile 5.41, and it is now a stop between Dolly's and Lowe's Crossing. A name
+  and a note, like the three stops around it — swimming as a sixth category
+  would need an icon in `CategoryIcon.js`, which is code for one entry.
 
 Three photographs confirm the spur independently of the gap that suggested it:
 IMG_5203 is the right turn off the Estatoe Trail, IMG_5224 the turn back on to
@@ -120,10 +126,14 @@ the line stopped cutting the corners.
   line, the same fault that moved the other five, and none of them has a
   photograph to move it by. They are the first things to check on the next
   ride.
-- **`repair-depot`, `ball-fields` and `lowes-crossing` still sit on network
-  vertices** rather than on the places they name. `lowes-crossing` is 952 ft
-  from the recorded route to the campground, which is the crossing it is
-  supposed to mark.
+- **Six landmarks and one destination still sit on network vertices**
+  rather than on the places they name: `courthouse`, `railroad-depot`,
+  `ball-fields`, `repair-depot`, and — the whole river end of the map —
+  `lowes-crossing`, `pisgah-entrance`, `davidson-river` and
+  `sycamore-flats`, which are forest-connector vertices 3, 5, 7 and 10.
+  `lowes-crossing` is 711 ft off the route it is supposed to mark a crossing
+  on. Downtown to the River depends on these four for its entire second half,
+  and not one of them has been checked against the ground.
 - **Twenty of the twenty-nine destinations are unaudited**, all of them
   downtown, every one more than 5,000 ft from the nearest photograph.
 
