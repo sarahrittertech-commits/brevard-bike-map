@@ -106,20 +106,19 @@ content, because the app has none of those.
 >
 > [PHOTOGRAPHS — SEE BELOW. DO NOT SEND THIS REPLY UNTIL THIS IS ANSWERED.]
 
-:::warning Eight of the nine photographs are Sarah's own; two show people
+:::warning The photographs are all Sarah's own; three show people
 
-Eight of the nine adventure images are now photographs Sarah took, with the
-file-by-file provenance in the [runbook](./runbook). The licensing question
-that blocked this answer is nearly closed.
+Every adventure image is now a photograph Sarah took, with the file-by-file
+provenance in the [runbook](./runbook). Nothing from the design dataset remains
+in the app, which answers the licensing half of this question outright.
 
-`bracken-loop.jpg` is the last one from the design dataset with no recorded
-provenance. Its subject is the Bracken singletrack, which no road ride passes,
-so it needs its own trip or the screen goes without a photograph.
+What is left is likenesses. Three of the nine show people: IMG_6045 is a group
+ride with about a dozen identifiable faces including children, IMG_8592 shows
+performers on a stage, and IMG_2391 a baby in a carrier. Apple asks about
+protected third-party material and a person's likeness in a shipped app is
+exactly that. Nobody in any of them has given permission.
 
-Two of the eight show identifiable people — IMG_6045 is a group ride with
-about a dozen faces including children, and IMG_8592 shows performers on a
-stage. Apple's question asks about protected third-party material, and a
-person's likeness in a shipped app is exactly that. Nobody in either photograph
-has given permission for it. Decide this before replying: get releases, choose
-different photographs, or crop so that no face is identifiable.
+Decide this before replying: get releases, choose different photographs, or
+crop so that no face is identifiable. IMG_6045 is the one that matters —
+the other two are near-misses and a crop would settle them.
 :::

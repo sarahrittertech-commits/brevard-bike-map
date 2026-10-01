@@ -62,16 +62,19 @@ Every photo in the app must have a provenance line here before it ships.
 | `downtown-festival.jpg` | IMG_1036 — riding Main St towards the festival tents | Sarah Ritter, 25 May 2024 |
 | `concert-night.jpg` | IMG_8592 — a band on a taproom stage | Sarah Ritter, 26 Oct 2021 |
 | `end-to-end.jpg` | IMG_6045 — a group ride gathered beside the path | Sarah Ritter, 21 Jun 2021 |
-| `bracken-loop.jpg` | **unknown — arrived with the design dataset** | — |
+| `bracken-loop.jpg` | IMG_2391 — the Bracken Preserve trailhead sign | Sarah Ritter, 6 Dec 2020 |
 
-`bracken-loop.jpg` came in commit `ae9d4b3` with the converted design data and
-nothing records who made it. It is the last one to replace, and its subject —
-the Bracken singletrack — is not on any road ride, so it needs its own trip.
+All nine are now Sarah's own. Nothing from the design dataset is left in
+`assets/adventures/`.
 
-Two of the photographs show identifiable people: IMG_6045 is a group ride with
-a dozen faces including children, and IMG_8592 shows performers on stage.
-That is a release question rather than a licensing one, and it is open. See
-[the App Review response](./app-review-response).
+Three of them show people. IMG_6045 is the one to look at: about a dozen
+identifiable faces at close range, including children. IMG_8592 shows
+performers on a stage, and IMG_2391 a baby in a carrier, part of the face
+visible. That is a release question rather than a licensing one, and it is
+open. See [the App Review response](./app-review-response).
+
+Four of the nine predate the surveys — 2020, 2021, 2021 and 2024 — and carry
+no GPS, so the dates above are the real ones rather than this week's.
 
 Run the script rather than the commands by hand:
 

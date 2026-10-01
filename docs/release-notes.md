@@ -109,18 +109,24 @@ network and snapping them to it drew a 3.2 mile straight line.
 Downtown Festival becomes 4.3 mi rather than 3.8. The ride did not change;
 the line stopped cutting the corners.
 
-### Six adventure photos are now Sarah's own
+### Every adventure photo is now Sarah's own
 
 The nine adventure images arrived with the design dataset and none of them had
 any recorded provenance or licence. That is the open blocker on answering App
-Review's question 6, and it is two thirds closed: six are now photographs
-taken on the 30 September ride, listed file by file in the
-[runbook](./runbook), which now also says a photo needs a provenance line
-before it ships.
+Review's question 6, and the licensing half of it is closed: all nine are
+photographs Sarah took, listed file by file in the [runbook](./runbook), which
+now also says a photo needs a provenance line before it ships.
+`scripts/photo-prep.cjs` does the conversion, so it is a step with a name
+rather than a sips command somebody remembers.
 
-`downtown-festival`, `concert-night` and `bracken-loop` are still the
-unattributed ones. Their subjects are a downtown festival, the Music Center
-and Bracken singletrack — none of them on the stretch that was ridden.
+Six came off the 30 September ride. Four are older — 2020, 2021, 2021 and
+2024 — and carry no GPS, because a downtown festival, the Music Center, a
+group ride and the Bracken trailhead are not things the survey rides passed.
+
+What is still open is likenesses rather than licences: three of the nine show
+identifiable people, one of them a dozen faces including children. Releases,
+different photographs, or a crop. That decision has to be made before the App
+Review answer is sent.
 
 ### The campground connector
 
