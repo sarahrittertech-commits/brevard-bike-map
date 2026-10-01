@@ -122,10 +122,11 @@ in some of our favorite local places.
 
 THE PATH AND ITS CONNECTORS
 
-The 3.5-mile Brevard Bike Path, drawn end to end, plus the three connectors
+The 4-mile Brevard Bike Path, drawn end to end, plus the four connectors
 that riders actually use to get past where the pavement stops — the Main St
-link, the new bridge connector, and the 2.6-mile Pisgah Forest link. Twelve
-landmarks are labelled along the way so you can tell where you are.
+link, the new bridge connector, the spur out to Oskar Blues, and the campground
+connector to the Davidson River. Thirteen landmarks are labelled along the way
+so you can tell where you are.
 
 PLACES, BY WHAT YOU WANT
 

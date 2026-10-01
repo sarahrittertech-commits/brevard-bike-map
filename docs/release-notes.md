@@ -169,10 +169,16 @@ Three remain: `repair-depot`, `courthouse` and `railroad-depot`.
   original trace, as is `forest-connector` beyond the campground. The map now
   reads fine-grained in the north and blocky in the south; the second ride
   fixes that.
-- **`main` still says 3.5 mi** while its line now draws 4.01. The drawn
-  figure is a lower bound, since the untraced half is still cutting corners,
-  and 3.5 is the published length of the path. Worth settling with the town
-  rather than by arithmetic.
+- **The path is now stated as 4 mi, not 3.5.** The redraw restated the bridge
+  and campground connectors from the recordings but left `main` alone, and
+  its line measures 4.00. That had to move rather than be left: the mile
+  markers were corrected onto the measured scale in the same pass, so Pisgah
+  Forest Repair Stand now reads mile 4.0, which on a 3.5-mile path is past the
+  end of it. The App Store listing and the App Review answer say 4 mi too.
+
+  The drawn figure is still a lower bound — the downtown half is traced and
+  cuts corners — so if the town publishes a length, theirs should win over our
+  arithmetic.
 - **Three destinations are now further from their route than they were** —
   `repair-midpath` 41 → 359 ft, `cyckel-worx` 298 → 651 ft and
   `repair-pisgah` 176 → 287 ft. All three were placed against the traced

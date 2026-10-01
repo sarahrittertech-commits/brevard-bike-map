@@ -58,7 +58,7 @@
     "categories": ["ice-cream"],
     "coordinates": [-82.7061, 35.2746],
     "description": "The Pisgah classic, at the far end of the bridge connector. Mostly flat the whole way from town.",
-    "mileMarker": 4.2,
+    "mileMarker": 4.4,
     "hours": "Seasonal · daily 11–9pm"
   },
   {
@@ -100,7 +100,7 @@
     "categories": ["playground"],
     "coordinates": [-82.7079, 35.2559],
     "description": "Ninja-course fitness park at the Parks & Rec fields. Open 24 hours and fully accessible.",
-    "mileMarker": 2.4,
+    "mileMarker": 2.9,
     "hours": "Open 24 hours"
   },
   {
@@ -154,7 +154,7 @@
     "categories": ["brewery"],
     "coordinates": [-82.7068, 35.2535],
     "description": "Taproom, food, and a big lawn at 342 Mountain Industrial Dr.",
-    "mileMarker": 2.5,
+    "mileMarker": 2.8,
     "hours": "Wed–Sun 12–9pm"
   },
   {
@@ -163,7 +163,7 @@
     "categories": ["brewery"],
     "coordinates": [-82.7052, 35.2654],
     "description": "At 451 Ecusta Rd, a few steps off the path. Easy post-ride pint.",
-    "mileMarker": 3.2,
+    "mileMarker": 3.7,
     "hours": "Tue–Sun 3–9pm"
   },
   {
@@ -217,7 +217,7 @@
     "categories": ["bike-shop", "brewery"],
     "coordinates": [-82.7054, 35.2745],
     "description": "Shop and tavern at 11 Mama’s Pl, at the forest gateway a couple of hundred feet short of Dolly’s.",
-    "mileMarker": 4.2,
+    "mileMarker": 4.4,
     "hours": "Daily 9–7pm"
   },
   {
@@ -235,7 +235,7 @@
     "categories": ["repair"],
     "coordinates": [-82.7148, 35.2553],
     "description": "Pump plus a chain tool, with a water bottle filler beside it.",
-    "mileMarker": 2
+    "mileMarker": 2.3
   },
   {
     "id": "repair-oskar-blues",
@@ -243,7 +243,7 @@
     "categories": ["repair"],
     "coordinates": [-82.7072, 35.2538],
     "description": "Pump and tools by the bike racks at the taproom door, at the end of the spur.",
-    "mileMarker": 2.5
+    "mileMarker": 2.8
   },
   {
     "id": "repair-pisgah",
@@ -251,6 +251,6 @@
     "categories": ["repair"],
     "coordinates": [-82.7066, 35.2699],
     "description": "Last stand before the bridge — the pump gauge actually works.",
-    "mileMarker": 3.5
+    "mileMarker": 4
   }
 ]

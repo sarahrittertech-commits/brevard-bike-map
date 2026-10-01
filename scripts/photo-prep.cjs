@@ -38,9 +38,16 @@ for (let i = 0; i < argv.length; i++) {
   if (arg === '--dry-run') continue;
   if (arg === '--map') {
     const pair = argv[++i];
-    if (!pair || !pair.includes('=')) die(`--map needs <adventure-id>=<file>, got ${pair ?? '(nothing)'}`);
-    const [id, file] = pair.split('=');
-    maps.push({ id, file });
+    const at = pair ? pair.indexOf('=') : -1;
+    // Split on the FIRST '=' only: a filename is allowed to contain one, and
+    // splitting on every '=' would silently truncate it. An empty filename has
+    // to be caught here too — path.join(sourceDir, '') is the source directory,
+    // which exists, so it sails past the "is not in <dir>" check further down
+    // and fails later as "Spotlight has not indexed it", which it is not.
+    if (at < 1 || at === pair.length - 1) {
+      die(`--map needs <adventure-id>=<file>, got ${pair ?? '(nothing)'}`);
+    }
+    maps.push({ id: pair.slice(0, at), file: pair.slice(at + 1) });
   } else if (arg.startsWith('--')) {
     die(`Unknown option ${arg}`);
   } else if (sourceDir === null) {

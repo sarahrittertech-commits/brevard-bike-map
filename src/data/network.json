@@ -19,7 +19,7 @@
     "id": "main",
     "name": "Brevard Bike Path",
     "kind": "main",
-    "miles": 3.5,
+    "miles": 4.0,
     "note": "Paved, flat, and separated from traffic the whole way.",
     "geometry": {
       "type": "LineString",

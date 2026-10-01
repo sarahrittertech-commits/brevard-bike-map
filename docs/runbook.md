@@ -95,8 +95,8 @@ a photo has neither, and handles the axis swap that a portrait source needs.
 960 x 640 is the hero's own 3:2, so nothing is cropped twice; quality 35 in
 sips lands where the originals were, about 50-125 KB.
 
-Adventure photos are re-encoded to **960px wide at quality 60** before they
-are committed — the originals were 1264px and four times the size. The
+Adventure photos are re-encoded to **960 x 640 at quality 35** before they
+are committed — the originals were far larger and many times the size. The
 widest they are ever drawn is the detail-screen hero, 402pt full-bleed,
 which is 1206px on a 3x phone; at a 100% crop the difference against the
 original is not visible at arm's length.

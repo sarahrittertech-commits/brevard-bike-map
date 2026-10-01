@@ -292,6 +292,11 @@
         [-82.7101, 35.2555],
         [-82.71, 35.255],
         [-82.7103, 35.2543],
+        [-82.7108, 35.2541],
+        [-82.711, 35.2541],
+        [-82.7117, 35.2538],
+        [-82.7116, 35.2536],
+        [-82.7113, 35.2534],
         [-82.7099, 35.2531],
         [-82.7093, 35.2531],
         [-82.7089, 35.2536],
@@ -307,9 +312,6 @@
         [-82.7099, 35.2531],
         [-82.7113, 35.2534],
         [-82.7116, 35.2536],
-        [-82.7117, 35.2538],
-        [-82.7108, 35.2541],
-        [-82.711, 35.2541],
         [-82.7117, 35.2538],
         [-82.7118, 35.2539],
         [-82.7125, 35.2539],
@@ -855,7 +857,7 @@
     "id": "bracken-loop",
     "title": "The Hub to Bracken and Back",
     "tagline": "Pavement out, dirt over the mountain, pavement home",
-    "story": "The big loop, and the only ride here that needs knobby tires. Roll out of The Hub, down the bridge connector and the full length of the path into town, then out Probart to the Bracken Mountain trailhead. From there it is natural-surface singletrack up and over the ridge into the national forest, dropping you near Sycamore Flats. Pick up the campground connector back past Davidson River, cross at Lowe’s, and you are on pavement again for the last stretch to Dolly’s and home. Plan a full day, carry water, and check trail conditions before you go.",
+    "story": "The big loop, and the only ride here that needs knobby tires. Roll out of The Hub, down the bridge connector and the full length of the path into town, then out Probart to the Bracken Mountain trailhead. From there it is natural-surface singletrack up and over the ridge into the national forest, dropping you out at the campground end of the forest path. Pick up the campground connector back past Sycamore Flats, and you are on pavement again for the last stretch to Dolly’s and home. Plan a full day, carry water, and check trail conditions before you go.",
     "image": "bracken-loop",
     "miles": 15.5,
     "minutes": 150,
@@ -876,16 +878,16 @@
         "note": "Natural-surface singletrack over the ridge into the forest. Mountain bike only."
       },
       {
-        "name": "Sycamore Flats",
-        "note": "You pop out here. Picnic tables and the river — a good place to eat."
+        "name": "Davidson River Campground",
+        "note": "You pop out at the far end of the campground connector. Water and restrooms across the parking lot."
       },
       {
-        "name": "Davidson River Campground",
-        "note": "Water and restrooms on the campground connector heading back."
+        "name": "Sycamore Flats",
+        "note": "Picnic tables and the river on the way back — a good place to eat."
       },
       {
         "name": "Dolly's Dairy Bar",
-        "note": "Past the Lowe’s crossing, a mile from the finish. Earned.",
+        "note": "A couple of hundred feet from the finish. Earned.",
         "destination": "dollys"
       }
     ],
@@ -1033,10 +1035,10 @@
     "id": "full-trail",
     "title": "End to End",
     "tagline": "The whole path, W Main to Pisgah and back",
-    "story": "The full length of the Brevard Bike Path in one go: 3.5 miles of old rail grade each way, from W Main out to the Pisgah Forest end, flat the entire distance, with the long shaded stretch in the middle where it stays cool even in August. Most riders do it in a morning, stop downtown for lunch, and coast home in the afternoon.",
+    "story": "The full length of the Brevard Bike Path in one go: 4 miles of old rail grade each way, from W Main out to the Pisgah Forest end, flat the entire distance, with the long shaded stretch in the middle where it stays cool even in August. Most riders do it in a morning, stop downtown for lunch, and coast home in the afternoon.",
     "image": "end-to-end",
-    "miles": 7,
-    "minutes": 70,
+    "miles": 8,
+    "minutes": 80,
     "difficulty": "moderate",
     "kidFriendly": false,
     "stops": [
@@ -1108,10 +1110,8 @@
         [-82.7125, 35.2539],
         [-82.7118, 35.2539],
         [-82.7117, 35.2538],
-        [-82.711, 35.2541],
-        [-82.7108, 35.2541],
-        [-82.7103, 35.2542],
-        [-82.7103, 35.2543],
+        [-82.7116, 35.2536],
+        [-82.7113, 35.2534],
         [-82.7099, 35.2531],
         [-82.7093, 35.2531],
         [-82.7089, 35.2536],
@@ -1128,6 +1128,10 @@
         [-82.7113, 35.2534],
         [-82.7116, 35.2536],
         [-82.7117, 35.2538],
+        [-82.711, 35.2541],
+        [-82.7108, 35.2541],
+        [-82.7103, 35.2542],
+        [-82.7103, 35.2543],
         [-82.7097, 35.2557],
         [-82.7078, 35.2561],
         [-82.7078, 35.2565],

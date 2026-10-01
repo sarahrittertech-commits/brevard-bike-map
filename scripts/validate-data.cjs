@@ -192,10 +192,13 @@ const OFF_PATH = {
 
 function nearestOnLine(p, coords) {
   let best = Infinity;
+  // Scales longitude to the same ground distance as latitude so the projection
+  // below is done on a square grid. It only depends on p, so it is worked out
+  // once rather than once per segment.
+  const k = Math.cos((p[1] * Math.PI) / 180);
   for (let i = 0; i < coords.length - 1; i++) {
     const [ax, ay] = coords[i];
     const [bx, by] = coords[i + 1];
-    const k = Math.cos((p[1] * Math.PI) / 180);
     const dx = (bx - ax) * k;
     const dy = by - ay;
     const L2 = dx * dx + dy * dy;

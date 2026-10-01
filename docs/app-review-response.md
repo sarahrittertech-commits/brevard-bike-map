@@ -27,7 +27,7 @@ content, because the app has none of those.
 > Carolina — a town of roughly 8,000 people in the Blue Ridge Mountains whose
 > main industry is tourism.
 >
-> It shows the 3.5-mile paved path and the four connector routes that link it
+> It shows the 4-mile paved path and the four connector routes that link it
 > to the rest of town, 29 destinations along them, 13 labelled landmarks, and
 > nine curated rides with stop-by-stop notes.
 >
