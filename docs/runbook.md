@@ -56,7 +56,7 @@ Every photo in the app must have a provenance line here before it ships.
 | --- | --- | --- |
 | `playground-to-dollys.jpg` | IMG_5280 — Dolly's Dairy Bar | Sarah Ritter, 30 Sep 2026 |
 | `ballfield-library-loop.jpg` | IMG_5180 — the ball fields from the path | Sarah Ritter, 30 Sep 2026 |
-| `taproom-traverse.jpg` | IMG_5215 — Oskar Blues taproom | Sarah Ritter, 30 Sep 2026 |
+| `taproom-traverse.jpg` | IMG_5249 — Ecusta Brewing, sign and building | Sarah Ritter, 30 Sep 2026 |
 | `pisgah-gateway.jpg` | IMG_5271 — the gravel path into the forest | Sarah Ritter, 30 Sep 2026 |
 | `river-run.jpg` | IMG_5298 — the Davidson River from the bridge | Sarah Ritter, 30 Sep 2026 |
 | `downtown-festival.jpg` | IMG_1036 — riding Main St towards the festival tents | Sarah Ritter, 25 May 2024 |
