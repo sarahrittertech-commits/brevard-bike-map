@@ -48,6 +48,35 @@ much easier to read locally.
 
 ## Adding a photo or an icon
 
+### Where the adventure photos come from
+
+Every photo in the app must have a provenance line here before it ships.
+
+| File | Source | Taken |
+| --- | --- | --- |
+| `playground-to-dollys.jpg` | IMG_5280 — Dolly's Dairy Bar | Sarah Ritter, 30 Sep 2026 |
+| `ballfield-library-loop.jpg` | IMG_5180 — the ball fields from the path | Sarah Ritter, 30 Sep 2026 |
+| `taproom-traverse.jpg` | IMG_5215 — Oskar Blues taproom | Sarah Ritter, 30 Sep 2026 |
+| `pisgah-gateway.jpg` | IMG_5282 — The Hub & Pisgah Tavern | Sarah Ritter, 30 Sep 2026 |
+| `river-run.jpg` | IMG_5298 — the Davidson River from the bridge | Sarah Ritter, 30 Sep 2026 |
+| `end-to-end.jpg` | IMG_5226 — the paved path by the fields | Sarah Ritter, 30 Sep 2026 |
+| `downtown-festival.jpg` | **unknown — arrived with the design dataset** | — |
+| `concert-night.jpg` | **unknown — arrived with the design dataset** | — |
+| `bracken-loop.jpg` | **unknown — arrived with the design dataset** | — |
+
+The three unknowns came in commit `ae9d4b3` with the converted design data and
+nothing records who made them. They are the ones still to replace.
+
+The six that are Sarah's were produced with:
+
+```bash
+sips -s format jpeg -Z 960 "IMG_XXXX.HEIC" --out <name>.jpg
+sips -c 640 960 -s formatOptions 35 <name>.jpg
+```
+
+960 x 640 is the hero's own 3:2, so nothing is cropped twice; quality 35 in
+sips lands where the originals were, about 70-110 KB.
+
 Adventure photos are re-encoded to **960px wide at quality 60** before they
 are committed — the originals were 1264px and four times the size. The
 widest they are ever drawn is the detail-screen hero, 402pt full-bleed,

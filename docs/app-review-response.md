@@ -106,15 +106,20 @@ content, because the app has none of those.
 >
 > [PHOTOGRAPHS — SEE BELOW. DO NOT SEND THIS REPLY UNTIL THIS IS ANSWERED.]
 
-:::danger Unresolved before replying
-The nine photographs in `assets/adventures/` have **no recorded provenance or
-licence**. They arrived in commit `ae9d4b3` with the dataset converted from the
-Magic Patterns design repository, and nothing in this repository says who made
-them or under what terms.
+:::warning Six of the nine photographs are now Sarah's own
 
-Apple's question 6 asks directly about protected third-party material. Establish
-where they came from before replying, and record the answer here. If they cannot
-be shown to be licensed for this use, replace them — the Adventures tab works
-without photographs, and shipping unlicensed images is a far worse problem than
-a plainer screen.
+Riding the path on 30 September 2026 produced 125 photographs, and six of the
+nine adventure images have been replaced with them. Those six can be answered
+plainly: shot by the developer, on the route, on that date. The
+[runbook](./runbook) carries the file-by-file provenance.
+
+Three remain from the design dataset with no recorded provenance or licence —
+`downtown-festival`, `concert-night` and `bracken-loop`. They arrived in
+commit `ae9d4b3` and nothing in this repository says who made them.
+
+Do not send question 6 until those three are replaced or removed. The
+Adventures tab works without photographs, and shipping unlicensed images is a
+far worse problem than a plainer screen. All three are downtown or on Bracken,
+so the ride planned from Blue Ridge Community College into town should settle
+two of them.
 :::
