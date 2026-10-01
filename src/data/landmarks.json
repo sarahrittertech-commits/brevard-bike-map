@@ -2,13 +2,13 @@
   {
     "id": "sycamore-flats",
     "name": "Sycamore Flats",
-    "coordinates": [-82.7466, 35.2862],
+    "coordinates": [-82.7119, 35.276],
     "labelSide": "right"
   },
   {
     "id": "davidson-river",
     "name": "Davidson River",
-    "coordinates": [-82.7322, 35.2831],
+    "coordinates": [-82.7226, 35.2812],
     "labelSide": "right"
   },
   {
@@ -20,7 +20,7 @@
   {
     "id": "lowes-crossing",
     "name": "Lowe’s Crossing",
-    "coordinates": [-82.7208, 35.2792],
+    "coordinates": [-82.7046, 35.2705],
     "labelSide": "left"
   },
   {
