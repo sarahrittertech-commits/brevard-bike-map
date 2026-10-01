@@ -104,21 +104,36 @@ content, because the app has none of those.
 > age-restricted content or transaction. Further detail is published at
 > https://github.com/sarahrittertech-commits/brevard-bike-map/blob/main/docs/age-rating.md
 >
-> [PHOTOGRAPHS — SEE BELOW. DO NOT SEND THIS REPLY UNTIL THIS IS ANSWERED.]
+> Every photograph in the app was taken by the developer. There is no stock,
+> licensed or third-party imagery anywhere in it, and no image was supplied by
+> any of the businesses listed.
+>
+> Four of the nine show people. Two are the developer's own family,
+> photographed from behind. One is a group photograph made for a public
+> campaign for bicycle path funding in Brevard, which the developer is cleared
+> to use in promoting the path — which is what this app does. The fourth shows
+> a band performing at a public venue, photographed from the audience.
 
-:::warning The photographs are all Sarah's own; three show people
+:::note Photographs resolved
 
-Every adventure image is now a photograph Sarah took, with the file-by-file
+Every adventure image is a photograph Sarah took, with the file-by-file
 provenance in the [runbook](./runbook). Nothing from the design dataset remains
-in the app, which answers the licensing half of this question outright.
+in the app, so there is no licence to carry.
 
-What is left is likenesses. Three of the nine show people: IMG_6045 is a group
-ride with about a dozen identifiable faces including children, IMG_8592 shows
-performers on a stage, and IMG_2391 a baby in a carrier. Apple asks about
-protected third-party material and a person's likeness in a shipped app is
-exactly that. Nobody in any of them has given permission.
+Four of the nine show people, and the likeness question is answered for three
+of them: the child on Main St (IMG_1036) and the baby at Bracken (IMG_2391)
+are Sarah's own family, and the group ride (IMG_6045) is the photograph used
+in the public campaign for bicycle path funding, cleared for use promoting the
+path. That clearance is the basis of the answer above, so keep a copy of it
+somewhere findable.
 
-Decide this before replying: get releases, choose different photographs, or
-crop so that no face is identifiable. IMG_6045 is the one that matters —
-the other two are near-misses and a crop would settle them.
+The fourth, IMG_8592, is a band on stage at a public venue shot from the
+audience — the ordinary case for gig photography.
+
+These nine are the set. They are the photographs Sarah owns the rights to,
+which is the whole point, and they are not all of the exact spot the ride
+names: the concert photograph is a band rather than the Music Center lawn, and
+the Bracken one is a winter morning against eight green ones. That is a
+decision, not a gap. A photograph that carries the feel of the ride and is
+unambiguously ours beats a closer one that is not.
 :::

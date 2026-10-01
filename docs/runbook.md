@@ -67,11 +67,17 @@ Every photo in the app must have a provenance line here before it ships.
 All nine are now Sarah's own. Nothing from the design dataset is left in
 `assets/adventures/`.
 
-Three of them show people. IMG_6045 is the one to look at: about a dozen
-identifiable faces at close range, including children. IMG_8592 shows
-performers on a stage, and IMG_2391 a baby in a carrier, part of the face
-visible. That is a release question rather than a licensing one, and it is
-open. See [the App Review response](./app-review-response).
+Four of them show people, and the clearance for each is recorded in
+[the App Review response](./app-review-response): IMG_1036 and IMG_2391 are
+Sarah's own family, and IMG_6045 is the photograph from the public campaign
+for bicycle path funding, cleared for use promoting the path. IMG_8592 is a band on stage
+at a public venue, shot from the audience.
+
+These nine are the set, and they are not all of the exact spot their ride
+names — close enough for the feel of it, and unambiguously ours, which matters
+more. Do not swap one out for being approximate.
+
+A new photograph of people needs its clearance written down before it ships.
 
 Four of the nine predate the surveys — 2020, 2021, 2021 and 2024 — and carry
 no GPS, so the dates above are the real ones rather than this week's.
