@@ -130,7 +130,7 @@ so you can tell where you are.
 
 PLACES, BY WHAT YOU WANT
 
-Twenty-eight destinations you can switch on and off by category: ice cream,
+Twenty-nine destinations you can switch on and off by category: ice cream,
 playgrounds, breweries, bike shops and repair stations. Turn on what you're
 looking for and the map shows only that, listed in the order you'll reach it
 along the path with its mile marker. Turn everything off and you're back to
@@ -138,7 +138,7 @@ just the path.
 
 NINE CURATED ADVENTURES
 
-Rides that locals actually do, from a 3.8-mile spin to a downtown festival up
+Rides that locals actually do, from a 4.3-mile spin to a downtown festival up
 to the 15.5-mile Hub to Bracken and back. Each one has its distance, riding
 time, difficulty and a stop-by-stop itinerary — and "show route on map" draws
 the whole ride over the network with its stops numbered in order.
