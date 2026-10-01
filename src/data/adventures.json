@@ -699,11 +699,11 @@
   {
     "id": "river-run",
     "title": "Downtown to the River",
-    "tagline": "Main St to Sycamore Flats",
-    "story": "The long one, and the reason the network matters. Start downtown, take the path its full length past the depot, cross the new bridge, and keep going up Pisgah Hwy. At Lowe’s the path crosses the road and carries on into the national forest, following the Davidson River past the campground all the way to Sycamore Flats. The air changes about a mile in. Seven miles out — most people turn around at the campground, or make a day of it and picnic at the Flats.",
+    "tagline": "Main St to the campground parking",
+    "story": "The long one, and the reason the network matters. Start downtown, take the path its full length past the depot, and cross the road at Lowe’s into Pisgah Forest. Past Dolly’s it turns to gravel and follows the Davidson River — Sycamore Flats, then the pull-off where everyone gets in, then the parking lot by the campground, which is as close as wheels get. The air changes about a mile in. Just under six miles out.",
     "image": "river-run",
-    "miles": 7,
-    "minutes": 80,
+    "miles": 5.9,
+    "minutes": 70,
     "difficulty": "ambitious",
     "kidFriendly": false,
     "stops": [
@@ -713,25 +713,25 @@
         "destination": "repair-depot"
       },
       {
+        "name": "Lowe’s Crossing",
+        "note": "The path crosses the road here — dismount, cross, and pick it up on the far side."
+      },
+      {
         "name": "Dolly's Dairy Bar",
         "note": "Over the bridge. Worth stopping on the way out and the way back.",
         "destination": "dollys"
+      },
+      {
+        "name": "Sycamore Flats",
+        "note": "Picnic tables under the sycamores, right on the river."
       },
       {
         "name": "River Pull-Off",
         "note": "A flat dirt landing under a leaning tree, where the bank shelves straight into the water. The one to stop at if you came to swim."
       },
       {
-        "name": "Lowe’s Crossing",
-        "note": "The path crosses the road here — dismount, cross, and pick it up on the far side."
-      },
-      {
         "name": "Davidson River Campground",
-        "note": "Restrooms, water, and river access. A fine turnaround if legs are done."
-      },
-      {
-        "name": "Sycamore Flats",
-        "note": "Picnic tables under the sycamores, right on the river. The destination."
+        "note": "The turnaround, where the path meets the parking lot. The campground is across it — restrooms, water and river access — and this is the closest public parking to it."
       }
     ],
     "route": {
@@ -847,19 +847,7 @@
         [-82.7166, 35.2813],
         [-82.7185, 35.2815],
         [-82.7189, 35.2815],
-        [-82.7197, 35.2817],
-        [-82.722, 35.2809],
-        [-82.7238, 35.2803],
-        [-82.7252, 35.2809],
-        [-82.7265, 35.2815],
-        [-82.7288, 35.2822],
-        [-82.7292, 35.2823],
-        [-82.7322, 35.2831],
-        [-82.7345, 35.2836],
-        [-82.7368, 35.2842],
-        [-82.7407, 35.2851],
-        [-82.7418, 35.2853],
-        [-82.7466, 35.2862]
+        [-82.7197, 35.2817]
       ]
     }
   },
