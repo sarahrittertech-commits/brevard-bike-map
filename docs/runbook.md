@@ -117,15 +117,22 @@ the bundle.
 
 ## App icon and launch screen
 
-Both come from the design, at
-`https://<render-id>-render.magicpatterns.app/app-icon`. The artwork is a
-bike over two ridgelines: background `#F7F4EC`, back ridge `#9DBFE3`, front
-ridge `#2C6BA8`, bike `#3F3794`.
+Both come from Sarah's artwork of 1 October 2026, kept on the Desktop in
+`final/` with `Bike Brevard Icon (source).dc.html` as the editable source.
+The icon is a bike in front of three receding ridges under a cream sky:
+background `#F6F3EC`, far ridge `#C6C2E0`, middle `#8E90C4`, near `#4A5596`,
+bike `#3F3893`, with a blue river and a grey path. The splash adds a sunrise
+gradient above the ridges and the wordmark below.
+
+This replaced the 1.0.0 artwork, whose ridgelines read as water rather than
+mountains — blue sinuous S-curves, which is how water is drawn. Three
+overlapping ridges in receding tones, with a horizon and an actual river for
+contrast, is what fixed it.
 
 | Asset | Used for |
 | --- | --- |
 | `assets/icon-light.png` · `icon-dark.png` · `icon-tinted.png` | The three iOS 18 icon appearances |
-| `assets/icon.png` | Fallback icon |
+| `app.json` `expo.icon` | Points at `icon-light.png`; there is no separate fallback file |
 | `assets/android-icon-foreground.png` · `-background.png` · `-monochrome.png` | Android adaptive icon layers |
 | `assets/splash.png` | Launch screen: the mark plus the wordmark |
 
@@ -137,8 +144,21 @@ Two things to know before changing them:
   crops adaptive icons to a central safe zone.
 - **The launch screen wordmark is baked into the image.** A native splash
   cannot lay out text, so "Bike Brevard Map" and "Brevard, North Carolina"
-  are converted to outlines using Fraunces and Inter. Changing the wording
-  means regenerating the PNG.
+  are part of the artwork. Changing the wording means regenerating the PNG.
+- **expo-splash-screen wants a logo, not a full-bleed image.** It pads
+  whatever it is given out to a square and draws it `imageWidth` wide on
+  `backgroundColor`. The source artwork is a full-screen 1170x2532; what
+  ships is a crop of it — `y 480..2060`, so sky, ridges, bike and wordmark —
+  at `imageWidth: 380`, which puts the artwork itself about 281pt across,
+  where the 1.0.0 lockup was 280. Handing it the full-screen image instead
+  generates a 100x100 logo.
+- **sips cannot remove an alpha channel**; every PNG it writes comes back
+  colour type 6, and a BMP round-trip does not help. The three iOS icons were
+  flattened with a short PNG reader/writer rather than by hand. Their alpha
+  was fully opaque, so dropping it was lossless.
+- **The Android layers are still the 1.0.0 artwork.** The source says "Android
+  coming later", and Android does not ship until there is a Google Maps key,
+  so they were left alone rather than guessed at.
 
 Expo Go shows its own splash, so the launch screen cannot be checked there.
 To confirm it generates without waiting for a full build:

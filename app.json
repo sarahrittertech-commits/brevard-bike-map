@@ -40,7 +40,7 @@
         {
           "backgroundColor": "#F7F4EC",
           "image": "./assets/splash.png",
-          "imageWidth": 280,
+          "imageWidth": 380,
           "resizeMode": "contain"
         }
       ]

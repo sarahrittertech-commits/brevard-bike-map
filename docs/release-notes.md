@@ -162,6 +162,24 @@ itself: a coordinate identical to a network vertex was placed against the drawn
 line rather than measured. Every wrong coordinate found today had that shape.
 Three remain: `repair-depot`, `courthouse` and `railroad-depot`.
 
+### The icon and launch screen are redrawn
+
+The 1.0.0 icon's ridgelines read as water rather than mountains, which was the
+headline item held back for this release. Sarah's new artwork is a bike in
+front of three receding ridges with a horizon and a river, which reads as
+mountains because it has the things mountains are drawn with: overlapping
+silhouettes, tonal recession, and angular rather than sinuous edges. The
+launch screen takes the same artwork under a sunrise sky with the wordmark
+below.
+
+All three iOS appearances are regenerated. The light and tinted ones carry no
+alpha channel, which is what an App Store submission rejects; the tinted one
+is a luminance conversion, which is what iOS tints.
+
+The Android adaptive layers are still the old artwork. Android does not ship
+until there is a Google Maps key, and the source says "Android coming later",
+so they were not guessed at.
+
 ### What is still traced
 
 - **Everything below Blue Ridge Community College.** The ride started there,
