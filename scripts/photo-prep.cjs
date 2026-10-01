@@ -64,18 +64,39 @@ const adventures = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'ad
 const byId = Object.fromEntries(adventures.map((a) => [a.id, a]));
 
 // Spotlight knows the capture date and GPS without anything being installed.
+// It only knows them for a file it has indexed, though: on an external volume
+// or in a folder excluded from Spotlight, mdls answers "(null)" and says
+// nothing about why. What it reports is the photo as it DISPLAYS — an iPhone
+// portrait, stored landscape with an EXIF rotation, comes back orientation 0
+// and 960x640. That is the opposite of what sips sees, which is the whole
+// reason both are read here.
+//
+// mdls -raw emits the values sorted by attribute name, NOT in the order the
+// -name flags were given, so they are zipped back up against a sorted copy of
+// the list rather than read off positionally. Getting this wrong transposes
+// PixelHeight and PixelWidth, which sort the other way round from how anyone
+// writes them, and every photo then reads as the shape it is not.
+const MD_NAMES = [
+  'kMDItemContentCreationDate',
+  'kMDItemLatitude',
+  'kMDItemLongitude',
+  'kMDItemOrientation',
+  'kMDItemPixelWidth',
+  'kMDItemPixelHeight',
+];
+
 function meta(file) {
-  const raw = execFileSync('mdls', [
-    '-raw',
-    '-name', 'kMDItemContentCreationDate',
-    '-name', 'kMDItemLatitude',
-    '-name', 'kMDItemLongitude',
-    '-name', 'kMDItemOrientation',
-    '-name', 'kMDItemPixelWidth',
-    '-name', 'kMDItemPixelHeight',
-    file,
-  ]).toString().split('\0');
-  const [created, lat, lon, orientation, width, height] = raw.map((v) => (v === '(null)' ? null : v));
+  const asked = [...MD_NAMES].sort();
+  const raw = execFileSync('mdls', ['-raw', ...asked.flatMap((n) => ['-name', n]), file])
+    .toString()
+    .split('\0');
+  const md = Object.fromEntries(asked.map((n, i) => [n, raw[i] === '(null)' ? null : raw[i]]));
+  const created = md.kMDItemContentCreationDate;
+  const lat = md.kMDItemLatitude;
+  const lon = md.kMDItemLongitude;
+  const orientation = md.kMDItemOrientation;
+  const width = md.kMDItemPixelWidth;
+  const height = md.kMDItemPixelHeight;
   return {
     created,
     lat: lat && Number(lat),
@@ -84,6 +105,15 @@ function meta(file) {
     width: width && Number(width),
     height: height && Number(height),
   };
+}
+
+// The stored pixel dimensions, which are what sips worked on — not necessarily
+// what the image reads as once its EXIF rotation is applied.
+function sipsSize(file) {
+  const out = execFileSync('sips', ['-g', 'pixelWidth', '-g', 'pixelHeight', file]).toString();
+  const width = Number(out.match(/pixelWidth:\s*(\d+)/)?.[1]);
+  const height = Number(out.match(/pixelHeight:\s*(\d+)/)?.[1]);
+  return Number.isFinite(width) && Number.isFinite(height) ? { width, height } : null;
 }
 
 const problems = [];
@@ -105,7 +135,22 @@ for (const { id, file } of maps) {
     problems.push(`${adventure.image}.jpg does not exist — adventure "${id}" expects it`);
     continue;
   }
-  plans.push({ id, file, source, target, adventure, meta: meta(source), wasBytes: fs.statSync(target).size });
+  const m = meta(source);
+  const stored = sipsSize(source);
+  if (!m.width || !m.height || !stored) {
+    problems.push(
+      `No dimensions for ${file} — Spotlight has not indexed it (an external volume or an excluded folder will do that). ` +
+        'Copy it somewhere indexed, the Desktop will do, and run again: without both readings there is no way to tell which axis to resample.'
+    );
+    continue;
+  }
+  // sips works on the stored pixels; Spotlight reports the displayed ones. The
+  // axes need swapping exactly when those two disagree, which is to say when
+  // the file carries a 90-degree EXIF rotation. Reading "displays portrait" as
+  // "axes are swapped" is wrong for a photo that is simply stored portrait with
+  // no rotation, and writes the hero 640x960 the wrong way round.
+  const swapped = (m.width > m.height) !== (stored.width > stored.height);
+  plans.push({ id, file, source, target, adventure, meta: m, swapped, wasBytes: fs.statSync(target).size });
 }
 
 if (problems.length) {
@@ -118,28 +163,53 @@ console.log(`${dryRun ? 'Would prepare' : 'Preparing'} ${plans.length} photo${pl
 
 const warnings = [];
 for (const plan of plans) {
-  const { id, file, source, target, adventure, meta: m } = plan;
+  const { id, file, source, target, adventure, meta: m, swapped } = plan;
   const date = m.created ? m.created.slice(0, 10) : 'unknown date';
   console.log(`  ${id}`);
   console.log(`    ${file}  ->  assets/adventures/${adventure.image}.jpg`);
   console.log(`    taken ${date}${m.width ? `, ${m.width}x${m.height}` : ''}${m.portrait ? ', PORTRAIT' : ''}`);
-  console.log(`    ${m.lat ? `GPS ${m.lat.toFixed(5)}, ${m.lon.toFixed(5)}` : 'no GPS'}`);
+  console.log(`    ${m.lat && m.lon ? `GPS ${m.lat.toFixed(5)}, ${m.lon.toFixed(5)}` : 'no GPS'}`);
 
   if (m.portrait) {
     warnings.push(`${file} is portrait; the 3:2 crop keeps only a central band of it`);
   }
-  if (!m.lat) {
+  if (!m.lat || !m.lon) {
     warnings.push(`${file} has no GPS, so there is nothing to check it was taken on the route`);
   }
   if (!dryRun) {
     // sips works on the stored pixels and ignores the EXIF rotation, so for a
-    // photo that displays portrait the axes are swapped: its stored height is
-    // the width you see. Resample and crop on that axis, or the file comes out
-    // 640x960 the wrong way round and the hero crops it to a sliver.
-    const resample = m.portrait ? '--resampleHeight' : '--resampleWidth';
-    const crop = m.portrait ? [String(WIDTH), String(HEIGHT)] : [String(HEIGHT), String(WIDTH)];
-    execFileSync('sips', ['-s', 'format', 'jpeg', resample, String(WIDTH), source, '--out', target], { stdio: 'ignore' });
-    execFileSync('sips', ['-c', ...crop, '-s', 'formatOptions', String(QUALITY), target], { stdio: 'ignore' });
+    // photo whose axes are swapped its stored height is the width you see.
+    // Resample and crop on that axis, or the file comes out 640x960 the wrong
+    // way round and the hero crops it to a sliver. `swapped`, not `portrait`:
+    // see where it is worked out.
+    const resample = swapped ? '--resampleHeight' : '--resampleWidth';
+    const crop = swapped ? [String(WIDTH), String(HEIGHT)] : [String(HEIGHT), String(WIDTH)];
+    // Both passes go to a scratch file beside the target, and only a complete
+    // pair replaces the committed jpg: a sips failure between the two would
+    // otherwise leave a resampled-but-uncropped image in assets/.
+    // formatOptions is set on both so the intermediate is not written at sips'
+    // default quality and then re-encoded at ours, which is two generations of
+    // jpeg loss for one photo.
+    const scratch = `${target}.prep.jpg`;
+    const q = ['-s', 'formatOptions', String(QUALITY)];
+    try {
+      execFileSync('sips', ['-s', 'format', 'jpeg', ...q, resample, String(WIDTH), source, '--out', scratch], { stdio: 'ignore' });
+      execFileSync('sips', ['-c', ...crop, ...q, scratch], { stdio: 'ignore' });
+      fs.renameSync(scratch, target);
+    } finally {
+      if (fs.existsSync(scratch)) fs.rmSync(scratch);
+    }
+    // A portrait source comes out with its stored pixels 640x960 and an EXIF
+    // rotation that puts them back the right way round, so the hero is only
+    // correct for as long as something honours that tag. Say so, rather than
+    // leaving it to be discovered on a phone.
+    const stored = sipsSize(target);
+    if (stored && (stored.width !== WIDTH || stored.height !== HEIGHT)) {
+      warnings.push(
+        `${adventure.image}.jpg is stored ${stored.width}x${stored.height} and only reads as ${WIDTH}x${HEIGHT} ` +
+          'through its EXIF rotation; anything that drops the tag crops it to a sliver'
+      );
+    }
     const now = fs.statSync(target).size;
     console.log(`    written, ${Math.round(now / 1024)} KB (was ${Math.round(plan.wasBytes / 1024)} KB)`);
   }

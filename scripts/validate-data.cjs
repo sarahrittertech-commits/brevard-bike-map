@@ -154,10 +154,14 @@ for (const d of destinations) {
   checkPlaceholder(d.name, `Destination "${d.id}"`);
 }
 
-// Network segments
+// Network segments. The drawn lines are collected as they are checked, so the
+// geometry checks below never have to re-reach into a segment that failed
+// checkLine — a segment missing its geometry is one error, not a crash.
+const segmentLines = [];
 for (const s of network) {
   if (!VALID_KINDS.includes(s.kind)) fail('SCHEMA', `Segment "${s.id}" has invalid kind "${s.kind}"`);
   const coords = checkLine(s.geometry, `Segment "${s.id}"`);
+  if (coords) segmentLines.push(coords);
   // DT-7 — stated miles agree with the drawn line
   if (coords && typeof s.miles === 'number') {
     const drawn = lineMiles(coords);
@@ -172,8 +176,9 @@ for (const s of network) {
 // 1,000 ft is the working tolerance — close enough for someone on a bike.
 // Anything further has to be listed here with
 // the reason, so an off-path listing is a decision and a stray coordinate is a
-// warning. The campground carries its own allowance: the path ends at the
-// parking lot and the campground is across it, which is not a drawing error.
+// warning. The reasons are documentation only — nothing reads them — so an
+// allowlisted id is exempt at any distance. Landmarks are not covered; see
+// DT-9's note on the September survey.
 const OFF_PATH_FT = 1000;
 const OFF_PATH = {
   'weevil-weevil': 'Hendersonville Hwy, past the north end of the path',
@@ -202,8 +207,8 @@ function nearestOnLine(p, coords) {
 }
 
 for (const d of destinations) {
-  if (!Array.isArray(d.coordinates) || network.length === 0) continue;
-  const ft = Math.min(...network.map((s) => nearestOnLine(d.coordinates, s.geometry.coordinates)));
+  if (!Array.isArray(d.coordinates) || segmentLines.length === 0) continue;
+  const ft = Math.min(...segmentLines.map((coords) => nearestOnLine(d.coordinates, coords)));
   if (ft > OFF_PATH_FT && !OFF_PATH[d.id]) {
     warn('DT-8', `Destination "${d.id}" is ${Math.round(ft)} ft from the nearest segment. If that is right, add it to OFF_PATH with the reason`);
   }
@@ -214,11 +219,10 @@ for (const d of destinations) {
 // the September survey had this shape: The Hub was 4,108 ft out, Dolly's 466,
 // and four forest landmarks between 2,942 and 10,983.
 const SURVEYED_ON_VERTEX = new Set([
-  'oskar-blues',        // the spur was drawn from the recording that ends at it
-  'repair-oskar-blues', // ditto
+  'repair-oskar-blues', // the spur was drawn from the recording that ends at it
 ]);
 const vertexKeys = new Set(
-  network.flatMap((s) => s.geometry.coordinates.map((c) => `${c[0]},${c[1]}`))
+  segmentLines.flatMap((coords) => coords.map((c) => `${c[0]},${c[1]}`))
 );
 for (const item of [...destinations, ...landmarks]) {
   if (!Array.isArray(item.coordinates) || SURVEYED_ON_VERTEX.has(item.id)) continue;
