@@ -109,6 +109,46 @@ network and snapping them to it drew a 3.2 mile straight line.
 Downtown Festival becomes 4.3 mi rather than 3.8. The ride did not change;
 the line stopped cutting the corners.
 
+### Six adventure photos are now Sarah's own
+
+The nine adventure images arrived with the design dataset and none of them had
+any recorded provenance or licence. That is the open blocker on answering App
+Review's question 6, and it is two thirds closed: six are now photographs
+taken on the 30 September ride, listed file by file in the
+[runbook](./runbook), which now also says a photo needs a provenance line
+before it ships.
+
+`downtown-festival`, `concert-night` and `bracken-loop` are still the
+unattributed ones. Their subjects are a downtown festival, the Music Center
+and Bracken singletrack — none of them on the stretch that was ridden.
+
+### The campground connector
+
+Sarah's ride ends where the path meets the campground parking lot, across
+which is Davidson River Campground. That is the closest public parking to it,
+so the connector ends there and is named for it:
+
+| | Before | After |
+| --- | --- | --- |
+| name | Pisgah Forest Link | Campground Connector |
+| length | 2.6 mi stated, 2.36 drawn | 1.3 mi, recorded |
+| points | 11 | 27 |
+
+The 1.6 mi it used to carry on for went to a Sycamore Flats that is not there.
+Downtown to the River is truncated to the same point, which changed its stop
+order: Lowe's Crossing comes before Dolly's now, and Sycamore Flats is mid-ride
+at 5.00 mi rather than the destination. 7 mi becomes 5.9.
+
+### DT-8 and DT-9
+
+Two new data checks, so today's lessons are enforced rather than remembered.
+DT-8 is the working tolerance: a destination is within 1,000 ft of the network
+— close enough for someone on a bike — or listed in `OFF_PATH` with its reason,
+which seven genuinely off-path places are. DT-9 catches the failure mode
+itself: a coordinate identical to a network vertex was placed against the drawn
+line rather than measured. Every wrong coordinate found today had that shape.
+Three remain: `repair-depot`, `courthouse` and `railroad-depot`.
+
 ### What is still traced
 
 - **Everything below Blue Ridge Community College.** The ride started there,
