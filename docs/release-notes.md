@@ -5,7 +5,7 @@ title: Release notes
 
 # Release notes
 
-## 1.0.1 — unreleased
+## 1.0.1 — 1 October 2026
 
 ### The Oskar Blues spur
 
@@ -20,8 +20,9 @@ a GPS trace of the ride rather than an illustration of it.
 - **Oskar Blues moved 354 ft.** Its recorded coordinate sat in the field
   behind the taproom. IMG_5211 is the entrance sign; Google's listing for
   342 Mountain Industrial Dr agrees with it to within 263 ft.
-- **Connectors now read 3.6 mi** rather than 3.8 in the sheet's trail facts:
-  one more of them, but two of the four measured shorter than they claimed.
+- **Connectors now read 2.3 mi** rather than 3.8 in the sheet's trail facts.
+  There is one more of them, but three of the four measured shorter than they
+  claimed once they were ridden rather than traced.
 - **A fourth repair stand.** IMG_5209 shows a pump-and-tools stand and a bike
   rack at the taproom door, 16 ft from the spur.
 - **Broad St Crossing.** The path has two signalled road crossings and only
