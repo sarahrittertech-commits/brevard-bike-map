@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Validates the static data files before they reach a build.
- * Implements checks DT-1 to DT-7 from the test case documentation.
+ * Implements checks DT-1 to DT-9 from the test case documentation.
  *
  * Usage:
  *   node scripts/validate-data.cjs            # warnings are non-fatal
@@ -165,6 +165,65 @@ for (const s of network) {
     if (drift > 0.25) {
       warn('DT-7', `Segment "${s.id}" says ${s.miles} mi but its geometry measures ${drawn.toFixed(2)} mi`);
     }
+  }
+}
+
+// DT-8 — a destination is near the network, or says in writing that it is not.
+// 500 ft is the working tolerance. Anything further has to be listed here with
+// the reason, so an off-path listing is a decision and a stray coordinate is a
+// warning. The campground carries its own allowance: the path ends at the
+// parking lot and the campground is across it, which is not a drawing error.
+const OFF_PATH_FT = 500;
+const OFF_PATH = {
+  'weevil-weevil': 'Hendersonville Hwy, past the north end of the path',
+  'sycamore-cycles': 'Hendersonville Hwy, across the road from the roundabout',
+  'franklin-park': 'a neighbourhood south of downtown',
+  'silvermont-park': 'E Main, on the Silvermont lawn',
+  'silversteen-park': 'Hillview St, blocks off the West Main trailhead',
+  'squatch': 'the King St row',
+  'noblebrau': 'the King St row',
+  'griffon-sphynx': 'the King St row',
+};
+
+function nearestOnLine(p, coords) {
+  let best = Infinity;
+  for (let i = 0; i < coords.length - 1; i++) {
+    const [ax, ay] = coords[i];
+    const [bx, by] = coords[i + 1];
+    const k = Math.cos((p[1] * Math.PI) / 180);
+    const dx = (bx - ax) * k;
+    const dy = by - ay;
+    const L2 = dx * dx + dy * dy;
+    let t = L2 === 0 ? 0 : (((p[0] - ax) * k * dx + (p[1] - ay) * dy) / L2);
+    t = Math.max(0, Math.min(1, t));
+    best = Math.min(best, haversine(p, [ax + (bx - ax) * t, ay + (by - ay) * t]) * 5280);
+  }
+  return best;
+}
+
+for (const d of destinations) {
+  if (!Array.isArray(d.coordinates) || network.length === 0) continue;
+  const ft = Math.min(...network.map((s) => nearestOnLine(d.coordinates, s.geometry.coordinates)));
+  if (ft > OFF_PATH_FT && !OFF_PATH[d.id]) {
+    warn('DT-8', `Destination "${d.id}" is ${Math.round(ft)} ft from the nearest segment. If that is right, add it to OFF_PATH with the reason`);
+  }
+}
+
+// DT-9 — a coordinate identical to a network vertex was almost certainly placed
+// against the drawn line rather than measured. Every wrong coordinate found in
+// the September survey had this shape: The Hub was 4,108 ft out, Dolly's 466,
+// and four forest landmarks between 2,942 and 10,983.
+const SURVEYED_ON_VERTEX = new Set([
+  'oskar-blues',        // the spur was drawn from the recording that ends at it
+  'repair-oskar-blues', // ditto
+]);
+const vertexKeys = new Set(
+  network.flatMap((s) => s.geometry.coordinates.map((c) => `${c[0]},${c[1]}`))
+);
+for (const item of [...destinations, ...landmarks]) {
+  if (!Array.isArray(item.coordinates) || SURVEYED_ON_VERTEX.has(item.id)) continue;
+  if (vertexKeys.has(`${item.coordinates[0]},${item.coordinates[1]}`)) {
+    warn('DT-9', `"${item.id}" sits exactly on a network vertex — likely placed against the drawn line, not surveyed`);
   }
 }
 

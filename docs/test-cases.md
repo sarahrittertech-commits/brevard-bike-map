@@ -22,6 +22,8 @@ would be embarrassing in a demo.
 | DT-5 | Every adventure has at least two named stops and a drawn route | An adventure is added without its line |
 | DT-6 | No placeholder names in a release build | Sample data reaching a release |
 | DT-7 | Stated miles plausible against drawn geometry (warning) | A hand-entered distance drifting from the drawn line |
+| DT-8 | Every destination within 500 ft of the network, or listed in `OFF_PATH` with its reason (warning) | A coordinate placed by eye drifting off the path, as Oskar Blues had at 1,969 ft |
+| DT-9 | No destination or landmark sits exactly on a network vertex (warning) | A placeholder pinned to the drawn line instead of surveyed — the shape of every wrong coordinate found in September |
 
 ## Automated — unit
 
@@ -29,7 +31,7 @@ Run by `npm test` in CI on every push. These run against `src/lib/select.js`,
 which holds the pure selection logic that `src/lib/data.js` binds the bundled
 data to. They use fixtures rather than the real dataset, so they assert
 behaviour and do not start failing because a cafe closed — the real data is
-covered by DT-1 to DT-7 above.
+covered by DT-1 to DT-9 above.
 
 | ID | Unit | Assertion |
 | --- | --- | --- |
@@ -74,7 +76,7 @@ and `npm test` — and MT-1 through MT-6 passing on a physical phone.
 against the ad hoc build of `15c74d8`. The binary submitted to the App Store
 was built from `8834bed`; the two differ only in the version string and the
 `ITSAppUsesNonExemptEncryption` flag, with no change to any JavaScript, so the
-result carries. DT-1 to DT-7 and UT-1 to UT-5 are green in CI on every push. MT-7 through MT-9 are recorded but do not block.
+result carries. DT-1 to DT-9 and UT-1 to UT-5 are green in CI on every push. MT-7 through MT-9 are recorded but do not block.
 
 **MT-4 was passed in error.** It was signed off on the phone against the
 drawn route, which looked plausible, rather than against the ground. Riding
