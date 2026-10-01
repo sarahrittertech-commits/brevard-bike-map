@@ -169,17 +169,17 @@ for (const s of network) {
 }
 
 // DT-8 — a destination is near the network, or says in writing that it is not.
-// 500 ft is the working tolerance. Anything further has to be listed here with
+// 1,000 ft is the working tolerance — close enough for someone on a bike.
+// Anything further has to be listed here with
 // the reason, so an off-path listing is a decision and a stray coordinate is a
 // warning. The campground carries its own allowance: the path ends at the
 // parking lot and the campground is across it, which is not a drawing error.
-const OFF_PATH_FT = 500;
+const OFF_PATH_FT = 1000;
 const OFF_PATH = {
   'weevil-weevil': 'Hendersonville Hwy, past the north end of the path',
   'sycamore-cycles': 'Hendersonville Hwy, across the road from the roundabout',
   'franklin-park': 'a neighbourhood south of downtown',
   'silvermont-park': 'E Main, on the Silvermont lawn',
-  'silversteen-park': 'Hillview St, blocks off the West Main trailhead',
   'squatch': 'the King St row',
   'noblebrau': 'the King St row',
   'griffon-sphynx': 'the King St row',

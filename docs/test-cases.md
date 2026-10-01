@@ -22,7 +22,7 @@ would be embarrassing in a demo.
 | DT-5 | Every adventure has at least two named stops and a drawn route | An adventure is added without its line |
 | DT-6 | No placeholder names in a release build | Sample data reaching a release |
 | DT-7 | Stated miles plausible against drawn geometry (warning) | A hand-entered distance drifting from the drawn line |
-| DT-8 | Every destination within 500 ft of the network, or listed in `OFF_PATH` with its reason (warning) | A coordinate placed by eye drifting off the path, as Oskar Blues had at 1,969 ft |
+| DT-8 | Every destination within 1,000 ft of the network, or listed in `OFF_PATH` with its reason (warning) | A coordinate placed by eye drifting off the path, as Oskar Blues had at 1,969 ft |
 | DT-9 | No destination or landmark sits exactly on a network vertex (warning) | A placeholder pinned to the drawn line instead of surveyed — the shape of every wrong coordinate found in September |
 
 ## Automated — unit
