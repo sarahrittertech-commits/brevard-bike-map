@@ -59,23 +59,32 @@ Every photo in the app must have a provenance line here before it ships.
 | `taproom-traverse.jpg` | IMG_5215 — Oskar Blues taproom | Sarah Ritter, 30 Sep 2026 |
 | `pisgah-gateway.jpg` | IMG_5282 — The Hub & Pisgah Tavern | Sarah Ritter, 30 Sep 2026 |
 | `river-run.jpg` | IMG_5298 — the Davidson River from the bridge | Sarah Ritter, 30 Sep 2026 |
-| `end-to-end.jpg` | IMG_5226 — the paved path by the fields | Sarah Ritter, 30 Sep 2026 |
-| `downtown-festival.jpg` | **unknown — arrived with the design dataset** | — |
-| `concert-night.jpg` | **unknown — arrived with the design dataset** | — |
+| `downtown-festival.jpg` | IMG_1036 — riding Main St towards the festival tents | Sarah Ritter, 25 May 2024 |
+| `concert-night.jpg` | IMG_8592 — a band on a taproom stage | Sarah Ritter, 26 Oct 2021 |
+| `end-to-end.jpg` | IMG_6045 — a group ride gathered beside the path | Sarah Ritter, 21 Jun 2021 |
 | `bracken-loop.jpg` | **unknown — arrived with the design dataset** | — |
 
-The three unknowns came in commit `ae9d4b3` with the converted design data and
-nothing records who made them. They are the ones still to replace.
+`bracken-loop.jpg` came in commit `ae9d4b3` with the converted design data and
+nothing records who made it. It is the last one to replace, and its subject —
+the Bracken singletrack — is not on any road ride, so it needs its own trip.
 
-The six that are Sarah's were produced with:
+Two of the photographs show identifiable people: IMG_6045 is a group ride with
+a dozen faces including children, and IMG_8592 shows performers on stage.
+That is a release question rather than a licensing one, and it is open. See
+[the App Review response](./app-review-response).
+
+Run the script rather than the commands by hand:
 
 ```bash
-sips -s format jpeg -Z 960 "IMG_XXXX.HEIC" --out <name>.jpg
-sips -c 640 960 -s formatOptions 35 <name>.jpg
+node scripts/photo-prep.cjs ~/Desktop/<folder> \
+  --map <adventure-id>=IMG_XXXX.HEIC --dry-run
 ```
 
+The key is the adventure's `id`, not its image name — `full-trail` writes
+`end-to-end.jpg`. It reads the capture date and GPS for this table, warns when
+a photo has neither, and handles the axis swap that a portrait source needs.
 960 x 640 is the hero's own 3:2, so nothing is cropped twice; quality 35 in
-sips lands where the originals were, about 70-110 KB.
+sips lands where the originals were, about 50-125 KB.
 
 Adventure photos are re-encoded to **960px wide at quality 60** before they
 are committed — the originals were 1264px and four times the size. The

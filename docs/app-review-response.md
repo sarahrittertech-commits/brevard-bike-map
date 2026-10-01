@@ -106,20 +106,20 @@ content, because the app has none of those.
 >
 > [PHOTOGRAPHS — SEE BELOW. DO NOT SEND THIS REPLY UNTIL THIS IS ANSWERED.]
 
-:::warning Six of the nine photographs are now Sarah's own
+:::warning Eight of the nine photographs are Sarah's own; two show people
 
-Riding the path on 30 September 2026 produced 125 photographs, and six of the
-nine adventure images have been replaced with them. Those six can be answered
-plainly: shot by the developer, on the route, on that date. The
-[runbook](./runbook) carries the file-by-file provenance.
+Eight of the nine adventure images are now photographs Sarah took, with the
+file-by-file provenance in the [runbook](./runbook). The licensing question
+that blocked this answer is nearly closed.
 
-Three remain from the design dataset with no recorded provenance or licence —
-`downtown-festival`, `concert-night` and `bracken-loop`. They arrived in
-commit `ae9d4b3` and nothing in this repository says who made them.
+`bracken-loop.jpg` is the last one from the design dataset with no recorded
+provenance. Its subject is the Bracken singletrack, which no road ride passes,
+so it needs its own trip or the screen goes without a photograph.
 
-Do not send question 6 until those three are replaced or removed. The
-Adventures tab works without photographs, and shipping unlicensed images is a
-far worse problem than a plainer screen. All three are downtown or on Bracken,
-so the ride planned from Blue Ridge Community College into town should settle
-two of them.
+Two of the eight show identifiable people — IMG_6045 is a group ride with
+about a dozen faces including children, and IMG_8592 shows performers on a
+stage. Apple's question asks about protected third-party material, and a
+person's likeness in a shipped app is exactly that. Nobody in either photograph
+has given permission for it. Decide this before replying: get releases, choose
+different photographs, or crop so that no face is identifiable.
 :::
