@@ -108,10 +108,10 @@ content, because the app has none of those.
 > licensed or third-party imagery anywhere in it, and no image was supplied by
 > any of the businesses listed.
 >
-> Four of the nine show people. Two are the developer's own family,
+> Three of the nine show people. One is the developer's own child,
 > photographed from behind. One is a group photograph made for a public
 > campaign for bicycle path funding in Brevard, which the developer is cleared
-> to use in promoting the path — which is what this app does. The fourth shows
+> to use in promoting the path — which is what this app does. The third shows
 > a band performing at a public venue, photographed from the audience.
 
 :::note Photographs resolved
@@ -120,12 +120,11 @@ Every adventure image is a photograph Sarah took, with the file-by-file
 provenance in the [runbook](./runbook). Nothing from the design dataset remains
 in the app, so there is no licence to carry.
 
-Four of the nine show people, and the likeness question is answered for three
-of them: the child on Main St (IMG_1036) and the baby at Bracken (IMG_2391)
-are Sarah's own family, and the group ride (IMG_6045) is the photograph used
-in the public campaign for bicycle path funding, cleared for use promoting the
-path. That clearance is the basis of the answer above, so keep a copy of it
-somewhere findable.
+Three of the nine show people, and the likeness question is answered for each:
+the child on Main St (IMG_1036) is Sarah's own, and the group ride (IMG_6045)
+is the photograph used in the public campaign for bicycle path funding,
+cleared for use promoting the path. That clearance is the basis of the answer
+above, so keep a copy of it somewhere findable.
 
 The fourth, IMG_8592, is a band on stage at a public venue shot from the
 audience — the ordinary case for gig photography.

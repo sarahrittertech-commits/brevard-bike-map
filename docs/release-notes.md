@@ -124,8 +124,8 @@ Six came off the 30 September ride. Four are older — 2020, 2021, 2021 and
 2024 — and carry no GPS, because a downtown festival, the Music Center, a
 group ride and the Bracken trailhead are not things the survey rides passed.
 
-Likenesses are settled too. Four of the nine show people: two are Sarah's own
-family, and the group ride is the photograph from the public campaign for
+Likenesses are settled too. Three of the nine show people: one is Sarah's own
+child, and the group ride is the photograph from the public campaign for
 bicycle path funding, cleared for use promoting the path. Question 6 can be
 answered, and the answer is written out in full in
 [the App Review response](./app-review-response).

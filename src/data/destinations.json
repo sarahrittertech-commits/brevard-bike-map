@@ -224,7 +224,7 @@
     "id": "repair-depot",
     "name": "Railroad Depot Repair Stand",
     "categories": ["repair"],
-    "coordinates": [-82.7349, 35.2402],
+    "coordinates": [-82.7342, 35.2407],
     "description": "At Jimmy Harris Railroad Depot Park — pump and tools, plus restrooms, parking, and the ballerina sculpture.",
     "mileMarker": 0.5,
     "hours": "Park open 7am–9pm"
@@ -233,7 +233,7 @@
     "id": "repair-midpath",
     "name": "Mid-Path Fix-It Stand",
     "categories": ["repair"],
-    "coordinates": [-82.7179, 35.2541],
+    "coordinates": [-82.7148, 35.2553],
     "description": "Pump plus a chain tool, with a water bottle filler beside it.",
     "mileMarker": 2
   },

@@ -57,20 +57,20 @@ Every photo in the app must have a provenance line here before it ships.
 | `playground-to-dollys.jpg` | IMG_5280 — Dolly's Dairy Bar | Sarah Ritter, 30 Sep 2026 |
 | `ballfield-library-loop.jpg` | IMG_5180 — the ball fields from the path | Sarah Ritter, 30 Sep 2026 |
 | `taproom-traverse.jpg` | IMG_5215 — Oskar Blues taproom | Sarah Ritter, 30 Sep 2026 |
-| `pisgah-gateway.jpg` | IMG_5282 — The Hub & Pisgah Tavern | Sarah Ritter, 30 Sep 2026 |
+| `pisgah-gateway.jpg` | IMG_5285 — the Pisgah National Forest marker on US-276 | Sarah Ritter, 30 Sep 2026 |
 | `river-run.jpg` | IMG_5298 — the Davidson River from the bridge | Sarah Ritter, 30 Sep 2026 |
 | `downtown-festival.jpg` | IMG_1036 — riding Main St towards the festival tents | Sarah Ritter, 25 May 2024 |
 | `concert-night.jpg` | IMG_8592 — a band on a taproom stage | Sarah Ritter, 26 Oct 2021 |
 | `end-to-end.jpg` | IMG_6045 — a group ride gathered beside the path | Sarah Ritter, 21 Jun 2021 |
-| `bracken-loop.jpg` | IMG_2391 — the Bracken Preserve trailhead sign | Sarah Ritter, 6 Dec 2020 |
+| `bracken-loop.jpg` | IMG_5282 — The Hub & Pisgah Tavern, where the ride starts | Sarah Ritter, 30 Sep 2026 |
 
 All nine are now Sarah's own. Nothing from the design dataset is left in
 `assets/adventures/`.
 
-Four of them show people, and the clearance for each is recorded in
-[the App Review response](./app-review-response): IMG_1036 and IMG_2391 are
-Sarah's own family, and IMG_6045 is the photograph from the public campaign
-for bicycle path funding, cleared for use promoting the path. IMG_8592 is a band on stage
+Three of them show people, and the clearance for each is recorded in
+[the App Review response](./app-review-response): IMG_1036 is Sarah's own
+child, and IMG_6045 is the photograph from the public campaign for bicycle
+path funding, cleared for use promoting the path. IMG_8592 is a band on stage
 at a public venue, shot from the audience.
 
 These nine are the set, and they are not all of the exact spot their ride
@@ -79,8 +79,8 @@ more. Do not swap one out for being approximate.
 
 A new photograph of people needs its clearance written down before it ships.
 
-Four of the nine predate the surveys — 2020, 2021, 2021 and 2024 — and carry
-no GPS, so the dates above are the real ones rather than this week's.
+Three of the nine predate the surveys — 2021, 2021 and 2024 — and carry no
+GPS, so the dates above are the real ones rather than this week's.
 
 Run the script rather than the commands by hand:
 
