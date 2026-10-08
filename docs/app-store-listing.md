@@ -235,3 +235,135 @@ is no backend and no network access. It requests no permissions, including
 location. The app covers one town, Brevard, North Carolina, so the map opens
 there by design rather than at the reviewer's location.
 ```
+
+## Asset Library, custom product pages and product page optimization
+
+Apple added these three sections to App Store Connect on 5 October 2026, while
+1.0.1 was still in review. They do not have to be filled in for the app to be
+approved. What can be done now:
+
+| Section | When | Why |
+| --- | --- | --- |
+| Asset Library | Now | Assets are reviewed on their own, separately from the app |
+| Custom product pages | Draft now, submit after approval | Needs the app to be Ready for Distribution |
+| Product page optimization | Once live and getting traffic | Needs a live app, and a test needs visitors to reach a result |
+
+### Asset Library
+
+Existing screenshots already show up here. What's new is two optional
+creative assets, shown only to people on iOS 27 or iPadOS 27 and later:
+
+| Asset | Shape | Size | Format |
+| --- | --- | --- | --- |
+| Product page header | 21:9 | 3840 x 1646 | JPEG or PNG; or a 5–30 s video, muted and looping |
+| Search results | 3:2 | 1920 x 1280 to 3840 x 2560 | JPEG or PNG |
+| Universal (covers both) | 16:9 | 5244 x 2950 | PNG |
+
+Upload under **Product Page Information → Header and Search Results**, and
+check the layout with **Preview** before submitting. The icon, app name and Get
+button sit over the header, and Apple does not publish exactly where, so keep
+the artwork's subject clear of the bottom of the frame.
+
+**What to use:** the launch-screen artwork, widened — the bike in front of
+three receding ridges under a sunrise sky. It is already the app's own art, it
+matches the icon, and it reads as Brevard without words. `assets/splash.png` is
+1170 x 1580, so it needs re-exporting from the source artwork at the wide size
+rather than stretching. No alpha channel, the same trap as the icon.
+
+**What not to use:** anything from the brewery category, or a photo with a
+person's face in it. Creative assets are held to a 4+ standard regardless of
+the app's own rating, and the header is the first thing a family sees. The
+same reasoning already keeps breweries out of the promotional text — see
+[age suitability](./age-rating).
+
+### Custom product pages
+
+Alternate versions of the product page, each with its own URL. Each can change
+the screenshots, the promotional text (170 characters) and, from iOS 27, the
+header. Apple allows up to 70; three is plenty.
+
+They follow the three audiences on the landing page's "Who it's for"
+section, so a link from each card lands on a page about the same thing.
+
+Keywords can be attached to a page, but only from the approved version's
+keyword list, and each keyword can belong to only one page. Leave the deep
+link field empty: the app opens to the map and has no deep links to point at.
+
+#### Page 1 — Families (`families`)
+
+The one that matters. The app's audience is families, and this is the page to
+link from the school pickup line.
+
+Promotional text, 137 characters:
+
+```
+Short rides with a playground or an ice cream stop built in, so little riders get a win before they get tired. Free, offline, no sign-up.
+```
+
+Screenshots: ice cream and playgrounds switched on → Adventures tab →
+Playground to Dolly's on the map → place detail → the path alone.
+
+Keywords: `ice cream`, `greenway`.
+
+#### Page 2 — Riders (`riders`)
+
+Promotional text, 141 characters:
+
+```
+Demo a bike at a Brevard shop and ride it from the path straight out to Pisgah. A real test ride, with no bike rack and no trailhead parking.
+```
+
+Screenshots: bike shops and repair stations switched on → Gateway to Pisgah
+on the map → The Hub to Bracken and Back detail → Adventures tab → the path
+alone.
+
+Keywords: `pisgah`, `cycling`, `trail map`.
+
+#### Page 3 — Taprooms (`taprooms`), optional
+
+The landing page has this audience, so the option is here. It is the one page
+whose subject the main listing deliberately does not lead with, so it is worth
+deciding whether to have it at all rather than making it by default. If it is
+made, it is only reached by its own link, never by a family browsing the main
+page.
+
+Promotional text, 148 characters:
+
+```
+Leave the car at the hotel. The Taproom Traverse links Brevard's taprooms along the bike path, with stop-by-stop notes and a map that works offline.
+```
+
+Screenshots: Taproom Traverse on the map → its detail → breweries switched on
+→ the path alone. Use the launch artwork for the header here too, not a
+taproom photo.
+
+No keywords: nothing in the approved list belongs to this page more than to
+the other two.
+
+#### After approval
+
+1. Create each page in App Store Connect, paste the text, pick the screenshots
+   from the Asset Library, and submit. Pages are reviewed without a new build.
+2. Set each page visible once approved; keywords only take effect then.
+3. Copy each page's URL into the matching card on the landing page alongside
+   the main App Store link (see the bike-brevard-site README).
+
+### Product page optimization
+
+An A/B test of the main product page: up to three alternate versions of the
+screenshots, previews or icon, for up to 90 days, with Apple reporting which
+gets more downloads.
+
+Not yet. It needs a live app, and an app for one town of 8,000 people will
+take a long time to send enough visitors through it for a result. Apple's
+estimator says so up front; if it says more than 90 days, don't start it.
+
+When there is traffic, test one thing: **the first screenshot.**
+
+- Original: the map with the path drawn, the cold-launch view.
+- Treatment: ice cream and playgrounds switched on, pins and the list showing.
+- 50% of traffic to the treatment.
+
+That asks the one question worth answering: does showing the places sell the
+app better than showing the path? Do not test the icon — an alternate icon
+has to ship inside the binary, which means a new build for an experiment.
