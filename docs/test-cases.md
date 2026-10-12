@@ -67,6 +67,26 @@ Run before every release. A simulator does not count.
 | MT-8 | Airplane mode, then cold launch | Map data and markers still load (R9) |
 | MT-9 | Pinch to zoom out fully, then back in | No crash, markers re-render |
 
+### Android
+
+Run on an Android phone or the emulator in the [runbook](./runbook#android),
+with a build that has the Maps key — Expo Go cannot draw the map there.
+
+| ID | Steps | Pass condition |
+| --- | --- | --- |
+| MT-A1 | Cold launch | Splash is the icon scene in a circle; the map shows streets, the path and the landmarks, with no shops or bus stops on the base map |
+| MT-A2 | Switch on ice cream and breweries | Every pin draws with its glyph — none blank — and the list matches |
+| MT-A3 | Tap a pin | Sheet shows the place; no Google directions toolbar appears; the camera does not jump to the pin before centring |
+| MT-A4 | Look at the bottom-left of the map with the sheet down | The Google logo is visible above the sheet |
+| MT-A5 | Back button: select a pin, then press back four times | Place closes, then the sheet collapses, then — while following a route — the route clears, then the app exits |
+| MT-A6 | Back button from Adventures and from a ride's detail | Detail returns to Adventures; Adventures returns to the map |
+| MT-A7 | Home screen icon, and with themed icons on (Android 13+) | Icon is the new ridges-and-bike art, whole under the launcher's mask; the themed version reads as the bike and ridges |
+
+**Run 12 October 2026 on the emulator in Expo Go, so without the map:**
+MT-A5 and MT-A6 pass; MT-A4 passes, the logo sitting just above the sheet.
+MT-A1 to MT-A3 cannot be run until the key exists. MT-A7 was checked by
+rendering the layers under circle and rounded-square masks, not on a launcher.
+
 ## Release gate
 
 A release requires: all DT and UT tests green — `npm run validate:release`
@@ -90,7 +110,8 @@ route ridden, not read.
 
 Stated so the gaps are deliberate rather than accidental:
 
-- No cross-platform testing beyond the one device used to build
+- No Android testing on a physical phone yet; the emulator only, and without
+  the map until the key exists
 - No accessibility audit
 - No performance testing beyond "does it feel slow"
 - No automated UI testing — the manual list above covers it at this scale
