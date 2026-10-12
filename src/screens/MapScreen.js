@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { BackHandler, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import X from 'lucide-react-native/icons/x';
 
@@ -11,7 +11,8 @@ import { cardFloat, colors, fillRow, fonts, radius, text } from '../theme';
 
 // The main screen: map, floating header, category rail, bottom sheet.
 // `following` is an adventure whose route is drawn on top of the network.
-export default function MapScreen({ following, showNonce, onStopFollowing }) {
+// `inFront` is false while another screen is laid over the map.
+export default function MapScreen({ following, showNonce, onStopFollowing, inFront }) {
   const insets = useSafeAreaInsets();
   const [active, setActive] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
@@ -54,6 +55,21 @@ export default function MapScreen({ following, showNonce, onStopFollowing }) {
     setSheetOpen(false);
   }
 
+  // Android's back button peels the map back one layer at a time: the
+  // selected place, then the open sheet, then the followed route. With
+  // nothing left to close it falls through and Android leaves the app.
+  useEffect(() => {
+    if (!inFront) return undefined;
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (selectedId) setSelectedId(null);
+      else if (sheetOpen) setSheetOpen(false);
+      else if (following) onStopFollowing();
+      else return false;
+      return true;
+    });
+    return () => sub.remove();
+  }, [inFront, selectedId, sheetOpen, following, onStopFollowing]);
+
   const topInset = insets.top + 12;
 
   return (
@@ -71,6 +87,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing }) {
         bottomInset={PEEK + 28}
         height={height}
         sheetHeight={sheetHeight}
+        logoInset={PEEK}
       />
 
       <View style={[styles.header, { top: topInset }]} pointerEvents="box-none">

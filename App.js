@@ -37,15 +37,19 @@ export default function App() {
   const [showNonce, setShowNonce] = useState(0);
 
   const closeDetail = useCallback(() => setDetailId(null), []);
+  const stopFollowing = useCallback(() => setFollowing(null), []);
 
+  // Android back: the detail screen closes, and the Adventures tab returns to
+  // the map. On the map itself, MapScreen handles back for its own layers.
   useEffect(() => {
-    if (!detailId) return undefined;
+    if (!detailId && tab === 'map') return undefined;
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-      closeDetail();
+      if (detailId) closeDetail();
+      else setTab('map');
       return true;
     });
     return () => sub.remove();
-  }, [detailId, closeDetail]);
+  }, [detailId, tab, closeDetail]);
 
   // If a font fails to load, fall back to system fonts rather than showing
   // a blank screen forever.
@@ -63,7 +67,8 @@ export default function App() {
           <MapScreen
             following={following}
             showNonce={showNonce}
-            onStopFollowing={() => setFollowing(null)}
+            onStopFollowing={stopFollowing}
+            inFront={tab === 'map' && !detailId}
           />
           {tab === 'adventures' && (
             <View style={styles.overlay}>

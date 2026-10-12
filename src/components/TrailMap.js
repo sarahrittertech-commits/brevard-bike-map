@@ -17,6 +17,19 @@ import { colors } from '../theme';
 const MIN_ZOOM = 12;
 const MAX_ZOOM = 18;
 
+const ANDROID = Platform.OS === 'android';
+
+// Google's base map, quietened to match the muted Apple Maps style iOS uses.
+// showsPointsOfInterest is iOS-only, so on Android the businesses, transit and
+// clutter are hidden here instead; parks stay because Pisgah is the point.
+const GOOGLE_STYLE = [
+  { stylers: [{ saturation: -35 }] },
+  { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+  { featureType: 'poi.park', elementType: 'geometry', stylers: [{ visibility: 'on' }] },
+  { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+  { featureType: 'road', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
+];
+
 // The design's map is a town trail guide, not a world map. Zoom is fenced;
 // panning is left free because react-native-maps only fences on Google.
 export default function TrailMap({
@@ -34,8 +47,12 @@ export default function TrailMap({
   // be centred in the strip of map that stays visible above the sheet.
   height,
   sheetHeight,
+  // Map kept clear at the bottom on Android, where the sheet would otherwise
+  // cover the Google logo that Google's terms require to stay visible.
+  logoInset = 0,
 }) {
   const mapRef = useRef(null);
+  const mapInset = ANDROID ? logoInset : 0;
   const [ready, setReady] = useState(false);
   const regionRef = useRef(null);
 
@@ -45,7 +62,9 @@ export default function TrailMap({
     mapRef.current.fitToCoordinates(fitLatLngs, {
       // Right edge clears the category rail (46 wide + 12 margin); left edge
       // leaves room for the westernmost landmark label.
-      edgePadding: { top: topInset, right: 76, bottom: bottomInset, left: 96 },
+      // On Android mapPadding already holds back logoInset, and edgePadding
+      // is added on top of it.
+      edgePadding: { top: topInset, right: 76, bottom: bottomInset - mapInset, left: 96 },
       animated: true,
     });
     // Refit only when the caller changes the key, not on every render.
@@ -79,19 +98,28 @@ export default function TrailMap({
     // it. Deliberately not attempted before the 30 Sep ship: the pin is visible
     // and tappable, and this is cosmetic.
     const targetY = stripCentre + SELECTED_PIN_HEIGHT / 2;
-    const shift = ((height / 2 - targetY) / height) * latitudeDelta;
+    // With mapPadding, Google centres the region in the padded viewport.
+    const viewHeight = height - mapInset;
+    const shift = ((viewHeight / 2 - targetY) / viewHeight) * latitudeDelta;
     const { latitude, longitude } = toLatLng(selected.coordinates);
     mapRef.current.animateToRegion(
       { latitude: latitude - shift, longitude, latitudeDelta, longitudeDelta },
       280
     );
-  }, [selected, height, sheetHeight, topInset]);
+  }, [selected, height, sheetHeight, topInset, mapInset]);
 
   return (
     <MapView
       ref={mapRef}
       style={StyleSheet.absoluteFill}
-      mapType={Platform.OS === 'ios' ? 'mutedStandard' : 'standard'}
+      mapType={ANDROID ? 'standard' : 'mutedStandard'}
+      customMapStyle={ANDROID ? GOOGLE_STYLE : undefined}
+      mapPadding={ANDROID ? { top: 0, right: 0, bottom: mapInset, left: 0 } : undefined}
+      // Google-only behaviours the design does not have: a directions toolbar
+      // on marker tap, and the camera jumping to a tapped marker, which would
+      // fight the centring above.
+      toolbarEnabled={false}
+      moveOnMarkerPress={false}
       initialRegion={{ latitude: 35.2547, longitude: -82.7204, latitudeDelta: 0.07, longitudeDelta: 0.07 }}
       minZoomLevel={MIN_ZOOM}
       maxZoomLevel={MAX_ZOOM}
