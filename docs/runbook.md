@@ -258,8 +258,8 @@ Sarah's to do, since it needs a Google account and a billing account. The
 Maps SDK for Android is free for map display, but Google Maps Platform will not
 issue working keys to a project without billing attached.
 
-1. In the [Google Cloud console](https://console.cloud.google.com), create a
-   project (`bike-brevard-map`) and attach a billing account.
+1. The Google Cloud project is **`brevardbikeapp`**, created by Sarah on
+   12 October 2026. Attach a billing account to it.
 2. Enable **Maps SDK for Android** — only that API.
 3. Create an API key. Restrict it:
    - Application restriction: **Android apps**, package
