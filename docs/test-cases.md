@@ -92,6 +92,19 @@ the scene in a circle on cream. The app then crashes, because that build has no
 Maps key; that is what the key is for, and why keyless Android builds are now
 refused.
 
+**Then on build 2 (`42941d0`, with the key), on the emulator: MT-A1 to MT-A7
+all pass.** The map draws with the path, dotted connectors, landmarks and no
+shop or bus-stop clutter. All 29 pins draw with their glyphs, none blank. A
+tapped pin opens with no Google toolbar and lands centred in the strip above
+the sheet — closer than iOS, where the 1.0.0 notes record it 54pt low. Back
+works by key and by the swipe gesture. MT-3 passes too: Playground to Dolly's
+draws in clay with stops 1–4.
+
+One cosmetic note, shared with iOS rather than Android's own: at this width the
+path plus its labels does not quite fit, so the westernmost label (Music
+Center) runs off the left edge and Ball Fields sits under the category rail.
+iOS clips Pisgah Entrance and Lowe's Crossing under the rail the same way.
+
 ## Release gate
 
 A release requires: all DT and UT tests green — `npm run validate:release`

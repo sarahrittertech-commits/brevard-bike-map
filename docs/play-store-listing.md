@@ -10,10 +10,11 @@ as the [App Store listing](./app-store-listing): so they are versioned with the
 app. Drafted 12 October 2026. **Nothing here is submitted.** Character limits
 are Google's and are counted below.
 
-## Before any of this: two things only Sarah can do
+## Before any of this
 
-**A Google Maps key.** An Android build without one crashes on launch, and
-`app.config.js` refuses to build it. Setup is in the [runbook](./runbook#android). No screenshot can
+**A Google Maps key.** Done 12 October 2026 — project `brevardbikeapp`, in
+EAS as `GOOGLE_MAPS_ANDROID_API_KEY`. An Android build without it crashes on
+launch, and `app.config.js` refuses to build it. Setup is in the [runbook](./runbook#android). No screenshot can
 be taken until it exists, because the map is the app.
 
 **A Play developer account, and its testing gate.** The account is a one-off
@@ -133,11 +134,14 @@ Accept the rating that results.
 | --- | --- | --- |
 | App icon | 512 x 512 PNG, 32-bit | The 1024 icon, downscaled — Play applies its own mask |
 | Feature graphic | 1024 x 500 PNG or JPEG, no alpha | Crop of `FINAL-launch-hero-1b-3200x1800.png` |
-| Phone screenshots | 2–8, 9:16, at least 1080 px on the short side for promotion | **Blocked on the Maps key** |
+| Phone screenshots | 2–8, long side at most twice the short, no alpha | Five at 1080 x 2160, from build 2 |
 
 The icon and feature graphic are generated into
 `~/Desktop/bike-brevard-play/`, next to the App Store screenshots, rather than
 committed: they are listing assets, not app assets.
 
-Screenshots should be the same five screens as the App Store set, from the
-emulator in the runbook once the key exists.
+The five screenshots are the same screens as the App Store set, in
+`~/Desktop/bike-brevard-play/phone/`. The Pixel emulator is 1080 x 2400, which
+is 2.22:1 and over Play's 2:1 limit, so they were taken with the emulator set
+to 1080 x 2160 (`adb shell wm size 1080x2160`, reset afterwards) and Android's
+demo mode for a clean 9:41 status bar, then flattened to RGB.

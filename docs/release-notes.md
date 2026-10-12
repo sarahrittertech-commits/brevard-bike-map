@@ -9,9 +9,9 @@ title: Release notes
 
 Started 12 October 2026. The app has always been Expo, so the JavaScript was
 already cross-platform; this is the work to make it a proper Android app rather
-than an iOS app that happens to run there. **Not yet shippable**: it needs a
-Google Maps key, which only Sarah can create, and a decision about Play's data
-safety answers — see the [Google Play listing](./play-store-listing).
+than an iOS app that happens to run there. The APK works; what remains before
+Google Play is a decision about Play's data safety answers and a Play account
+with its testing period — see the [Google Play listing](./play-store-listing).
 
 - **The Maps key is read from the environment**, never written into the public
   repository. Without it the app crashes on launch — found on the first EAS
@@ -39,9 +39,10 @@ safety answers — see the [Google Play listing](./play-store-listing).
 - **The privacy policy names Google Maps** and what Google's SDK sends Google
   on its own account. On iOS nothing changes.
 
-Not yet seen: the map itself on Android. Expo Go's built-in key is refused on
-the emulator, so the streets, path, pins and route — MT-A1 to MT-A3 — wait for
-a build with our own key.
+**Seen working, 12 October 2026.** The key went into project `brevardbikeapp`
+and EAS the same day, and build 2 passes MT-A1 to MT-A7 on the emulator; see
+[test cases](./test-cases). Not yet on a physical Android phone. The Play
+screenshots were captured from that build.
 
 ## 1.0.1 — 1 October 2026
 
