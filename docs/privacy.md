@@ -6,7 +6,7 @@ title: Privacy policy
 # Privacy policy
 
 **Bike Brevard Map**
-Last updated 25 September 2026
+Last updated 12 October 2026
 
 ## The short version
 
@@ -35,10 +35,22 @@ profile, no preferences and no usage log, on your device or anywhere else.
 
 ## Maps
 
-The map itself is drawn by Apple Maps, which is part of iOS rather than part of
-this app. Apple's handling of map data is covered by Apple's own privacy policy,
-not this one. The app passes Apple Maps no information about you — it asks only
-for the map of Brevard, North Carolina.
+The street map underneath the path is drawn by the phone's own map provider.
+The app passes it no information about you — it asks only for the map of
+Brevard, North Carolina.
+
+**On iPhone** that is Apple Maps, which is part of iOS rather than part of this
+app. Apple's handling of map data is covered by Apple's own privacy policy, not
+this one.
+
+**On Android** that is Google Maps, through Google's Maps SDK, which is built
+into the app. Google says the SDK sends Google technical information on its own
+account: the device model and operating system version, crash reports, the IP
+address, a pseudonymous identifier used to count users of the SDK, and when the
+map is panned or zoomed. This app does not see, receive or store any of it, and
+the SDK gets no location from the app, which has no location permission.
+Google's handling of it is covered by
+[Google's privacy policy](https://policies.google.com/privacy), not this one.
 
 ## Children
 
