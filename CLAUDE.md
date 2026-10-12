@@ -114,8 +114,9 @@ bottom-sheet library.
 Android builds need a Google Maps API key in the `GOOGLE_MAPS_ANDROID_API_KEY`
 environment variable (EAS env var, or a git-ignored `.env`), which
 `app.config.js` writes into the manifest. Never put it in `app.json` — the
-repository is public. Without it the map is blank; Expo Go's own key is
-refused on the emulator too. iOS needs nothing. See the runbook's Android
+repository is public. Without it the app crashes on launch, so an Android EAS
+build without it is stopped by `app.config.js`; Expo Go's own key is refused
+on the emulator too. iOS needs nothing. See the runbook's Android
 section, which also covers the emulator set up on 12 October 2026.
 
 The app icon and launch screen come from the design and are regenerated

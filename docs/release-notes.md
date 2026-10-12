@@ -14,8 +14,8 @@ Google Maps key, which only Sarah can create, and a decision about Play's data
 safety answers — see the [Google Play listing](./play-store-listing).
 
 - **The Maps key is read from the environment**, never written into the public
-  repository. Without it an Android build still installs and runs, with a blank
-  map, and warns at build time.
+  repository. Without it the app crashes on launch — found on the first EAS
+  build — so an Android EAS build without the key now stops before it starts.
 - **The map behaves like the design on Google Maps.** Google draws every shop
   and bus stop unless told not to, opens a directions toolbar on a tapped pin,
   and jumps the camera to it; all three are off, and the base map is muted to

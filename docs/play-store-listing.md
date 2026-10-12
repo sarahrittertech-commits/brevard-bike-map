@@ -12,8 +12,8 @@ are Google's and are counted below.
 
 ## Before any of this: two things only Sarah can do
 
-**A Google Maps key.** An Android build without one installs, runs and shows a
-blank grey map. Setup is in the [runbook](./runbook#android). No screenshot can
+**A Google Maps key.** An Android build without one crashes on launch, and
+`app.config.js` refuses to build it. Setup is in the [runbook](./runbook#android). No screenshot can
 be taken until it exists, because the map is the app.
 
 **A Play developer account, and its testing gate.** The account is a one-off

@@ -84,8 +84,13 @@ with a build that has the Maps key — Expo Go cannot draw the map there.
 
 **Run 12 October 2026 on the emulator in Expo Go, so without the map:**
 MT-A5 and MT-A6 pass; MT-A4 passes, the logo sitting just above the sheet.
-MT-A1 to MT-A3 cannot be run until the key exists. MT-A7 was checked by
-rendering the layers under circle and rounded-square masks, not on a launcher.
+MT-A1 to MT-A3 cannot be run until the key exists.
+
+**Then on the first EAS APK (build 1, `919f8c0`), on the emulator:** MT-A7
+passes on the Pixel launcher's circle mask. The splash half of MT-A1 passes —
+the scene in a circle on cream. The app then crashes, because that build has no
+Maps key; that is what the key is for, and why keyless Android builds are now
+refused.
 
 ## Release gate
 
