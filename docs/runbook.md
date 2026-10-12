@@ -134,14 +134,23 @@ contrast, is what fixed it.
 | `assets/icon-light.png` · `icon-dark.png` · `icon-tinted.png` | The three iOS 18 icon appearances |
 | `app.json` `expo.icon` | Points at `icon-light.png`; there is no separate fallback file |
 | `assets/android-icon-foreground.png` · `-background.png` · `-monochrome.png` | Android adaptive icon layers |
+| `assets/android-splash.png` | Android launch screen: the scene cut to a circle, no wordmark |
 | `assets/splash.png` | Launch screen: the mark plus the wordmark |
 
 Two things to know before changing them:
 
 - **iOS icons must not have an alpha channel** for the light and tinted
   variants, or App Store submission rejects them. Flatten before exporting.
-- **The Android foreground is scaled to 66%** of the canvas, because Android
-  crops adaptive icons to a central safe zone.
+- **The Android layers and splash are generated, not drawn.**
+  `python3 scripts/android-icons.py ~/Desktop/final/FINAL-app-icon-3b-1024.png`
+  writes all four (it needs Pillow). The scene is scaled to two thirds of the
+  canvas — the 72dp a launcher can show of a 108dp adaptive icon — so every
+  launcher mask crops inside the artwork; the bike sits inside the icon's
+  inscribed circle, so even a round mask keeps it whole.
+- **Android 12+ shows the splash through a circle**, 192dp inside a 288dp
+  canvas, so the iOS splash with its baked-in wordmark would be cut through.
+  Android gets `android-splash.png` instead, under `android` in the
+  expo-splash-screen plugin config.
 - **The launch screen wordmark is baked into the image.** A native splash
   cannot lay out text, so "Bike Brevard Map" and "Brevard, North Carolina"
   are part of the artwork. Changing the wording means regenerating the PNG.
@@ -156,9 +165,6 @@ Two things to know before changing them:
   colour type 6, and a BMP round-trip does not help. The three iOS icons were
   flattened with a short PNG reader/writer rather than by hand. Their alpha
   was fully opaque, so dropping it was lossless.
-- **The Android layers are still the 1.0.0 artwork.** The source says "Android
-  coming later", and Android does not ship until there is a Google Maps key,
-  so they were left alone rather than guessed at.
 
 Expo Go shows its own splash, so the launch screen cannot be checked there.
 To confirm it generates without waiting for a full build:
@@ -236,6 +242,118 @@ Three traps, all of which cost time once:
   dismissed without tapping, so Expo Go is no use for this. A `simulator`
   profile build installs and launches without one, and is the real binary
   rather than Expo Go hosting the JS.
+
+## Android
+
+The JavaScript is the same on both platforms; what differs is the map
+underneath. iOS draws on Apple Maps and needs nothing. Android draws on Google
+Maps and **needs an API key**. Without one the app **crashes on launch** —
+Google's SDK throws `API key not found` as the map mounts. The first EAS build,
+12 October 2026, proved it. `app.config.js` therefore refuses to start an
+Android EAS build without the key, so a crashing APK cannot be made by accident.
+
+### Getting the Maps key
+
+Sarah's to do, since it needs a Google account and a billing account. The
+Maps SDK for Android is free for map display, but Google Maps Platform will not
+issue working keys to a project without billing attached.
+
+1. In the [Google Cloud console](https://console.cloud.google.com), create a
+   project (`bike-brevard-map`) and attach a billing account.
+2. Enable **Maps SDK for Android** — only that API.
+3. Create an API key. Restrict it:
+   - Application restriction: **Android apps**, package
+     `dev.pushpop.brevardbikemap`, with the SHA-1 fingerprint below.
+   - API restriction: **Maps SDK for Android** only.
+4. Give it to EAS, marked sensitive so it never appears in logs:
+
+   ```bash
+   eas env:set --name GOOGLE_MAPS_ANDROID_API_KEY --value <key> --environment preview --environment production --visibility sensitive
+   ```
+
+5. For local builds, put the same line in a `.env` file, which is git-ignored:
+   `GOOGLE_MAPS_ANDROID_API_KEY=<key>`.
+
+`app.config.js` reads that variable and writes it into the Android manifest.
+The key is deliberately not in `app.json`: this repository is public, and an
+unrestricted key in it would be someone else's free quota.
+
+**The SHA-1 is the signing key's fingerprint, and there will be two.** The EAS
+keystore, generated in the cloud on 12 October 2026 and used for every
+`preview` build, is:
+
+```
+54:F8:28:E5:78:16:BF:8D:DA:7E:19:EF:5B:E4:3A:81:B5:30:20:8A
+```
+
+`eas credentials -p android` shows it again. If the app ever goes on Google
+Play, Play re-signs it with its own key, whose SHA-1 is in the Play Console
+under App integrity; add that one to the key's restriction as well, or the
+store build fails to authorise the map while the APK works.
+
+To read the fingerprint off any APK:
+
+```bash
+$ANDROID_HOME/build-tools/36.0.0/apksigner verify --print-certs app.apk
+```
+
+**Permissions.** `app.json` blocks the storage, draw-over-apps and vibrate
+permissions that library defaults add. The built APK also carries wake lock,
+network state, boot completed and foreground service, merged in by Google's and
+AndroidX's libraries for their background work scheduler. All four are
+"normal" permissions — granted at install, never prompted, and not in Play's
+data safety categories — and blocking them risks breaking Google's own
+components, so they are left alone.
+
+### Building and installing
+
+```bash
+eas build --platform android --profile preview
+```
+
+The `preview` profile builds an **APK**, which installs straight from the EAS
+link on any Android phone ("install unknown apps" has to be allowed for the
+browser once). `production` builds an app bundle, which is what Google Play
+takes and which cannot be installed directly.
+
+Android builds need no paid account and no device registration, unlike iOS.
+
+### The Android emulator
+
+Nothing Android was installed on the Mac mini before 12 October 2026. What is
+there now, all from Homebrew, no Android Studio:
+
+```bash
+brew install openjdk@17
+brew install --cask android-commandlinetools
+export ANDROID_HOME=/opt/homebrew/share/android-commandlinetools
+sdkmanager --sdk_root=$ANDROID_HOME --licenses
+sdkmanager --sdk_root=$ANDROID_HOME platform-tools emulator "system-images;android-36;google_apis_playstore;arm64-v8a"
+avdmanager create avd -n brevard -k "system-images;android-36;google_apis_playstore;arm64-v8a" -d pixel_8
+```
+
+`JAVA_HOME` must point at the Homebrew JDK
+(`/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home`) — macOS has
+a `java` stub that only says Java is missing.
+
+```bash
+$ANDROID_HOME/emulator/emulator -avd brevard &
+adb install bike-brevard-map.apk        # an EAS preview APK
+npx expo start --android                # or Expo Go, which it installs itself
+adb exec-out screencap -p > shot.png    # screenshots; adb can tap, unlike simctl
+```
+
+Two traps:
+
+- **Expo Go cannot show the map on the emulator.** Expo Go carries its own
+  Maps key, but Google rejects it for the copy Expo installs on an emulator —
+  logcat says `Authorization failure` for `host.exp.exponent`. Everything
+  except the map works, so Expo Go is still useful for the sheet, the tabs,
+  the detail screen and the back button. Checking the map needs a build with
+  our own key.
+- **`npx expo start` under `CI=1` does not reload.** Restart it after a code
+  change, then `adb shell am force-stop host.exp.exponent` and reopen, or the
+  emulator keeps running the old bundle.
 
 ## Release checklist
 
