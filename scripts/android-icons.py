@@ -2,7 +2,8 @@
 
     python3 scripts/android-icons.py ~/Desktop/final/FINAL-app-icon-3b-1024.png
 
-Needs Pillow. Writes assets/android-icon-{foreground,background,monochrome}.png.
+Needs Pillow. Writes assets/android-icon-{foreground,background,monochrome}.png and
+assets/android-splash.png.
 
 An adaptive icon is a 108dp canvas of which a launcher shows at most the
 central 72dp, through whatever mask it likes: circle, squircle, rounded
@@ -19,7 +20,7 @@ graded by their own tone, the white spokes and the sky clear.
 import sys
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageDraw
 
 CANVAS = 1024
 # 72/108 of the canvas, rounded up a few pixels so no mask shows a hairline.
@@ -56,4 +57,14 @@ for y in range(ART):
         mono.putpixel((x + offset, y + offset), (255, 255, 255, round(255 * min(max(a, 0), 1))))
 mono.save(assets / 'android-icon-monochrome.png')
 
-print('wrote', ', '.join(f'android-icon-{n}.png' for n in ('foreground', 'background', 'monochrome')))
+# Splash: Android 12+ shows the splash image through a 192dp circle centred in
+# a 288dp canvas, the same two thirds as the icon. The iOS splash has the
+# wordmark baked in, which that circle would cut through, so Android gets the
+# scene already cut to the circle, clear outside it, on the splash cream.
+circle = Image.new('L', (ART, ART), 0)
+ImageDraw.Draw(circle).ellipse((0, 0, ART - 1, ART - 1), fill=255)
+splash = Image.new('RGBA', (CANVAS, CANVAS), (0, 0, 0, 0))
+splash.paste(art, (offset, offset), circle)
+splash.save(assets / 'android-splash.png')
+
+print('wrote android-icon-{foreground,background,monochrome}.png, android-splash.png')

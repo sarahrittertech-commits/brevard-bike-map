@@ -25,7 +25,13 @@
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
-      }
+      },
+      "blockedPermissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.VIBRATE"
+      ]
     },
     "extra": {
       "eas": {
@@ -41,7 +47,11 @@
           "backgroundColor": "#F7F4EC",
           "image": "./assets/splash.png",
           "imageWidth": 380,
-          "resizeMode": "contain"
+          "resizeMode": "contain",
+          "android": {
+            "image": "./assets/android-splash.png",
+            "imageWidth": 288
+          }
         }
       ]
     ]
