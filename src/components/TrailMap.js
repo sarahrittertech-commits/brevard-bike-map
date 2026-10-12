@@ -56,6 +56,29 @@ export default function TrailMap({
   const [ready, setReady] = useState(false);
   const regionRef = useRef(null);
 
+  // Android draws a custom marker by snapshotting its view into a bitmap. With
+  // tracking off from the first frame it can snapshot before the SVG and text
+  // have drawn, leaving a blank pin. So on Android every change to the markers
+  // tracks for a moment, then stops; iOS never needs it.
+  const markerKey = [
+    ready,
+    active.join(),
+    destinations.map((d) => d.id).join(),
+    selected?.id,
+    routeStops?.length,
+  ].join('|');
+  const [trackedKey, setTrackedKey] = useState(null);
+  const [tracking, setTracking] = useState(false);
+  if (ANDROID && markerKey !== trackedKey) {
+    setTrackedKey(markerKey);
+    setTracking(true);
+  }
+  useEffect(() => {
+    if (!tracking) return undefined;
+    const timer = setTimeout(() => setTracking(false), 600);
+    return () => clearTimeout(timer);
+  }, [tracking, trackedKey]);
+
   useEffect(() => {
     // fitToCoordinates is ignored until the native map has laid out.
     if (!ready || !mapRef.current || fitLatLngs.length === 0) return;
@@ -162,7 +185,7 @@ export default function TrailMap({
           coordinate={toLatLng(landmark.coordinates)}
           anchor={{ x: landmark.labelSide === 'right' ? 0 : 1, y: 0.5 }}
           tappable={false}
-          tracksViewChanges={false}
+          tracksViewChanges={tracking}
           zIndex={-1}
         >
           <LandmarkLabel name={landmark.name} side={landmark.labelSide} offsetY={landmark.labelOffsetY} />
@@ -175,7 +198,7 @@ export default function TrailMap({
           coordinate={toLatLng(t.coordinates)}
           anchor={{ x: 0.5, y: 0.5 }}
           tappable={false}
-          tracksViewChanges={false}
+          tracksViewChanges={tracking}
         >
           <TrailheadMarker />
         </Marker>
@@ -185,14 +208,15 @@ export default function TrailMap({
         const category = displayCategory(d, active);
         const isSelected = d === selected;
         return (
-          // tracksViewChanges is false, so the native marker only repaints on
-          // remount. The key must therefore name every prop that changes how
-          // the pin looks, or a new visual state will silently not appear.
+          // Outside the brief Android window tracksViewChanges is false, so the
+          // native marker only repaints on remount. The key must therefore name
+          // every prop that changes how the pin looks, or a new visual state
+          // will silently not appear.
           <Marker
             key={`${d.id}-${category}-${isSelected}`}
             coordinate={toLatLng(d.coordinates)}
             anchor={{ x: 0.5, y: 1 }}
-            tracksViewChanges={false}
+            tracksViewChanges={tracking}
             zIndex={isSelected ? 10 : 1}
             onPress={(e) => {
               e.stopPropagation();
@@ -210,7 +234,7 @@ export default function TrailMap({
           coordinate={toLatLng(stop.coordinates)}
           anchor={{ x: 0.5, y: 0.5 }}
           tappable={false}
-          tracksViewChanges={false}
+          tracksViewChanges={tracking}
           zIndex={20}
         >
           <StopMarker number={stop.index + 1} />
