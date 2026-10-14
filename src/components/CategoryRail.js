@@ -7,13 +7,23 @@ import { categories } from '../lib/data';
 import { cardFloat, colors, hairlineTop } from '../theme';
 
 const SIZE = 46;
+const GAP = 8;
+
+// Each group is a stack of buttons inside a card with a 1pt border.
+const groupHeight = (buttons) => buttons * SIZE + 2;
+// Height of the rail as one column, so the screen can tell when it won't fit.
+export const RAIL_HEIGHT = groupHeight(categories.length) + GAP + groupHeight(2);
+// Width of the rail when its two groups sit side by side.
+export const SPLIT_RAIL_WIDTH = 2 * (SIZE + 2) + GAP;
 
 // Vertical stack of category toggles on the right edge of the map, plus a
-// "just the path" clear button and a recenter button beneath.
-export default function CategoryRail({ active, onToggle, onClear, onRecenter }) {
+// "just the path" clear button and a recenter button beneath. On a screen too
+// short for one column (a phone in landscape, iPhone Duo's outer display) the
+// screen passes `split` and the two groups stand side by side instead.
+export default function CategoryRail({ active, onToggle, onClear, onRecenter, split }) {
   const allOff = active.length === 0;
   return (
-    <View style={styles.rail}>
+    <View style={[styles.rail, split && styles.split]}>
       <View style={styles.group}>
         {categories.map((cat, i) => {
           const on = active.includes(cat.id);
@@ -62,7 +72,13 @@ export default function CategoryRail({ active, onToggle, onClear, onRecenter }) 
 const styles = StyleSheet.create({
   rail: {
     alignItems: 'flex-end',
-    gap: 8,
+    gap: GAP,
+  },
+  // Row-reverse keeps the category group against the screen edge, where it
+  // sits in the single-column layout, with the tools to its left.
+  split: {
+    flexDirection: 'row-reverse',
+    alignItems: 'flex-start',
   },
   group: {
     ...cardFloat,

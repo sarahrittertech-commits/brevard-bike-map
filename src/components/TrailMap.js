@@ -41,18 +41,26 @@ export default function TrailMap({
   routeStops,
   fitKey,
   fitLatLngs,
-  topInset,
-  bottomInset,
-  // Height of the map view and of the expanded sheet, so a selected pin can
-  // be centred in the strip of map that stays visible above the sheet.
+  // { top, right, bottom, left }: how far in from each edge the header, rail,
+  // sheet and system bars reach, so fitted routes stay out from under them.
+  clear,
+  // Size of the map view and height of the expanded sheet, so a selected pin
+  // can be centred in the area of map that stays visible beside the sheet.
+  width,
   height,
   sheetHeight,
-  // Map kept clear at the bottom on Android, where the sheet would otherwise
-  // cover the Google logo that Google's terms require to stay visible.
-  logoInset = 0,
+  // True when the sheet is a column on the left rather than a bottom sheet.
+  docked,
+  // { left, bottom }: the corner the sheet leaves free for the map's
+  // attribution — Google's logo on Android, Apple's Legal link on iOS. Both
+  // providers' terms require it to stay visible.
+  logoInset,
 }) {
   const mapRef = useRef(null);
-  const mapInset = ANDROID ? logoInset : 0;
+  // On Android the logo is moved with mapPadding, which also shifts what the
+  // map treats as its centre; iOS moves only the label.
+  const padLeft = ANDROID ? logoInset.left : 0;
+  const padBottom = ANDROID ? logoInset.bottom : 0;
   const [ready, setReady] = useState(false);
   const regionRef = useRef(null);
 
@@ -83,11 +91,15 @@ export default function TrailMap({
     // fitToCoordinates is ignored until the native map has laid out.
     if (!ready || !mapRef.current || fitLatLngs.length === 0) return;
     mapRef.current.fitToCoordinates(fitLatLngs, {
-      // Right edge clears the category rail (46 wide + 12 margin); left edge
-      // leaves room for the westernmost landmark label.
-      // On Android mapPadding already holds back logoInset, and edgePadding
-      // is added on top of it.
-      edgePadding: { top: topInset, right: 76, bottom: bottomInset - mapInset, left: 96 },
+      // The caller's left edge also leaves room for the westernmost landmark
+      // label. On Android mapPadding already holds back the logo inset, and
+      // edgePadding is added on top of it.
+      edgePadding: {
+        top: clear.top,
+        right: clear.right,
+        bottom: clear.bottom - padBottom,
+        left: clear.left - padLeft,
+      },
       animated: true,
     });
     // Refit only when the caller changes the key, not on every render.
@@ -102,7 +114,7 @@ export default function TrailMap({
     const longitudeDelta = latitudeDelta * 0.2;
     // The screen centre sits under the sheet, so aim for the middle of the strip
     // of map that stays visible above it, expressed as a latitude shift.
-    const stripCentre = (topInset + (height - sheetHeight)) / 2;
+    const stripCentre = (clear.top + (height - sheetHeight)) / 2;
     // The marker is anchored at its tip ({ y: 1 }), so the pin's body hangs
     // above the coordinate. The coordinate therefore has to land half a pin
     // BELOW the strip centre for the body to be what sits centred.
@@ -122,14 +134,25 @@ export default function TrailMap({
     // and tappable, and this is cosmetic.
     const targetY = stripCentre + SELECTED_PIN_HEIGHT / 2;
     // With mapPadding, Google centres the region in the padded viewport.
-    const viewHeight = height - mapInset;
+    const viewHeight = height - padBottom;
     const shift = ((viewHeight / 2 - targetY) / viewHeight) * latitudeDelta;
     const { latitude, longitude } = toLatLng(selected.coordinates);
+    // Sideways the same idea when the sheet is docked on the left: centre the
+    // pin between the column and the rail. The map fits latitude, so its
+    // longitude span follows from the view's shape and Mercator's stretch at
+    // this latitude. Upright the pin stays centred, as it always has.
+    let lonShift = 0;
+    if (docked) {
+      const viewWidth = width - padLeft;
+      const lonSpan = (latitudeDelta * viewWidth) / viewHeight / Math.cos((latitude * Math.PI) / 180);
+      const targetX = (clear.left + width - clear.right) / 2 - padLeft;
+      lonShift = ((viewWidth / 2 - targetX) / viewWidth) * lonSpan;
+    }
     mapRef.current.animateToRegion(
-      { latitude: latitude - shift, longitude, latitudeDelta, longitudeDelta },
+      { latitude: latitude - shift, longitude: longitude + lonShift, latitudeDelta, longitudeDelta },
       280
     );
-  }, [selected, height, sheetHeight, topInset, mapInset]);
+  }, [selected, docked, width, height, sheetHeight, clear.top, clear.left, clear.right, padLeft, padBottom]);
 
   return (
     <MapView
@@ -137,7 +160,8 @@ export default function TrailMap({
       style={StyleSheet.absoluteFill}
       mapType={ANDROID ? 'standard' : 'mutedStandard'}
       customMapStyle={ANDROID ? GOOGLE_STYLE : undefined}
-      mapPadding={ANDROID ? { top: 0, right: 0, bottom: mapInset, left: 0 } : undefined}
+      mapPadding={ANDROID ? { top: 0, right: 0, bottom: padBottom, left: padLeft } : undefined}
+      legalLabelInsets={ANDROID ? undefined : { top: 0, right: 0, bottom: logoInset.bottom, left: logoInset.left }}
       // Google-only behaviours the design does not have: a directions toolbar
       // on marker tap, and the camera jumping to a tapped marker, which would
       // fight the centring above.

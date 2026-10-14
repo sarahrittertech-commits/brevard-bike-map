@@ -13,12 +13,19 @@ import { colors, fillRow, fonts, hairlineTop, radius, text, tint } from '../them
 export const PEEK = 112;
 export const SHEET_FRACTION = 0.64;
 const EASE = { duration: 260, useNativeDriver: true };
+// The close button draws at 32pt; this takes its touch area to Apple's 44pt.
+const HIT_SLOP = 6;
 
 // Bottom sheet over the map. Peeks at the bottom; drag or tap the handle to
 // expand. Shows trail facts, the filtered list, or the selected place.
 // The screen owns `expanded` so selecting a pin on the map can open it.
+// `dock` ({ left, width }) turns it into a column on the leading side of a
+// wide screen; without it the sheet spans the width and `sideInsets` keeps its
+// content clear of anything on the screen's edges.
 export default function MapSheet({
   height,
+  dock,
+  sideInsets,
   destinations,
   active,
   selected,
@@ -52,7 +59,13 @@ export default function MapSheet({
   }, [expanded, closedY, y, onExpandedChange]);
 
   return (
-    <Animated.View style={[styles.sheet, { height, transform: [{ translateY: y }] }]}>
+    <Animated.View
+      style={[
+        styles.sheet,
+        dock ? [styles.docked, dock] : { left: 0, right: 0, paddingLeft: sideInsets.left, paddingRight: sideInsets.right },
+        { height, transform: [{ translateY: y }] },
+      ]}
+    >
       <View {...pan.panHandlers}>
         <Pressable
           onPress={() => onExpandedChange(!expanded)}
@@ -157,7 +170,13 @@ function SelectedPlace({ destination, category, onClose }) {
           <Text style={[styles.selectedEyebrow, { color: cat.color }]}>{cat.label}</Text>
           <Text style={styles.h1}>{destination.name}</Text>
         </View>
-        <Pressable onPress={onClose} accessibilityRole="button" accessibilityLabel="Close place details" style={styles.close}>
+        <Pressable
+          onPress={onClose}
+          accessibilityRole="button"
+          accessibilityLabel="Close place details"
+          hitSlop={HIT_SLOP}
+          style={styles.close}
+        >
           <X size={16} color={colors.inkFaint} />
         </Pressable>
       </View>
@@ -186,8 +205,6 @@ function SelectedPlace({ destination, category, onClose }) {
 const styles = StyleSheet.create({
   sheet: {
     position: 'absolute',
-    left: 0,
-    right: 0,
     bottom: 0,
     backgroundColor: colors.surface,
     borderTopLeftRadius: radius.lg,
@@ -199,6 +216,11 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
     shadowOffset: { width: 0, height: -8 },
     elevation: 12,
+  },
+  docked: {
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: colors.line,
   },
   handle: {
     alignItems: 'center',

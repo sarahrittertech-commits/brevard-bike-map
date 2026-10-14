@@ -8,68 +8,93 @@ import Map from 'lucide-react-native/icons/map';
 import Ruler from 'lucide-react-native/icons/ruler';
 
 import { DIFFICULTY_LABEL, adventureImages, categoryById, destinationById } from '../lib/data';
+import { READING_WIDTH, photoHeight, useLayoutClass } from '../lib/layout';
 import { colors, fonts, radius, shadowFloat, text } from '../theme';
 
 
 export default function AdventureDetailScreen({ adventure, onBack, onShowOnMap }) {
   const insets = useSafeAreaInsets();
+  const { width, height, regular } = useLayoutClass();
   const ctaHeight = 72 + insets.bottom;
+  // The photo runs edge to edge; everything below it sits in a reading
+  // column clear of the side insets.
+  const column = {
+    paddingLeft: insets.left,
+    paddingRight: insets.right,
+    maxWidth: READING_WIDTH + insets.left + insets.right,
+  };
+  // Two by two on a phone; one row of four on regular width, where an even
+  // count still splits cleanly at iPhone Duo's fold.
+  const perRow = regular ? 4 : 2;
+  const stats = [
+    { icon: Ruler, label: 'Distance', value: `${adventure.miles} mi` },
+    { icon: Clock, label: 'Rolling time', value: `${adventure.minutes} min` },
+    { icon: Activity, label: 'Effort', value: DIFFICULTY_LABEL[adventure.difficulty] },
+    { icon: Baby, label: 'With kids', value: adventure.kidFriendly ? 'Great' : 'Adults' },
+  ];
 
   return (
     <View style={styles.screen}>
       <ScrollView contentContainerStyle={{ paddingBottom: ctaHeight + 16 }} showsVerticalScrollIndicator={false}>
-        <View style={styles.hero}>
+        <View style={[styles.hero, { height: photoHeight(width, height) }]}>
           <Image source={adventureImages[adventure.image]} style={styles.heroImage} resizeMode="cover" />
           <View style={styles.heroScrim} />
           <Pressable
             onPress={onBack}
             accessibilityRole="button"
             accessibilityLabel="Back"
-            style={[styles.back, { top: insets.top + 8 }]}
+            hitSlop={6}
+            style={[styles.back, { top: insets.top + 8, left: insets.left + 12 }]}
           >
             <ChevronLeft size={16} color={colors.ink} />
             <Text style={styles.backText}>Back</Text>
           </Pressable>
-          <View style={styles.heroText}>
+          <View style={[styles.heroText, { left: insets.left + 20, right: insets.right + 20 }]}>
             <Text style={styles.heroTagline}>{adventure.tagline}</Text>
             <Text style={styles.heroTitle}>{adventure.title}</Text>
           </View>
         </View>
 
-        <View style={styles.stats}>
-          <Stat icon={Ruler} label="Distance" value={`${adventure.miles} mi`} left />
-          <Stat icon={Clock} label="Rolling time" value={`${adventure.minutes} min`} />
-          <Stat icon={Activity} label="Effort" value={DIFFICULTY_LABEL[adventure.difficulty]} left />
-          <Stat icon={Baby} label="With kids" value={adventure.kidFriendly ? 'Great' : 'Adults'} />
-        </View>
+        <View style={[styles.column, column]}>
+          <View style={styles.stats}>
+            {stats.map((stat, i) => (
+              <Stat key={stat.label} {...stat} width={`${100 / perRow}%`} divider={(i + 1) % perRow !== 0} />
+            ))}
+          </View>
 
-        <Text style={styles.story}>{adventure.story}</Text>
+          <Text style={styles.story}>{adventure.story}</Text>
 
-        <Text style={styles.h2}>Stop by stop</Text>
-        <View style={styles.stops}>
-          {adventure.stops.map((stop, i) => {
-            const destination = stop.destination ? destinationById[stop.destination] : null;
-            const color = destination ? categoryById[destination.categories[0]].color : colors.forest;
-            const last = i === adventure.stops.length - 1;
-            return (
-              <View key={`${stop.name}-${i}`} style={styles.stop}>
-                <View style={styles.stopSpine}>
-                  <View style={[styles.stopNumber, { backgroundColor: color }]}>
-                    <Text style={styles.stopNumberText}>{i + 1}</Text>
+          <Text style={styles.h2}>Stop by stop</Text>
+          <View style={styles.stops}>
+            {adventure.stops.map((stop, i) => {
+              const destination = stop.destination ? destinationById[stop.destination] : null;
+              const color = destination ? categoryById[destination.categories[0]].color : colors.forest;
+              const last = i === adventure.stops.length - 1;
+              return (
+                <View key={`${stop.name}-${i}`} style={styles.stop}>
+                  <View style={styles.stopSpine}>
+                    <View style={[styles.stopNumber, { backgroundColor: color }]}>
+                      <Text style={styles.stopNumberText}>{i + 1}</Text>
+                    </View>
+                    {!last && <View style={styles.stopLine} />}
                   </View>
-                  {!last && <View style={styles.stopLine} />}
+                  <View style={[styles.stopBody, last && { paddingBottom: 4 }]}>
+                    <Text style={styles.stopName}>{stop.name}</Text>
+                    <Text style={styles.stopNote}>{stop.note}</Text>
+                  </View>
                 </View>
-                <View style={[styles.stopBody, last && { paddingBottom: 4 }]}>
-                  <Text style={styles.stopName}>{stop.name}</Text>
-                  <Text style={styles.stopNote}>{stop.note}</Text>
-                </View>
-              </View>
-            );
-          })}
+              );
+            })}
+          </View>
         </View>
       </ScrollView>
 
-      <View style={[styles.ctaBar, { paddingBottom: Math.max(insets.bottom, 16) }]}>
+      <View
+        style={[
+          styles.ctaBar,
+          { paddingBottom: Math.max(insets.bottom, 16), paddingLeft: insets.left + 20, paddingRight: insets.right + 20 },
+        ]}
+      >
         <Pressable
           onPress={onShowOnMap}
           accessibilityRole="button"
@@ -83,9 +108,9 @@ export default function AdventureDetailScreen({ adventure, onBack, onShowOnMap }
   );
 }
 
-function Stat({ icon: Icon, label, value, left }) {
+function Stat({ icon: Icon, label, value, width, divider }) {
   return (
-    <View style={[styles.stat, left && styles.statLeft]}>
+    <View style={[styles.stat, { width }, divider && styles.statDivider]}>
       <View style={styles.statLabelRow}>
         <Icon size={12} color={colors.inkFaint} strokeWidth={2.4} />
         <Text style={styles.statLabel}>{label}</Text>
@@ -101,7 +126,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
   },
   hero: {
-    aspectRatio: 3 / 2,
     backgroundColor: colors.line,
   },
   heroImage: {
@@ -118,7 +142,6 @@ const styles = StyleSheet.create({
   },
   back: {
     position: 'absolute',
-    left: 12,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
@@ -136,8 +159,6 @@ const styles = StyleSheet.create({
   },
   heroText: {
     position: 'absolute',
-    left: 20,
-    right: 20,
     bottom: 16,
   },
   heroTagline: {
@@ -151,18 +172,21 @@ const styles = StyleSheet.create({
     lineHeight: 29,
     color: colors.white,
   },
+  column: {
+    width: '100%',
+    alignSelf: 'center',
+  },
   stats: {
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
   stat: {
-    width: '50%',
     borderBottomWidth: 1,
     borderBottomColor: colors.line,
     paddingHorizontal: 20,
     paddingVertical: 12,
   },
-  statLeft: {
+  statDivider: {
     borderRightWidth: 1,
     borderRightColor: colors.line,
   },
@@ -252,10 +276,12 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: colors.line,
     backgroundColor: colors.surface,
-    paddingHorizontal: 20,
     paddingTop: 12,
   },
   cta: {
+    width: '100%',
+    maxWidth: READING_WIDTH - 40,
+    alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

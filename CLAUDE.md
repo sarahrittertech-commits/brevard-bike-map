@@ -91,6 +91,7 @@ App.js                      fonts, tab/detail/following state, renders screens â
 src/theme.js                colours, font names, radii from the design's Tailwind config
 src/lib/data.js             the only way the UI reads data; owns [lon, lat] -> {latitude, longitude}
 src/lib/select.js           the pure selection logic data.js binds data to; CommonJS so node can test it
+src/lib/layout.js           useLayoutClass(): regular/wide from window size â€” every layout branch hangs off it
 src/data/                   five JSON files (see docs/data-model.md)
 src/screens/                MapScreen, AdventuresScreen, AdventureDetailScreen
 src/components/TrailMap     MapView + network polylines + all markers

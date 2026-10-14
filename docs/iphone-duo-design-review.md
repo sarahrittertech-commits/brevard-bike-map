@@ -203,6 +203,28 @@ not just Duo.
    1398 × 2034, inner 2007 × 2853). Apple requires them from April 2027 for
    apps built with the iOS 27.1 SDK.
 
+### Status, 14 October 2026
+
+Items 1–5 are built. Item 5 became "the open sheet stops at the middle of the
+window" rather than a third snap point. Half the *map* area would sit 35 pt
+above the fold, because the tab bar takes height from the bottom.
+
+Unlocking rotation also meant handling **phones on their side**, which this
+review hadn't covered. An iPhone 17 in landscape is 874 × 402 pt, and the
+upright layout doesn't fit it: the rail runs into the sheet. Any screen wider
+than tall now docks the header and sheet into a left column (at most 400 pt,
+always ending before the middle of the screen). The rail splits into two
+columns wherever one won't fit. iPhone Duo open flat gets the same layout,
+which is a cheap version of F9's two-pane split.
+
+**Checked** on an iPhone 17 simulator: upright as before, plus a temporary
+test view that rendered the app at 874 × 402, 466 × 678, 951 × 669 and
+669 × 951, with guessed side insets.
+
+**Not done**: items 6 and 7, and anything on a real iPhone Duo or its
+simulator. This Mac has Xcode 27.0, which has no iPhone Duo device. F11 (four
+fact tiles) was left out as cosmetic.
+
 ## Tier 2: native on Duo (a decision for Sarah)
 
 The vertical tab bar only comes from the system tab bar. There are two ways

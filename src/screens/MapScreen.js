@@ -3,26 +3,60 @@ import { BackHandler, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import X from 'lucide-react-native/icons/x';
 
-import CategoryRail from '../components/CategoryRail';
+import CategoryRail, { RAIL_HEIGHT, SPLIT_RAIL_WIDTH } from '../components/CategoryRail';
 import MapSheet, { PEEK, SHEET_FRACTION } from '../components/MapSheet';
 import TrailMap from '../components/TrailMap';
 import { APP_NAME, TOWN_NAME, adventureStopPins, lineToLatLngs, networkLatLngs, visibleDestinations } from '../lib/data';
+import { useLayoutClass } from '../lib/layout';
 import { cardFloat, colors, fillRow, fonts, radius, text } from '../theme';
 
+// Room the floating header card takes, top inset aside.
+const HEADER_SPACE = 84;
+// The widest the docked column gets on a wide screen.
+const DOCK_MAX_WIDTH = 400;
+const EDGE = 12;
+const RAIL_WIDTH = 46;
+
 // The main screen: map, floating header, category rail, bottom sheet.
+//
+// Upright, the header spans the top, the rail sits on the right and the sheet
+// rises from the bottom. On a screen wider than tall (a phone on its side,
+// iPhone Duo open like a book) the header and sheet dock into a column on the
+// leading half and the map has the rest. The column stops short of the middle,
+// so on iPhone Duo nothing in it sits across the fold.
 // `following` is an adventure whose route is drawn on top of the network.
 // `inFront` is false while another screen is laid over the map.
 export default function MapScreen({ following, showNonce, onStopFollowing, inFront }) {
   const insets = useSafeAreaInsets();
+  const { regular, wide, height: windowHeight } = useLayoutClass();
   const [active, setActive] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [recenter, setRecenter] = useState(0);
-  const [height, setHeight] = useState(0);
+  const [{ width, height }, setSize] = useState({ width: 0, height: 0 });
 
   const shown = useMemo(() => visibleDestinations(active), [active]);
   const selected = shown.find((d) => d.id === selectedId) ?? null;
-  const sheetHeight = Math.round(height * SHEET_FRACTION);
+  const topInset = insets.top + 12;
+  const dock = wide
+    ? { left: insets.left + EDGE, width: Math.min(DOCK_MAX_WIDTH, Math.round(width / 2) - insets.left - 2 * EDGE) }
+    : null;
+  // On a tall regular-width screen (iPhone Duo's inner display upright) the
+  // open sheet stops at the middle of the window, so when the device is half
+  // folded its top edge lands on the fold: map above, list below.
+  const sheetHeight = dock
+    ? height - topInset - HEADER_SPACE
+    : regular
+      ? height - Math.round(windowHeight / 2)
+      : Math.round(height * SHEET_FRACTION);
+
+  // The rail goes below the header when upright, beside it when docked, and
+  // splits into two columns when a single one would run into the sheet.
+  const railTop = dock ? topInset : topInset + 80;
+  const railBottom = dock ? height - EDGE : height - PEEK - 8;
+  const splitRail = railBottom - railTop < RAIL_HEIGHT;
+  const railRight = insets.right + EDGE;
+  const railSpace = railRight + (splitRail ? SPLIT_RAIL_WIDTH : RAIL_WIDTH) + 18;
 
   const route = useMemo(() => (following ? lineToLatLngs(following.route) : null), [following]);
   const routeStops = useMemo(() => (following ? adventureStopPins(following) : null), [following]);
@@ -70,10 +104,11 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     return () => sub.remove();
   }, [inFront, selectedId, sheetOpen, following, onStopFollowing]);
 
-  const topInset = insets.top + 12;
-
   return (
-    <View style={styles.screen} onLayout={(e) => setHeight(e.nativeEvent.layout.height)}>
+    <View
+      style={styles.screen}
+      onLayout={(e) => setSize({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })}
+    >
       <TrailMap
         destinations={shown}
         active={active}
@@ -83,14 +118,29 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
         routeStops={routeStops}
         fitKey={`${following?.id ?? 'trail'}-${recenter}-${showNonce}`}
         fitLatLngs={route ?? networkLatLngs}
-        topInset={topInset + 84}
-        bottomInset={PEEK + 28}
+        // What the map must keep clear of: the header, sheet and rail. Docked,
+        // the header and sheet are a column on the left and nothing covers
+        // the bottom of the map.
+        clear={
+          dock
+            ? { top: topInset, right: railSpace, bottom: 28, left: dock.left + dock.width + 24 }
+            : { top: topInset + HEADER_SPACE, right: railSpace, bottom: PEEK + 28, left: insets.left + 96 }
+        }
+        width={width}
         height={height}
-        sheetHeight={sheetHeight}
-        logoInset={PEEK}
+        docked={!!dock}
+        sheetHeight={dock ? 0 : sheetHeight}
+        logoInset={dock ? { left: dock.left + dock.width, bottom: 0 } : { left: 0, bottom: PEEK }}
       />
 
-      <View style={[styles.header, { top: topInset }]} pointerEvents="box-none">
+      <View
+        style={[
+          styles.header,
+          { top: topInset },
+          dock ? dock : { left: insets.left + 16, right: insets.right + 16 },
+        ]}
+        pointerEvents="box-none"
+      >
         {following ? (
           <View style={[styles.card, styles.followingCard]}>
             <View style={styles.cardBody}>
@@ -106,6 +156,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
               onPress={onStopFollowing}
               accessibilityRole="button"
               accessibilityLabel="Stop following this adventure"
+              hitSlop={6}
               style={({ pressed }) => [styles.closeButton, pressed && { backgroundColor: colors.canvas }]}
             >
               <X size={16} color={colors.inkFaint} />
@@ -119,8 +170,9 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
         )}
       </View>
 
-      <View style={[styles.rail, { top: topInset + 80 }]}>
+      <View style={[styles.rail, { top: railTop, right: railRight }]}>
         <CategoryRail
+          split={splitRail}
           active={active}
           onToggle={toggle}
           onClear={() => {
@@ -134,6 +186,8 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
       {height > 0 && (
         <MapSheet
           height={sheetHeight}
+          dock={dock}
+          sideInsets={{ left: insets.left, right: insets.right }}
           destinations={shown}
           active={active}
           selected={selected}
@@ -154,8 +208,6 @@ const styles = StyleSheet.create({
   },
   header: {
     position: 'absolute',
-    left: 16,
-    right: 16,
   },
   card: {
     ...cardFloat,
@@ -191,6 +243,5 @@ const styles = StyleSheet.create({
   },
   rail: {
     position: 'absolute',
-    right: 12,
   },
 });

@@ -63,9 +63,10 @@ Run before every release. A simulator does not count.
 | MT-4 | UC-4: Taproom Traverse | Route is correct and matches local knowledge |
 | MT-5 | Filter to one category | Only that category's pins remain; list count matches |
 | MT-6 | Just the path button | All pins clear, sheet returns to trail facts |
-| MT-7 | Rotate device | Layout survives, map keeps its position |
+| MT-7 | Rotate device to landscape on the map, then on Adventures and a ride's detail | Header and sheet dock to a column on the left, the rail on the right is never overlapped (two columns if it would be), the route fits between them; text and buttons clear the Dynamic Island side; rotating back restores the bottom sheet |
 | MT-8 | Airplane mode, then cold launch | Map data and markers still load (R9) |
 | MT-9 | Pinch to zoom out fully, then back in | No crash, markers re-render |
+| MT-10 | iPhone Duo: closed, open flat, open upright, half folded both ways | Nothing under the side bars or camera; open and upright, the sheet's open edge sits on the fold; open flat, the docked column ends before the fold. See the [iPhone Duo review](./iphone-duo-design-review) |
 
 ### Android
 

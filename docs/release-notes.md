@@ -5,6 +5,37 @@ title: Release notes
 
 # Release notes
 
+## Unreleased — any shape of screen
+
+Started 14 October 2026, from the [iPhone Duo review](./iphone-duo-design-review)
+(its Tier 1). The app was locked upright and assumed one phone shape; it now
+follows the screen it is given. Nothing changes on an upright iPhone except
+touch targets.
+
+- **The app rotates.** On its side the header and the sheet dock into a column
+  on the left, and the map has the rest. On iPhone Duo open flat that column
+  ends before the fold.
+- **The category rail never runs into the sheet.** Where one column of
+  buttons will not fit — a phone on its side, iPhone Duo's short outer
+  display — it stands in two.
+- **Nothing hides under the edges.** Everything that respected the top and
+  bottom safe areas now respects the left and right ones too, where iPhone
+  Duo puts its bars and camera and a phone on its side puts the Dynamic
+  Island. Routes are fitted clear of all four.
+- **On a big upright screen the sheet opens to half height**, so on iPhone Duo
+  half folded it stops at the fold: map above, list below.
+- **Photos stop at 40% of the screen's height**, and text, ride stats and the
+  route button stop at a 600-point column, so a wide screen doesn't turn a
+  ride's photo into the whole page. Ride stats go four across on wide screens.
+- **Close and Back take a 44-point touch**, Apple's minimum, without changing
+  how they look.
+- **Apple's Legal link stays visible**; the sheet used to cover it.
+
+Not yet done: a build with the iOS 27.1 SDK (needed for edge-to-edge on
+iPhone Duo), iPhone Duo App Store screenshots, and a check on a real iPhone
+Duo or its simulator — the layouts above were checked at iPhone Duo's sizes
+on an iPhone 17 simulator, with guessed side-bar widths.
+
 ## Unreleased — Android
 
 Started 12 October 2026. The app has always been Expo, so the JavaScript was

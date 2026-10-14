@@ -3,7 +3,7 @@
     "name": "Bike Brevard Map",
     "slug": "brevard-bike-map",
     "version": "1.0.1",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon-light.png",
     "userInterfaceStyle": "light",
     "ios": {

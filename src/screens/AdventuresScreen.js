@@ -6,15 +6,32 @@ import Clock from 'lucide-react-native/icons/clock';
 import Ruler from 'lucide-react-native/icons/ruler';
 
 import { DIFFICULTY_LABEL, adventureImages, adventures } from '../lib/data';
+import { READING_WIDTH, photoHeight, useLayoutClass } from '../lib/layout';
 import { card, cardFloat, colors, fillRow, fonts, hairlineTop, radius, text } from '../theme';
 
 
 export default function AdventuresScreen({ onOpen }) {
   const insets = useSafeAreaInsets();
+  const { width, height } = useLayoutClass();
   const [featured, ...rest] = adventures;
+  // The column is the screen less its side insets, capped at reading width;
+  // the featured photo spans it inside 20pt margins.
+  const column = Math.min(width - insets.left - insets.right, READING_WIDTH);
+  const featuredPhoto = photoHeight(column - 40, height);
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={{ paddingTop: insets.top + 24, paddingBottom: 32 }}>
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={[
+        styles.content,
+        {
+          paddingTop: insets.top + 24,
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+          maxWidth: READING_WIDTH + insets.left + insets.right,
+        },
+      ]}
+    >
       <View style={styles.header}>
         <Text style={styles.eyebrow}>Ride ideas</Text>
         <Text style={styles.h1}>Adventures</Text>
@@ -22,7 +39,7 @@ export default function AdventuresScreen({ onOpen }) {
       </View>
 
       <Pressable onPress={() => onOpen(featured.id)} style={({ pressed }) => [styles.featured, pressed && styles.pressedScale]}>
-        <View style={styles.featuredImageWrap}>
+        <View style={[styles.featuredImageWrap, { height: featuredPhoto }]}>
           <Image source={adventureImages[featured.image]} style={styles.featuredImage} resizeMode="cover" />
           <View style={styles.badge}>
             <Text style={styles.badgeText}>Most ridden</Text>
@@ -84,6 +101,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.canvas,
   },
+  content: {
+    width: '100%',
+    alignSelf: 'center',
+    paddingBottom: 32,
+  },
   header: {
     paddingHorizontal: 20,
     paddingBottom: 16,
@@ -115,7 +137,6 @@ const styles = StyleSheet.create({
     transform: [{ scale: 0.99 }],
   },
   featuredImageWrap: {
-    aspectRatio: 3 / 2,
     backgroundColor: colors.line,
   },
   featuredImage: {

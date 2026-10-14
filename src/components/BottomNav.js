@@ -13,7 +13,12 @@ const TABS = [
 export default function BottomNav({ current, onChange }) {
   const insets = useSafeAreaInsets();
   return (
-    <View style={[styles.nav, { paddingBottom: Math.max(insets.bottom, 12) }]}>
+    <View
+      style={[
+        styles.nav,
+        { paddingBottom: Math.max(insets.bottom, 12), paddingLeft: insets.left, paddingRight: insets.right },
+      ]}
+    >
       {TABS.map(({ id, label, Icon }) => {
         const isActive = current === id;
         const color = isActive ? colors.forest : colors.inkFaint;
