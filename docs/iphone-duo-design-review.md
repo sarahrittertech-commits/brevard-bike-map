@@ -117,7 +117,10 @@ native module. See "What we won't do".
   extend under the status bar and camera. Third-party guides report that full
   edge-to-edge and vertical bars need the **iOS 27.1 SDK**. We need an EAS
   build image with Xcode 27.1 (and Xcode 27.1 locally for the simulator).
-  Check which SDK Expo SDK 57 targets, or whether this needs SDK 58.
+  *Answered 15 October 2026:* SDK 57 can build with Xcode 27 once iOS scene
+  support is switched on, and it now is. EAS still defaults SDK 57 to Xcode
+  26.6, so the image has to be pinned. See the runbook, "Which Xcode EAS
+  builds with".
 
 ### Trail Map (outer display)
 

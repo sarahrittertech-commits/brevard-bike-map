@@ -186,6 +186,33 @@ Builds run on Expo's servers and take 10–20 minutes. The free tier queues
 behind paid builds, so **do not leave the first real build until ship day.**
 Do a throwaway build in week one to find the signing problems early.
 
+### Which Xcode EAS builds with
+
+Checked 15 October 2026. EAS picks the build image from the Expo SDK. For
+SDK 57 that is `macos-tahoe-26.5-xcode-26.6`: **Xcode 26.6 and the iOS 26
+SDK**. That is what App Store Connect requires today (iOS 26 SDK or later,
+since 28 April 2026), and the app runs on iOS 27 phones as it is.
+
+Two things will need **Xcode 27**:
+
+- **iPhone Duo.** Apps reach the screen edges and get side bars only when
+  built with the iOS 27.1 SDK. See the [iPhone Duo review](./iphone-duo-design-review).
+- **Apple's April 2027 rule.** From then, uploads must be built with the iOS
+  27 SDK or later.
+
+When the time comes, pin the image in `eas.json` under the profile's `ios`
+key, for example `"image": "macos-tahoe-26.6-xcode-27.1"`. The image list is
+at [docs.expo.dev/build-reference/infrastructure](https://docs.expo.dev/build-reference/infrastructure/).
+On 15 October 2026 the Xcode 27.1 image is still a release candidate.
+
+**Scene support is already on** (`expo-build-properties`,
+`ios.enableSceneSupport` in `app.json`). An app built with Xcode 27 that
+doesn't use UIKit's scene life cycle doesn't launch properly on iOS 27: it
+shows a black screen. SDK 58 does this by default. On SDK 57 it's opt-in,
+which is why the plugin is there. Delete the setting after upgrading to SDK
+58, where prebuild warns that it does nothing. See Expo's
+[scene life cycle guide](https://github.com/expo/fyi/blob/main/ios-scene-lifecycle.md).
+
 ## Recording the App Review demo video
 
 Apple asks for a screen recording from a **physical device**, not the Simulator,
@@ -381,7 +408,10 @@ Deciding this now, rather than at 11pm on 30 September, is the point.
 
 ## Running in the iOS Simulator
 
-Xcode 26 and the iOS 26.5 simulator runtime are installed on the Mac mini.
+Xcode 27.0 is installed on the Mac mini, with the iOS 26.5 and iOS 27.0
+simulator runtimes. Each runtime has its own "iPhone 17" simulator, so pass
+the device's ID when it matters which one opens:
+`xcrun simctl list devices` shows which is which.
 
 ```bash
 npm start                                  # in one terminal
@@ -391,3 +421,16 @@ xcrun simctl openurl booted exp://127.0.0.1:8081
 
 Expo Go is already installed on the iPhone 17 simulator. It is a quick way to
 check a change; the release gate still requires a real phone.
+
+Expo Go is not a check of native configuration: it brings its own app
+delegate, scene setup and Info.plist. To test those, build the app itself
+with the local Xcode. `ios/` is git-ignored and regenerated each time.
+
+```bash
+export LANG=en_US.UTF-8   # CocoaPods fails on Ruby 4 without it
+npx expo prebuild --platform ios --clean
+npx expo run:ios --device <simulator id>
+```
+
+`prebuild` rewrites the `ios` and `android` scripts in package.json to
+`expo run:*`. Put them back before committing.

@@ -108,9 +108,11 @@ scripts/test-lib.cjs        unit tests UT-1 to UT-5, no test runner
 ```
 
 Dependencies beyond Expo: react-native-maps, react-native-svg,
-lucide-react-native, react-native-safe-area-context, expo-font and two
-Google Fonts packages. Nothing else is needed; resist adding a navigation or
-bottom-sheet library.
+lucide-react-native, react-native-safe-area-context, expo-font, two
+Google Fonts packages and expo-build-properties, which only switches on iOS
+scene support so a build with Xcode 27 launches on iOS 27 (see the
+runbook). Nothing else is needed; resist adding a navigation or bottom-sheet
+library.
 
 Android builds need a Google Maps API key in the `GOOGLE_MAPS_ANDROID_API_KEY`
 environment variable (EAS env var, or a git-ignored `.env`), which

@@ -30,6 +30,16 @@ touch targets.
 - **Close and Back take a 44-point touch**, Apple's minimum, without changing
   how they look.
 - **Apple's Legal link stays visible**; the sheet used to cover it.
+- **Ready for Xcode 27 (15 October).** iOS scene support is switched on
+  through `expo-build-properties`. Without it, an app built with Xcode 27
+  shows a black screen on iOS 27. Checked by building the Release app with
+  Xcode 27.0 and running it on the iOS 27 simulator. EAS still builds with
+  Xcode 26.6 until the image is pinned; see the runbook.
+- **Expo patch updates**: `expo` 57.0.30 and `expo-splash-screen` 57.0.10,
+  the versions SDK 57 expects. expo-doctor passes all checks.
+- **The map refits when it docks or undocks** on rotation, so a route can't
+  be left under the new column. On the docked layout, the westernmost
+  landmark label keeps the same room as when upright.
 
 Not yet done: a build with the iOS 27.1 SDK (needed for edge-to-edge on
 iPhone Duo), iPhone Duo App Store screenshots, and a check on a real iPhone
