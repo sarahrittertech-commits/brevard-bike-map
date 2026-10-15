@@ -10,6 +10,39 @@ as the [App Store listing](./app-store-listing): so they are versioned with the
 app. Drafted 12 October 2026. **Nothing here is submitted.** Character limits
 are Google's and are counted below.
 
+## Where shipping stands
+
+Last updated 15 October 2026.
+
+- **Decided 12 October: ship to Google Play**, with the honest data safety
+  answers below and the reworded "What it doesn't do" paragraph.
+- **The Play developer account is not open yet.** On 12 October the Play
+  Console for `sarahrittertech@gmail.com` still showed the "Creating a developer
+  account" page — either sign-up was not finished, or the account was made
+  under another Google account. Creating it, the $25 fee and Google's identity
+  check are Sarah's to do; nothing below can start until the console opens on
+  its dashboard.
+- **A Play bundle exists**, though it is no longer current (next point): EAS
+  build `1f9f4bd3`, profile `production`, versionCode 2, from `677e8e5`.
+  The `.aab` is uploaded by hand in the Play Console — it is far over the size
+  a browser automation can attach.
+- **It needs rebuilding before upload.** `f3f641f` (iPhone Duo, 15 October)
+  unlocked rotation and changed layout on every platform after that bundle
+  and after every Android check below. Rebuild, then re-run MT-A1 to MT-A7 on
+  the emulator — rotation (MT-7) now matters on Android too.
+- **The release is a closed test, not production**, because of the testing
+  gate below. It needs the email addresses of at least 12 testers.
+- **After the first upload, add Play's signing SHA-1 to the Maps key.** Play
+  re-signs the app with its own key (Play Console → App integrity). The key in
+  Google Cloud project `brevardbikeapp` is restricted to the EAS upload key's
+  SHA-1 only, so without this the copy installed from Play fails to load the
+  map while the APK works.
+
+The order, once the account is open: create the app (Sarah confirms Google's
+declarations) → store listing, content rating and data safety from this page
+→ rebuild and upload the bundle → closed test with 12 testers → Play's SHA-1 on
+the Maps key → 14 days → apply for production.
+
 ## Before any of this
 
 **A Google Maps key.** Done 12 October 2026 — project `brevardbikeapp`, in
@@ -111,11 +144,12 @@ when the form is filled in**, since it changes with SDK versions:
 | App activity → App interactions | Collected, not shared · Analytics · Not optional |
 | Device or other IDs | Collected, not shared · Analytics · Not optional |
 
-**Decision for Sarah.** Three published statements say the app collects
+**Decided 12 October 2026: ship with the honest answers.** The reasoning, kept
+for the record: three published statements say the app collects
 nothing, and one of them is in the App Store description. On Android they
-are true of the app and not of the map inside it. The options are: ship Android
+are true of the app and not of the map inside it. The options were: ship Android
 with the honest Data safety answers above and the reworded paragraph (the
-privacy policy already names Google Maps); or don't ship to Play, and keep the
+privacy policy already names Google Maps); or not ship to Play, and keep the
 APK for sideloading and showing the work. Swapping to a map with no SDK
 telemetry means a different map library and a tile provider — ADR-0002's
 rejected options — and is not a small change.

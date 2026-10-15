@@ -75,6 +75,12 @@ and EAS the same day, and build 2 passes MT-A1 to MT-A7 on the emulator; see
 [test cases](./test-cases). Not yet on a physical Android phone. The Play
 screenshots were captured from that build.
 
+**Since then.** Sarah decided on 12 October to ship to Google Play with the
+honest data safety answers. The Play developer account is not open yet, and
+the Android checks predate `f3f641f`, which unlocked rotation — so the next
+Android build needs MT-A1 to MT-A7 again before it goes to Play. Where it
+stands is kept current in the [Google Play listing](./play-store-listing).
+
 ## 1.0.1 — 1 October 2026
 
 ### The Oskar Blues spur
