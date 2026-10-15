@@ -16,6 +16,8 @@ const HEADER_SPACE = 84;
 const DOCK_MAX_WIDTH = 400;
 const EDGE = 12;
 const RAIL_WIDTH = 46;
+// Room left of a fitted route for the westernmost landmark label.
+const LABEL_ROOM = 96;
 
 // The main screen: map, floating header, category rail, bottom sheet.
 //
@@ -38,8 +40,13 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const shown = useMemo(() => visibleDestinations(active), [active]);
   const selected = shown.find((d) => d.id === selectedId) ?? null;
   const topInset = insets.top + 12;
+  // Until the first layout reports a width, `width` is 0; never hand the
+  // column a negative size.
   const dock = wide
-    ? { left: insets.left + EDGE, width: Math.min(DOCK_MAX_WIDTH, Math.round(width / 2) - insets.left - 2 * EDGE) }
+    ? {
+        left: insets.left + EDGE,
+        width: Math.max(0, Math.min(DOCK_MAX_WIDTH, Math.round(width / 2) - insets.left - 2 * EDGE)),
+      }
     : null;
   // On a tall regular-width screen (iPhone Duo's inner display upright) the
   // open sheet stops at the middle of the window, so when the device is half
@@ -116,15 +123,19 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
         onSelect={select}
         route={route}
         routeStops={routeStops}
-        fitKey={`${following?.id ?? 'trail'}-${recenter}-${showNonce}`}
+        // Docking or undocking on rotation moves what covers the map, so it
+        // refits; panning around within one layout is left alone. The column's
+        // width is in the key, not just whether it exists, because it settles
+        // only once this screen's own layout reports the new size.
+        fitKey={`${following?.id ?? 'trail'}-${recenter}-${showNonce}-${dock ? dock.width : 'upright'}`}
         fitLatLngs={route ?? networkLatLngs}
         // What the map must keep clear of: the header, sheet and rail. Docked,
         // the header and sheet are a column on the left and nothing covers
         // the bottom of the map.
         clear={
           dock
-            ? { top: topInset, right: railSpace, bottom: 28, left: dock.left + dock.width + 24 }
-            : { top: topInset + HEADER_SPACE, right: railSpace, bottom: PEEK + 28, left: insets.left + 96 }
+            ? { top: topInset, right: railSpace, bottom: 28, left: dock.left + dock.width + LABEL_ROOM }
+            : { top: topInset + HEADER_SPACE, right: railSpace, bottom: PEEK + 28, left: insets.left + LABEL_ROOM }
         }
         width={width}
         height={height}
