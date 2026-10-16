@@ -5,6 +5,37 @@ title: Release notes
 
 # Release notes
 
+## Unreleased — Bike Brevard Kids
+
+Started 16 October 2026, on the `restaurants` branch. A second app built from
+the same code and data (`EXPO_PUBLIC_APP_VARIANT=kids`; see the runbook).
+
+- **No breweries or taprooms.** The Breweries category, the seven taproom-only
+  places and the Taproom Traverse are map-only. Squatch, Weevil and The Hub
+  stay as bike shops without their taps, and the CHUBwagon and the Cherry
+  Street Greenway drop the Oskar Blues wording. DT-10 fails the build if
+  brewery wording creeps back in.
+- **Schools**, a new category: Pisgah Forest Elementary, Brevard Elementary,
+  Brevard Middle, Brevard High, Pisgah Collective, Mountain Sun Community
+  School, Brevard Academy, Presbyterian Weekday Preschool, New Adventure
+  Learning Center, Brevard College and Blue Ridge Community College. The First
+  United Methodist playground also lists the church's Weekday Children's
+  Program preschool.
+- **After School**, a new category: the Boys & Girls Club, Brevard Rock Gym,
+  Transylvania Tae Kwon Do, Pisgah Dance Academy and the Brevard Health &
+  Racquet Club's pools and summer swim team.
+- **Fun Stops**, a new category: White Squirrel Arcade, O.P. Taylor's, the
+  library and Franklin Park Pool.
+- **Bike to School Day**, a ride from Depot Park to Brevard Middle and
+  Pisgah Forest Elementary, with the Brevard Bike Alliance's twice-yearly
+  events in its story.
+
+Before this can ship: its own EAS project, icon, launch screen and store
+listing; the rough coordinates for Brevard Academy, Pisgah Dance Academy and
+the Health & Racquet Club checked; whether Franklin Park Pool opens in 2027;
+and most schools sit off the drawn network, so a Bike to the Pool ride and
+rides to the off-path schools need their routes recorded first.
+
 ## Unreleased — restaurants
 
 Started 16 October 2026, on the `restaurants` branch (cut from

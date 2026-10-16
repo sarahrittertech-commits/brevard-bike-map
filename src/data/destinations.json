@@ -50,7 +50,11 @@
     "coordinates": [-82.7334, 35.2345],
     "description": "Italian ice at 40 N Caldwell St, with arcade games to go with it.",
     "mileMarker": 0.5,
-    "hours": "Daily 12–9pm"
+    "hours": "Daily 12–9pm",
+    "kids": {
+      "categories": ["fun-stop", "ice-cream"],
+      "description": "Retro arcade at 40 N Caldwell St, for all ages, with Italian ice to go with it."
+    }
   },
   {
     "id": "dollys",
@@ -76,7 +80,11 @@
     "coordinates": [-82.7362, 35.2365],
     "description": "Church playground open to the public after 12pm Monday through Friday.",
     "mileMarker": 0.3,
-    "hours": "Mon–Fri after 12pm"
+    "hours": "Mon–Fri after 12pm",
+    "kids": {
+      "categories": ["playground", "school"],
+      "description": "Church playground open to the public after 12pm on weekdays. The church's Weekday Children's Program preschool is here too."
+    }
   },
   {
     "id": "franklin-park",
@@ -336,5 +344,200 @@
     "description": "Bakery at 1980 Asheville Hwy, up the short connector from the roundabout at the north end.",
     "mileMarker": 3.8,
     "website": "https://www.pisgahbakehouse.com/"
+  },
+  {
+    "id": "pisgah-forest-elementary",
+    "name": "Pisgah Forest Elementary School",
+    "categories": ["school"],
+    "coordinates": [-82.7038, 35.2564],
+    "description": "Public elementary school, pre-K to 5th grade, right beside the path in Pisgah Forest.",
+    "mileMarker": 3.1,
+    "website": "https://pfe.tcsnc.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "brevard-elementary",
+    "name": "Brevard Elementary School",
+    "categories": ["school"],
+    "coordinates": [-82.7225, 35.2254],
+    "description": "Public elementary school, pre-K to 5th grade, at 399 Greenville Hwy. Not on the path yet: extending it here is planned, not built.",
+    "mileMarker": 0.9,
+    "website": "https://bes.tcsnc.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "brevard-middle",
+    "name": "Brevard Middle School",
+    "categories": ["school"],
+    "coordinates": [-82.7291, 35.2462],
+    "description": "Public middle school at 400 Fisher Rd. A short connector from the path at Fisher Rd reaches the school.",
+    "mileMarker": 0.9,
+    "website": "https://bms.tcsnc.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "brevard-high",
+    "name": "Brevard High School",
+    "categories": ["school"],
+    "coordinates": [-82.734, 35.2168],
+    "description": "Public high school at 609 N Country Club Rd, on the south side of town. Not on the path yet.",
+    "mileMarker": 1.0,
+    "website": "https://bhs.tcsnc.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "pisgah-collective",
+    "name": "Pisgah Collective",
+    "categories": ["school"],
+    "coordinates": [-82.7017, 35.2762],
+    "description": "Outdoor, nature-based early childhood program at 2753 Asheville Hwy, past the north end of the path.",
+    "mileMarker": 4.3,
+    "website": "https://www.pisgahcollective.com",
+    "apps": ["kids"]
+  },
+  {
+    "id": "mountain-sun",
+    "name": "Mountain Sun Community School",
+    "categories": ["school"],
+    "coordinates": [-82.7501, 35.2425],
+    "description": "Small independent school using Montessori principles, from age 3 through middle school, at 299 Andante Ln.",
+    "mileMarker": 0.6,
+    "website": "https://mountainsunschool.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "brevard-academy",
+    "name": "Brevard Academy",
+    "categories": ["school"],
+    "coordinates": [-82.6953, 35.2557],
+    "description": "Free public charter school, kindergarten to 8th grade, at 1110 Hendersonville Hwy.",
+    "mileMarker": 3.4,
+    "website": "https://www.brevardacademy.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "presbyterian-weekday",
+    "name": "Presbyterian Weekday Preschool",
+    "categories": ["school"],
+    "coordinates": [-82.7302, 35.232],
+    "description": "Church preschool at Brevard-Davidson River Presbyterian, 249 E Main St.",
+    "mileMarker": 0.6,
+    "website": "https://bdrpc.org/preschool/",
+    "apps": ["kids"]
+  },
+  {
+    "id": "new-adventure",
+    "name": "New Adventure Learning Center",
+    "categories": ["school"],
+    "coordinates": [-82.7359, 35.2292],
+    "description": "Full-day child care and preschool run by Transylvania County at 260 S Gaston St.",
+    "mileMarker": 0.5,
+    "apps": ["kids"]
+  },
+  {
+    "id": "brevard-college",
+    "name": "Brevard College",
+    "categories": ["school"],
+    "coordinates": [-82.7264, 35.2374],
+    "description": "Small liberal arts college beside downtown, One Brevard College Dr.",
+    "mileMarker": 0.7,
+    "website": "https://brevard.edu",
+    "apps": ["kids"]
+  },
+  {
+    "id": "blue-ridge-cc",
+    "name": "Blue Ridge Community College",
+    "categories": ["school"],
+    "coordinates": [-82.7205, 35.2504],
+    "description": "The Transylvania campus at 45 Oak Park Dr, a short ride from the path.",
+    "mileMarker": 1.5,
+    "website": "https://www.blueridge.edu",
+    "apps": ["kids"]
+  },
+  {
+    "id": "boys-girls-club",
+    "name": "Boys & Girls Club of Transylvania County",
+    "categories": ["after-school"],
+    "coordinates": [-82.7262, 35.2254],
+    "description": "The Cindy Platt club at 11 Gallimore Rd: after-school and summer programs for ages 5 to 18, and a Teen Clubhouse next door.",
+    "mileMarker": 0.9,
+    "hours": "School year Mon–Fri 3–6:30pm · summer camp",
+    "website": "https://www.bgctransylvania.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "brevard-rock-gym",
+    "name": "Brevard Rock Gym",
+    "categories": ["after-school"],
+    "coordinates": [-82.7367, 35.2303],
+    "description": "Bouldering gym at 240-B S Broad St with youth climbing programs.",
+    "mileMarker": 0.5,
+    "hours": "Tue, Wed, Fri 5–8pm · Sat 2–5pm",
+    "website": "https://www.brevardrockgym.com",
+    "apps": ["kids"]
+  },
+  {
+    "id": "transylvania-tae-kwon-do",
+    "name": "Transylvania Tae Kwon Do",
+    "categories": ["after-school"],
+    "coordinates": [-82.7368, 35.2302],
+    "description": "Tae Kwon Do classes by belt level at 242 S Broad St, including a Tigers class for ages 4 to 6.",
+    "mileMarker": 0.5,
+    "hours": "Mon–Thu classes 4–6:45pm",
+    "website": "https://www.transylvaniataekwondo.com",
+    "apps": ["kids"]
+  },
+  {
+    "id": "pisgah-dance-academy",
+    "name": "Pisgah Dance Academy",
+    "categories": ["after-school"],
+    "coordinates": [-82.7137, 35.2659],
+    "description": "Family-run studio teaching children and teens ballet, tap, jazz, hip-hop and clogging, at 6850 Asheville Hwy.",
+    "mileMarker": 3.8,
+    "website": "https://www.pisgahdanceacademy.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "health-racquet-club",
+    "name": "Brevard Health & Racquet Club",
+    "categories": ["after-school"],
+    "coordinates": [-82.7364, 35.2218],
+    "description": "Membership club at 1325 N Country Club Rd with indoor and outdoor pools, swim lessons and a summer swim team.",
+    "mileMarker": 1.0,
+    "hours": "Mon–Fri 5:30am–8pm · Sat 8–6 · Sun 11–6",
+    "website": "https://www.brevardhealthandracquetclub.com",
+    "apps": ["kids"]
+  },
+  {
+    "id": "op-taylors",
+    "name": "O.P. Taylor's",
+    "categories": ["fun-stop"],
+    "coordinates": [-82.7347, 35.2337],
+    "description": "The downtown toy store, at 16 S Broad St on the corner by the courthouse.",
+    "mileMarker": 0.4,
+    "hours": "Mon–Sat 10–6pm · Sun 12–5pm",
+    "website": "https://optaylors.com",
+    "apps": ["kids"]
+  },
+  {
+    "id": "library-kids",
+    "name": "Transylvania County Library",
+    "categories": ["fun-stop"],
+    "coordinates": [-82.7354, 35.2311],
+    "description": "The public library at 212 S Gaston St, with kids' programs and an outdoor StoryWalk.",
+    "mileMarker": 0.5,
+    "hours": "Mon & Thu 9:30–8pm · Tue, Wed, Fri, Sat 9:30–5:30pm",
+    "website": "https://library.transylvaniacounty.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "franklin-park-pool",
+    "name": "Franklin Park Pool",
+    "categories": ["fun-stop"],
+    "coordinates": [-82.7264, 35.2312],
+    "description": "The town's outdoor public pool at 109 Lakeview Ave, inside Franklin Park.",
+    "mileMarker": 0.7,
+    "hours": "Summer only",
+    "apps": ["kids"]
   }
 ]
