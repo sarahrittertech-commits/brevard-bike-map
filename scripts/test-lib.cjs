@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Unit tests for the data selection logic.
- * Implements checks UT-1 to UT-5 from the test case documentation.
+ * Implements checks UT-1 to UT-7 from the test case documentation.
  *
  * These run against src/lib/select.js, which holds the pure functions that
  * src/lib/data.js re-exports once the bundled data is bound to them. There is
@@ -17,11 +17,13 @@
 
 const assert = require('node:assert/strict');
 const {
+  forApp,
   toLatLng,
   lineToLatLngs,
   displayCategory,
   selectVisible,
   selectStopPins,
+  isNearArea,
 } = require('../src/lib/select');
 
 const tests = [];
@@ -122,6 +124,35 @@ test('UT-5', 'toLatLng: GeoJSON [lon, lat] becomes { latitude, longitude }', () 
     { latitude: 35.23, longitude: -82.73 },
     { latitude: 35.25, longitude: -82.7 },
   ]);
+});
+
+test('UT-6', 'isNearArea: centres on a rider in town, not one far away', () => {
+  const area = [toLatLng([-82.75, 35.22]), toLatLng([-82.70, 35.27])];
+  assert.equal(isNearArea({ latitude: 35.24, longitude: -82.72 }, area, 0.05), true);
+  // Just outside the box but inside the padding still counts.
+  assert.equal(isNearArea({ latitude: 35.30, longitude: -82.72 }, area, 0.05), true);
+  // Asheville is out; so is a swapped [lat, lon] reading of Brevard itself.
+  assert.equal(isNearArea({ latitude: 35.5951, longitude: -82.5515 }, area, 0.05), false);
+  assert.equal(isNearArea({ latitude: -82.72, longitude: 35.24 }, area, 0.05), false);
+});
+
+test('UT-7', 'forApp: each app keeps its own items and reads its own wording', () => {
+  const items = [
+    { id: 'both', name: 'Shared' },
+    { id: 'adult', name: 'Taproom', apps: ['map'] },
+    { id: 'school', name: 'School', apps: ['kids'] },
+    { id: 'shop', name: 'Bikes & Brews', categories: ['bike-shop', 'brewery'], kids: { name: 'Bikes', categories: ['bike-shop'] } },
+    { id: 'ride', stops: [{ name: 'Tavern', kids: { name: 'Shop' } }, { name: 'Bridge' }] },
+  ];
+  const map = forApp(items, 'map');
+  const kids = forApp(items, 'kids');
+  assert.deepEqual(map.map((i) => i.id), ['both', 'adult', 'shop', 'ride']);
+  assert.deepEqual(kids.map((i) => i.id), ['both', 'school', 'shop', 'ride']);
+  assert.deepEqual(kids[2], { id: 'shop', name: 'Bikes', categories: ['bike-shop'] });
+  assert.equal(map[2].name, 'Bikes & Brews');
+  assert.deepEqual(kids[3].stops, [{ name: 'Shop' }, { name: 'Bridge' }]);
+  // Neither the app list nor the overrides leak through to the screens.
+  assert.equal('apps' in map[1] || 'kids' in map[2], false);
 });
 
 // Run

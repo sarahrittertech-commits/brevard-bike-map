@@ -115,6 +115,32 @@ import { Ruler } from 'lucide-react-native';           // no — ships all 1,851
 Metro does not tree-shake, so the second form put 1.9 MB of unused icons in
 the bundle.
 
+## Bike Brevard Kids
+
+The second app is this code built with `EXPO_PUBLIC_APP_VARIANT=kids`. It
+has no breweries or taprooms, its own name and bundle id
+(`dev.pushpop.bikebrevardkids`) and, once created, its own EAS project. What
+each app shows is decided in the data — see the data model's "Two apps from
+one dataset".
+
+```bash
+npm run start:kids                               # Expo Go, kids data (clears the cache)
+eas build -p ios --profile kids-preview          # device build
+eas build -p ios --profile kids-simulator        # simulator build
+```
+
+Switching between the apps in Expo Go needs the cache cleared, because the
+variant is written into the bundle: `npm start -- --clear` to go back.
+
+**One-time setup before the first kids EAS build.** The kids app needs its
+own EAS project, or its builds would land in the map's. Run
+`EXPO_PUBLIC_APP_VARIANT=kids npx eas-cli init`; it cannot write the id into
+`app.config.js`, so copy the project id it prints into `KIDS.easProjectId`
+there. Until then a kids EAS build stops with an error rather than building.
+The App Store record, `ascAppId` for a `kids-production` submit profile, and
+the Android Maps key (the same key works if its restrictions allow the new
+package) come after that. The icon and launch screen are still the map's.
+
 ## App icon and launch screen
 
 Both come from Sarah's artwork of 1 October 2026, kept on the Desktop in

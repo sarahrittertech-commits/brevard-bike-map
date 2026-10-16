@@ -124,6 +124,212 @@
     }
   },
   {
+    "id": "ninja-park-burgers",
+    "title": "Ninja Park and Smash Burgers",
+    "tagline": "Earn your lunch",
+    "story": "Roll out Main St to the trailhead and take the flat path northeast past the depot and the mid-path stand to Jameson's Joy, where the ninja course gets the wiggles out. Double back a few hundred feet to the Cherry Street Greenway and follow it east to the CHUBwagon, the food truck parked at the brewery every day. Burgers, chicken tenders, grilled cheese and a kids' cheeseburger, eaten on the big lawn. Same path home.",
+    "image": "end-to-end",
+    "miles": 7.5,
+    "minutes": 75,
+    "difficulty": "easy",
+    "kidFriendly": true,
+    "stops": [
+      {
+        "name": "Railroad Depot Repair Stand",
+        "note": "Restrooms and parking. Last easy bathroom stop before lunch.",
+        "destination": "repair-depot"
+      },
+      {
+        "name": "Mid-Path Fix-It Stand",
+        "note": "Water filler beside the stand — top up bottles here.",
+        "destination": "repair-midpath"
+      },
+      {
+        "name": "Jameson's Joy (Ninja Park)",
+        "note": "Open 24 hours and fully accessible. A lap or two before anyone eats.",
+        "destination": "jamesons-joy"
+      },
+      {
+        "name": "CHUBwagon at Oskar Blues",
+        "note": "Turn back to the greenway and ride east. Racks and a repair stand at the taproom door.",
+        "destination": "chubwagon",
+        "kids": {
+          "name": "CHUBwagon",
+          "note": "Turn back to the greenway and ride east. Bike racks and a repair stand at the end."
+        }
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7345, 35.2337],
+        [-82.736, 35.234],
+        [-82.7376, 35.2342],
+        [-82.7392, 35.2344],
+        [-82.7385, 35.2356],
+        [-82.7376, 35.2369],
+        [-82.7365, 35.2383],
+        [-82.7356, 35.2394],
+        [-82.7349, 35.2402],
+        [-82.7331, 35.2413],
+        [-82.7311, 35.2425],
+        [-82.7287, 35.2446],
+        [-82.7263, 35.2453],
+        [-82.724, 35.246],
+        [-82.722, 35.2472],
+        [-82.7213, 35.2487],
+        [-82.7216, 35.2495],
+        [-82.7205, 35.2529],
+        [-82.7201, 35.2534],
+        [-82.7171, 35.2565],
+        [-82.7168, 35.2566],
+        [-82.7169, 35.2567],
+        [-82.7157, 35.2563],
+        [-82.7151, 35.2563],
+        [-82.7148, 35.2551],
+        [-82.7143, 35.2539],
+        [-82.7136, 35.2539],
+        [-82.713, 35.2541],
+        [-82.7125, 35.2539],
+        [-82.7118, 35.2539],
+        [-82.7117, 35.2538],
+        [-82.711, 35.2541],
+        [-82.7103, 35.2542],
+        [-82.71, 35.255],
+        [-82.7101, 35.2555],
+        [-82.71, 35.2556],
+        [-82.7078, 35.2561],
+        [-82.71, 35.2556],
+        [-82.7101, 35.2555],
+        [-82.71, 35.255],
+        [-82.7103, 35.2542],
+        [-82.711, 35.2541],
+        [-82.7117, 35.2538],
+        [-82.7116, 35.2536],
+        [-82.7113, 35.2534],
+        [-82.7099, 35.2531],
+        [-82.7093, 35.2531],
+        [-82.7089, 35.2536],
+        [-82.7078, 35.2538],
+        [-82.7076, 35.2537],
+        [-82.7072, 35.2538]
+      ]
+    },
+    "kids": {
+      "story": "Roll out Main St to the trailhead and take the flat path northeast past the depot and the mid-path stand to Jameson's Joy, where the ninja course gets the wiggles out. Double back a few hundred feet to the Cherry Street Greenway and follow it east to the CHUBwagon food truck. Burgers, chicken tenders, grilled cheese and a kids' cheeseburger, eaten on the big lawn. Same path home."
+    }
+  },
+  {
+    "id": "steamers-and-swings",
+    "title": "Steamers and Swings",
+    "tagline": "Lunch for the littlest riders",
+    "story": "The shortest ride in the app and the flattest. Pick up steamed sandwiches and hot dogs at Sully's on E Main, walk the bikes to the courthouse and ride the Main St sidewalk out to the trailhead. The path takes you to The Yard on Railroad Ave, with a playset, a kids' bike park and ice cream for afters, and Depot Park and its restrooms are just past it. Prefer pizza? HomeSlyce on King St does it by the slice.",
+    "image": "downtown-festival",
+    "miles": 1.6,
+    "minutes": 30,
+    "difficulty": "easy",
+    "kidFriendly": true,
+    "stops": [
+      {
+        "name": "Sully's Steamers",
+        "note": "33 E Main St. Order to go and eat at The Yard, or sit down first.",
+        "destination": "sullys-steamers"
+      },
+      {
+        "name": "The Yard",
+        "note": "Playset, kids' bike park and ice cream at 284 Railroad Ave.",
+        "destination": "the-yard-treats"
+      },
+      {
+        "name": "Railroad Depot Repair Stand",
+        "note": "Restrooms, parking and a pump. Turn around here.",
+        "destination": "repair-depot"
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7336, 35.2336],
+        [-82.7345, 35.2337],
+        [-82.736, 35.234],
+        [-82.7376, 35.2342],
+        [-82.7392, 35.2344],
+        [-82.7385, 35.2356],
+        [-82.7376, 35.2369],
+        [-82.7365, 35.2383],
+        [-82.7356, 35.2394],
+        [-82.7349, 35.2402]
+      ]
+    }
+  },
+  {
+    "id": "bike-to-school",
+    "title": "Bike to School Day",
+    "tagline": "Ride in with the Brevard Bike Alliance",
+    "story": "Twice a year the Brevard Bike Alliance sponsors a Bike, Walk & Roll to School Day — National Bike to School Day each May, and again in October — with group rides and meet-ups at Pisgah Forest Elementary, Brevard Elementary, Brevard Middle, Brevard High, Mountain Sun and Pisgah Collective. This is the one route where the path does the whole job: meet at Depot Park, ride northeast, and middle schoolers turn off at Fisher Rd while elementary riders keep going to Pisgah Forest. Dates and meet-up points for each school are announced by the Alliance at brevardbikealliance.org.",
+    "image": "playground-to-dollys",
+    "miles": 2.6,
+    "minutes": 25,
+    "difficulty": "easy",
+    "kidFriendly": true,
+    "stops": [
+      {
+        "name": "Railroad Depot Repair Stand",
+        "note": "Meet here. Pump, restrooms and parking at Depot Park.",
+        "destination": "repair-depot"
+      },
+      {
+        "name": "Brevard Middle School",
+        "note": "Turn off at Fisher Rd and take the short connector to the school.",
+        "destination": "brevard-middle"
+      },
+      {
+        "name": "Pisgah Forest Elementary School",
+        "note": "Right beside the path. Flat the whole way from the depot.",
+        "destination": "pisgah-forest-elementary"
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.7349, 35.2402],
+        [-82.7331, 35.2413],
+        [-82.7311, 35.2425],
+        [-82.7287, 35.2446],
+        [-82.7263, 35.2453],
+        [-82.724, 35.246],
+        [-82.722, 35.2472],
+        [-82.7213, 35.2487],
+        [-82.7216, 35.2495],
+        [-82.7205, 35.2529],
+        [-82.7201, 35.2534],
+        [-82.7171, 35.2565],
+        [-82.7168, 35.2566],
+        [-82.7169, 35.2567],
+        [-82.7157, 35.2563],
+        [-82.7151, 35.2563],
+        [-82.7148, 35.2551],
+        [-82.7143, 35.2539],
+        [-82.7136, 35.2539],
+        [-82.713, 35.2541],
+        [-82.7125, 35.2539],
+        [-82.7118, 35.2539],
+        [-82.7117, 35.2538],
+        [-82.711, 35.2541],
+        [-82.7103, 35.2542],
+        [-82.71, 35.255],
+        [-82.7101, 35.2555],
+        [-82.71, 35.2556],
+        [-82.7078, 35.2561],
+        [-82.7078, 35.2575],
+        [-82.7077, 35.2577],
+        [-82.7056, 35.2575],
+        [-82.7054, 35.2576]
+      ]
+    },
+    "apps": ["kids"]
+  },
+  {
     "id": "ballfield-library-loop",
     "title": "Ball Field to Library Loop",
     "tagline": "A whole Saturday on two wheels",
@@ -361,7 +567,8 @@
         [-82.736, 35.234],
         [-82.7345, 35.2337]
       ]
-    }
+    },
+    "apps": ["map"]
   },
   {
     "id": "downtown-festival",
@@ -506,7 +713,11 @@
       {
         "name": "The Hub & Pisgah Tavern",
         "note": "Forest gateway. Shop on one side, tavern on the other.",
-        "destination": "the-hub"
+        "destination": "the-hub",
+        "kids": {
+          "name": "The Hub",
+          "note": "Forest gateway. Bike shop, and the end of the pavement."
+        }
       }
     ],
     "route": {
@@ -600,6 +811,9 @@
         [-82.7072, 35.2737],
         [-82.7054, 35.2745]
       ]
+    },
+    "kids": {
+      "story": "The network gets you all the way to the national forest without riding Hwy 64. Pick up the path at W Main, ride the full length northeast past the depot, then cross the new bridge and carry on past Dolly’s to the forest gateway and The Hub bike shop. Flat, paved, and separated nearly the whole way."
     }
   },
   {
@@ -867,7 +1081,10 @@
       {
         "name": "The Hub & Pisgah Tavern",
         "note": "Start and finish here. Check conditions at the shop before you roll out.",
-        "destination": "the-hub"
+        "destination": "the-hub",
+        "kids": {
+          "name": "The Hub"
+        }
       },
       {
         "name": "Bracken Mountain Trailhead",
@@ -1055,7 +1272,12 @@
       {
         "name": "Oskar Blues Brewery",
         "note": "Near the turnaround. Food, shade, and somewhere to sit.",
-        "destination": "oskar-blues"
+        "destination": "oskar-blues",
+        "kids": {
+          "name": "CHUBwagon",
+          "note": "Near the turnaround. Food truck, shade, and somewhere to sit.",
+          "destination": "chubwagon"
+        }
       },
       {
         "name": "Pisgah Forest Repair Stand",

@@ -18,6 +18,18 @@
     },
     "production": {
       "autoIncrement": true
+    },
+    "kids-preview": {
+      "extends": "preview",
+      "env": { "EXPO_PUBLIC_APP_VARIANT": "kids" }
+    },
+    "kids-simulator": {
+      "extends": "simulator",
+      "env": { "EXPO_PUBLIC_APP_VARIANT": "kids" }
+    },
+    "kids-production": {
+      "extends": "production",
+      "env": { "EXPO_PUBLIC_APP_VARIANT": "kids" }
     }
   },
   "submit": {

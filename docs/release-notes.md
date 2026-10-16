@@ -5,6 +5,85 @@ title: Release notes
 
 # Release notes
 
+## Unreleased — Bike Brevard Kids
+
+Started 16 October 2026, on the `restaurants` branch. A second app built from
+the same code and data (`EXPO_PUBLIC_APP_VARIANT=kids`; see the runbook).
+
+- **No breweries or taprooms.** The Breweries category, the seven taproom-only
+  places and the Taproom Traverse are map-only. Squatch, Weevil and The Hub
+  stay as bike shops without their taps, and the CHUBwagon and the Cherry
+  Street Greenway drop the Oskar Blues wording. DT-10 fails the build if
+  brewery wording creeps back in.
+- **Schools**, a new category: Pisgah Forest Elementary, Brevard Elementary,
+  Brevard Middle, Brevard High, Pisgah Collective, Mountain Sun Community
+  School, Brevard Academy, Presbyterian Weekday Preschool, New Adventure
+  Learning Center, Brevard College and Blue Ridge Community College. The First
+  United Methodist playground also lists the church's Weekday Children's
+  Program preschool.
+- **After School**, a new category: the Boys & Girls Club, Brevard Rock Gym,
+  Transylvania Tae Kwon Do, Carolina Dance Collective and the Brevard Health &
+  Racquet Club's pools and summer swim team.
+- **Fun Stops**, a new category: White Squirrel Arcade, O.P. Taylor's, the
+  library and Franklin Park Pool.
+- **Bike to School Day**, a ride from Depot Park to Brevard Middle and
+  Pisgah Forest Elementary, with the Brevard Bike Alliance's twice-yearly
+  events in its story.
+
+Before this can ship: its own EAS project, icon, launch screen and store
+listing; the rough coordinates for Brevard Academy and
+the Health & Racquet Club checked; whether Franklin Park Pool opens in 2027;
+and most schools sit off the drawn network, so a Bike to the Pool ride and
+rides to the off-path schools need their routes recorded first.
+
+## Unreleased — restaurants
+
+Started 16 October 2026, on the `restaurants` branch (cut from
+`show-my-location`).
+
+- **A Restaurants category** with a knife-and-fork icon, between Playgrounds
+  and Breweries on the rail. Six places from a curated list of family-friendly
+  food: Sully's Steamers, HomeSlyce on King, Morning Social, the CHUBwagon at
+  Oskar Blues, Gordingo's at Ecusta and Pisgah Bakehouse.
+- **A menu link.** A place with a `website` shows "See the menu" (or "Visit
+  the website") in its detail, which opens the browser.
+- **Two kid-friendly rides that end at lunch:** *Ninja Park and Smash Burgers*
+  (Jameson's Joy, then the CHUBwagon) and *Steamers and Swings* (Sully's, then
+  The Yard), the shortest ride in the app.
+- **Restaurant filters** are written up as [UC-5](./use-cases) with
+  requirements RF-1 to RF-9. Not built.
+
+Before this can ship: the King St positions for HomeSlyce and Morning Social
+are set beside Squatch's, which the September survey left as traced; check
+all three on the ground. Pisgah Bakehouse's connector from the roundabout is
+not drawn. The two new rides borrow existing photos.
+
+## Unreleased — show my location
+
+Started 16 October 2026, on the `show-my-location` branch. A rider can ask to
+see where they are on the map. It is opt-in every time: nothing is asked until
+they tap the button.
+
+- **A location button** under recenter on the map's rail. The first tap asks
+  for permission while the app is in use — never in the background — and then
+  draws the phone's own blue dot and centres on it. Tap again and the dot goes.
+- **Outside Brevard** (more than about 3 miles from the path) the dot is on
+  but the map stays on Brevard, and says so, rather than flying to a place it
+  has nothing to say about.
+- **Declined once, the system can't ask again**, so the button then offers to
+  open Settings instead of doing nothing.
+- **Nothing is kept.** The position is never stored, logged or sent, and it is
+  forgotten when the app closes. The privacy policy says so.
+- **New dependency: `expo-location`**, for the permission prompt and one
+  position fix. Only the "while in use" permission is configured on iOS and
+  only foreground location on Android.
+
+Before this can ship: the App Store privacy answers, the review notes and the
+"never asks for your location" lines in both store listings have to change, and
+Play's Data safety form gets a location answer. Each is marked in the listing
+docs. It needs a new build: Expo Go has its own location prompt, so the real
+one is only seen in an EAS or local build.
+
 ## Unreleased — any shape of screen
 
 Started 14 October 2026, from the [iPhone Duo review](./iphone-duo-design-review)

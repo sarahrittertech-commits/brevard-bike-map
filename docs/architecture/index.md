@@ -26,6 +26,7 @@ Each record has a status:
 | [0002](./adr-0002-map-rendering) | Render maps with react-native-maps | Proposed |
 | [0003](./adr-0003-route-data) | Hand-curate routes rather than compute them | Proposed |
 | [0004](./adr-0004-storage-and-costs) | Ship static data, run no backend | Proposed |
+| [0005](./adr-0005-feedback-and-metrics) | Collect feedback with a web survey, not in-app analytics | Proposed |
 
 :::note All four are Proposed — and all four are now built on
 These were drafted during project setup as a recommendation. On 18 September

@@ -1,12 +1,21 @@
 import { useEffect, useMemo, useState } from 'react';
-import { BackHandler, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, BackHandler, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import * as Location from 'expo-location';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import X from 'lucide-react-native/icons/x';
 
 import CategoryRail, { RAIL_HEIGHT, SPLIT_RAIL_WIDTH } from '../components/CategoryRail';
 import MapSheet, { PEEK, SHEET_FRACTION } from '../components/MapSheet';
 import TrailMap from '../components/TrailMap';
-import { APP_NAME, TOWN_NAME, adventureStopPins, lineToLatLngs, networkLatLngs, visibleDestinations } from '../lib/data';
+import {
+  APP_NAME,
+  TOWN_NAME,
+  adventureStopPins,
+  isNearBrevard,
+  lineToLatLngs,
+  networkLatLngs,
+  visibleDestinations,
+} from '../lib/data';
 import { useLayoutClass } from '../lib/layout';
 import { cardFloat, colors, fillRow, fonts, radius, text } from '../theme';
 
@@ -35,6 +44,8 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const [selectedId, setSelectedId] = useState(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [recenter, setRecenter] = useState(0);
+  const [locating, setLocating] = useState(false);
+  const [userFocus, setUserFocus] = useState(null);
   const [{ width, height }, setSize] = useState({ width: 0, height: 0 });
 
   const shown = useMemo(() => visibleDestinations(active), [active]);
@@ -77,6 +88,52 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const toggle = (id) => {
     setSelectedId(null);
     setActive((prev) => (prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]));
+  };
+
+  // Showing the rider's location is opt-in, every launch: nothing is asked
+  // until they tap the button, the dot goes away when they tap it again, and
+  // the position never leaves the phone or outlives the session. The system
+  // asks for permission the first time only; after a refusal the button
+  // explains where to turn it back on rather than asking again.
+  const locate = async () => {
+    if (locating) {
+      setLocating(false);
+      return;
+    }
+    let permission = await Location.getForegroundPermissionsAsync();
+    const asked = permission.status !== 'granted' && permission.canAskAgain;
+    if (asked) permission = await Location.requestForegroundPermissionsAsync();
+    if (permission.status !== 'granted') {
+      // Declining the system prompt a moment ago needs no second dialog.
+      if (!asked) {
+        Alert.alert(
+          'Location is off',
+          `To see where you are on the map, allow ${APP_NAME} to use your location in Settings.`,
+          [
+            { text: 'Not now', style: 'cancel' },
+            { text: 'Open Settings', onPress: () => Linking.openSettings() },
+          ]
+        );
+      }
+      return;
+    }
+    setLocating(true);
+    try {
+      const { coords } = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      if (isNearBrevard(coords)) {
+        setSelectedId(null);
+        setSheetOpen(false);
+        setUserFocus({ key: Date.now(), latitude: coords.latitude, longitude: coords.longitude });
+      } else {
+        Alert.alert(
+          `You're outside ${TOWN_NAME}`,
+          `Your location is on, but this map only covers ${TOWN_NAME}, so it stays here. Come ride!`
+        );
+      }
+    } catch {
+      // No fix yet (indoors, airplane mode). The dot appears on its own once
+      // the phone finds itself; there is just nothing to centre on now.
+    }
   };
 
   // Following a route takes over the map: drop any selected pin and let the
@@ -142,6 +199,8 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
         docked={!!dock}
         sheetHeight={dock ? 0 : sheetHeight}
         logoInset={dock ? { left: dock.left + dock.width, bottom: 0 } : { left: 0, bottom: PEEK }}
+        showsUser={locating}
+        userFocus={userFocus}
       />
 
       <View
@@ -191,6 +250,8 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
             setSelectedId(null);
           }}
           onRecenter={() => setRecenter((n) => n + 1)}
+          locating={locating}
+          onLocate={locate}
         />
       </View>
 

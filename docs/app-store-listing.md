@@ -149,8 +149,9 @@ general safety rules
 
 WHAT IT DOESN'T DO
 
-No account. No sign-up. No advertising. No tracking of any kind, and it never
-asks for your location. The entire map is bundled into the download, so it
+No account. No sign-up. No advertising. No tracking of any kind. Tap the
+location button and it shows where you are on the map, but that's your call,
+and your location never leaves your phone. The entire map is bundled into the download, so it
 works in Pisgah with no signal and costs nothing to run.
 
 This app covers Brevard, North Carolina and nowhere else. That's deliberate.
@@ -183,8 +184,10 @@ In App Store Connect, under App Privacy, the answer to
 **"Do you or your third-party partners collect data from this app?"** is **No**.
 
 That single answer closes the whole questionnaire. It is accurate: there is no
-analytics, no crash reporting, no advertising identifier, no accounts, no
-network requests of our own, and no location permission. See the
+analytics, no crash reporting, no advertising identifier, no accounts and no
+network requests of our own. Since the location update the app can show the
+rider's position, but only on the device: Apple counts data as collected only
+when it is sent off the device, and this never is, so the answer stays **No**. See the
 [privacy policy](./privacy).
 
 ## Age rating
@@ -231,8 +234,9 @@ Suggested text for the App Review team:
 
 ```
 This app needs no account and no sign-in. All data is bundled in the app; there
-is no backend and no network access. It requests no permissions, including
-location. The app covers one town, Brevard, North Carolina, so the map opens
+is no backend and no network access. The only permission is location while in
+use, asked for only when the reviewer taps the location button on the map; it
+draws the reviewer's position and is never stored or sent. The app covers one town, Brevard, North Carolina, so the map opens
 there by design rather than at the reviewer's location.
 ```
 

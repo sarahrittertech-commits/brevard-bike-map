@@ -10,9 +10,33 @@
     "color": "#BE7A0E"
   },
   {
+    "id": "restaurant",
+    "label": "Restaurants",
+    "color": "#C4502F"
+  },
+  {
+    "id": "school",
+    "label": "Schools",
+    "color": "#6B4FA0",
+    "apps": ["kids"]
+  },
+  {
+    "id": "after-school",
+    "label": "After School",
+    "color": "#0F7F82",
+    "apps": ["kids"]
+  },
+  {
+    "id": "fun-stop",
+    "label": "Fun Stops",
+    "color": "#A23B6E",
+    "apps": ["kids"]
+  },
+  {
     "id": "brewery",
     "label": "Breweries",
-    "color": "#8A4A1E"
+    "color": "#8A4A1E",
+    "apps": ["map"]
   },
   {
     "id": "bike-shop",

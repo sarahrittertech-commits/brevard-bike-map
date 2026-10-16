@@ -50,7 +50,11 @@
     "coordinates": [-82.7334, 35.2345],
     "description": "Italian ice at 40 N Caldwell St, with arcade games to go with it.",
     "mileMarker": 0.5,
-    "hours": "Daily 12–9pm"
+    "hours": "Daily 12–9pm",
+    "kids": {
+      "categories": ["fun-stop", "ice-cream"],
+      "description": "Retro arcade at 40 N Caldwell St, for all ages, with Italian ice to go with it."
+    }
   },
   {
     "id": "dollys",
@@ -76,7 +80,11 @@
     "coordinates": [-82.7362, 35.2365],
     "description": "Church playground open to the public after 12pm Monday through Friday.",
     "mileMarker": 0.3,
-    "hours": "Mon–Fri after 12pm"
+    "hours": "Mon–Fri after 12pm",
+    "kids": {
+      "categories": ["playground", "school"],
+      "description": "Church playground open to the public after 12pm on weekdays. The church's Weekday Children's Program preschool is here too."
+    }
   },
   {
     "id": "franklin-park",
@@ -110,7 +118,8 @@
     "coordinates": [-82.7341, 35.2333],
     "description": "Bottle shop and wine bar at 30 S Broad, right in the middle of town.",
     "mileMarker": 0.4,
-    "hours": "Tue–Sat 12–9pm"
+    "hours": "Tue–Sat 12–9pm",
+    "apps": ["map"]
   },
   {
     "id": "map-room",
@@ -119,7 +128,8 @@
     "coordinates": [-82.7333, 35.2335],
     "description": "Beer and wine on draft at 60 E Main, plus events and film screenings.",
     "mileMarker": 0.4,
-    "hours": "Daily 11–9pm"
+    "hours": "Daily 11–9pm",
+    "apps": ["map"]
   },
   {
     "id": "brevard-brewing",
@@ -128,7 +138,8 @@
     "coordinates": [-82.7331, 35.2339],
     "description": "Lagers at 63 E Main, a block from the downtown link. Racks out front.",
     "mileMarker": 0.5,
-    "hours": "Daily 2–10pm"
+    "hours": "Daily 2–10pm",
+    "apps": ["map"]
   },
   {
     "id": "noblebrau",
@@ -137,7 +148,8 @@
     "coordinates": [-82.732, 35.2377],
     "description": "Taproom on the King St row, a short block off the path.",
     "mileMarker": 0.7,
-    "hours": "Wed–Sun 3–10pm"
+    "hours": "Wed–Sun 3–10pm",
+    "apps": ["map"]
   },
   {
     "id": "griffon-sphynx",
@@ -146,7 +158,8 @@
     "coordinates": [-82.7318, 35.2382],
     "description": "Small taproom at 212 King St, at the north end of the King St row.",
     "mileMarker": 0.8,
-    "hours": "Thu–Sun 4–10pm"
+    "hours": "Thu–Sun 4–10pm",
+    "apps": ["map"]
   },
   {
     "id": "oskar-blues",
@@ -155,7 +168,8 @@
     "coordinates": [-82.7068, 35.2535],
     "description": "Taproom, food, and a big lawn at 342 Mountain Industrial Dr.",
     "mileMarker": 2.8,
-    "hours": "Wed–Sun 12–9pm"
+    "hours": "Wed–Sun 12–9pm",
+    "apps": ["map"]
   },
   {
     "id": "ecusta-brewing",
@@ -164,7 +178,8 @@
     "coordinates": [-82.7052, 35.2654],
     "description": "At 451 Ecusta Rd, a few steps off the path. Easy post-ride pint.",
     "mileMarker": 3.7,
-    "hours": "Tue–Sun 3–9pm"
+    "hours": "Tue–Sun 3–9pm",
+    "apps": ["map"]
   },
   {
     "id": "earth-mountain",
@@ -200,7 +215,12 @@
     "coordinates": [-82.7322, 35.2374],
     "description": "Shop and taproom in one at 170 King St, on the King St row.",
     "mileMarker": 0.7,
-    "hours": "Wed–Sun 11–8pm"
+    "hours": "Wed–Sun 11–8pm",
+    "kids": {
+      "name": "Squatch Bikes",
+      "categories": ["bike-shop"],
+      "description": "Bike shop at 170 King St, on the King St row."
+    }
   },
   {
     "id": "weevil-weevil",
@@ -209,7 +229,11 @@
     "coordinates": [-82.6935, 35.261],
     "description": "Gear shop with beer on tap at 367 Hendersonville Hwy, past the north end of the path.",
     "mileMarker": 4,
-    "hours": "Wed–Sun 10–6pm"
+    "hours": "Wed–Sun 10–6pm",
+    "kids": {
+      "categories": ["bike-shop"],
+      "description": "Gear and bike shop at 367 Hendersonville Hwy, past the north end of the path."
+    }
   },
   {
     "id": "the-hub",
@@ -218,7 +242,12 @@
     "coordinates": [-82.7054, 35.2745],
     "description": "Shop and tavern at 11 Mama’s Pl, at the forest gateway a couple of hundred feet short of Dolly’s.",
     "mileMarker": 4.4,
-    "hours": "Daily 9–7pm"
+    "hours": "Daily 9–7pm",
+    "kids": {
+      "name": "The Hub",
+      "categories": ["bike-shop"],
+      "description": "Bike shop at 11 Mama’s Pl, at the forest gateway a couple of hundred feet short of Dolly’s."
+    }
   },
   {
     "id": "repair-depot",
@@ -243,7 +272,11 @@
     "categories": ["repair"],
     "coordinates": [-82.7072, 35.2538],
     "description": "Pump and tools by the bike racks at the taproom door, at the end of the spur.",
-    "mileMarker": 2.8
+    "mileMarker": 2.8,
+    "kids": {
+      "name": "Mountain Industrial Repair Stand",
+      "description": "Pump and tools by the bike racks at the end of the spur, beside the CHUBwagon."
+    }
   },
   {
     "id": "repair-pisgah",
@@ -252,5 +285,259 @@
     "coordinates": [-82.7066, 35.2699],
     "description": "Last stand before the bridge — the pump gauge actually works.",
     "mileMarker": 4
+  },
+  {
+    "id": "sullys-steamers",
+    "name": "Sully's Steamers",
+    "categories": ["restaurant"],
+    "coordinates": [-82.7336, 35.2336],
+    "description": "Steamed sandwiches and hot dogs at 33 E Main St, a block from the courthouse. Quick, cheap and easy to share.",
+    "mileMarker": 0.4,
+    "website": "https://www.sullyssteamers.com/"
+  },
+  {
+    "id": "homeslyce",
+    "name": "HomeSlyce on King",
+    "categories": ["restaurant"],
+    "coordinates": [-82.7324, 35.2371],
+    "description": "Pizza by the slice at 143 King St, almost directly across from Squatch.",
+    "mileMarker": 0.7,
+    "website": "https://www.slyceisnice.com/"
+  },
+  {
+    "id": "morning-social",
+    "name": "Morning Social",
+    "categories": ["restaurant"],
+    "coordinates": [-82.732, 35.2376],
+    "description": "Breakfast and coffee on King St, right next to Squatch.",
+    "mileMarker": 0.7,
+    "website": "https://www.morningsocialbrevard.com/menu"
+  },
+  {
+    "id": "chubwagon",
+    "name": "CHUBwagon at Oskar Blues",
+    "categories": ["restaurant"],
+    "coordinates": [-82.7072, 35.2531],
+    "description": "The brewery's own food truck at 342 Mountain Industrial Dr: smash burgers, chicken tenders, grilled cheese, hot dogs and a kids' cheeseburger.",
+    "mileMarker": 2.8,
+    "hours": "Mon–Thu 12–9pm · Fri–Sat 12–10pm · Sun 12–8pm",
+    "website": "https://explorebrevard.com/listings/chubwagon-at-oskar-blues/",
+    "kids": {
+      "name": "CHUBwagon",
+      "description": "Food truck at 342 Mountain Industrial Dr, at the end of the spur: smash burgers, chicken tenders, grilled cheese, hot dogs and a kids' cheeseburger."
+    }
+  },
+  {
+    "id": "gordingos",
+    "name": "Gordingo's",
+    "categories": ["restaurant"],
+    "coordinates": [-82.7061, 35.2651],
+    "description": "Food at Ecusta, 451 Ecusta Rd, a few steps off the path at the north end.",
+    "mileMarker": 3.7,
+    "website": "https://gordingos.com/menu/"
+  },
+  {
+    "id": "pisgah-bakehouse",
+    "name": "Pisgah Bakehouse",
+    "categories": ["restaurant"],
+    "coordinates": [-82.7108, 35.2682],
+    "description": "Bakery at 1980 Asheville Hwy, up the short connector from the roundabout at the north end.",
+    "mileMarker": 3.8,
+    "website": "https://www.pisgahbakehouse.com/"
+  },
+  {
+    "id": "pisgah-forest-elementary",
+    "name": "Pisgah Forest Elementary School",
+    "categories": ["school"],
+    "coordinates": [-82.7038, 35.2564],
+    "description": "Public elementary school, pre-K to 5th grade, right beside the path in Pisgah Forest.",
+    "mileMarker": 3.1,
+    "website": "https://pfe.tcsnc.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "brevard-elementary",
+    "name": "Brevard Elementary School",
+    "categories": ["school"],
+    "coordinates": [-82.7225, 35.2254],
+    "description": "Public elementary school, pre-K to 5th grade, at 399 Greenville Hwy. Not on the path yet: extending it here is planned, not built.",
+    "mileMarker": 0.9,
+    "website": "https://bes.tcsnc.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "brevard-middle",
+    "name": "Brevard Middle School",
+    "categories": ["school"],
+    "coordinates": [-82.7291, 35.2462],
+    "description": "Public middle school at 400 Fisher Rd. A short connector from the path at Fisher Rd reaches the school.",
+    "mileMarker": 0.9,
+    "website": "https://bms.tcsnc.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "brevard-high",
+    "name": "Brevard High School",
+    "categories": ["school"],
+    "coordinates": [-82.734, 35.2168],
+    "description": "Public high school at 609 N Country Club Rd, on the south side of town. Not on the path yet.",
+    "mileMarker": 1.0,
+    "website": "https://bhs.tcsnc.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "pisgah-collective",
+    "name": "Pisgah Collective",
+    "categories": ["school"],
+    "coordinates": [-82.7017, 35.2762],
+    "description": "Outdoor, nature-based early childhood program at 2753 Asheville Hwy, past the north end of the path.",
+    "mileMarker": 4.3,
+    "website": "https://www.pisgahcollective.com",
+    "apps": ["kids"]
+  },
+  {
+    "id": "mountain-sun",
+    "name": "Mountain Sun Community School",
+    "categories": ["school"],
+    "coordinates": [-82.7501, 35.2425],
+    "description": "Small independent school using Montessori principles, from age 3 through middle school, at 299 Andante Ln.",
+    "mileMarker": 0.6,
+    "website": "https://mountainsunschool.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "brevard-academy",
+    "name": "Brevard Academy",
+    "categories": ["school"],
+    "coordinates": [-82.6953, 35.2557],
+    "description": "Free public charter school, kindergarten to 8th grade, at 1110 Hendersonville Hwy.",
+    "mileMarker": 3.4,
+    "website": "https://www.brevardacademy.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "presbyterian-weekday",
+    "name": "Presbyterian Weekday Preschool",
+    "categories": ["school"],
+    "coordinates": [-82.7302, 35.232],
+    "description": "Church preschool at Brevard-Davidson River Presbyterian, 249 E Main St.",
+    "mileMarker": 0.6,
+    "website": "https://bdrpc.org/preschool/",
+    "apps": ["kids"]
+  },
+  {
+    "id": "new-adventure",
+    "name": "New Adventure Learning Center",
+    "categories": ["school"],
+    "coordinates": [-82.7359, 35.2292],
+    "description": "Full-day child care and preschool run by Transylvania County at 260 S Gaston St.",
+    "mileMarker": 0.5,
+    "apps": ["kids"]
+  },
+  {
+    "id": "brevard-college",
+    "name": "Brevard College",
+    "categories": ["school"],
+    "coordinates": [-82.7264, 35.2374],
+    "description": "Small liberal arts college beside downtown, One Brevard College Dr.",
+    "mileMarker": 0.7,
+    "website": "https://brevard.edu",
+    "apps": ["kids"]
+  },
+  {
+    "id": "blue-ridge-cc",
+    "name": "Blue Ridge Community College",
+    "categories": ["school"],
+    "coordinates": [-82.7205, 35.2504],
+    "description": "The Transylvania campus at 45 Oak Park Dr, a short ride from the path.",
+    "mileMarker": 1.5,
+    "website": "https://www.blueridge.edu",
+    "apps": ["kids"]
+  },
+  {
+    "id": "boys-girls-club",
+    "name": "Boys & Girls Club of Transylvania County",
+    "categories": ["after-school"],
+    "coordinates": [-82.7262, 35.2254],
+    "description": "The Cindy Platt club at 11 Gallimore Rd: after-school and summer programs for ages 5 to 18, and a Teen Clubhouse next door.",
+    "mileMarker": 0.9,
+    "hours": "School year Mon–Fri 3–6:30pm · summer camp",
+    "website": "https://www.bgctransylvania.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "brevard-rock-gym",
+    "name": "Brevard Rock Gym",
+    "categories": ["after-school"],
+    "coordinates": [-82.7367, 35.2303],
+    "description": "Bouldering gym at 240-B S Broad St with youth climbing programs.",
+    "mileMarker": 0.5,
+    "hours": "Tue, Wed, Fri 5–8pm · Sat 2–5pm",
+    "website": "https://www.brevardrockgym.com",
+    "apps": ["kids"]
+  },
+  {
+    "id": "transylvania-tae-kwon-do",
+    "name": "Transylvania Tae Kwon Do",
+    "categories": ["after-school"],
+    "coordinates": [-82.7368, 35.2302],
+    "description": "Tae Kwon Do classes by belt level at 242 S Broad St, including a Tigers class for ages 4 to 6.",
+    "mileMarker": 0.5,
+    "hours": "Mon–Thu classes 4–6:45pm",
+    "website": "https://www.transylvaniataekwondo.com",
+    "apps": ["kids"]
+  },
+  {
+    "id": "carolina-dance-collective",
+    "name": "Carolina Dance Collective",
+    "categories": ["after-school"],
+    "coordinates": [-82.7156, 35.2591],
+    "description": "Dance studio at 1266 Asheville Hwy, Suite 2: ballet, tap, jazz, modern, musical theater and hip-hop from age 5, and a Nutcracker every winter.",
+    "mileMarker": 2.1,
+    "website": "https://www.carolinadancecollective.com",
+    "apps": ["kids"]
+  },
+  {
+    "id": "health-racquet-club",
+    "name": "Brevard Health & Racquet Club",
+    "categories": ["after-school"],
+    "coordinates": [-82.7364, 35.2218],
+    "description": "Membership club at 1325 N Country Club Rd with indoor and outdoor pools, swim lessons and a summer swim team.",
+    "mileMarker": 1.0,
+    "hours": "Mon–Fri 5:30am–8pm · Sat 8–6 · Sun 11–6",
+    "website": "https://www.brevardhealthandracquetclub.com",
+    "apps": ["kids"]
+  },
+  {
+    "id": "op-taylors",
+    "name": "O.P. Taylor's",
+    "categories": ["fun-stop"],
+    "coordinates": [-82.7347, 35.2337],
+    "description": "The downtown toy store, at 16 S Broad St on the corner by the courthouse.",
+    "mileMarker": 0.4,
+    "hours": "Mon–Sat 10–6pm · Sun 12–5pm",
+    "website": "https://optaylors.com",
+    "apps": ["kids"]
+  },
+  {
+    "id": "library-kids",
+    "name": "Transylvania County Library",
+    "categories": ["fun-stop"],
+    "coordinates": [-82.7354, 35.2311],
+    "description": "The public library at 212 S Gaston St, with kids' programs and an outdoor StoryWalk.",
+    "mileMarker": 0.5,
+    "hours": "Mon & Thu 9:30–8pm · Tue, Wed, Fri, Sat 9:30–5:30pm",
+    "website": "https://library.transylvaniacounty.org",
+    "apps": ["kids"]
+  },
+  {
+    "id": "franklin-park-pool",
+    "name": "Franklin Park Pool",
+    "categories": ["fun-stop"],
+    "coordinates": [-82.7264, 35.2312],
+    "description": "The town's outdoor public pool at 109 Lakeview Ave, inside Franklin Park.",
+    "mileMarker": 0.7,
+    "hours": "Summer only",
+    "apps": ["kids"]
   }
 ]

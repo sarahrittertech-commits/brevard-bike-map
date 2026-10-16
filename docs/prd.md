@@ -62,7 +62,9 @@ These are not deferred, they are decisions:
 - User accounts, logins, profiles
 - User-generated content, reviews, ratings, photos
 - Turn-by-turn voice navigation
-- Live GPS tracking or ride recording
+- Live GPS tracking or ride recording. Showing the rider's own position as a
+  dot, opt-in and never stored, is not tracking and is in scope from the
+  location update (16 October 2026); nothing is recorded or followed.
 - Any town other than Brevard
 - Any shared infrastructure with the women's outdoor community app
 - Payments, subscriptions, ads

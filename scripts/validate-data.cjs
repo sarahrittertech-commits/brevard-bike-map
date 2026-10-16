@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Validates the static data files before they reach a build.
- * Implements checks DT-1 to DT-9 from the test case documentation.
+ * Implements checks DT-1 to DT-10 from the test case documentation.
  *
  * Usage:
  *   node scripts/validate-data.cjs            # warnings are non-fatal
@@ -188,6 +188,24 @@ const OFF_PATH = {
   'squatch': 'the King St row',
   'noblebrau': 'the King St row',
   'griffon-sphynx': 'the King St row',
+  homeslyce: 'the King St row',
+  'morning-social': 'the King St row',
+  'pisgah-bakehouse': 'Asheville Hwy, up the short connector from the roundabout',
+  // Bike Brevard Kids. The drawn network does not reach most schools yet;
+  // extending the path to Brevard Elementary and Brevard High is planned.
+  'brevard-elementary': 'Greenville Hwy, south-east of town; path extension planned',
+  'brevard-high': 'N Country Club Rd, south of town; path extension planned',
+  'pisgah-collective': 'Asheville Hwy, past the north end of the path',
+  'mountain-sun': 'Andante Ln, west of the West Main trailhead',
+  'brevard-academy': 'Hendersonville Hwy, past the north end of the path',
+  'presbyterian-weekday': 'E Main, a few blocks east of the courthouse',
+  'new-adventure': 'S Gaston St, south of downtown',
+  'brevard-college': 'the college campus, east of downtown',
+  'boys-girls-club': 'Gallimore Rd, south-east of town',
+  'brevard-rock-gym': 'S Broad St, south of downtown',
+  'transylvania-tae-kwon-do': 'S Broad St, south of downtown',
+  'health-racquet-club': 'N Country Club Rd, south of town',
+  'franklin-park-pool': 'Lakeview Ave, in Franklin Park south-east of downtown',
 };
 
 function nearestOnLine(p, coords) {
@@ -303,6 +321,47 @@ for (const a of adventures) {
     fail('SCHEMA', `Adventure "${a.id}" image "${a.image}" is not listed in adventureImages in src/lib/data.js`);
   }
   checkPlaceholder(a.title, `Adventure "${a.id}"`);
+}
+
+// DT-10 — each app holds together on its own. Both apps are built from these
+// files (forApp in src/lib/select.js), so a kids ride that stops at a taproom,
+// or a place left only in a category the other app lacks, passes every check
+// above and still breaks one of them. Bike Brevard Kids also carries no
+// brewery, taproom or bar wording at all. "Dairy Bar" is why "bar" is not on
+// the list.
+const { APP_IDS, forApp } = require('../src/lib/select');
+const ADULT_WORDING = /\b(brew\w*|taprooms?|tavern|beers?|pints?|wines?|cocktails?)\b/i;
+for (const app of APP_IDS) {
+  const appCategories = forApp(categories, app);
+  const appDestinations = forApp(destinations, app);
+  const appAdventures = forApp(adventures, app);
+  const appCategoryIds = new Set(appCategories.map((c) => c.id));
+  const appDestinationIds = new Set(appDestinations.map((d) => d.id));
+  for (const d of appDestinations) {
+    for (const c of d.categories ?? []) {
+      if (!appCategoryIds.has(c)) fail('DT-10', `In the ${app} app, "${d.id}" is in category "${c}", which that app does not have`);
+    }
+  }
+  for (const a of appAdventures) {
+    for (const stop of a.stops ?? []) {
+      if (stop.destination && !appDestinationIds.has(stop.destination)) {
+        fail('DT-10', `In the ${app} app, adventure "${a.id}" stops at "${stop.destination}", which that app does not have`);
+      }
+    }
+  }
+  for (const c of appCategories) {
+    if (!appDestinations.some((d) => d.categories.includes(c.id))) {
+      warn('DT-10', `In the ${app} app, category "${c.id}" has no places`);
+    }
+  }
+  if (app === 'kids') {
+    const everything = [...appCategories, ...appDestinations, ...forApp(network, app), ...forApp(landmarks, app), ...appAdventures];
+    for (const item of everything) {
+      const { geometry, route, coordinates, website, ...words } = item;
+      const hit = JSON.stringify(words).match(ADULT_WORDING);
+      if (hit) fail('DT-10', `Bike Brevard Kids shows "${hit[0]}" in "${item.id}" — add a kids override or limit it to apps: ["map"]`);
+    }
+  }
 }
 
 // Report

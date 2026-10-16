@@ -2,19 +2,30 @@
 // Everything the UI knows about places, the network and adventures comes
 // through here, so coordinate handling has exactly one place to go wrong.
 
-import categories from '../data/categories.json';
-import destinations from '../data/destinations.json';
-import network from '../data/network.json';
-import landmarks from '../data/landmarks.json';
-import adventures from '../data/adventures.json';
+import allCategories from '../data/categories.json';
+import allDestinations from '../data/destinations.json';
+import allNetwork from '../data/network.json';
+import allLandmarks from '../data/landmarks.json';
+import allAdventures from '../data/adventures.json';
 
 // require() rather than import: select.js is CommonJS so plain node can run
 // the unit tests against it, and this sidesteps ESM interop entirely.
 const select = require('./select');
 
+// Which of the two apps this build is. EXPO_PUBLIC_ variables are written into
+// the bundle when it is built, so each build carries only its own app's data
+// view; eas.json sets it per build profile. See the runbook.
+export const APP = process.env.EXPO_PUBLIC_APP_VARIANT === 'kids' ? 'kids' : 'map';
+
+const categories = select.forApp(allCategories, APP);
+const destinations = select.forApp(allDestinations, APP);
+const network = select.forApp(allNetwork, APP);
+const landmarks = select.forApp(allLandmarks, APP);
+const adventures = select.forApp(allAdventures, APP);
+
 export { categories, destinations, network, landmarks, adventures };
 
-export const APP_NAME = 'Bike Brevard Map';
+export const APP_NAME = APP === 'kids' ? 'Bike Brevard Kids' : 'Bike Brevard Map';
 export const TOWN_NAME = 'Brevard';
 
 // The pure selection logic lives in select.js so plain node can test it; this
@@ -47,6 +58,10 @@ export const trailheads = [
 
 // Every point on the rideable network, for fitting the map to it.
 export const networkLatLngs = network.flatMap((s) => lineToLatLngs(s.geometry));
+
+// About 3 miles round the network: Pisgah's edge and the far end of town still
+// count as here; Asheville does not.
+export const isNearBrevard = (position) => select.isNearArea(position, networkLatLngs, 0.05);
 
 // Places matching any switched-on category, ordered along the path.
 export const visibleDestinations = (active) => select.selectVisible(destinations, active);

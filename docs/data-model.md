@@ -39,7 +39,7 @@ The glyph for a category lives in `src/components/CategoryIcon.js`, keyed on
 the category `id`. It is deliberately not in the data: it is a component, not
 a value, and an icon name in JSON would be a second source of truth.
 
-Categories: `ice-cream`, `playground`, `brewery`, `bike-shop`, `repair`.
+Categories: `ice-cream`, `playground`, `restaurant`, `brewery`, `bike-shop`, `repair`.
 
 ## Destination
 
@@ -67,6 +67,7 @@ on, and listed in the sheet ordered by mile marker.
 | `description` | string | yes | One or two sentences, plain language |
 | `mileMarker` | number | yes | Miles from the West Main trailhead; orders the list |
 | `hours` | string | no | Free text, shown as a chip |
+| `website` | URL | no | Opens in the browser from place detail. Restaurants link to their menu, and the link says "See the menu" |
 
 ## Network segment
 
@@ -134,6 +135,22 @@ lives: every route is a line someone has ridden.
 | `difficulty` | enum | `easy` · `moderate` · `ambitious` |
 | `stops[].destination` | string | Optional Destination `id`. Stops without one (a parking lot, "lunch downtown") are named but not pinned |
 | `route` | LineString | Drawn once per adventure. Out-and-back rides draw one direction; `miles` is the full ride |
+
+## Two apps from one dataset
+
+Bike Brevard Map and Bike Brevard Kids are built from the same files
+(16 October 2026). Any item — category, destination, network segment,
+landmark, adventure, or an adventure's stop — can carry two optional fields:
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `apps` | `("map" \| "kids")[]` | Only when the item belongs to just one app. Missing means both. Breweries, the taprooms and the Taproom Traverse are `["map"]` |
+| `kids` | object | Fields that read differently in Bike Brevard Kids, laid over the item there. Squatch is `{ "name": "Squatch Bikes", "categories": ["bike-shop"], ... }` |
+
+`forApp` in `src/lib/select.js` applies both, and `src/lib/data.js` hands the
+screens only the result, so no screen knows there are two apps. DT-10 checks
+each app holds together on its own and keeps adult wording out of the kids
+build.
 
 ## File layout
 
