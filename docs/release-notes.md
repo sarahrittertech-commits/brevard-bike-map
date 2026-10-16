@@ -22,7 +22,7 @@ the same code and data (`EXPO_PUBLIC_APP_VARIANT=kids`; see the runbook).
   United Methodist playground also lists the church's Weekday Children's
   Program preschool.
 - **After School**, a new category: the Boys & Girls Club, Brevard Rock Gym,
-  Transylvania Tae Kwon Do, Pisgah Dance Academy and the Brevard Health &
+  Transylvania Tae Kwon Do, Carolina Dance Collective and the Brevard Health &
   Racquet Club's pools and summer swim team.
 - **Fun Stops**, a new category: White Squirrel Arcade, O.P. Taylor's, the
   library and Franklin Park Pool.
@@ -31,7 +31,7 @@ the same code and data (`EXPO_PUBLIC_APP_VARIANT=kids`; see the runbook).
   events in its story.
 
 Before this can ship: its own EAS project, icon, launch screen and store
-listing; the rough coordinates for Brevard Academy, Pisgah Dance Academy and
+listing; the rough coordinates for Brevard Academy and
 the Health & Racquet Club checked; whether Franklin Park Pool opens in 2027;
 and most schools sit off the drawn network, so a Bike to the Pool ride and
 rides to the off-path schools need their routes recorded first.

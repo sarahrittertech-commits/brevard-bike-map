@@ -204,7 +204,6 @@ const OFF_PATH = {
   'boys-girls-club': 'Gallimore Rd, south-east of town',
   'brevard-rock-gym': 'S Broad St, south of downtown',
   'transylvania-tae-kwon-do': 'S Broad St, south of downtown',
-  'pisgah-dance-academy': 'Asheville Hwy, west of the north end of the path',
   'health-racquet-club': 'N Country Club Rd, south of town',
   'franklin-park-pool': 'Lakeview Ave, in Franklin Park south-east of downtown',
 };

@@ -488,13 +488,13 @@
     "apps": ["kids"]
   },
   {
-    "id": "pisgah-dance-academy",
-    "name": "Pisgah Dance Academy",
+    "id": "carolina-dance-collective",
+    "name": "Carolina Dance Collective",
     "categories": ["after-school"],
-    "coordinates": [-82.7137, 35.2659],
-    "description": "Family-run studio teaching children and teens ballet, tap, jazz, hip-hop and clogging, at 6850 Asheville Hwy.",
-    "mileMarker": 3.8,
-    "website": "https://www.pisgahdanceacademy.org",
+    "coordinates": [-82.7156, 35.2591],
+    "description": "Dance studio at 1266 Asheville Hwy, Suite 2: ballet, tap, jazz, modern, musical theater and hip-hop from age 5, and a Nutcracker every winter.",
+    "mileMarker": 2.1,
+    "website": "https://www.carolinadancecollective.com",
     "apps": ["kids"]
   },
   {
