@@ -188,6 +188,9 @@ const OFF_PATH = {
   'squatch': 'the King St row',
   'noblebrau': 'the King St row',
   'griffon-sphynx': 'the King St row',
+  homeslyce: 'the King St row',
+  'morning-social': 'the King St row',
+  'pisgah-bakehouse': 'Asheville Hwy, up the short connector from the roundabout',
 };
 
 function nearestOnLine(p, coords) {

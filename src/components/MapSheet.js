@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Animated, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Animated, Linking, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import ExternalLink from 'lucide-react-native/icons/external-link';
 import MapPinned from 'lucide-react-native/icons/map-pinned';
 import Route from 'lucide-react-native/icons/route';
 import Ruler from 'lucide-react-native/icons/ruler';
@@ -198,6 +199,21 @@ function SelectedPlace({ destination, category, onClose }) {
           </View>
         ))}
       </View>
+
+      {destination.website && (
+        <Pressable
+          onPress={() => Linking.openURL(destination.website)}
+          accessibilityRole="link"
+          accessibilityLabel={`Open ${destination.name}'s website`}
+          hitSlop={HIT_SLOP}
+          style={styles.website}
+        >
+          <ExternalLink size={14} color={cat.color} strokeWidth={2.4} />
+          <Text style={[styles.websiteText, { color: cat.color }]}>
+            {category === 'restaurant' ? 'See the menu' : 'Visit the website'}
+          </Text>
+        </Pressable>
+      )}
     </ScrollView>
   );
 }
@@ -349,6 +365,17 @@ const styles = StyleSheet.create({
     fontFamily: fonts.sansSemiBold,
     fontSize: 12.5,
     color: colors.inkSoft,
+  },
+  website: {
+    marginTop: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    gap: 6,
+  },
+  websiteText: {
+    fontFamily: fonts.sansSemiBold,
+    fontSize: 13.5,
   },
   listHeader: {
     flexDirection: 'row',

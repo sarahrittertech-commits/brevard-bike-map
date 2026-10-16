@@ -1,6 +1,7 @@
 import Beer from 'lucide-react-native/icons/beer';
 import Bike from 'lucide-react-native/icons/bike';
 import IceCreamCone from 'lucide-react-native/icons/ice-cream-cone';
+import Utensils from 'lucide-react-native/icons/utensils';
 import Wrench from 'lucide-react-native/icons/wrench';
 
 import PlaygroundIcon from './PlaygroundIcon';
@@ -8,6 +9,7 @@ import PlaygroundIcon from './PlaygroundIcon';
 const ICONS = {
   'ice-cream': IceCreamCone,
   playground: PlaygroundIcon,
+  restaurant: Utensils,
   brewery: Beer,
   'bike-shop': Bike,
   repair: Wrench,

@@ -39,7 +39,7 @@ The glyph for a category lives in `src/components/CategoryIcon.js`, keyed on
 the category `id`. It is deliberately not in the data: it is a component, not
 a value, and an icon name in JSON would be a second source of truth.
 
-Categories: `ice-cream`, `playground`, `brewery`, `bike-shop`, `repair`.
+Categories: `ice-cream`, `playground`, `restaurant`, `brewery`, `bike-shop`, `repair`.
 
 ## Destination
 
@@ -67,6 +67,7 @@ on, and listed in the sheet ordered by mile marker.
 | `description` | string | yes | One or two sentences, plain language |
 | `mileMarker` | number | yes | Miles from the West Main trailhead; orders the list |
 | `hours` | string | no | Free text, shown as a chip |
+| `website` | URL | no | Opens in the browser from place detail. Restaurants link to their menu, and the link says "See the menu" |
 
 ## Network segment
 

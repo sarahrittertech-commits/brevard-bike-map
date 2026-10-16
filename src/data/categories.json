@@ -10,6 +10,11 @@
     "color": "#BE7A0E"
   },
   {
+    "id": "restaurant",
+    "label": "Restaurants",
+    "color": "#C4502F"
+  },
+  {
     "id": "brewery",
     "label": "Breweries",
     "color": "#8A4A1E"

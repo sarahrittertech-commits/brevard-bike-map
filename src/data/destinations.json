@@ -252,5 +252,60 @@
     "coordinates": [-82.7066, 35.2699],
     "description": "Last stand before the bridge — the pump gauge actually works.",
     "mileMarker": 4
+  },
+  {
+    "id": "sullys-steamers",
+    "name": "Sully's Steamers",
+    "categories": ["restaurant"],
+    "coordinates": [-82.7336, 35.2336],
+    "description": "Steamed sandwiches and hot dogs at 33 E Main St, a block from the courthouse. Quick, cheap and easy to share.",
+    "mileMarker": 0.4,
+    "website": "https://www.sullyssteamers.com/"
+  },
+  {
+    "id": "homeslyce",
+    "name": "HomeSlyce on King",
+    "categories": ["restaurant"],
+    "coordinates": [-82.7324, 35.2371],
+    "description": "Pizza by the slice at 143 King St, almost directly across from Squatch.",
+    "mileMarker": 0.7,
+    "website": "https://www.slyceisnice.com/"
+  },
+  {
+    "id": "morning-social",
+    "name": "Morning Social",
+    "categories": ["restaurant"],
+    "coordinates": [-82.732, 35.2376],
+    "description": "Breakfast and coffee on King St, right next to Squatch.",
+    "mileMarker": 0.7,
+    "website": "https://www.morningsocialbrevard.com/menu"
+  },
+  {
+    "id": "chubwagon",
+    "name": "CHUBwagon at Oskar Blues",
+    "categories": ["restaurant"],
+    "coordinates": [-82.7072, 35.2531],
+    "description": "The brewery's own food truck at 342 Mountain Industrial Dr: smash burgers, chicken tenders, grilled cheese, hot dogs and a kids' cheeseburger.",
+    "mileMarker": 2.8,
+    "hours": "Mon–Thu 12–9pm · Fri–Sat 12–10pm · Sun 12–8pm",
+    "website": "https://explorebrevard.com/listings/chubwagon-at-oskar-blues/"
+  },
+  {
+    "id": "gordingos",
+    "name": "Gordingo's",
+    "categories": ["restaurant"],
+    "coordinates": [-82.7061, 35.2651],
+    "description": "Food at Ecusta, 451 Ecusta Rd, a few steps off the path at the north end.",
+    "mileMarker": 3.7,
+    "website": "https://gordingos.com/menu/"
+  },
+  {
+    "id": "pisgah-bakehouse",
+    "name": "Pisgah Bakehouse",
+    "categories": ["restaurant"],
+    "coordinates": [-82.7108, 35.2682],
+    "description": "Bakery at 1980 Asheville Hwy, up the short connector from the roundabout at the north end.",
+    "mileMarker": 3.8,
+    "website": "https://www.pisgahbakehouse.com/"
   }
 ]
