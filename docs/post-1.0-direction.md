@@ -25,6 +25,27 @@ for the event, not a feature here.
 This is a safety decision, not a scope one, and should not be reopened on
 convenience grounds.
 
+### Reopened 16 October 2026: Bike Brevard Kids
+
+Sarah reopened this decision on 16 October 2026. Bike to School goes into a
+second public app, **Bike Brevard Kids**, with the town's schools and
+preschools as a tappable category, the Boys & Girls Club, after-school
+activities, and the Brevard Bike Alliance's sponsored Bike to School events.
+The public Bike Brevard Map stays as it was: no schools.
+
+What the kids app still leaves out, because it is what made the original
+concern real:
+
+- **No dismissal or drop-off times.** Schools show what they are and where,
+  not when children arrive or leave.
+- **No routes from a home or neighbourhood to a school.** Bike to School rides
+  run from public places on the path — a park, the depot — as the events do.
+- **Nothing about a child is collected.** No accounts, no saved routes, and
+  the location dot is never stored, the same as the map app.
+
+Event dates come from the Bike Alliance's own announcements, not from the
+schools.
+
 ## What the public app is about
 
 Families and visitors: playgrounds, parks and ice cream, and the path that links
