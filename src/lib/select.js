@@ -60,4 +60,24 @@ function isNearArea(position, latLngs, pad) {
   );
 }
 
-module.exports = { toLatLng, lineToLatLngs, displayCategory, selectVisible, selectStopPins, isNearArea };
+// Two apps are built from this one dataset: Bike Brevard Map ('map') and Bike
+// Brevard Kids ('kids'). An item lists `apps` only when it belongs to just one
+// of them, and carries an object named after an app for the fields that read
+// differently there — a shop's name without its taproom, say. Adventure stops
+// can carry their own. What comes out has neither key, so nothing downstream
+// knows there is more than one app.
+const APP_IDS = ['map', 'kids'];
+
+function resolveForApp(item, app) {
+  const resolved = { ...item, ...item[app] };
+  delete resolved.apps;
+  for (const id of APP_IDS) delete resolved[id];
+  if (resolved.stops) resolved.stops = resolved.stops.map((stop) => resolveForApp(stop, app));
+  return resolved;
+}
+
+function forApp(items, app) {
+  return items.filter((item) => !item.apps || item.apps.includes(app)).map((item) => resolveForApp(item, app));
+}
+
+module.exports = { APP_IDS, forApp, toLatLng, lineToLatLngs, displayCategory, selectVisible, selectStopPins, isNearArea };

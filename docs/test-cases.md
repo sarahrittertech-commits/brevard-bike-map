@@ -24,6 +24,7 @@ would be embarrassing in a demo.
 | DT-7 | Stated miles plausible against drawn geometry (warning) | A hand-entered distance drifting from the drawn line |
 | DT-8 | Every destination within 1,000 ft of the network, or listed in `OFF_PATH` with its reason (warning) | A coordinate placed by eye drifting off the path, as Oskar Blues had at 1,969 ft |
 | DT-9 | No destination or landmark sits exactly on a network vertex (warning) | A placeholder pinned to the drawn line instead of surveyed — the shape of every wrong coordinate found in September |
+| DT-10 | Each app holds together on its own: every place's categories and every ride's stops exist in that app, and Bike Brevard Kids shows no brewery, taproom, tavern, beer or wine wording | A kids ride stopping at a taproom, or a shop still labelled "& Brews" in the kids build |
 
 ## Automated — unit
 
@@ -31,7 +32,7 @@ Run by `npm test` in CI on every push. These run against `src/lib/select.js`,
 which holds the pure selection logic that `src/lib/data.js` binds the bundled
 data to. They use fixtures rather than the real dataset, so they assert
 behaviour and do not start failing because a cafe closed — the real data is
-covered by DT-1 to DT-9 above.
+covered by DT-1 to DT-10 above.
 
 | ID | Unit | Assertion |
 | --- | --- | --- |
@@ -41,6 +42,7 @@ covered by DT-1 to DT-9 above.
 | UT-4 | `adventureStopPins` | Stops without a `destination` are skipped; numbering keeps the original index |
 | UT-5 | `toLatLng` | `[-82.73, 35.23]` becomes `{ latitude: 35.23, longitude: -82.73 }` |
 | UT-6 | `isNearArea` | A position in town counts as near the map; Asheville, and a swapped `[lat, lon]` reading of Brevard, do not |
+| UT-7 | `forApp` | Each app keeps only its own items and reads its own wording, stops included; neither `apps` nor the overrides reach the screens |
 
 UT-2 reverses the earlier assumption: the design treats "no filters" as "just
 the path", with the rail's clear button making that explicit.

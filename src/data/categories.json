@@ -17,7 +17,8 @@
   {
     "id": "brewery",
     "label": "Breweries",
-    "color": "#8A4A1E"
+    "color": "#8A4A1E",
+    "apps": ["map"]
   },
   {
     "id": "bike-shop",

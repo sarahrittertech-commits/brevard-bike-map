@@ -136,6 +136,22 @@ lives: every route is a line someone has ridden.
 | `stops[].destination` | string | Optional Destination `id`. Stops without one (a parking lot, "lunch downtown") are named but not pinned |
 | `route` | LineString | Drawn once per adventure. Out-and-back rides draw one direction; `miles` is the full ride |
 
+## Two apps from one dataset
+
+Bike Brevard Map and Bike Brevard Kids are built from the same files
+(16 October 2026). Any item — category, destination, network segment,
+landmark, adventure, or an adventure's stop — can carry two optional fields:
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `apps` | `("map" \| "kids")[]` | Only when the item belongs to just one app. Missing means both. Breweries, the taprooms and the Taproom Traverse are `["map"]` |
+| `kids` | object | Fields that read differently in Bike Brevard Kids, laid over the item there. Squatch is `{ "name": "Squatch Bikes", "categories": ["bike-shop"], ... }` |
+
+`forApp` in `src/lib/select.js` applies both, and `src/lib/data.js` hands the
+screens only the result, so no screen knows there are two apps. DT-10 checks
+each app holds together on its own and keeps adult wording out of the kids
+build.
+
 ## File layout
 
 ```

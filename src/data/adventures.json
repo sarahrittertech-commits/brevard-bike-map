@@ -127,7 +127,7 @@
     "id": "ninja-park-burgers",
     "title": "Ninja Park and Smash Burgers",
     "tagline": "Earn your lunch",
-    "story": "Roll out Main St to the trailhead and take the flat path northeast past the depot and the mid-path stand to Jameson's Joy, where the ninja course gets the wiggles out. Double back a few hundred feet to the Oskar Blues spur and follow it east to the CHUBwagon, the food truck parked at the brewery every day. Burgers, chicken tenders, grilled cheese and a kids' cheeseburger, eaten on the big lawn. Same path home.",
+    "story": "Roll out Main St to the trailhead and take the flat path northeast past the depot and the mid-path stand to Jameson's Joy, where the ninja course gets the wiggles out. Double back a few hundred feet to the Cherry Street Greenway and follow it east to the CHUBwagon, the food truck parked at the brewery every day. Burgers, chicken tenders, grilled cheese and a kids' cheeseburger, eaten on the big lawn. Same path home.",
     "image": "end-to-end",
     "miles": 7.5,
     "minutes": 75,
@@ -151,8 +151,12 @@
       },
       {
         "name": "CHUBwagon at Oskar Blues",
-        "note": "Turn back to the spur and ride east. Racks and a repair stand at the taproom door.",
-        "destination": "chubwagon"
+        "note": "Turn back to the greenway and ride east. Racks and a repair stand at the taproom door.",
+        "destination": "chubwagon",
+        "kids": {
+          "name": "CHUBwagon",
+          "note": "Turn back to the greenway and ride east. Bike racks and a repair stand at the end."
+        }
       }
     ],
     "route": {
@@ -210,6 +214,9 @@
         [-82.7076, 35.2537],
         [-82.7072, 35.2538]
       ]
+    },
+    "kids": {
+      "story": "Roll out Main St to the trailhead and take the flat path northeast past the depot and the mid-path stand to Jameson's Joy, where the ninja course gets the wiggles out. Double back a few hundred feet to the Cherry Street Greenway and follow it east to the CHUBwagon food truck. Burgers, chicken tenders, grilled cheese and a kids' cheeseburger, eaten on the big lawn. Same path home."
     }
   },
   {
@@ -493,7 +500,8 @@
         [-82.736, 35.234],
         [-82.7345, 35.2337]
       ]
-    }
+    },
+    "apps": ["map"]
   },
   {
     "id": "downtown-festival",
@@ -638,7 +646,11 @@
       {
         "name": "The Hub & Pisgah Tavern",
         "note": "Forest gateway. Shop on one side, tavern on the other.",
-        "destination": "the-hub"
+        "destination": "the-hub",
+        "kids": {
+          "name": "The Hub",
+          "note": "Forest gateway. Bike shop, and the end of the pavement."
+        }
       }
     ],
     "route": {
@@ -732,6 +744,9 @@
         [-82.7072, 35.2737],
         [-82.7054, 35.2745]
       ]
+    },
+    "kids": {
+      "story": "The network gets you all the way to the national forest without riding Hwy 64. Pick up the path at W Main, ride the full length northeast past the depot, then cross the new bridge and carry on past Dolly’s to the forest gateway and The Hub bike shop. Flat, paved, and separated nearly the whole way."
     }
   },
   {
@@ -999,7 +1014,10 @@
       {
         "name": "The Hub & Pisgah Tavern",
         "note": "Start and finish here. Check conditions at the shop before you roll out.",
-        "destination": "the-hub"
+        "destination": "the-hub",
+        "kids": {
+          "name": "The Hub"
+        }
       },
       {
         "name": "Bracken Mountain Trailhead",
@@ -1187,7 +1205,12 @@
       {
         "name": "Oskar Blues Brewery",
         "note": "Near the turnaround. Food, shade, and somewhere to sit.",
-        "destination": "oskar-blues"
+        "destination": "oskar-blues",
+        "kids": {
+          "name": "CHUBwagon",
+          "note": "Near the turnaround. Food truck, shade, and somewhere to sit.",
+          "destination": "chubwagon"
+        }
       },
       {
         "name": "Pisgah Forest Repair Stand",
