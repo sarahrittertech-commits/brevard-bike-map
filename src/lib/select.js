@@ -1,10 +1,10 @@
 // The pure selection logic behind src/lib/data.js: coordinate conversion and
-// the three functions that decide what the map and the sheet show.
+// the functions that decide what the map and the sheet show.
 //
 // This file is deliberately CommonJS and deliberately free of imports. Its
 // neighbour data.js imports JSON and require()s photographs, which only the
 // app's bundler can resolve, so data.js cannot be loaded by plain node. These
-// functions can, which is what lets scripts/test-lib.cjs run UT-1 to UT-5
+// functions can, which is what lets scripts/test-lib.cjs run UT-1 to UT-6
 // without a test runner. Keep this file dependency-free or that stops working.
 //
 // Nothing outside data.js should import from here; data.js binds the bundled
@@ -45,4 +45,19 @@ function selectStopPins(adventure, destinationById) {
     .filter(Boolean);
 }
 
-module.exports = { toLatLng, lineToLatLngs, displayCategory, selectVisible, selectStopPins };
+// Whether a rider's { latitude, longitude } is close enough to the map to be
+// worth centring on: inside the box around the given points, grown by `pad`
+// degrees each way. Anywhere further and the map would fly off to a place it
+// has nothing to say about, so the app says so instead.
+function isNearArea(position, latLngs, pad) {
+  const lats = latLngs.map((p) => p.latitude);
+  const lons = latLngs.map((p) => p.longitude);
+  return (
+    position.latitude >= Math.min(...lats) - pad &&
+    position.latitude <= Math.max(...lats) + pad &&
+    position.longitude >= Math.min(...lons) - pad &&
+    position.longitude <= Math.max(...lons) + pad
+  );
+}
+
+module.exports = { toLatLng, lineToLatLngs, displayCategory, selectVisible, selectStopPins, isNearArea };

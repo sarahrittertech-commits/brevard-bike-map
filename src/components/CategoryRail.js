@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import Crosshair from 'lucide-react-native/icons/crosshair';
+import LocateFixed from 'lucide-react-native/icons/locate-fixed';
 import Route from 'lucide-react-native/icons/route';
 
 import CategoryIcon from './CategoryIcon';
@@ -12,15 +13,16 @@ const GAP = 8;
 // Each group is a stack of buttons inside a card with a 1pt border.
 const groupHeight = (buttons) => buttons * SIZE + 2;
 // Height of the rail as one column, so the screen can tell when it won't fit.
-export const RAIL_HEIGHT = groupHeight(categories.length) + GAP + groupHeight(2);
+export const RAIL_HEIGHT = groupHeight(categories.length) + GAP + groupHeight(3);
 // Width of the rail when its two groups sit side by side.
 export const SPLIT_RAIL_WIDTH = 2 * (SIZE + 2) + GAP;
 
 // Vertical stack of category toggles on the right edge of the map, plus a
-// "just the path" clear button and a recenter button beneath. On a screen too
+// "just the path" clear button, a recenter button and the opt-in "show where
+// I am" button beneath. On a screen too
 // short for one column (a phone in landscape, iPhone Duo's outer display) the
 // screen passes `split` and the two groups stand side by side instead.
-export default function CategoryRail({ active, onToggle, onClear, onRecenter, split }) {
+export default function CategoryRail({ active, onToggle, onClear, onRecenter, locating, onLocate, split }) {
   const allOff = active.length === 0;
   return (
     <View style={[styles.rail, split && styles.split]}>
@@ -63,6 +65,20 @@ export default function CategoryRail({ active, onToggle, onClear, onRecenter, sp
           style={({ pressed }) => [styles.button, styles.divider, pressed && { backgroundColor: colors.forestSoft }]}
         >
           <Crosshair size={20} color={colors.forest} strokeWidth={2.1} />
+        </Pressable>
+        <Pressable
+          onPress={onLocate}
+          accessibilityRole="button"
+          accessibilityState={{ selected: locating }}
+          accessibilityLabel={locating ? 'Stop showing my location' : 'Show my location on the map'}
+          style={({ pressed }) => [
+            styles.button,
+            styles.divider,
+            locating && styles.forest,
+            pressed && !locating && styles.pressed,
+          ]}
+        >
+          <LocateFixed size={20} color={locating ? colors.white : colors.inkSoft} strokeWidth={2.1} />
         </Pressable>
       </View>
     </View>

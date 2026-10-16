@@ -6,13 +6,27 @@ title: Privacy policy
 # Privacy policy
 
 **Bike Brevard Map**
-Last updated 12 October 2026
+Last updated 16 October 2026
 
 ## The short version
 
 Bike Brevard Map collects nothing. It has no accounts, no analytics, no
 advertising, no crash reporting and no server of its own. Nothing you do in the
 app is recorded or transmitted anywhere.
+
+## Your location
+
+The app can show where you are on the map, as a dot, if you ask it to. It is
+off until you tap the location button on the map, and the first tap asks for
+your permission. Tap the button again and the dot goes away.
+
+- The app asks only for permission **while you are using it**. It never asks
+  for, and cannot use, your location in the background.
+- Your location is used for one thing: drawing the dot and moving the map to
+  it. It is never stored, logged, sent to us or sent anywhere else, and it is
+  forgotten when you close the app.
+- If you say no, everything else in the app works exactly as before. You can
+  change your answer at any time in your phone's Settings.
 
 ## What the app stores
 
@@ -25,8 +39,8 @@ profile, no preferences and no usage log, on your device or anywhere else.
 
 ## What the app does not do
 
-- It does not ask for or use your location. The app has no location permission,
-  so it cannot see where you are, and it never shows your position on the map.
+- It does not track you. Your location is never recorded, kept or sent
+  anywhere, and the app never asks for it until you tap the location button.
 - It has no accounts, sign-in or sign-up of any kind.
 - It contains no advertising and no advertising or tracking identifiers.
 - It contains no analytics or crash-reporting software.
@@ -48,7 +62,9 @@ into the app. Google says the SDK sends Google technical information on its own
 account: the device model and operating system version, crash reports, the IP
 address, a pseudonymous identifier used to count users of the SDK, and when the
 map is panned or zoomed. This app does not see, receive or store any of it, and
-the SDK gets no location from the app, which has no location permission.
+the app passes the SDK no location of its own. When you turn on the location
+dot, the dot is drawn by the Maps SDK from your phone's location, so Google's
+handling of it is covered by Google's policy.
 Google's handling of it is covered by
 [Google's privacy policy](https://policies.google.com/privacy), not this one.
 

@@ -55,6 +55,12 @@ export default function TrailMap({
   // attribution — Google's logo on Android, Apple's Legal link on iOS. Both
   // providers' terms require it to stay visible.
   logoInset,
+  // True once the rider has opted in and granted location: the map draws its
+  // own blue dot. Off by default, and off again whenever the rider says so.
+  showsUser,
+  // { key, latitude, longitude }: a fix to centre on. A new key re-centres,
+  // so tapping the button twice in one place still moves the map back.
+  userFocus,
 }) {
   const mapRef = useRef(null);
   // On Android the logo is moved with mapPadding, which also shifts what the
@@ -154,6 +160,15 @@ export default function TrailMap({
     );
   }, [selected, docked, width, height, sheetHeight, clear.top, clear.left, clear.right, padLeft, padBottom]);
 
+  useEffect(() => {
+    if (!mapRef.current || !userFocus) return;
+    const latitudeDelta = 0.012;
+    mapRef.current.animateToRegion(
+      { latitude: userFocus.latitude, longitude: userFocus.longitude, latitudeDelta, longitudeDelta: latitudeDelta },
+      400
+    );
+  }, [userFocus]);
+
   return (
     <MapView
       ref={mapRef}
@@ -170,6 +185,10 @@ export default function TrailMap({
       initialRegion={{ latitude: 35.2547, longitude: -82.7204, latitudeDelta: 0.07, longitudeDelta: 0.07 }}
       minZoomLevel={MIN_ZOOM}
       maxZoomLevel={MAX_ZOOM}
+      // The provider's own dot: it follows the phone and needs nothing drawn
+      // here. Google's own "my location" button is off; the rail has one.
+      showsUserLocation={showsUser}
+      showsMyLocationButton={false}
       showsPointsOfInterest={false}
       showsCompass={false}
       pitchEnabled={false}

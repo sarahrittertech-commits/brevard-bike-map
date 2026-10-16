@@ -5,6 +5,32 @@ title: Release notes
 
 # Release notes
 
+## Unreleased — show my location
+
+Started 16 October 2026, on the `show-my-location` branch. A rider can ask to
+see where they are on the map. It is opt-in every time: nothing is asked until
+they tap the button.
+
+- **A location button** under recenter on the map's rail. The first tap asks
+  for permission while the app is in use — never in the background — and then
+  draws the phone's own blue dot and centres on it. Tap again and the dot goes.
+- **Outside Brevard** (more than about 3 miles from the path) the dot is on
+  but the map stays on Brevard, and says so, rather than flying to a place it
+  has nothing to say about.
+- **Declined once, the system can't ask again**, so the button then offers to
+  open Settings instead of doing nothing.
+- **Nothing is kept.** The position is never stored, logged or sent, and it is
+  forgotten when the app closes. The privacy policy says so.
+- **New dependency: `expo-location`**, for the permission prompt and one
+  position fix. Only the "while in use" permission is configured on iOS and
+  only foreground location on Android.
+
+Before this can ship: the App Store privacy answers, the review notes and the
+"never asks for your location" lines in both store listings have to change, and
+Play's Data safety form gets a location answer. Each is marked in the listing
+docs. It needs a new build: Expo Go has its own location prompt, so the real
+one is only seen in an EAS or local build.
+
 ## Unreleased — any shape of screen
 
 Started 14 October 2026, from the [iPhone Duo review](./iphone-duo-design-review)

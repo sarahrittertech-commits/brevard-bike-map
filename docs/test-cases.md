@@ -40,6 +40,7 @@ covered by DT-1 to DT-9 above.
 | UT-3 | `displayCategory` | A two-category place draws as whichever of its categories is switched on |
 | UT-4 | `adventureStopPins` | Stops without a `destination` are skipped; numbering keeps the original index |
 | UT-5 | `toLatLng` | `[-82.73, 35.23]` becomes `{ latitude: 35.23, longitude: -82.73 }` |
+| UT-6 | `isNearArea` | A position in town counts as near the map; Asheville, and a swapped `[lat, lon]` reading of Brevard, do not |
 
 UT-2 reverses the earlier assumption: the design treats "no filters" as "just
 the path", with the rail's clear button making that explicit.
@@ -67,6 +68,7 @@ Run before every release. A simulator does not count.
 | MT-8 | Airplane mode, then cold launch | Map data and markers still load (R9) |
 | MT-9 | Pinch to zoom out fully, then back in | No crash, markers re-render |
 | MT-10 | iPhone Duo: closed, open flat, open upright, half folded both ways | Nothing under the side bars or camera; open and upright, the sheet's open edge sits on the fold; open flat, the docked column ends before the fold. See the [iPhone Duo review](./iphone-duo-design-review) |
+| MT-11 | Fresh install, tap the location button; decline. Tap again. Then allow it in Settings and tap again; tap once more | No prompt before the first tap. Declining shows nothing more; the second tap offers Settings. Allowed, the dot appears and the map centres on it (in Brevard) or says you're outside Brevard; the last tap removes the dot. Settings shows only "While Using the App" |
 
 ### Android
 

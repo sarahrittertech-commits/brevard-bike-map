@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Unit tests for the data selection logic.
- * Implements checks UT-1 to UT-5 from the test case documentation.
+ * Implements checks UT-1 to UT-6 from the test case documentation.
  *
  * These run against src/lib/select.js, which holds the pure functions that
  * src/lib/data.js re-exports once the bundled data is bound to them. There is
@@ -22,6 +22,7 @@ const {
   displayCategory,
   selectVisible,
   selectStopPins,
+  isNearArea,
 } = require('../src/lib/select');
 
 const tests = [];
@@ -122,6 +123,16 @@ test('UT-5', 'toLatLng: GeoJSON [lon, lat] becomes { latitude, longitude }', () 
     { latitude: 35.23, longitude: -82.73 },
     { latitude: 35.25, longitude: -82.7 },
   ]);
+});
+
+test('UT-6', 'isNearArea: centres on a rider in town, not one far away', () => {
+  const area = [toLatLng([-82.75, 35.22]), toLatLng([-82.70, 35.27])];
+  assert.equal(isNearArea({ latitude: 35.24, longitude: -82.72 }, area, 0.05), true);
+  // Just outside the box but inside the padding still counts.
+  assert.equal(isNearArea({ latitude: 35.30, longitude: -82.72 }, area, 0.05), true);
+  // Asheville is out; so is a swapped [lat, lon] reading of Brevard itself.
+  assert.equal(isNearArea({ latitude: 35.5951, longitude: -82.5515 }, area, 0.05), false);
+  assert.equal(isNearArea({ latitude: -82.72, longitude: 35.24 }, area, 0.05), false);
 });
 
 // Run

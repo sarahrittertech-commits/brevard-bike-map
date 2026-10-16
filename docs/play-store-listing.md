@@ -100,8 +100,9 @@ Proposed replacement for that paragraph:
 ```
 WHAT IT DOESN'T DO
 
-No account. No sign-up. No advertising. The app itself collects nothing and
-never asks for your location. The entire map of places and rides is bundled
+No account. No sign-up. No advertising. The app itself collects nothing. Tap
+the location button and it shows where you are on the map; your location never
+leaves your phone. The entire map of places and rides is bundled
 into the download, so it works in Pisgah with no signal and costs nothing to
 run. The street map underneath is Google Maps, which is part of Android rather
 than part of this app.
@@ -126,10 +127,15 @@ collects, by default:
 - map interaction events (panning and zooming), because the app moves the map
   camera
 
-None of it is location (the app has no location permission), none of it is
+None of it is location from our code, none of it is
 used for advertising, and our code sees none of it. But "No data collected"
 would be an incorrect declaration on Play, and an incorrect declaration is a
 policy violation.
+
+**Location (since the location update).** With the dot on, Google's Maps SDK
+draws the rider's position, so check Google's disclosure for whether the SDK
+then counts as collecting approximate or precise location, and answer to match.
+Our own code reads one position to centre the map and keeps none.
 
 Draft answers, **to be checked against Google's
 [current disclosure](https://developers.google.com/maps/documentation/android-sdk/play-data-disclosure)

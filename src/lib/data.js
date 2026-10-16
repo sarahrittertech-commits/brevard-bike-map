@@ -48,6 +48,10 @@ export const trailheads = [
 // Every point on the rideable network, for fitting the map to it.
 export const networkLatLngs = network.flatMap((s) => lineToLatLngs(s.geometry));
 
+// About 3 miles round the network: Pisgah's edge and the far end of town still
+// count as here; Asheville does not.
+export const isNearBrevard = (position) => select.isNearArea(position, networkLatLngs, 0.05);
+
 // Places matching any switched-on category, ordered along the path.
 export const visibleDestinations = (active) => select.selectVisible(destinations, active);
 
