@@ -5,6 +5,28 @@ title: Release notes
 
 # Release notes
 
+## Unreleased — restaurants
+
+Started 16 October 2026, on the `restaurants` branch (cut from
+`show-my-location`).
+
+- **A Restaurants category** with a knife-and-fork icon, between Playgrounds
+  and Breweries on the rail. Six places from a curated list of family-friendly
+  food: Sully's Steamers, HomeSlyce on King, Morning Social, the CHUBwagon at
+  Oskar Blues, Gordingo's at Ecusta and Pisgah Bakehouse.
+- **A menu link.** A place with a `website` shows "See the menu" (or "Visit
+  the website") in its detail, which opens the browser.
+- **Two kid-friendly rides that end at lunch:** *Ninja Park and Smash Burgers*
+  (Jameson's Joy, then the CHUBwagon) and *Steamers and Swings* (Sully's, then
+  The Yard), the shortest ride in the app.
+- **Restaurant filters** are written up as [UC-5](./use-cases) with
+  requirements RF-1 to RF-9. Not built.
+
+Before this can ship: the King St positions for HomeSlyce and Morning Social
+are set beside Squatch's, which the September survey left as traced; check
+all three on the ground. Pisgah Bakehouse's connector from the roundabout is
+not drawn. The two new rides borrow existing photos.
+
 ## Unreleased — show my location
 
 Started 16 October 2026, on the `show-my-location` branch. A rider can ask to
