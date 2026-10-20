@@ -4,14 +4,49 @@
     "name": "Main St Link",
     "kind": "connector",
     "miles": 0.3,
-    "note": "Sidewalk link along Main St from the courthouse out to where the path begins.",
+    "note": "Sidewalk along W Main from Kilwins out to where the path begins.",
     "geometry": {
       "type": "LineString",
       "coordinates": [
-        [-82.7345, 35.2337],
-        [-82.736, 35.234],
-        [-82.7376, 35.2342],
-        [-82.7392, 35.2344]
+        [-82.73505, 35.23417],
+        [-82.73904, 35.23592]
+      ]
+    }
+  },
+  {
+    "id": "library-jordan-connector",
+    "name": "Jordan St to the Library",
+    "kind": "connector",
+    "miles": 0.4,
+    "note": "The way to the library from the path: east on W Main to the fire station, right on England St, left on W Jordan, across S Caldwell and S Broad, then down S Broad to the library.",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.73654, 35.23478],
+        [-82.73708, 35.23398],
+        [-82.7365, 35.2337],
+        [-82.73608, 35.23348],
+        [-82.73482, 35.23299],
+        [-82.73529, 35.23223],
+        [-82.73609, 35.2311]
+      ]
+    }
+  },
+  {
+    "id": "library-connector",
+    "name": "Gaston St Hill",
+    "kind": "connector",
+    "miles": 0.3,
+    "note": "Climbs from the library’s S Gaston St entrance up S Gaston to E Main by Earth Mountain. No bike lane, but traffic is slow; small kids can ride the sidewalk, and most will walk part of the hill.",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.73564, 35.23088],
+        [-82.73562, 35.23077],
+        [-82.73567, 35.23084],
+        [-82.73493, 35.23049],
+        [-82.73321, 35.23304],
+        [-82.73332, 35.23317]
       ]
     }
   },
@@ -20,22 +55,27 @@
     "name": "Brevard Bike Path",
     "kind": "main",
     "miles": 4.0,
-    "note": "Paved, flat, and separated from traffic the whole way.",
+    "note": "Paved and separated from traffic nearly the whole way. Detoured for now by Brevard Middle School: follow the signs up Pender St and rejoin the path across Fisher Rd from the rescue squad.",
     "geometry": {
       "type": "LineString",
       "coordinates": [
-        [-82.7392, 35.2344],
-        [-82.7385, 35.2356],
-        [-82.7376, 35.2369],
-        [-82.7365, 35.2383],
-        [-82.7356, 35.2394],
-        [-82.7349, 35.2402],
-        [-82.7331, 35.2413],
-        [-82.7311, 35.2425],
-        [-82.7287, 35.2446],
-        [-82.7263, 35.2453],
-        [-82.724, 35.246],
-        [-82.722, 35.2472],
+        [-82.73904, 35.23592],
+        [-82.73847, 35.23679],
+        [-82.73761, 35.23771],
+        [-82.73597, 35.23892],
+        [-82.73594, 35.23909],
+        [-82.73525, 35.23973],
+        [-82.73504, 35.23972],
+        [-82.73505, 35.23959],
+        [-82.73432, 35.24039],
+        [-82.73396, 35.24049],
+        [-82.73254, 35.2414],
+        [-82.73249, 35.24183],
+        [-82.73136, 35.24248],
+        [-82.73109, 35.24236],
+        [-82.72779, 35.24455],
+        [-82.72698, 35.24486],
+        [-82.72279, 35.24725],
         [-82.7213, 35.2487],
         [-82.7216, 35.2495],
         [-82.7205, 35.2529],

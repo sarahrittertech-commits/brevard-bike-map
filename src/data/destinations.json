@@ -21,7 +21,7 @@
     "id": "the-yard-treats",
     "name": "The Yard",
     "categories": ["playground", "ice-cream"],
-    "coordinates": [-82.7353, 35.2391],
+    "coordinates": [-82.73497, 35.23974],
     "description": "Playset, kids’ bike park, and ice cream at 284 Railroad Ave — the one stop that gets them riding.",
     "mileMarker": 0.4
   },
@@ -38,8 +38,8 @@
     "id": "kilwins",
     "name": "Kilwins",
     "categories": ["ice-cream"],
-    "coordinates": [-82.7338, 35.2337],
-    "description": "Hand-paddled ice cream and fudge on E Main. Easy downtown stop.",
+    "coordinates": [-82.73505, 35.23417],
+    "description": "Hand-paddled ice cream and fudge on W Main. Easy downtown stop.",
     "mileMarker": 0.4,
     "hours": "Daily 11–9pm"
   },
@@ -185,7 +185,7 @@
     "id": "earth-mountain",
     "name": "Earth Mountain",
     "categories": ["bike-shop"],
-    "coordinates": [-82.7341, 35.235],
+    "coordinates": [-82.73332, 35.23317],
     "description": "Closest shop to the downtown end. Service, parts, and local advice.",
     "mileMarker": 0.4,
     "hours": "Mon–Sat 10–6pm"
@@ -253,7 +253,7 @@
     "id": "repair-depot",
     "name": "Railroad Depot Repair Stand",
     "categories": ["repair"],
-    "coordinates": [-82.7342, 35.2407],
+    "coordinates": [-82.73377, 35.24063],
     "description": "At Jimmy Harris Railroad Depot Park — pump and tools, plus restrooms, parking, and the ballerina sculpture.",
     "mileMarker": 0.5,
     "hours": "Park open 7am–9pm"

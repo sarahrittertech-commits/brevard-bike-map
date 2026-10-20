@@ -241,6 +241,8 @@ for (const d of destinations) {
 // and four forest landmarks between 2,942 and 10,983.
 const SURVEYED_ON_VERTEX = new Set([
   'repair-oskar-blues', // the spur was drawn from the recording that ends at it
+  'kilwins', // the Main St link was drawn from the 17 October ride that starts at its door
+  'earth-mountain', // and the Gaston St Hill from the one that ends at its door
 ]);
 const vertexKeys = new Set(
   segmentLines.flatMap((coords) => coords.map((c) => `${c[0]},${c[1]}`))

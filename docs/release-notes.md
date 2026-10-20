@@ -5,6 +5,45 @@ title: Release notes
 
 # Release notes
 
+## Unreleased — the downtown half, recorded
+
+Four rides from 17 October 2026, exported from Trailforks, and the photos
+taken along them replace the traced downtown half that 1.0.1 left behind.
+
+- **The path ends where it really meets West Main**, by the bollard
+  (IMG_5602), 555 ft north of the traced trailhead. The traced line cut
+  diagonally through the blocks below The Yard. It now follows Railroad Ave.
+- **`main` is recorded from West Main to CVS**, including the current detour
+  by Brevard Middle School: closed at IMG_5561, up the Pender St side, back on
+  the path across Fisher Rd from the rescue squad (IMG_5571–5572). Between CVS
+  and Blue Ridge CC it is still traced, minus one vertex that doglegged east
+  of where the recording ends. The line now measures 3.92 mi. `miles` stays at
+  4.0 because the traced stretch still cuts corners, which is the lower-bound
+  point 1.0.1 made.
+- **The Main St link is redrawn along W Main** from Kilwins to the trailhead.
+  Before, it ran from the courthouse along the wrong street.
+- **Jordan St to the Library**, new: the way the family rides from the path.
+  It goes east on W Main to the fire station, right on England St, left on
+  W Jordan by Hendersonville Pediatrics, across S Caldwell and S Broad, then
+  down S Broad to the library. It is drawn from the corner photos
+  (IMG_5603–5611) plus two corners read off OpenStreetMap, not from a GPS
+  recording.
+- **Gaston St Hill**, new, recorded: from the library's S Gaston St entrance
+  up S Gaston to E Main at Earth Mountain. It is uphill with no bike lane. Its
+  note says small kids can ride the sidewalk and will likely walk part of it.
+- **Pins moved to where they were photographed or ridden to:** Kilwins
+  409 ft (it is at 52 *W* Main, not E Main), Earth Mountain 705 ft (66 E
+  Main), The Yard 253 ft (IMG_5594), the Depot repair stand 130 ft
+  (IMG_5588) and the Depot Park label 201 ft (IMG_5586).
+- **Twelve adventure routes follow the new lines.** The Ballfield and Library
+  Loop now reaches the library by Jordan St instead of cutting across town.
+  No route moved more than 0.3 mi from its stated length.
+
+Not done: mile markers north of The Yard read about 0.08 mi long against
+the new line. That is within rounding, so they were left as they were. The
+app does not show segment notes, so the detour is in the data but not on
+screen.
+
 ## Unreleased — Bike Brevard Kids
 
 Started 16 October 2026, on the `restaurants` branch. A second app built from
