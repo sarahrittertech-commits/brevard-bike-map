@@ -100,7 +100,7 @@ unlike the description.
 
 ## Description
 
-*4000 characters. Using 1986.*
+*4000 characters. Using 2309 (1.1.0).*
 
 Rewritten by Sarah on 25 September 2026, replacing an earlier draft of mine. The
 opening is the part that matters: it says who the app is for and why it exists,
@@ -122,24 +122,27 @@ in some of our favorite local places.
 
 THE PATH AND ITS CONNECTORS
 
-The 4-mile Brevard Bike Path, drawn end to end, plus the four connectors
-that riders actually use to get past where the pavement stops — the Main St
-link, the new bridge connector, the spur out to Oskar Blues, and the campground
-connector to the Davidson River. Thirteen landmarks are labelled along the way
-so you can tell where you are.
+The 4-mile Brevard Bike Path, drawn end to end from real rides, plus sixteen
+connectors that families actually use to get past where the pavement stops —
+along Main St to Silvermont, to the library, Franklin Park and its pool,
+Brevard College's creek, the King St shops, the new bridge, Oskar Blues and
+the campground on the Davidson River. Thirteen landmarks are labelled along the
+way so you can tell where you are.
 
 PLACES, BY WHAT YOU WANT
 
-Twenty-nine destinations you can switch on and off by category: ice cream,
-playgrounds, breweries, bike shops and repair stations. Turn on what you're
+Thirty-eight destinations you can switch on and off by category: ice cream,
+playgrounds, restaurants, breweries, bike shops and repair stations.
+Restaurants link straight to their menus. Turn on what you're
 looking for and the map shows only that, listed in the order you'll reach it
 along the path with its mile marker. Turn everything off and you're back to
 just the path.
 
-NINE CURATED ADVENTURES
+FOURTEEN CURATED ADVENTURES
 
-Rides that locals actually do, from a 4.3-mile spin to a downtown festival up
-to the 15.5-mile Hub to Bracken and back. Each one has its distance, riding
+Rides that locals actually do, from a 1-mile ride to summer short-track
+races by the Depot, through a 17-sculpture art loop, up to the 15.5-mile Hub
+to Bracken and back. Each one has its distance, riding
 time, difficulty and a stop-by-stop itinerary — and "show route on map" draws
 the whole ride over the network with its stops numbered in order.
 
