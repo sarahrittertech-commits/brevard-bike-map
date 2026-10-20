@@ -172,10 +172,19 @@ brevard,greenway,cycling,bike path,pisgah,ice cream,trail map,offline,nc,transyl
 
 ## What's New in this version
 
-*For 1.0.0, Apple accepts a first-release note or none at all.*
+*1.1.0. Paste into App Store Connect's "What's New in This Version" box.*
 
 ```
-First release.
+Bike Brevard Map 1.1
+
+- Downtown, redrawn from real rides. The path now ends where it really meets West Main and follows Railroad Ave, and the current detour by Brevard Middle School is drawn the way you ride it.
+- A dozen new links from the path to the places families ride: the library, Franklin Park and the pool, Silvermont, Brevard College and its creek, the King St shops, Brevard Elementary and the Boys & Girls Club.
+- Pins fixed for Franklin Park, Silvermont, the King St shops, Kilwins, Earth Mountain and more.
+- Restaurants, with a link to each menu.
+- New rides: Art on the Path (17 sculptures in one loop), Pisgah Short Track Social, Earth Mountain Shop Ride, and two easy rides that end at lunch.
+- Two hopscotches painted on the path, and a repair stand at the library.
+- Show my location: optional, only when you tap, and never stored.
+- Works on its side and on any size of screen.
 ```
 
 ## App privacy answers

@@ -5,6 +5,18 @@ title: Release notes
 
 # Release notes
 
+## 1.1.0 — in preparation
+
+Built 20 October 2026 from the `restaurants` branch. It ships the four
+sections below that belong to Bike Brevard Map: the downtown half recorded
+(the 17 October rides, links and adventures), restaurants, show my location,
+and any shape of screen. Bike Brevard Kids and Android are not in it. Kids
+needs its own App Store record, and Android needs a Play account.
+
+Before it is submitted: MT-1 to MT-6 on a physical iPhone, including the
+location button's real permission prompt, which Expo Go cannot show. The
+What's New text is in the [App Store listing](./app-store-listing).
+
 ## Unreleased — the downtown half, recorded
 
 Four rides from 17 October 2026, exported from Trailforks, and the photos
