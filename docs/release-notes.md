@@ -33,11 +33,108 @@ taken along them replace the traced downtown half that 1.0.1 left behind.
   note says small kids can ride the sidewalk and will likely walk part of it.
 - **Pins moved to where they were photographed or ridden to:** Kilwins
   409 ft (it is at 52 *W* Main, not E Main), Earth Mountain 705 ft (66 E
-  Main), The Yard 253 ft (IMG_5594), the Depot repair stand 130 ft
+  Main, IMG_5619), The Yard 253 ft (IMG_5594), the Depot repair stand 130 ft
   (IMG_5588) and the Depot Park label 201 ft (IMG_5586).
+- **The King St row moved about 1,100 ft west**, onto King St, a short block
+  off the path below Whitmire St. Noblebräu is placed by IMG_5623, and
+  OpenStreetMap agrees to 15 ft. Squatch and Morning Social are at
+  OpenStreetMap's points for 170 King St. HomeSlyce (143) and Griffon &
+  Sphynx (212) are at OpenStreetMap's estimated house-number positions and
+  are the two to check on the ground. All five now sit within 560 ft of the
+  path, so they are off the OFF_PATH list, and their mile markers read 0.2.
+  Noblebräu's description now mentions its live music.
+- **King St Link**, new and recorded: the end of the Kilwins ride, about
+  200 ft from the path to 185 King St.
+- **Library Repair Stand**, new: tools and a pump outside the library
+  (IMG_5616).
+- **New Adventure Learning Center moved 250 ft north**, to OpenStreetMap's
+  point beside the library's parking lot, which is the view in IMG_5614. It
+  is now 330 ft from the nearest drawn link, so it is off the OFF_PATH list.
+- **Brevard Middle School moved 154 ft**, to the plus code Sarah gave
+  (67WC+9G). The plus codes from the ride notes, once decoded, agree with the
+  photos and recordings to within about 200 ft: 67H7+VM is New Adventure,
+  67R8+85 is Nature Trails at the east end of Commerce St, and 67WG+XJ is
+  CVS.
+- **Two hopscotches painted on the path**, new playground stops: the
+  Flower Hopscotch near the McLean Rd crossing (IMG_5578) and the Robot
+  Hopscotch just past the Fisher Rd crossing (IMG_5628).
 - **Twelve adventure routes follow the new lines.** The Ballfield and Library
   Loop now reaches the library by Jordan St instead of cutting across town.
   No route moved more than 0.3 mi from its stated length.
+- **Two new adventures, both easy and kid-friendly, with Sarah's photos.**
+  *Pisgah Short Track Social* rides the path to Nature Trails' short-track
+  features on Commerce St for the summer Wednesday race series around the
+  Fourth of July (photo IMG_5589). *Earth Mountain Shop Ride* goes from the
+  shop to The Yard and back, the loop behind its holiday Letters to Santa
+  ride (photo IMG_5618, the shop's bike mural). The Commerce St end is the
+  street's east end, where IMG_5589 shows the features. OpenStreetMap's
+  estimate for 20 Commerce St is further west, so check it. From Earth
+  Mountain to Kilwins the ride says to walk the bikes, because Main St is too
+  busy to ride with kids. That stretch is drawn from the map.
+- **Art on the Path**, a new easy 3.1-mile loop for both apps, starting and
+  ending at Depot Park. It passes 17 of the 25 Brevard Sculpture Walk pieces:
+  - Ballerina Angelina at the Depot
+  - the Lumberyard Cows, seen behind the Brevard Lumber Company sign
+    (IMG_5598)
+  - the Saxophone, Violin and Banjo on the Brevard College lawn
+  - the Red Wolf and Elk on the courthouse lawn
+  - the Otter at the Visitor Center
+  - the Red Fox and Tim Murray abstract at St Philip's
+  - the Great Blue Heron at the library
+  - the Trout, Owl and Red Deer on S Broad
+  - the Wild Turkey at W Morgan
+  - the Black Bear and White Squirrels at City Hall
+
+  It follows the route Sarah described: Whitmire, N Caldwell, N Broad,
+  E Main, Gaston and S Broad, then Jordan and England Sts back to W Main.
+  The streets come from OpenStreetMap and the sculpture details from
+  Explore Brevard's Sculpture Walk page. The sculptures are stops, not map
+  pins. The photo is IMG_5590.
+- **Whitmire St Link**, new: off the path below The Yard, down Whitmire St
+  to the N Caldwell crossing at First United Methodist, from OpenStreetMap.
+  Riders can also cut through The Yard to reach it.
+- **Franklin Park Link**, new, from OpenStreetMap: off the path at W French
+  Broad, across N Broad onto E French Broad, then Franklin St and Lakeview Ave
+  to the Franklin Park playground, with the pool around the corner. Its note
+  gives the sidewalk route through Brevard College for little kids.
+- **Silvermont Link**, new: from Lakeview, down Franklin St to E Main, across
+  at St Philip's Episcopal, then the sidewalk to the Silvermont playground.
+- **E Main Sidewalk**, new: from Kilwins along Main St to St Philip's, where
+  the Silvermont Link carries on. This makes a continuous line from the end of
+  the path to Silvermont. Its note says to walk the bikes downtown with kids.
+- **Rice St Garden Link**, new: from Gaston St, right on E Jordan to the Rice
+  Street Community Garden and its small church playground, a 371 ft
+  cut-through to Woodside Dr, then up to E Main. This is the library-to-
+  Silvermont route. The garden and the cut-through are not in OpenStreetMap,
+  so the cut-through is drawn straight. The garden is not a pin.
+- **Brevard College Creek Link**, new: off the path down Fisher Rd, across
+  N Broad to Ingles, around behind the store and across to Kings Creek Loop,
+  past the spot on King Creek where kids play, then across campus to E French
+  Broad. The 99 ft from the back of the Ingles lot to Kings Creek Loop is not
+  in OpenStreetMap and is drawn straight. Check it on the next ride.
+- **N Johnson St Link**, new: from E French Broad up to E Main.
+- **The Franklin Park Link uses the new crosswalk over N Caldwell** at
+  W French Broad (35.23694, -82.73300). Its note now gives Sarah's way with
+  small kids: the W French Broad sidewalk, across N Broad, then the E French
+  Broad sidewalk to Franklin St.
+- **Brevard Elementary Link**, new: from Silvermont along the E Main and
+  Greenville Hwy sidewalk to the school.
+- **Gallimore Greenway Link**, new: across E Main at Gallimore Rd, then 0.1 mi
+  of the Gallimore Road Greenway, a separated path that already exists, to the
+  Boys & Girls Club. The school and the club are now off the OFF_PATH list.
+  Both links come from OpenStreetMap and Sarah's directions, not GPS.
+- **Three park pins were badly placed.** The Franklin Park pin sat inside
+  Silvermont Park, 1,214 ft from Franklin Park. The Silvermont pin was 1,748 ft
+  north of the park. The pool moved 226 ft. All three are now at
+  OpenStreetMap's points, within 270 ft of the new links, and off the
+  OFF_PATH list.
+- **The First United Methodist playground moved 1,506 ft** to the church on
+  Methodist Dr. The old pin sat by King St.
+- **Bike to the Rock Gym**, Bike Brevard Kids only: the Jordan St route, then
+  down the west side of S Broad to Brevard Rock Gym for open climb, so there
+  is no second crossing of US 64. The photo is IMG_5612, the gym with
+  Transylvania Tae Kwon Do next door. The gym's description now gives its
+  open-climb times. Its pin was already at 240 S Broad, so it did not move.
 
 Not done: mile markers north of The Yard read about 0.08 mi long against
 the new line. That is within rounding, so they were left as they were. The

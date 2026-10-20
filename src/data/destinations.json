@@ -26,6 +26,22 @@
     "mileMarker": 0.4
   },
   {
+    "id": "flower-hopscotch",
+    "name": "Flower Hopscotch",
+    "categories": ["playground"],
+    "coordinates": [-82.73096, 35.24246],
+    "description": "A flower painted on the path with numbered petals to hop, near the McLean Rd crossing.",
+    "mileMarker": 0.7
+  },
+  {
+    "id": "path-hopscotch",
+    "name": "Robot Hopscotch",
+    "categories": ["playground"],
+    "coordinates": [-82.72803, 35.2444],
+    "description": "A robot-shaped hopscotch painted on the path, just past the Fisher Rd crossing by the rescue squad. A quick hop for little legs.",
+    "mileMarker": 0.9
+  },
+  {
     "id": "rockys",
     "name": "Rocky's Grill & Soda Shop",
     "categories": ["ice-cream"],
@@ -77,7 +93,7 @@
     "id": "brevard-first-umc",
     "name": "Brevard First United Methodist",
     "categories": ["playground"],
-    "coordinates": [-82.7362, 35.2365],
+    "coordinates": [-82.73148, 35.238],
     "description": "Church playground open to the public after 12pm Monday through Friday.",
     "mileMarker": 0.3,
     "hours": "Mon–Fri after 12pm",
@@ -90,7 +106,7 @@
     "id": "franklin-park",
     "name": "Franklin Park",
     "categories": ["playground"],
-    "coordinates": [-82.7301, 35.2299],
+    "coordinates": [-82.72664, 35.23167],
     "description": "Neighborhood playground and shade just south of downtown.",
     "mileMarker": 0.5
   },
@@ -98,7 +114,7 @@
     "id": "silvermont-park",
     "name": "Silvermont Mansion & Park",
     "categories": ["playground"],
-    "coordinates": [-82.7283, 35.2342],
+    "coordinates": [-82.7295, 35.2295],
     "description": "Big playground on the Silvermont lawn at 364 E Main, with a picnic pavilion and the mansion grounds to wander.",
     "mileMarker": 0.7
   },
@@ -145,9 +161,9 @@
     "id": "noblebrau",
     "name": "Noblebräu Brewing · 185 King Street",
     "categories": ["brewery"],
-    "coordinates": [-82.732, 35.2377],
-    "description": "Taproom on the King St row, a short block off the path.",
-    "mileMarker": 0.7,
+    "coordinates": [-82.73611, 35.23798],
+    "description": "Brewery and listening room at 185 King St, a short block off the path, with live music several nights a week.",
+    "mileMarker": 0.2,
     "hours": "Wed–Sun 3–10pm",
     "apps": ["map"]
   },
@@ -155,9 +171,9 @@
     "id": "griffon-sphynx",
     "name": "Griffon & Sphynx",
     "categories": ["brewery"],
-    "coordinates": [-82.7318, 35.2382],
-    "description": "Small taproom at 212 King St, at the north end of the King St row.",
-    "mileMarker": 0.8,
+    "coordinates": [-82.73563, 35.23738],
+    "description": "Small taproom at 212 King St.",
+    "mileMarker": 0.2,
     "hours": "Thu–Sun 4–10pm",
     "apps": ["map"]
   },
@@ -185,7 +201,7 @@
     "id": "earth-mountain",
     "name": "Earth Mountain",
     "categories": ["bike-shop"],
-    "coordinates": [-82.73332, 35.23317],
+    "coordinates": [-82.73327, 35.23317],
     "description": "Closest shop to the downtown end. Service, parts, and local advice.",
     "mileMarker": 0.4,
     "hours": "Mon–Sat 10–6pm"
@@ -212,9 +228,9 @@
     "id": "squatch",
     "name": "Squatch Bikes & Brews",
     "categories": ["bike-shop", "brewery"],
-    "coordinates": [-82.7322, 35.2374],
+    "coordinates": [-82.73576, 35.23772],
     "description": "Shop and taproom in one at 170 King St, on the King St row.",
-    "mileMarker": 0.7,
+    "mileMarker": 0.2,
     "hours": "Wed–Sun 11–8pm",
     "kids": {
       "name": "Squatch Bikes",
@@ -259,6 +275,14 @@
     "hours": "Park open 7am–9pm"
   },
   {
+    "id": "repair-library",
+    "name": "Library Repair Stand",
+    "categories": ["repair"],
+    "coordinates": [-82.73573, 35.23078],
+    "description": "Tools on cables and a floor pump outside the Transylvania County Library, at the end of the Jordan St route.",
+    "mileMarker": 0.5
+  },
+  {
     "id": "repair-midpath",
     "name": "Mid-Path Fix-It Stand",
     "categories": ["repair"],
@@ -299,18 +323,18 @@
     "id": "homeslyce",
     "name": "HomeSlyce on King",
     "categories": ["restaurant"],
-    "coordinates": [-82.7324, 35.2371],
+    "coordinates": [-82.73564, 35.2371],
     "description": "Pizza by the slice at 143 King St, almost directly across from Squatch.",
-    "mileMarker": 0.7,
+    "mileMarker": 0.2,
     "website": "https://www.slyceisnice.com/"
   },
   {
     "id": "morning-social",
     "name": "Morning Social",
     "categories": ["restaurant"],
-    "coordinates": [-82.732, 35.2376],
+    "coordinates": [-82.73556, 35.23778],
     "description": "Breakfast and coffee on King St, right next to Squatch.",
-    "mileMarker": 0.7,
+    "mileMarker": 0.2,
     "website": "https://www.morningsocialbrevard.com/menu"
   },
   {
@@ -360,7 +384,7 @@
     "name": "Brevard Elementary School",
     "categories": ["school"],
     "coordinates": [-82.7225, 35.2254],
-    "description": "Public elementary school, pre-K to 5th grade, at 399 Greenville Hwy. Not on the path yet: extending it here is planned, not built.",
+    "description": "Public elementary school, pre-K to 5th grade, at 399 Greenville Hwy, by the sidewalk from Silvermont. Extending the path here is planned.",
     "mileMarker": 0.9,
     "website": "https://bes.tcsnc.org",
     "apps": ["kids"]
@@ -369,7 +393,7 @@
     "id": "brevard-middle",
     "name": "Brevard Middle School",
     "categories": ["school"],
-    "coordinates": [-82.7291, 35.2462],
+    "coordinates": [-82.72869, 35.24594],
     "description": "Public middle school at 400 Fisher Rd. A short connector from the path at Fisher Rd reaches the school.",
     "mileMarker": 0.9,
     "website": "https://bms.tcsnc.org",
@@ -429,7 +453,7 @@
     "id": "new-adventure",
     "name": "New Adventure Learning Center",
     "categories": ["school"],
-    "coordinates": [-82.7359, 35.2292],
+    "coordinates": [-82.736, 35.22991],
     "description": "Full-day child care and preschool run by Transylvania County at 260 S Gaston St.",
     "mileMarker": 0.5,
     "apps": ["kids"]
@@ -470,7 +494,7 @@
     "name": "Brevard Rock Gym",
     "categories": ["after-school"],
     "coordinates": [-82.7367, 35.2303],
-    "description": "Bouldering gym at 240-B S Broad St with youth climbing programs.",
+    "description": "Bouldering gym at 240-B S Broad St. Open climb Tuesday, Wednesday and Friday evenings and Saturday afternoons, with day passes and rental shoes at the desk, plus youth climbing programs.",
     "mileMarker": 0.5,
     "hours": "Tue, Wed, Fri 5–8pm · Sat 2–5pm",
     "website": "https://www.brevardrockgym.com",
@@ -534,7 +558,7 @@
     "id": "franklin-park-pool",
     "name": "Franklin Park Pool",
     "categories": ["fun-stop"],
-    "coordinates": [-82.7264, 35.2312],
+    "coordinates": [-82.72715, 35.2313],
     "description": "The town's outdoor public pool at 109 Lakeview Ave, inside Franklin Park.",
     "mileMarker": 0.7,
     "hours": "Summer only",

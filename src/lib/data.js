@@ -81,4 +81,8 @@ export const adventureImages = {
   'river-run': require('../../assets/adventures/river-run.jpg'),
   'bracken-loop': require('../../assets/adventures/bracken-loop.jpg'),
   'end-to-end': require('../../assets/adventures/end-to-end.jpg'),
+  'short-track': require('../../assets/adventures/short-track.jpg'),
+  'shop-ride': require('../../assets/adventures/shop-ride.jpg'),
+  'rock-gym': require('../../assets/adventures/rock-gym.jpg'),
+  'art-ride': require('../../assets/adventures/art-ride.jpg'),
 };

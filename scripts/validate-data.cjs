@@ -183,29 +183,18 @@ const OFF_PATH_FT = 1000;
 const OFF_PATH = {
   'weevil-weevil': 'Hendersonville Hwy, past the north end of the path',
   'sycamore-cycles': 'Hendersonville Hwy, across the road from the roundabout',
-  'franklin-park': 'a neighbourhood south of downtown',
-  'silvermont-park': 'E Main, on the Silvermont lawn',
-  'squatch': 'the King St row',
-  'noblebrau': 'the King St row',
-  'griffon-sphynx': 'the King St row',
-  homeslyce: 'the King St row',
-  'morning-social': 'the King St row',
   'pisgah-bakehouse': 'Asheville Hwy, up the short connector from the roundabout',
   // Bike Brevard Kids. The drawn network does not reach most schools yet;
   // extending the path to Brevard Elementary and Brevard High is planned.
-  'brevard-elementary': 'Greenville Hwy, south-east of town; path extension planned',
   'brevard-high': 'N Country Club Rd, south of town; path extension planned',
   'pisgah-collective': 'Asheville Hwy, past the north end of the path',
   'mountain-sun': 'Andante Ln, west of the West Main trailhead',
   'brevard-academy': 'Hendersonville Hwy, past the north end of the path',
   'presbyterian-weekday': 'E Main, a few blocks east of the courthouse',
-  'new-adventure': 'S Gaston St, south of downtown',
   'brevard-college': 'the college campus, east of downtown',
-  'boys-girls-club': 'Gallimore Rd, south-east of town',
   'brevard-rock-gym': 'S Broad St, south of downtown',
   'transylvania-tae-kwon-do': 'S Broad St, south of downtown',
   'health-racquet-club': 'N Country Club Rd, south of town',
-  'franklin-park-pool': 'Lakeview Ave, in Franklin Park south-east of downtown',
 };
 
 function nearestOnLine(p, coords) {
@@ -242,7 +231,6 @@ for (const d of destinations) {
 const SURVEYED_ON_VERTEX = new Set([
   'repair-oskar-blues', // the spur was drawn from the recording that ends at it
   'kilwins', // the Main St link was drawn from the 17 October ride that starts at its door
-  'earth-mountain', // and the Gaston St Hill from the one that ends at its door
 ]);
 const vertexKeys = new Set(
   segmentLines.flatMap((coords) => coords.map((c) => `${c[0]},${c[1]}`))

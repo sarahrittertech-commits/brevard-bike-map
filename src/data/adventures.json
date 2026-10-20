@@ -1345,5 +1345,328 @@
         [-82.7057, 35.2702]
       ]
     }
+  },
+  {
+    "id": "short-track-social",
+    "title": "Pisgah Short Track Social",
+    "tagline": "Small-town race night by the Depot",
+    "story": "Four Wednesday evenings around the Fourth of July, Brevard races bikes. Nature Trails, LLC, the trail builders on Commerce St, hosts the Pisgah Short Track Social on its short-track features beside Depot Park: laps for every age, bike games and plenty of friendly heckling. It's free, and donations go to Pisgah Area SORBA for trail upkeep. In 2026 it ran June 17 to July 8 from 5:30pm; dates change each summer, so check before you go. Ride up the path from W Main, air up at the Depot repair stand and cross to Commerce St. The Yard is on the way home.",
+    "image": "short-track",
+    "miles": 1.0,
+    "minutes": 90,
+    "difficulty": "easy",
+    "kidFriendly": true,
+    "stops": [
+      {
+        "name": "West Main trailhead",
+        "note": "Start where the path meets W Main, by the yellow bollard."
+      },
+      {
+        "name": "Railroad Depot Repair Stand",
+        "note": "Pump the tires and use the restrooms before the start.",
+        "destination": "repair-depot"
+      },
+      {
+        "name": "Nature Trails short track",
+        "note": "On Commerce St across from the Depot Park sign. Racing starts at 5:30pm on series Wednesdays."
+      },
+      {
+        "name": "The Yard",
+        "note": "Ice cream on the ride back.",
+        "destination": "the-yard-treats"
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.73904, 35.23592],
+        [-82.73847, 35.23679],
+        [-82.73761, 35.23771],
+        [-82.73597, 35.23892],
+        [-82.73594, 35.23909],
+        [-82.73525, 35.23973],
+        [-82.73504, 35.23972],
+        [-82.73505, 35.23959],
+        [-82.73446, 35.24046],
+        [-82.73475, 35.24067],
+        [-82.73499, 35.24076]
+      ]
+    }
+  },
+  {
+    "id": "earth-mountain-shop-ride",
+    "title": "Earth Mountain Shop Ride",
+    "tagline": "A group ride, then hot chocolate",
+    "story": "Earth Mountain Bicycle, the Trek shop at 66 E Main, runs family-friendly group rides. Look for the bike-and-dog mural on its wall. In December 2024 it was a Letters to Santa ride at 4pm on a Saturday, with hot chocolate and cookies back at the shop. Ask in the shop or check its Facebook page for this season's rides. Any day, the easy version is the same loop: walk the bikes along Main St to Kilwins, then ride out the path to The Yard and back. Main St is too busy to ride with kids, but the walk is short.",
+    "image": "shop-ride",
+    "miles": 1.5,
+    "minutes": 40,
+    "difficulty": "easy",
+    "kidFriendly": true,
+    "stops": [
+      {
+        "name": "Earth Mountain",
+        "note": "66 E Main. Meet at the shop, then walk the bikes along Main St to Kilwins. It's too busy to ride with kids.",
+        "destination": "earth-mountain"
+      },
+      {
+        "name": "The Yard",
+        "note": "Turn around here, or stop for the kids' bike park.",
+        "destination": "the-yard-treats"
+      },
+      {
+        "name": "Back at Earth Mountain",
+        "note": "Hot chocolate and cookies after the holiday ride."
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.73327, 35.23317],
+        [-82.73505, 35.23417],
+        [-82.73904, 35.23592],
+        [-82.73847, 35.23679],
+        [-82.73761, 35.23771],
+        [-82.73597, 35.23892],
+        [-82.73594, 35.23909],
+        [-82.73525, 35.23973],
+        [-82.73504, 35.23972],
+        [-82.73505, 35.23959]
+      ]
+    }
+  },
+  {
+    "id": "rock-gym-ride",
+    "title": "Bike to the Rock Gym",
+    "tagline": "Ride there, then climb",
+    "story": "Ride from the path to the climbing wall. Leave the path at W Main, turn down England St and W Jordan, then follow S Broad to Brevard Rock Gym at 240-B S Broad. Open climb is Tuesday, Wednesday and Friday 5–8pm and Saturday 2–5pm. It's bouldering only, with no ropes, and you can get a day pass and rental shoes at the desk. Tae Kwon Do is next door, and the library's repair stand across S Broad has a pump for the ride home.",
+    "image": "rock-gym",
+    "miles": 1.2,
+    "minutes": 25,
+    "difficulty": "easy",
+    "kidFriendly": true,
+    "stops": [
+      {
+        "name": "West Main trailhead",
+        "note": "Leave the path where it meets W Main, by the yellow bollard."
+      },
+      {
+        "name": "W Jordan at S Broad",
+        "note": "Stay on this side of S Broad. The gym is on the same side, so there's no need to cross US 64."
+      },
+      {
+        "name": "Brevard Rock Gym",
+        "note": "Open climb Tue, Wed, Fri 5–8pm and Sat 2–5pm. Day passes and rental shoes at the desk.",
+        "destination": "brevard-rock-gym"
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.73904, 35.23592],
+        [-82.73654, 35.23478],
+        [-82.73708, 35.23398],
+        [-82.7365, 35.2337],
+        [-82.73608, 35.23348],
+        [-82.73482, 35.23299],
+        [-82.73529, 35.23223],
+        [-82.73631, 35.23078],
+        [-82.7367, 35.2303]
+      ]
+    },
+    "apps": ["kids"]
+  },
+  {
+    "id": "art-on-the-path",
+    "title": "Art on the Path",
+    "tagline": "Seventeen sculptures in one loop from the Depot",
+    "story": "Seventeen of the 25 pieces on the Brevard Sculpture Walk, in one loop from Depot Park. Start with Ballerina Angelina, then ride the path past the Lumberyard's cows and turn down Whitmire St to the Methodist church. Across N Broad, Brevard College's lawn has a saxophone, a violin and an 18-foot banjo. Follow N Broad to the courthouse's Red Wolf and Elk, then go out E Main past the Earth Mountain bike mural to the otter at the Visitor Center and the fox at St Philip's. Head down Gaston St to the library's heron, then out S Broad to the trout, the owl and the deer. Come back past the turkey, take Jordan and England Sts to City Hall's bear and squirrels, and ride W Main and the path back to the Depot. N Broad and Main St are busy, so ride the sidewalks with kids and walk the bikes on Main.",
+    "image": "art-ride",
+    "miles": 3.1,
+    "minutes": 90,
+    "difficulty": "easy",
+    "kidFriendly": true,
+    "stops": [
+      {
+        "name": "Ballerina Angelina",
+        "note": "Park at Jimmy Harris Railroad Depot Park. Fifteen feet of found objects by Stefan “Steebo” Bonitz, plus restrooms, a repair stand and the donor bricks.",
+        "destination": "repair-depot"
+      },
+      {
+        "name": "Cows",
+        "note": "Aaron Alderman's herd grazes in the Lumberyard behind the old Brevard Lumber Company sign, where you leave the path for Whitmire St."
+      },
+      {
+        "name": "First United Methodist",
+        "note": "Cross N Caldwell here. The playground is open to the public weekday afternoons.",
+        "destination": "brevard-first-umc"
+      },
+      {
+        "name": "Saxophone, Violin and Banjo",
+        "note": "Kyle Van Lusk's giant instruments on the Brevard College lawn along N Broad. The banjo is 18 feet tall."
+      },
+      {
+        "name": "Red Wolf and Elk",
+        "note": "On the courthouse lawn at Main and Broad. The wolf is made from more than 2,000 slivers of steel."
+      },
+      {
+        "name": "Otter",
+        "note": "Splash the Otter in the fountain at the Visitor Center, 175 E Main. You pass the Earth Mountain bike mural on the way."
+      },
+      {
+        "name": "Red Fox and Tim Murray abstract",
+        "note": "At St Philip's Episcopal, a little further along E Main: a bronze fox peeking over rocks by the parking lot, and an abstract piece in the memory garden. Turn back here for Gaston St."
+      },
+      {
+        "name": "Great Blue Heron",
+        "note": "In the rain garden in front of the library on Gaston St. The repair stand outside has a pump.",
+        "destination": "repair-library"
+      },
+      {
+        "name": "Trout, Owl and Red Deer",
+        "note": "Along S Broad south of the library: a 12-foot spinning trout, an owl up high at 320 S Broad, and a deer at South Broad Park. The Arts Council's Horses and Golden Eagle are a block west on S Caldwell."
+      },
+      {
+        "name": "Wild Turkey",
+        "note": "Bronze, on the First Citizens Bank lawn at W Morgan and S Broad."
+      },
+      {
+        "name": "Black Bear and White Squirrels",
+        "note": "In front of City Hall, 95 W Main, by way of W Jordan and England St. Find the bee on the bear's nose."
+      },
+      {
+        "name": "Back to the Depot",
+        "note": "Rejoin the path at W Main and ride it back past The Yard."
+      }
+    ],
+    "route": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.73404, 35.24046],
+        [-82.73432, 35.24039],
+        [-82.73505, 35.23959],
+        [-82.73504, 35.23972],
+        [-82.73525, 35.23973],
+        [-82.73594, 35.23909],
+        [-82.7359, 35.23913],
+        [-82.73574, 35.23909],
+        [-82.73404, 35.23866],
+        [-82.73381, 35.2386],
+        [-82.73361, 35.23856],
+        [-82.73319, 35.23845],
+        [-82.73306, 35.23842],
+        [-82.73296, 35.2384],
+        [-82.73266, 35.23833],
+        [-82.73256, 35.2383],
+        [-82.73231, 35.23824],
+        [-82.73213, 35.23819],
+        [-82.73202, 35.23832],
+        [-82.73193, 35.2384],
+        [-82.73179, 35.23848],
+        [-82.73163, 35.23854],
+        [-82.73132, 35.23864],
+        [-82.73107, 35.23873],
+        [-82.73086, 35.23881],
+        [-82.73061, 35.23891],
+        [-82.73051, 35.23893],
+        [-82.7304, 35.23892],
+        [-82.73056, 35.23867],
+        [-82.73081, 35.23822],
+        [-82.73102, 35.23787],
+        [-82.73129, 35.23749],
+        [-82.73142, 35.23733],
+        [-82.7316, 35.23711],
+        [-82.73181, 35.23687],
+        [-82.73207, 35.23654],
+        [-82.73212, 35.23649],
+        [-82.7323, 35.23628],
+        [-82.73265, 35.23584],
+        [-82.73315, 35.23525],
+        [-82.73369, 35.23461],
+        [-82.73377, 35.2345],
+        [-82.73403, 35.2341],
+        [-82.73423, 35.23382],
+        [-82.73429, 35.23374],
+        [-82.7342, 35.2337],
+        [-82.73319, 35.23324],
+        [-82.73308, 35.2332],
+        [-82.73272, 35.23303],
+        [-82.73269, 35.23302],
+        [-82.73248, 35.23293],
+        [-82.73243, 35.2329],
+        [-82.73203, 35.23272],
+        [-82.73185, 35.23264],
+        [-82.73167, 35.23256],
+        [-82.73153, 35.2325],
+        [-82.73128, 35.23238],
+        [-82.73094, 35.23223],
+        [-82.73036, 35.23198],
+        [-82.73028, 35.23194],
+        [-82.7301, 35.23186],
+        [-82.73007, 35.23184],
+        [-82.7301, 35.23186],
+        [-82.73028, 35.23194],
+        [-82.73036, 35.23198],
+        [-82.73094, 35.23223],
+        [-82.73128, 35.23238],
+        [-82.73153, 35.2325],
+        [-82.73167, 35.23256],
+        [-82.73185, 35.23264],
+        [-82.73203, 35.23272],
+        [-82.73243, 35.2329],
+        [-82.73248, 35.23293],
+        [-82.73269, 35.23302],
+        [-82.73272, 35.23303],
+        [-82.73308, 35.2332],
+        [-82.73318, 35.23314],
+        [-82.73321, 35.23304],
+        [-82.73493, 35.23049],
+        [-82.73567, 35.23084],
+        [-82.73564, 35.23088],
+        [-82.73609, 35.2311],
+        [-82.73529, 35.23223],
+        [-82.73531, 35.23219],
+        [-82.73565, 35.23169],
+        [-82.7357, 35.23162],
+        [-82.73581, 35.23147],
+        [-82.73583, 35.23143],
+        [-82.7365, 35.23042],
+        [-82.73655, 35.23035],
+        [-82.73677, 35.23003],
+        [-82.73697, 35.22973],
+        [-82.73708, 35.22955],
+        [-82.73697, 35.22973],
+        [-82.73677, 35.23003],
+        [-82.73655, 35.23035],
+        [-82.7365, 35.23042],
+        [-82.73583, 35.23143],
+        [-82.73581, 35.23147],
+        [-82.7357, 35.23162],
+        [-82.73565, 35.23169],
+        [-82.73531, 35.23219],
+        [-82.73529, 35.23223],
+        [-82.73482, 35.23299],
+        [-82.73608, 35.23348],
+        [-82.7365, 35.2337],
+        [-82.73708, 35.23398],
+        [-82.73654, 35.23478],
+        [-82.7366, 35.23479],
+        [-82.73692, 35.23493],
+        [-82.73721, 35.23506],
+        [-82.73799, 35.23541],
+        [-82.73843, 35.2356],
+        [-82.73902, 35.23587],
+        [-82.73904, 35.23592],
+        [-82.73847, 35.23679],
+        [-82.73761, 35.23771],
+        [-82.73597, 35.23892],
+        [-82.73594, 35.23909],
+        [-82.73525, 35.23973],
+        [-82.73504, 35.23972],
+        [-82.73505, 35.23959],
+        [-82.73432, 35.24039],
+        [-82.73404, 35.24046]
+      ]
+    }
   }
 ]
