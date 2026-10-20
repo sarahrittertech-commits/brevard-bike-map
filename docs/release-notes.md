@@ -13,6 +13,13 @@ sections below that belong to Bike Brevard Map: the downtown half recorded
 and any shape of screen. Bike Brevard Kids and Android are not in it. Kids
 needs its own App Store record, and Android needs a Play account.
 
+**Build 5 was refused by App Store Connect** (ITMS-90683): `expo-location`
+contains motion-sensor code, and `motionUsagePermission` had been set to
+`false`, so the binary had no `NSMotionUsageDescription`. Apple requires the
+string whenever the code is present, even though the app never asks for
+motion. It now carries a plain one-line explanation, and the next build
+replaces build 5.
+
 Before it is submitted: MT-1 to MT-6 on a physical iPhone, including the
 location button's real permission prompt, which Expo Go cannot show. The
 What's New text is in the [App Store listing](./app-store-listing).
