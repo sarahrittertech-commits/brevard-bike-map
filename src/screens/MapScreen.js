@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, BackHandler, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import * as Location from 'expo-location';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -45,6 +45,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const [sheetOpen, setSheetOpen] = useState(false);
   const [recenter, setRecenter] = useState(0);
   const [locating, setLocating] = useState(false);
+  const locateRun = useRef(0);
   const [userFocus, setUserFocus] = useState(null);
   const [{ width, height }, setSize] = useState({ width: 0, height: 0 });
 
@@ -96,6 +97,9 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   // asks for permission the first time only; after a refusal the button
   // explains where to turn it back on rather than asking again.
   const locate = async () => {
+    // Each tap starts a new run; a fix that arrives after the rider has
+    // switched location off again belongs to an old run and is dropped.
+    const run = ++locateRun.current;
     if (locating) {
       setLocating(false);
       return;
@@ -120,6 +124,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     setLocating(true);
     try {
       const { coords } = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      if (run !== locateRun.current) return;
       if (isNearBrevard(coords)) {
         setSelectedId(null);
         setSheetOpen(false);

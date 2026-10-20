@@ -19,6 +19,11 @@ const MAX_ZOOM = 18;
 
 const ANDROID = Platform.OS === 'android';
 
+// The network never changes while the app runs, so its lines are converted
+// once here rather than on every render, which would hand the native
+// polylines fresh arrays each time a pin is tapped.
+const networkLines = network.map((segment) => ({ ...segment, latLngs: lineToLatLngs(segment.geometry) }));
+
 // Google's base map, quietened to match the muted Apple Maps style iOS uses.
 // showsPointsOfInterest is iOS-only, so on Android the businesses, transit and
 // clutter are hidden here instead; parks stay because Pisgah is the point.
@@ -201,18 +206,13 @@ export default function TrailMap({
     >
       {/* The network: a white casing under each segment, connectors dashed
           so the formal path stays distinguishable. Faded under a route. */}
-      {network.map((segment) => (
-        <Polyline
-          key={`${segment.id}-casing`}
-          coordinates={lineToLatLngs(segment.geometry)}
-          strokeColor="#FFFFFFD9"
-          strokeWidth={9}
-        />
+      {networkLines.map((segment) => (
+        <Polyline key={`${segment.id}-casing`} coordinates={segment.latLngs} strokeColor="#FFFFFFD9" strokeWidth={9} />
       ))}
-      {network.map((segment) => (
+      {networkLines.map((segment) => (
         <Polyline
           key={segment.id}
-          coordinates={lineToLatLngs(segment.geometry)}
+          coordinates={segment.latLngs}
           strokeColor={`${colors.forest}${route ? '4D' : segment.kind === 'main' ? 'F2' : 'B3'}`}
           strokeWidth={segment.kind === 'main' ? 4.5 : 3.5}
           lineDashPattern={segment.kind === 'connector' ? [1, 7] : undefined}

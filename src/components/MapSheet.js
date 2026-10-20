@@ -8,7 +8,15 @@ import X from 'lucide-react-native/icons/x';
 
 import CategoryIcon from './CategoryIcon';
 import PlaceRow from './PlaceRow';
-import { CONNECTOR_MILES, TRAIL_MILES, categories, categoryById, displayCategory, trailheads } from '../lib/data';
+import {
+  CONNECTOR_MILES,
+  TOWN_NAME,
+  TRAIL_MILES,
+  categories,
+  categoryById,
+  displayCategory,
+  trailheads,
+} from '../lib/data';
 import { colors, fillRow, fonts, hairlineTop, radius, text, tint } from '../theme';
 
 export const PEEK = 112;
@@ -106,7 +114,7 @@ export default function MapSheet({
 function TrailFacts() {
   return (
     <ScrollView contentContainerStyle={styles.pad} showsVerticalScrollIndicator={false}>
-      <Text style={styles.h2}>Getting around Brevard by bike</Text>
+      <Text style={styles.h2}>Getting around {TOWN_NAME} by bike</Text>
       <Text style={styles.lead}>
         Tap a category on the right to see what is out there — or pull this up for route details.
       </Text>
@@ -120,8 +128,8 @@ function TrailFacts() {
       <View style={styles.legend}>
         <View style={styles.dotted} />
         <Text style={styles.legendText}>
-          Dotted lines are connectors — sidewalks, quiet streets, and the new bridge. Rideable, just not separated
-          from traffic.
+          Dotted lines are connectors: sidewalks, quiet streets, greenways and the new bridge. Tap a place or a ride
+          for which ones suit small kids.
         </Text>
       </View>
 
@@ -202,7 +210,9 @@ function SelectedPlace({ destination, category, onClose }) {
 
       {destination.website && (
         <Pressable
-          onPress={() => Linking.openURL(destination.website)}
+          // A link the phone cannot open just does nothing, rather than
+          // surfacing as an unhandled rejection.
+          onPress={() => Linking.openURL(destination.website).catch(() => {})}
           accessibilityRole="link"
           accessibilityLabel={`Open ${destination.name}'s website`}
           hitSlop={HIT_SLOP}

@@ -38,7 +38,11 @@ export default function AdventuresScreen({ onOpen }) {
         <Text style={styles.lead}>Routes locals actually ride, with the stops that make them worth it.</Text>
       </View>
 
-      <Pressable onPress={() => onOpen(featured.id)} style={({ pressed }) => [styles.featured, pressed && styles.pressedScale]}>
+      <Pressable
+        onPress={() => onOpen(featured.id)}
+        accessibilityRole="button"
+        style={({ pressed }) => [styles.featured, pressed && styles.pressedScale]}
+      >
         <View style={[styles.featuredImageWrap, { height: featuredPhoto }]}>
           <Image source={adventureImages[featured.image]} style={styles.featuredImage} resizeMode="cover" />
           <View style={styles.badge}>
@@ -65,6 +69,7 @@ export default function AdventuresScreen({ onOpen }) {
           <Pressable
             key={a.id}
             onPress={() => onOpen(a.id)}
+            accessibilityRole="button"
             style={({ pressed }) => [styles.row, i > 0 && styles.rowDivider, pressed && { backgroundColor: colors.canvas }]}
           >
             <Image source={adventureImages[a.image]} style={styles.thumb} resizeMode="cover" />

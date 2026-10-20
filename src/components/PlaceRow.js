@@ -12,7 +12,12 @@ export default function PlaceRow({ destination, category, onSelect }) {
   const alsoIn = destination.categories.filter((c) => c !== category);
 
   return (
-    <Pressable onPress={onSelect} style={({ pressed }) => [styles.row, pressed && styles.pressed]}>
+    <Pressable
+      onPress={onSelect}
+      accessibilityRole="button"
+      accessibilityHint="Shows this place's details"
+      style={({ pressed }) => [styles.row, pressed && styles.pressed]}
+    >
       <View style={[styles.iconBox, { backgroundColor: tint(cat.color) }]}>
         <CategoryIcon category={category} size={18} color={cat.color} />
       </View>
