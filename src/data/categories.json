@@ -18,13 +18,13 @@
   {
     "id": "school",
     "label": "Schools",
-    "color": "#6B4FA0",
+    "color": "#0F7F82",
     "apps": ["kids"]
   },
   {
     "id": "after-school",
     "label": "After School",
-    "color": "#0F7F82",
+    "color": "#6B4FA0",
     "apps": ["kids"]
   },
   {

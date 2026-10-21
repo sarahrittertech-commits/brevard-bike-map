@@ -56,9 +56,9 @@ Still to do:
   Academy's old pin
 - decide whether schools' and gyms' "Visit the website" links stay, given the
   in-app question below
-- revisit the kids-only category colours and icons (Schools purple
-  `#6B4FA0`, After School teal `#0F7F82`, Fun Stops coral `#EE4848`) to match
-  the respaced palette of 21 October
+- revisit the kids-only icons; colours are set (Schools teal `#0F7F82`,
+  After School purple `#6B4FA0`, Fun Stops coral `#EE4848`, Sarah, 21
+  October)
 
 ## Planned
 
