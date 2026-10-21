@@ -240,15 +240,15 @@
   },
   {
     "id": "weevil-weevil",
-    "name": "Weevil Outdoor Supply",
+    "name": "Weevil Outdoor",
     "categories": ["bike-shop", "brewery"],
     "coordinates": [-82.69789, 35.27225],
-    "description": "Gear shop with beer on tap at 367 Hendersonville Hwy. From the path at Ecusta Rd, take the Ecusta bypass bike lane and cross at the light.",
+    "description": "Mountain bike gloves, jerseys and accessories, made by Weevil, with beer on tap at 367 Hendersonville Hwy. From the path at Ecusta Rd, take the Ecusta bypass bike lane and cross at the light.",
     "mileMarker": 4,
     "hours": "Wed–Sun 10–6pm",
     "kids": {
       "categories": ["bike-shop"],
-      "description": "Gear and bike shop at 367 Hendersonville Hwy. From the path at Ecusta Rd, take the Ecusta bypass bike lane and cross at the light."
+      "description": "Mountain bike gloves, jerseys and accessories, made by Weevil, at 367 Hendersonville Hwy. From the path at Ecusta Rd, take the Ecusta bypass bike lane and cross at the light."
     }
   },
   {
