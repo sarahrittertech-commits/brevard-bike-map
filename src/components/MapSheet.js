@@ -90,6 +90,10 @@ export default function MapSheet({
 
   return (
     <Animated.View
+      // Off screen when hidden: keep it from taps and from VoiceOver too.
+      pointerEvents={hidden ? 'none' : 'auto'}
+      accessibilityElementsHidden={hidden}
+      importantForAccessibility={hidden ? 'no-hide-descendants' : 'auto'}
       style={[
         styles.sheet,
         dock ? [styles.docked, dock] : { left: 0, right: 0, paddingLeft: sideInsets.left, paddingRight: sideInsets.right },

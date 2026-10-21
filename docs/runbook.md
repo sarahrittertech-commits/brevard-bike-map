@@ -63,8 +63,11 @@ Every photo in the app must have a provenance line here before it ships.
 | `concert-night.jpg` | IMG_8592 — a band on a taproom stage | Sarah Ritter, 26 Oct 2021 |
 | `end-to-end.jpg` | IMG_6045 — a group ride gathered beside the path | Sarah Ritter, 21 Jun 2021 |
 | `bracken-loop.jpg` | IMG_5282 — The Hub & Pisgah Tavern, where the ride starts | Sarah Ritter, 30 Sep 2026 |
+| `short-track.jpg` | IMG_5589 — the Depot Park sign, with Nature Trails' short-track features behind | Sarah Ritter, 17 Oct 2026 |
+| `shop-ride.jpg` | IMG_5618 — Earth Mountain Bicycle's bike mural on E Main | Sarah Ritter, 17 Oct 2026 |
+| `art-ride.jpg` | IMG_5590 — Ballerina Angelina in the Depot Park garden | Sarah Ritter, 17 Oct 2026 |
 
-All nine are now Sarah's own. Nothing from the design dataset is left in
+All twelve are Sarah's own. Nothing from the design dataset is left in
 `assets/adventures/`.
 
 Three of them show people, and the clearance for each is recorded in
@@ -78,6 +81,9 @@ names — close enough for the feel of it, and unambiguously ours, which matters
 more. Do not swap one out for being approximate.
 
 A new photograph of people needs its clearance written down before it ships.
+`shop-ride.jpg` shows two passers-by, small and unidentifiable at the right
+edge of a public street scene; Sarah to confirm she is content with that
+before 1.1.0 ships, or the crop moves left.
 
 Three of the nine predate the surveys — 2021, 2021 and 2024 — and carry no
 GPS, so the dates above are the real ones rather than this week's.

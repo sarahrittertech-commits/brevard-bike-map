@@ -290,6 +290,5 @@ module.exports = {
   buildRouteGraph,
   routeOnGraph,
   rideMinutes,
-  alongLine,
   nextStopIndex,
 };

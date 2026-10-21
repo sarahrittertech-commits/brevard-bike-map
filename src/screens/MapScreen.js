@@ -409,7 +409,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
         // refits; panning around within one layout is left alone. The column's
         // width is in the key, not just whether it exists, because it settles
         // only once this screen's own layout reports the new size.
-        fitKey={`${rideToId ?? following?.id ?? 'trail'}-${rideRoute ? 'ride' : ''}-${recenter}-${showNonce}-${dock ? dock.width : 'upright'}-${sheetHidden ? 'full' : 'sheet'}`}
+        fitKey={`${rideToId ?? following?.id ?? 'trail'}-${rideRoute ? 'ride' : ''}-${recenter}-${showNonce}-${dock ? dock.width : 'upright'}`}
         fitLatLngs={rideRoute ?? route ?? networkLatLngs}
         // What the map must keep clear of: the header, sheet and rail. Docked,
         // the header and sheet are a column on the left and nothing covers
@@ -497,7 +497,13 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
           onOpenHeightChange={setOpenSheetHeight}
           hidden={sheetHidden}
           stop={stopDest ? { number: selectedStop + 1, total: following.stops.length, ...stop } : null}
-          onDismissFacts={() => setFactsDismissed(true)}
+          onDismissFacts={() => {
+            // Refit once to the room the card leaves. The sheet coming back
+            // (a category switched on) does not refit, so the rider keeps
+            // whatever zoom they have.
+            setFactsDismissed(true);
+            setRecenter((n) => n + 1);
+          }}
           dock={dock}
           sideInsets={{ left: insets.left, right: insets.right }}
           destinations={shown}
