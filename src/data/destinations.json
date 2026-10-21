@@ -219,8 +219,8 @@
     "id": "sycamore-cycles",
     "name": "Sycamore Cycles",
     "categories": ["bike-shop"],
-    "coordinates": [-82.6995, 35.2665],
-    "description": "At 112 Hendersonville Hwy. From the roundabout, turn left instead of right — you do have to cross the road.",
+    "coordinates": [-82.70236, 35.27358],
+    "description": "At 112 Hendersonville Hwy. From the light at the Ecusta bypass, cross the highway, turn left and follow the sidewalk and bike lane.",
     "mileMarker": 3.4,
     "hours": "Mon–Sat 10–6pm"
   },
@@ -242,13 +242,13 @@
     "id": "weevil-weevil",
     "name": "Weevil Outdoor Supply",
     "categories": ["bike-shop", "brewery"],
-    "coordinates": [-82.6935, 35.261],
-    "description": "Gear shop with beer on tap at 367 Hendersonville Hwy, past the north end of the path.",
+    "coordinates": [-82.69789, 35.27225],
+    "description": "Gear shop with beer on tap at 367 Hendersonville Hwy. From the path at Ecusta Rd, take the Ecusta bypass bike lane and cross at the light.",
     "mileMarker": 4,
     "hours": "Wed–Sun 10–6pm",
     "kids": {
       "categories": ["bike-shop"],
-      "description": "Gear and bike shop at 367 Hendersonville Hwy, past the north end of the path."
+      "description": "Gear and bike shop at 367 Hendersonville Hwy. From the path at Ecusta Rd, take the Ecusta bypass bike lane and cross at the light."
     }
   },
   {

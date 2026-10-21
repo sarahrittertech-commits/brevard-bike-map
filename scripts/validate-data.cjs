@@ -181,8 +181,6 @@ for (const s of network) {
 // DT-9's note on the September survey.
 const OFF_PATH_FT = 1000;
 const OFF_PATH = {
-  'weevil-weevil': 'Hendersonville Hwy, past the north end of the path',
-  'sycamore-cycles': 'Hendersonville Hwy, across the road from the roundabout',
   'pisgah-bakehouse': 'Asheville Hwy, up the short connector from the roundabout',
   // Bike Brevard Kids. The drawn network does not reach most schools yet;
   // extending the path to Brevard Elementary and Brevard High is planned.

@@ -99,7 +99,6 @@ see the [Google Play listing](./play-store-listing).
 
 ## Data to check on the ground
 
-- **Weevil and Sycamore Cycles:** routing to fix, from Sarah's ride notes
 - HomeSlyce and Griffon & Sphynx: house-number estimates on King St
 - Nature Trails: the Commerce St end of the short-track ride
 - CVS to Blue Ridge CC: the last traced stretch of the main path

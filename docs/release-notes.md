@@ -19,6 +19,15 @@ iPhone:
   location button shows the app's own message: what the dot is for, that the
   location is never saved or sent, and how to turn it off. The rider can
   decline there, before iOS or Android asks.
+- **Weevil and Sycamore Cycles are reached by their own links**, drawn from
+  Sarah's directions of 21 October. *Ecusta Bypass to Weevil* (0.8 mi) runs
+  from the path at Ecusta Rd up to the roundabout, first right onto the
+  bypass and its bike lane, then across Hendersonville Hwy at the light.
+  *Hendersonville Hwy to Sycamore Cycles* (0.3 mi) crosses at the same light
+  and follows the sidewalk and bike lane west. The roads come from
+  OpenStreetMap; the Sycamore stretch follows Sarah's points, because the
+  sidewalk is not mapped. Both pins were far off: Weevil by 4,298 ft and
+  Sycamore by 2,714 ft. Both are now at the parking lots she gave.
 - **Clearer mile wording:** "Mile 0.4 from the trailhead at W Main St,
   Brevard" on a place, and "Miles from W Main St" over the list.
 

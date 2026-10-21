@@ -473,6 +473,50 @@
     }
   },
   {
+    "id": "weevil-connector",
+    "name": "Ecusta Bypass to Weevil",
+    "kind": "connector",
+    "miles": 0.8,
+    "note": "From the path at Ecusta Rd, ride up to the roundabout and take the first right onto the Ecusta bypass, which has a bike lane. Cross Hendersonville Hwy at the light into Weevil's lot.",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.70589, 35.26536],
+        [-82.70588, 35.26743],
+        [-82.70581, 35.2677],
+        [-82.70543, 35.26792],
+        [-82.70538, 35.26812],
+        [-82.70492, 35.26816],
+        [-82.70457, 35.26824],
+        [-82.70122, 35.26942],
+        [-82.70058, 35.26976],
+        [-82.70015, 35.27004],
+        [-82.69924, 35.27097],
+        [-82.69862, 35.27212],
+        [-82.69845, 35.27207],
+        [-82.6985, 35.27197],
+        [-82.69845, 35.27207],
+        [-82.6981, 35.27196],
+        [-82.69836, 35.27214]
+      ]
+    }
+  },
+  {
+    "id": "sycamore-connector",
+    "name": "Hendersonville Hwy to Sycamore Cycles",
+    "kind": "connector",
+    "miles": 0.3,
+    "note": "From the light at the Ecusta bypass, cross Hendersonville Hwy, turn left and follow the sidewalk and bike lane to Sycamore Cycles.",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [-82.69836, 35.27214],
+        [-82.69936, 35.27247],
+        [-82.70269, 35.27356]
+      ]
+    }
+  },
+  {
     "id": "bridge-connector",
     "name": "New Bridge Connector",
     "kind": "connector",
