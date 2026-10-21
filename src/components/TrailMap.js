@@ -177,36 +177,52 @@ export default memo(function TrailMap({
   }, [fitKey, ready]);
 
   useEffect(() => {
-    if (!mapRef.current || !selected || !height) return;
-    // Fit a small box round the place into the strip of map left visible
-    // above the sheet (or beside the docked column), and let the map place
-    // it. Earlier this was worked out by hand from an assumed zoom, which
-    // MapKit adjusts, and the pin landed 54pt low, half under the sheet.
+    if (!mapRef.current || !selected || !height) return undefined;
+    // Put the selected place in the middle of the map the card leaves
+    // visible: between the header and the card, or between the docked column
+    // and the rail. Earlier versions worked this out from the zoom they asked
+    // for, which MapKit adjusts, and the pin landed about 50pt low, half under
+    // the card. So this measures where the pin really is on screen and moves
+    // the map by the difference.
     //
-    // The box keeps the current zoom if the rider is already closer than
-    // SELECT_SPAN, so a tap never zooms out, and never jumps from the whole
-    // town to street level either.
-    const span = Math.min(regionRef.current?.latitudeDelta ?? SELECT_SPAN, SELECT_SPAN) * 0.4;
-    const { latitude, longitude } = toLatLng(selected.coordinates);
-    const lonSpan = span / Math.cos((latitude * Math.PI) / 180);
-    mapRef.current.fitToCoordinates(
-      [
-        { latitude: latitude - span / 2, longitude: longitude - lonSpan / 2 },
-        { latitude: latitude + span / 2, longitude: longitude + lonSpan / 2 },
-      ],
-      {
-        // The pin hangs above its coordinate (anchored at the tip), so the
-        // top keeps a pin's height clear as well as the header.
-        edgePadding: {
-          top: clear.top + SELECTED_PIN_HEIGHT,
-          right: clear.right,
-          bottom: (docked ? 28 : sheetHeight + 16) - padBottom,
-          left: (docked ? clear.left : 40) - padLeft,
-        },
-        animated: true,
+    // It waits for the card to measure itself first, since that changes
+    // sheetHeight a moment after the card opens.
+    let cancelled = false;
+    const timer = setTimeout(async () => {
+      const map = mapRef.current;
+      if (!map) return;
+      const place = toLatLng(selected.coordinates);
+      // Zoomed out past SELECT_SPAN: zoom in on the place first. Closer than
+      // that, keep the rider's zoom; a tap never zooms out.
+      if ((regionRef.current?.latitudeDelta ?? Infinity) > SELECT_SPAN) {
+        map.animateToRegion({ ...place, latitudeDelta: SELECT_SPAN, longitudeDelta: SELECT_SPAN }, 250);
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        if (cancelled) return;
       }
-    );
-  }, [selected, docked, width, height, sheetHeight, clear.top, clear.left, clear.right, padLeft, padBottom]);
+      const visibleBottom = height - (docked ? 0 : sheetHeight);
+      // The pin hangs above its coordinate (anchored at the tip), so the tip
+      // goes half a pin below the middle and the pin's body sits on it.
+      const target = {
+        x: docked ? (clear.left + width - clear.right) / 2 : width / 2,
+        y: (clear.top + visibleBottom) / 2 + SELECTED_PIN_HEIGHT / 2,
+      };
+      try {
+        const [now, camera] = await Promise.all([map.pointForCoordinate(place), map.getCamera()]);
+        const centre = await map.pointForCoordinate(camera.center);
+        const dx = now.x - target.x;
+        const dy = now.y - target.y;
+        if (cancelled || (Math.abs(dx) < 4 && Math.abs(dy) < 4)) return;
+        const next = await map.coordinateForPoint({ x: centre.x + dx, y: centre.y + dy });
+        if (!cancelled) map.animateCamera({ center: next }, { duration: 250 });
+      } catch {
+        // The map was not ready to measure; the pin is still on screen.
+      }
+    }, 160);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [selected, docked, width, height, sheetHeight, clear.top, clear.left, clear.right]);
 
   useEffect(() => {
     if (!mapRef.current || !userFocus) return;

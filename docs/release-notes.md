@@ -108,6 +108,11 @@ iPhone:
   - The rail's "show just the path" button is a clear ×, faded until a
     category is on. It was a route glyph that went dark green with nothing
     on, which read as a switch.
+- **A tapped place lands in the middle of the open map.** The map now
+  measures where the pin actually is on screen once the card has opened and
+  moves by the difference, instead of predicting it from a zoom MapKit
+  adjusts. That prediction left the pin about 50pt low, the known gap since
+  1.0, and on Sarah's phone sometimes off screen behind the card.
 - **Clearer mile wording:** "Mile 0.4 from the trailhead at W Main St,
   Brevard" on a place, and "Miles from W Main St" over the list.
 
