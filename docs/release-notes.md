@@ -54,6 +54,25 @@ iPhone:
 - **Less redrawing.** The path, landmarks and trailheads no longer redraw when
   a pin is tapped, the sheet moves or the rider's position updates. This was
   the likely cause of the lag Sarah felt.
+- **Following an adventure, reworked** (Sarah, second pass on build 8):
+  - The route line is wider, 9pt, with a white edge.
+  - No bottom card while following; the route gets the whole map.
+  - The header card opens to list every stop. With location on, the next stop
+    is marked NEXT there and drawn larger in clay on the map, and the header
+    says "next: N".
+  - Numbered stops can be tapped, on the map or in the list. The sheet then
+    shows "Stop N of M", the stop's note and the distance to it.
+- **The "Getting around" card can be put away** with its close button. It
+  stays away until a category is switched on, or until the app is next opened;
+  nothing is saved.
+- **The town fills more of the screen.** The map kept 96pt clear on the left
+  for one landmark label, which pushed the whole network right and made it
+  smaller. That margin is now 48pt, and the map refits to the full height
+  when the bottom card is put away.
+- **Playground to Dolly's starts at Silvermont again.** Moving Silvermont's pin
+  to the real park on 20 October left the ride's first stop 2,100 ft from its
+  line. The line now starts with 0.4 mi along the drawn links from Silvermont,
+  and the ride reads 5.1 mi, 50 min.
 - **Clearer mile wording:** "Mile 0.4 from the trailhead at W Main St,
   Brevard" on a place, and "Miles from W Main St" over the list.
 

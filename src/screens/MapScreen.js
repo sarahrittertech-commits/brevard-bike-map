@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, BackHandler, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, BackHandler, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import * as Location from 'expo-location';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import ChevronDown from 'lucide-react-native/icons/chevron-down';
+import ChevronUp from 'lucide-react-native/icons/chevron-up';
 import X from 'lucide-react-native/icons/x';
 
 import CategoryRail, { RAIL_HEIGHT, SPLIT_RAIL_WIDTH } from '../components/CategoryRail';
@@ -15,6 +17,7 @@ import {
   isNearBrevard,
   lineToLatLngs,
   networkLatLngs,
+  nextStopOf,
   rideToPlace,
   visibleDestinations,
 } from '../lib/data';
@@ -27,8 +30,10 @@ const HEADER_SPACE = 84;
 const DOCK_MAX_WIDTH = 400;
 const EDGE = 12;
 const RAIL_WIDTH = 46;
-// Room left of a fitted route for the westernmost landmark label.
-const LABEL_ROOM = 96;
+// Margin left of the fitted path. It was 96, to fit a landmark label, which
+// pushed the whole town right and shrank it; the labels west of the path sit
+// outside the fit either way.
+const LABEL_ROOM = 48;
 
 // While riding to a place, a tap on the map does nothing.
 const IGNORE = () => {};
@@ -49,6 +54,75 @@ function confirmLocation() {
       { cancelable: true, onDismiss: () => resolve(false) }
     );
   });
+}
+
+// The header while following an adventure. Tap it to open the list of stops
+// and review where the ride goes; with location on, the next stop is marked.
+// Stops tied to a place can be tapped to show them on the map.
+function FollowingCard({ adventure, open, onToggle, nextStop, onSelectStop, onClose, maxListHeight }) {
+  const Chevron = open ? ChevronUp : ChevronDown;
+  return (
+    <View style={[styles.card, styles.followingCardOuter]}>
+      <View style={styles.followingCard}>
+        <Pressable
+          onPress={onToggle}
+          accessibilityRole="button"
+          accessibilityState={{ expanded: open }}
+          accessibilityLabel={open ? 'Hide the stops' : 'Show the stops'}
+          style={[styles.cardBody, styles.followingToggle]}
+        >
+          <View style={styles.cardBody}>
+            <Text style={styles.followingEyebrow}>Following adventure</Text>
+            <Text style={styles.title} numberOfLines={1}>
+              {adventure.title}
+            </Text>
+            <Text style={styles.subtitle}>
+              {adventure.miles} mi · {adventure.minutes} min · {adventure.stops.length} stops
+              {nextStop !== null ? ` · next: ${nextStop + 1}` : ''}
+            </Text>
+          </View>
+          <Chevron size={22} color={colors.inkFaint} />
+        </Pressable>
+        <Pressable
+          onPress={onClose}
+          accessibilityRole="button"
+          accessibilityLabel="Stop following this adventure"
+          hitSlop={10}
+          style={({ pressed }) => [styles.closeButton, styles.closeButtonLarge, pressed && { backgroundColor: colors.canvas }]}
+        >
+          <X size={22} color={colors.inkFaint} />
+        </Pressable>
+      </View>
+      {open && (
+        <ScrollView style={[styles.stopList, { maxHeight: maxListHeight }]}>
+          {adventure.stops.map((s, i) => {
+            const isNext = i === nextStop;
+            const tappable = !!s.destination;
+            return (
+              <Pressable
+                key={`${s.name}-${i}`}
+                onPress={tappable ? () => onSelectStop(i) : undefined}
+                disabled={!tappable}
+                accessibilityRole={tappable ? 'button' : 'text'}
+                style={({ pressed }) => [styles.stopRow, isNext && styles.stopRowNext, pressed && styles.stopRowPressed]}
+              >
+                <View style={[styles.stopNumber, isNext && styles.stopNumberNext]}>
+                  <Text style={styles.stopNumberText}>{i + 1}</Text>
+                </View>
+                <View style={styles.cardBody}>
+                  <View style={styles.stopTitleRow}>
+                    <Text style={styles.stopName}>{s.name}</Text>
+                    {isNext && <Text style={styles.nextChip}>Next</Text>}
+                  </View>
+                  <Text style={styles.stopNote}>{s.note}</Text>
+                </View>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      )}
+    </View>
+  );
 }
 
 // The main screen: map, floating header, category rail, bottom sheet.
@@ -75,6 +149,13 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   // and the way between.
   const [rideToId, setRideToId] = useState(null);
   const [userFocus, setUserFocus] = useState(null);
+  // The "Getting around" card can be put away for the session; it comes back
+  // the next time the app opens. Nothing is saved.
+  const [factsDismissed, setFactsDismissed] = useState(false);
+  // While following an adventure: the stop the rider tapped (its index in
+  // the itinerary), and whether the header card is open to list the stops.
+  const [selectedStop, setSelectedStop] = useState(null);
+  const [stopsOpen, setStopsOpen] = useState(false);
   // How much of the screen the open sheet covers: less than its full height
   // when it is showing one place's card.
   const [openSheetHeight, setOpenSheetHeight] = useState(0);
@@ -82,7 +163,9 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
 
   const shown = useMemo(() => visibleDestinations(active), [active]);
   const rideDest = rideToId ? destinationById[rideToId] : null;
-  const selected = rideDest ?? shown.find((d) => d.id === selectedId) ?? null;
+  const stop = following && selectedStop !== null ? following.stops[selectedStop] : null;
+  const stopDest = stop?.destination ? destinationById[stop.destination] : null;
+  const selected = rideDest ?? stopDest ?? shown.find((d) => d.id === selectedId) ?? null;
   // Distance and time to the selected place, and the line to draw while
   // riding to one. Both follow the rider as their position updates.
   // Outside Brevard there is no sensible distance to give, so the card says so.
@@ -91,6 +174,11 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     return isNearBrevard(position) ? rideToPlace(position, selected) : { outside: true };
   }, [selected, position]);
   const rideRoute = rideDest && ride?.reachable ? ride.latLngs : null;
+  // Nothing in the sheet to show: following an adventure (the header card
+  // lists its stops), or the rider put the "Getting around" card away. The
+  // map then has the whole screen.
+  const sheetHidden = !selected && (following ? true : active.length === 0 && factsDismissed);
+  const bottomCover = sheetHidden ? 0 : PEEK;
   const topInset = insets.top + 12;
   // Until the first layout reports a width, `width` is 0; never hand the
   // column a negative size.
@@ -112,7 +200,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   // The rail goes below the header when upright, beside it when docked, and
   // splits into two columns when a single one would run into the sheet.
   const railTop = dock ? topInset : topInset + 80;
-  const railBottom = dock ? height - EDGE : height - PEEK - 8;
+  const railBottom = dock ? height - EDGE : height - bottomCover - 8;
   const splitRail = railBottom - railTop < RAIL_HEIGHT;
   const railRight = insets.right + EDGE;
   const railSpace = railRight + (splitRail ? SPLIT_RAIL_WIDTH : RAIL_WIDTH) + 18;
@@ -126,20 +214,41 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     () =>
       dockWidth !== undefined
         ? { top: topInset, right: railSpace, bottom: 28, left: dockLeft + dockWidth + LABEL_ROOM }
-        : { top: topInset + HEADER_SPACE, right: railSpace, bottom: PEEK + 28, left: insets.left + LABEL_ROOM },
-    [dockLeft, dockWidth, topInset, railSpace, insets.left]
+        : { top: topInset + HEADER_SPACE, right: railSpace, bottom: bottomCover + 28, left: insets.left + LABEL_ROOM },
+    [dockLeft, dockWidth, topInset, railSpace, insets.left, bottomCover]
   );
   const logoInset = useMemo(
-    () => (dockWidth !== undefined ? { left: dockLeft + dockWidth, bottom: 0 } : { left: 0, bottom: PEEK }),
-    [dockLeft, dockWidth]
+    () => (dockWidth !== undefined ? { left: dockLeft + dockWidth, bottom: 0 } : { left: 0, bottom: bottomCover }),
+    [dockLeft, dockWidth, bottomCover]
   );
 
   const route = useMemo(() => (following ? lineToLatLngs(following.route) : null), [following]);
   const routeStops = useMemo(() => (following ? adventureStopPins(following) : null), [following]);
 
+  const nextStop = useMemo(
+    () => (following && position ? nextStopOf(following, position) : null),
+    [following, position]
+  );
+
+  // A numbered stop on the map, or in the header's list: show it in the
+  // sheet and move the map to it.
+  const selectStop = useCallback((index) => {
+    setSelectedId(null);
+    setSelectedStop(index);
+    setStopsOpen(false);
+    setSheetOpen(true);
+  }, []);
+
+  const stopFollowing = useCallback(() => {
+    setSelectedStop(null);
+    setStopsOpen(false);
+    onStopFollowing();
+  }, [onStopFollowing]);
+
   // Selecting a pin or row always reveals its detail.
   const select = useCallback((id) => {
     setSelectedId(id);
+    setSelectedStop(null);
     if (id) setSheetOpen(true);
   }, []);
 
@@ -234,7 +343,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   // Riding to a place replaces any followed adventure, and the sheet drops to
   // peek so the way there gets the map.
   const startRide = (id) => {
-    if (following) onStopFollowing();
+    if (following) stopFollowing();
     setRideToId(id);
     setSheetOpen(false);
   };
@@ -257,6 +366,8 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   if (showNonce !== handledNonce) {
     setHandledNonce(showNonce);
     setSelectedId(null);
+    setSelectedStop(null);
+    setStopsOpen(false);
     setSheetOpen(false);
     setRideToId(null);
   }
@@ -270,12 +381,13 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
       if (rideToId) endRide();
       else if (selectedId) setSelectedId(null);
       else if (sheetOpen) setSheetOpen(false);
-      else if (following) onStopFollowing();
+      else if (selectedStop !== null) setSelectedStop(null);
+      else if (following) stopFollowing();
       else return false;
       return true;
     });
     return () => sub.remove();
-  }, [inFront, rideToId, selectedId, sheetOpen, following, onStopFollowing]);
+  }, [inFront, rideToId, selectedId, selectedStop, sheetOpen, following, stopFollowing]);
 
   return (
     <View
@@ -291,11 +403,13 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
         onSelect={rideDest ? IGNORE : select}
         route={rideRoute ?? route}
         routeStops={rideDest ? null : routeStops}
+        nextStop={nextStop}
+        onSelectStop={selectStop}
         // Docking or undocking on rotation moves what covers the map, so it
         // refits; panning around within one layout is left alone. The column's
         // width is in the key, not just whether it exists, because it settles
         // only once this screen's own layout reports the new size.
-        fitKey={`${rideToId ?? following?.id ?? 'trail'}-${rideRoute ? 'ride' : ''}-${recenter}-${showNonce}-${dock ? dock.width : 'upright'}`}
+        fitKey={`${rideToId ?? following?.id ?? 'trail'}-${rideRoute ? 'ride' : ''}-${recenter}-${showNonce}-${dock ? dock.width : 'upright'}-${sheetHidden ? 'full' : 'sheet'}`}
         fitLatLngs={rideRoute ?? route ?? networkLatLngs}
         // What the map must keep clear of: the header, sheet and rail. Docked,
         // the header and sheet are a column on the left and nothing covers
@@ -310,6 +424,22 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
         userFocus={userFocus}
       />
 
+      <View style={[styles.rail, { top: railTop, right: railRight }]}>
+        <CategoryRail
+          split={splitRail}
+          active={active}
+          onToggle={toggle}
+          onClear={() => {
+            setActive([]);
+            setSelectedId(null);
+          }}
+          onRecenter={() => setRecenter((n) => n + 1)}
+          locating={locating}
+          onLocate={() => locate()}
+        />
+      </View>
+
+      {/* After the rail, so the header card's open stop list sits over it. */}
       <View
         style={[
           styles.header,
@@ -344,26 +474,15 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
             </Pressable>
           </View>
         ) : following ? (
-          <View style={[styles.card, styles.followingCard]}>
-            <View style={styles.cardBody}>
-              <Text style={styles.followingEyebrow}>Following adventure</Text>
-              <Text style={styles.title} numberOfLines={1}>
-                {following.title}
-              </Text>
-              <Text style={styles.subtitle}>
-                {following.miles} mi · {following.minutes} min · {following.stops.length} stops
-              </Text>
-            </View>
-            <Pressable
-              onPress={onStopFollowing}
-              accessibilityRole="button"
-              accessibilityLabel="Stop following this adventure"
-              hitSlop={6}
-              style={({ pressed }) => [styles.closeButton, pressed && { backgroundColor: colors.canvas }]}
-            >
-              <X size={16} color={colors.inkFaint} />
-            </Pressable>
-          </View>
+          <FollowingCard
+            adventure={following}
+            open={stopsOpen}
+            onToggle={() => setStopsOpen((o) => !o)}
+            nextStop={nextStop}
+            onSelectStop={selectStop}
+            onClose={stopFollowing}
+            maxListHeight={Math.round(height * 0.45)}
+          />
         ) : (
           <View style={styles.card}>
             <Text style={styles.title}>{APP_NAME}</Text>
@@ -372,25 +491,13 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
         )}
       </View>
 
-      <View style={[styles.rail, { top: railTop, right: railRight }]}>
-        <CategoryRail
-          split={splitRail}
-          active={active}
-          onToggle={toggle}
-          onClear={() => {
-            setActive([]);
-            setSelectedId(null);
-          }}
-          onRecenter={() => setRecenter((n) => n + 1)}
-          locating={locating}
-          onLocate={() => locate()}
-        />
-      </View>
-
       {height > 0 && (
         <MapSheet
           height={sheetHeight}
           onOpenHeightChange={setOpenSheetHeight}
+          hidden={sheetHidden}
+          stop={stopDest ? { number: selectedStop + 1, total: following.stops.length, ...stop } : null}
+          onDismissFacts={() => setFactsDismissed(true)}
           dock={dock}
           sideInsets={{ left: insets.left, right: insets.right }}
           destinations={shown}
@@ -399,7 +506,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
           onSelect={rideDest ? (id) => id === null && endRide() : select}
           ride={ride}
           locating={locating}
-          ridingHere={!!rideDest}
+          ridingHere={!!rideDest || !!stopDest}
           onRideTo={startRide}
           onTurnOnLocation={() => locate(true)}
           expanded={sheetOpen}
@@ -427,8 +534,80 @@ const styles = StyleSheet.create({
   followingCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 8,
     borderColor: `${colors.clay}40`,
+  },
+  followingCardOuter: {
+    borderColor: `${colors.clay}40`,
+  },
+  followingToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  stopList: {
+    marginTop: 10,
+  },
+  stopRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 6,
+    borderRadius: radius.md,
+  },
+  stopRowNext: {
+    backgroundColor: `${colors.clay}14`,
+  },
+  stopRowPressed: {
+    backgroundColor: colors.canvas,
+  },
+  stopNumber: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: colors.forest,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 1,
+  },
+  stopNumberNext: {
+    backgroundColor: colors.clay,
+  },
+  stopNumberText: {
+    fontFamily: fonts.sansBold,
+    fontSize: 13,
+    color: colors.white,
+  },
+  stopTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  stopName: {
+    flexShrink: 1,
+    fontFamily: fonts.sansSemiBold,
+    fontSize: 16,
+    color: colors.ink,
+  },
+  nextChip: {
+    fontFamily: fonts.sansBold,
+    fontSize: 11,
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+    color: colors.white,
+    backgroundColor: colors.clay,
+    paddingHorizontal: 7,
+    paddingVertical: 2,
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  stopNote: {
+    marginTop: 2,
+    fontFamily: fonts.sans,
+    fontSize: 14,
+    lineHeight: 19,
+    color: colors.inkSoft,
   },
   cardBody: fillRow,
   followingEyebrow: {

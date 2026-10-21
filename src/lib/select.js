@@ -236,6 +236,39 @@ function routeOnGraph(graph, from, to) {
   return result([s.coord, ...path, t.coord], Math.min(viaA, viaB));
 }
 
+// How far along a line a [lon, lat] point is, in feet, measured at the
+// nearest spot on the line, and how far off the line it is. Used to tell
+// which stop on an adventure comes next.
+function alongLine(coords, point) {
+  const lat0 = coords[0][1];
+  const cosLat = Math.cos((lat0 * Math.PI) / 180);
+  const p = toFeet(point, cosLat);
+  let acc = 0;
+  let best = null;
+  for (let i = 0; i < coords.length - 1; i++) {
+    const a = toFeet(coords[i], cosLat);
+    const b = toFeet(coords[i + 1], cosLat);
+    const len = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    const hit = projectOnto(p, a, b);
+    if (!best || hit.dist < best.offFt) best = { alongFt: acc + hit.t * len, offFt: hit.dist };
+    acc += len;
+  }
+  return best;
+}
+
+// The next stop on a followed adventure: the first pinned stop further along
+// the route than the rider. Null if the rider is past the last one or far
+// from the route (more than half a mile), where "next" means nothing.
+function nextStopIndex(route, stopPins, position) {
+  const rider = alongLine(route, position);
+  if (!rider || rider.offFt > 2640) return null;
+  const ahead = stopPins
+    .map((s) => ({ index: s.index, ...alongLine(route, s.coordinates) }))
+    .filter((s) => s.alongFt > rider.alongFt + 100)
+    .sort((a, b) => a.alongFt - b.alongFt);
+  return ahead.length ? ahead[0].index : null;
+}
+
 // An easy family pace, for "about N minutes". Rounded to five minutes past
 // ten, because the number is an estimate and should read like one.
 const FAMILY_MPH = 7;
@@ -257,4 +290,6 @@ module.exports = {
   buildRouteGraph,
   routeOnGraph,
   rideMinutes,
+  alongLine,
+  nextStopIndex,
 };

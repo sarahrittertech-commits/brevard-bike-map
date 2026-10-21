@@ -27,6 +27,7 @@ const {
   buildRouteGraph,
   routeOnGraph,
   rideMinutes,
+  nextStopIndex,
 } = require('../src/lib/select');
 
 const tests = [];
@@ -188,6 +189,19 @@ test('UT-8', 'routeOnGraph: routes only along drawn lines, joining ones that nea
   // Minutes read as an estimate.
   assert.equal(rideMinutes(0.5), 4);
   assert.equal(rideMinutes(2.3), 20);
+});
+
+test('UT-9', 'nextStopIndex: the next pinned stop ahead of the rider along the route', () => {
+  // A route running east; stops 0 and 2 are pinned, stop 1 is scenery.
+  const route = [[-82.74, 35.23], [-82.70, 35.23]];
+  const pins = [
+    { index: 0, coordinates: [-82.735, 35.23] },
+    { index: 2, coordinates: [-82.71, 35.23] },
+  ];
+  assert.equal(nextStopIndex(route, pins, [-82.739, 35.23]), 0, 'at the start, stop 1 is next');
+  assert.equal(nextStopIndex(route, pins, [-82.72, 35.2302]), 2, 'between them, stop 3 is next');
+  assert.equal(nextStopIndex(route, pins, [-82.705, 35.23]), null, 'past the last stop');
+  assert.equal(nextStopIndex(route, pins, [-82.72, 35.25]), null, 'far off the route');
 });
 
 // Run

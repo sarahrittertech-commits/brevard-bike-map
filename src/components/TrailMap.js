@@ -99,6 +99,9 @@ export default memo(function TrailMap({
   onSelect,
   route,
   routeStops,
+  // Index of the stop the rider reaches next, drawn larger in clay.
+  nextStop,
+  onSelectStop,
   fitKey,
   fitLatLngs,
   // { top, right, bottom, left }: how far in from each edge the header, rail,
@@ -140,6 +143,7 @@ export default memo(function TrailMap({
     destinations.map((d) => d.id).join(),
     selected?.id,
     routeStops?.length,
+    nextStop,
   ].join('|');
   const [trackedKey, setTrackedKey] = useState(null);
   const [tracking, setTracking] = useState(false);
@@ -245,7 +249,10 @@ export default memo(function TrailMap({
     >
       <StaticLayers faded={!!route} tracking={tracking} />
 
-      {route && <Polyline coordinates={route} strokeColor={colors.clay} strokeWidth={5.5} lineCap="round" />}
+      {/* The followed route: wide, with a white edge, so it reads at a glance
+          from a bike. */}
+      {route && <Polyline coordinates={route} strokeColor={colors.white} strokeWidth={13} lineCap="round" lineJoin="round" />}
+      {route && <Polyline coordinates={route} strokeColor={colors.clay} strokeWidth={9} lineCap="round" lineJoin="round" />}
 
       {destinations.map((d) => {
         const category = displayCategory(d, active);
@@ -275,23 +282,34 @@ export default memo(function TrailMap({
         );
       })}
 
-      {routeStops?.map((stop) => (
-        <Marker
-          key={`stop-${stop.index}`}
-          coordinate={toLatLng(stop.coordinates)}
-          anchor={{ x: 0.5, y: 0.5 }}
-          tappable={false}
-          tracksViewChanges={tracking}
-          zIndex={20}
-        >
-          <StopMarker number={stop.index + 1} />
-        </Marker>
-      ))}
+      {routeStops?.map((stop) => {
+        const isNext = stop.index === nextStop;
+        return (
+          <Marker
+            key={`stop-${stop.index}-${isNext}`}
+            coordinate={toLatLng(stop.coordinates)}
+            anchor={{ x: 0.5, y: 0.5 }}
+            tracksViewChanges={tracking}
+            zIndex={20}
+            onPress={(e) => {
+              e.stopPropagation();
+              onSelectStop(stop.index);
+            }}
+          >
+            <View style={styles.stopHitArea}>
+              <StopMarker number={stop.index + 1} next={isNext} />
+            </View>
+          </Marker>
+        );
+      })}
     </MapView>
   );
 });
 
 const styles = StyleSheet.create({
+  stopHitArea: {
+    padding: 10,
+  },
   pinHitArea: {
     paddingHorizontal: 12,
     paddingTop: 12,

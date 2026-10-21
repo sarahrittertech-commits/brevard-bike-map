@@ -90,6 +90,13 @@ export function rideToPlace(position, destination) {
   };
 }
 
+// The stop a rider following an adventure reaches next, or null.
+export const nextStopOf = (adventure, position) =>
+  select.nextStopIndex(adventure.route.coordinates, adventureStopPins(adventure), [
+    position.longitude,
+    position.latitude,
+  ]);
+
 // Stops on an adventure that correspond to a pinned destination, in order.
 export const adventureStopPins = (adventure) =>
   select.selectStopPins(adventure, destinationById);

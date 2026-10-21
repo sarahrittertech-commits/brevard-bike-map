@@ -50,6 +50,9 @@ export default function MapSheet({
   expanded,
   onExpandedChange,
   onOpenHeightChange,
+  hidden,
+  onDismissFacts,
+  stop,
 }) {
   const closedY = Math.max(height - PEEK, 0);
   const [y] = useState(() => new Animated.Value(closedY));
@@ -59,8 +62,8 @@ export default function MapSheet({
   const openY = selected && cardHeight ? Math.min(Math.max(height - cardHeight - HANDLE, 0), closedY) : 0;
 
   useEffect(() => {
-    Animated.timing(y, { toValue: expanded ? openY : closedY, ...EASE }).start();
-  }, [expanded, openY, closedY, y]);
+    Animated.timing(y, { toValue: hidden ? height : expanded ? openY : closedY, ...EASE }).start();
+  }, [hidden, height, expanded, openY, closedY, y]);
 
   // The map centres a selected pin above whatever the sheet covers.
   useEffect(() => {
@@ -115,9 +118,10 @@ export default function MapSheet({
           onRideTo={() => onRideTo(selected.id)}
           onTurnOnLocation={onTurnOnLocation}
           onMeasure={setCardHeight}
+          stop={stop}
         />
       ) : active.length === 0 ? (
-        <TrailFacts />
+        <TrailFacts onDismiss={onDismissFacts} />
       ) : (
         <>
           <View style={styles.listHeader}>
@@ -139,10 +143,21 @@ export default function MapSheet({
   );
 }
 
-function TrailFacts() {
+function TrailFacts({ onDismiss }) {
   return (
     <ScrollView contentContainerStyle={styles.pad} showsVerticalScrollIndicator={false}>
-      <Text style={styles.h2}>Getting around {TOWN_NAME} by bike</Text>
+      <View style={styles.factsHeader}>
+        <Text style={[styles.h2, styles.factsTitle]}>Getting around {TOWN_NAME} by bike</Text>
+        <Pressable
+          onPress={onDismiss}
+          accessibilityRole="button"
+          accessibilityLabel="Put this card away"
+          hitSlop={HIT_SLOP}
+          style={styles.close}
+        >
+          <X size={22} color={colors.inkFaint} />
+        </Pressable>
+      </View>
       <Text style={styles.lead}>
         Tap a category on the right to see what is out there — or pull this up for route details.
       </Text>
@@ -266,6 +281,7 @@ function SelectedPlace({
   onRideTo,
   onTurnOnLocation,
   onMeasure,
+  stop,
 }) {
   const cat = categoryById[category];
   const alsoIn = destination.categories.filter((c) => c !== category);
@@ -280,8 +296,10 @@ function SelectedPlace({
           <CategoryIcon category={category} size={20} color={cat.color} />
         </View>
         <View style={styles.selectedTitle}>
-          <Text style={[styles.selectedEyebrow, { color: cat.color }]}>{cat.label}</Text>
-          <Text style={styles.h1}>{destination.name}</Text>
+          <Text style={[styles.selectedEyebrow, { color: stop ? colors.clay : cat.color }]}>
+            {stop ? `Stop ${stop.number} of ${stop.total}` : cat.label}
+          </Text>
+          <Text style={styles.h1}>{stop ? stop.name : destination.name}</Text>
         </View>
         <Pressable
           onPress={onClose}
@@ -294,7 +312,7 @@ function SelectedPlace({
         </Pressable>
       </View>
 
-      <Text style={styles.selectedBlurb}>{destination.description}</Text>
+      <Text style={styles.selectedBlurb}>{stop ? stop.note : destination.description}</Text>
 
       <RideRow
         ride={ride}
@@ -531,6 +549,14 @@ const styles = StyleSheet.create({
   },
   selectedTitle: fillRow,
   selectedEyebrow: text.eyebrow,
+  factsHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 12,
+  },
+  factsTitle: {
+    flex: 1,
+  },
   close: {
     padding: 12,
     marginTop: -4,

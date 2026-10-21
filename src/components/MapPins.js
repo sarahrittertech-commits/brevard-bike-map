@@ -63,10 +63,10 @@ export function TrailheadMarker() {
 }
 
 // Numbered circle for an adventure stop. Anchor { x: 0.5, y: 0.5 }.
-export function StopMarker({ number }) {
+export function StopMarker({ number, next }) {
   return (
-    <View style={styles.stop}>
-      <Text style={styles.stopText}>{number}</Text>
+    <View style={[styles.stop, next && styles.stopNext]}>
+      <Text style={[styles.stopText, next && styles.stopTextNext]}>{number}</Text>
     </View>
   );
 }
@@ -120,6 +120,17 @@ const styles = StyleSheet.create({
     borderColor: colors.white,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  // The next stop on a followed ride: larger, in the route's clay.
+  stopNext: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: colors.clay,
+    borderWidth: 3,
+  },
+  stopTextNext: {
+    fontSize: 14,
   },
   stopText: {
     fontFamily: fonts.sansBold,
