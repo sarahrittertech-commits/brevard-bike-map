@@ -79,7 +79,7 @@ iPhone:
   stays the base.
 - **Playgrounds are a slide in bright green** `#2DA948`, replacing the
   orange-brown play tower, and **ice cream is a deeper magenta** `#B12E83`
-  (white icon contrast 5.9, up from 3.8). Sarah's choices, 21 October.
+  (white icon contrast 5.9, up from 3.8). Sarah's choices, 21 October. The slide is six strokes so it reads inside a 14pt pin; a first, more detailed version blurred at that size.
 - **Clearer mile wording:** "Mile 0.4 from the trailhead at W Main St,
   Brevard" on a place, and "Miles from W Main St" over the list.
 
