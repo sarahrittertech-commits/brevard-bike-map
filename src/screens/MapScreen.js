@@ -245,11 +245,14 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     onStopFollowing();
   }, [onStopFollowing]);
 
-  // Selecting a pin or row always reveals its detail.
+  // Selecting a pin or row always reveals its detail; closing it (its close
+  // button, or a tap on the map) drops the sheet back to peek. Left open, the
+  // sheet would switch to the full place list and cover the very pins the
+  // rider was about to tap next.
   const select = useCallback((id) => {
     setSelectedId(id);
     setSelectedStop(null);
-    if (id) setSheetOpen(true);
+    setSheetOpen(!!id);
   }, []);
 
   const toggle = (id) => {

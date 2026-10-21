@@ -88,6 +88,16 @@ iPhone:
   pick; its white-icon contrast is 2.5, the lowest in the set). Breweries
   stay caramel. Reserved for later: coffee espresso `#352822` and
   restaurants teal `#0C8E85`.
+- **Fixes from the preview build on Sarah's phone** (21 October):
+  - Closing a place's card dropped the sheet open to the full list, which
+    covered the pins, so the next pin tap missed. Closing a card now returns
+    the sheet to peek.
+  - CykelWorx (spelled that way) is downtown at 72 S Broad St, not mid-path;
+    its pin moved 1.9 mi and its hours and description are updated. End to
+    End's mile-2 bail-out stop is now the Mid-Path Fix-It Stand.
+  - Showing The Hub to Bracken left the map where it was. Not reproducible
+    after the review fix that stopped the sheet's appearance from triggering
+    a second refit; to recheck on the next phone build.
 - **Clearer mile wording:** "Mile 0.4 from the trailhead at W Main St,
   Brevard" on a place, and "Miles from W Main St" over the list.
 

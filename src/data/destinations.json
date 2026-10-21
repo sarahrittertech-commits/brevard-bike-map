@@ -208,12 +208,12 @@
   },
   {
     "id": "cyckel-worx",
-    "name": "Cyckel Worx",
+    "name": "CykelWorx",
     "categories": ["bike-shop"],
-    "coordinates": [-82.7175, 35.2532],
-    "description": "Mid-path repair shop. Handy if something goes wrong away from town.",
-    "mileMarker": 1.9,
-    "hours": "Tue–Sat 10–5pm"
+    "coordinates": [-82.73511, 35.23287],
+    "description": "Bike shop at 72 S Broad St, a block off Main downtown. Service, parts and repairs.",
+    "mileMarker": 0.4,
+    "hours": "Tue–Fri 10–6pm · Sat 10–4pm"
   },
   {
     "id": "sycamore-cycles",

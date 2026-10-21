@@ -1266,9 +1266,9 @@
         "destination": "repair-depot"
       },
       {
-        "name": "Cyckel Worx",
-        "note": "Mile 2 bail-out if something goes wrong. Open Tue–Sat.",
-        "destination": "cyckel-worx"
+        "name": "Mid-Path Fix-It Stand",
+        "note": "Mile 2.3 bail-out if something needs fixing: pump, chain tool and water. CykelWorx is back downtown on S Broad St.",
+        "destination": "repair-midpath"
       },
       {
         "name": "Oskar Blues Brewery",
