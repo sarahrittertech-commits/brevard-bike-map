@@ -153,7 +153,7 @@ function TrailFacts({ onDismiss }) {
           accessibilityRole="button"
           accessibilityLabel="Put this card away"
           hitSlop={HIT_SLOP}
-          style={styles.close}
+          style={styles.factsClose}
         >
           <X size={22} color={colors.inkFaint} />
         </Pressable>
@@ -549,13 +549,20 @@ const styles = StyleSheet.create({
   },
   selectedTitle: fillRow,
   selectedEyebrow: text.eyebrow,
+  // The title is one line, so the close button centres on it; its padding
+  // keeps the 44pt touch area without pushing the glyph below the text.
   factsHeader: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     gap: 12,
+    marginTop: -8,
+    marginRight: -8,
   },
   factsTitle: {
     flex: 1,
+  },
+  factsClose: {
+    padding: 11,
   },
   close: {
     padding: 12,
