@@ -36,7 +36,7 @@
   {
     "id": "brewery",
     "label": "Breweries",
-    "color": "#8A4A1E",
+    "color": "#90744D",
     "apps": ["map"]
   },
   {

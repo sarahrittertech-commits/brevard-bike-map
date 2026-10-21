@@ -121,12 +121,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // The next stop on a followed ride: larger, in the route's clay.
+  // The next stop on a followed ride: larger, in the route's brown.
   stopNext: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: colors.clay,
+    backgroundColor: colors.route,
     borderWidth: 3,
   },
   stopTextNext: {

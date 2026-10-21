@@ -73,6 +73,10 @@ iPhone:
   to the real park on 20 October left the ride's first stop 2,100 ft from its
   line. The line now starts with 0.4 mi along the drawn links from Silvermont,
   and the ride reads 5.1 mi, 50 min.
+- **Browns from Sarah's palette** (21 October): ride routes, the next stop and
+  the following accents are walnut `#71552E` instead of clay orange; brewery
+  pins are caramel `#90744D`; deep forest is `#103C2B`. Forest `#1F4D3A`
+  stays the base.
 - **Clearer mile wording:** "Mile 0.4 from the trailhead at W Main St,
   Brevard" on a place, and "Miles from W Main St" over the list.
 

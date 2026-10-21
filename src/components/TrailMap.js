@@ -99,7 +99,7 @@ export default memo(function TrailMap({
   onSelect,
   route,
   routeStops,
-  // Index of the stop the rider reaches next, drawn larger in clay.
+  // Index of the stop the rider reaches next, drawn larger in the route brown.
   nextStop,
   onSelectStop,
   fitKey,
@@ -252,7 +252,7 @@ export default memo(function TrailMap({
       {/* The followed route: wide, with a white edge, so it reads at a glance
           from a bike. */}
       {route && <Polyline coordinates={route} strokeColor={colors.white} strokeWidth={13} lineCap="round" lineJoin="round" />}
-      {route && <Polyline coordinates={route} strokeColor={colors.clay} strokeWidth={9} lineCap="round" lineJoin="round" />}
+      {route && <Polyline coordinates={route} strokeColor={colors.route} strokeWidth={9} lineCap="round" lineJoin="round" />}
 
       {destinations.map((d) => {
         const category = displayCategory(d, active);

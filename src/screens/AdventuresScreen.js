@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   eyebrow: {
     ...text.eyebrow,
-    color: colors.clay,
+    color: colors.route,
   },
   h1: {
     marginTop: 4,
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     left: 12,
     top: 12,
     borderRadius: radius.pill,
-    backgroundColor: colors.clay,
+    backgroundColor: colors.route,
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   tagline: {
     fontFamily: fonts.sansSemiBold,
     fontSize: 12,
-    color: colors.clay,
+    color: colors.route,
   },
   featuredTitle: {
     marginTop: 2,

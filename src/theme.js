@@ -9,11 +9,12 @@ export const colors = {
   inkFaint: '#8C9486',
   line: '#E2DCCE',
   forest: '#1F4D3A',
-  forestDeep: '#123227',
+  forestDeep: '#103C2B',
   forestSoft: '#E7EFE9',
-  clay: '#BC5B27',
-  // Connectors: a warm gray, solid. Not brown, which would read as the clay
-  // of a followed route.
+  // Routes and the accents that go with following one: a walnut brown from
+  // Sarah's palette of 21 October 2026, replacing the clay orange.
+  route: '#71552E',
+  // Connectors: a warm gray, solid, lighter than the route brown.
   connector: '#857C70',
   white: '#FFFFFF',
 };

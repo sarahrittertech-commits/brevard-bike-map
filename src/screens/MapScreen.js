@@ -535,10 +535,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    borderColor: `${colors.clay}40`,
+    borderColor: `${colors.route}40`,
   },
   followingCardOuter: {
-    borderColor: `${colors.clay}40`,
+    borderColor: `${colors.route}40`,
   },
   followingToggle: {
     flexDirection: 'row',
@@ -557,7 +557,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
   },
   stopRowNext: {
-    backgroundColor: `${colors.clay}14`,
+    backgroundColor: `${colors.route}14`,
   },
   stopRowPressed: {
     backgroundColor: colors.canvas,
@@ -572,7 +572,7 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
   stopNumberNext: {
-    backgroundColor: colors.clay,
+    backgroundColor: colors.route,
   },
   stopNumberText: {
     fontFamily: fonts.sansBold,
@@ -596,7 +596,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     textTransform: 'uppercase',
     color: colors.white,
-    backgroundColor: colors.clay,
+    backgroundColor: colors.route,
     paddingHorizontal: 7,
     paddingVertical: 2,
     borderRadius: 4,
@@ -612,7 +612,7 @@ const styles = StyleSheet.create({
   cardBody: fillRow,
   followingEyebrow: {
     ...text.eyebrowSmall,
-    color: colors.clay,
+    color: colors.route,
   },
   title: {
     fontFamily: fonts.display,

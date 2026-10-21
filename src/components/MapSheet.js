@@ -296,7 +296,7 @@ function SelectedPlace({
           <CategoryIcon category={category} size={20} color={cat.color} />
         </View>
         <View style={styles.selectedTitle}>
-          <Text style={[styles.selectedEyebrow, { color: stop ? colors.clay : cat.color }]}>
+          <Text style={[styles.selectedEyebrow, { color: stop ? colors.route : cat.color }]}>
             {stop ? `Stop ${stop.number} of ${stop.total}` : cat.label}
           </Text>
           <Text style={styles.h1}>{stop ? stop.name : destination.name}</Text>
