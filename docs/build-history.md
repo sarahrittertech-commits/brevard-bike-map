@@ -15,6 +15,13 @@ Sarah's interactive Apple login to create the provisioning profile.
 
 ## 1.1.0
 
+### Not yet built
+
+- Ride to here fits the whole ride again (`aa9969b`). In build 9, centring
+  the tapped place ran a second time when the card changed height, zoomed
+  back in on the place and left the rider off screen. Found while retaking
+  the App Store screenshots on 21 October.
+
 ### Build 9 — 21 October 2026 · App Store
 
 Production, commit `55f017d`, tag `v1.1.0`. Submitted by Sarah, processing at
