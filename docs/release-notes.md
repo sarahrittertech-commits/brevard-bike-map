@@ -113,6 +113,9 @@ iPhone:
   moves by the difference, instead of predicting it from a zoom MapKit
   adjusts. That prediction left the pin about 50pt low, the known gap since
   1.0, and on Sarah's phone sometimes off screen behind the card.
+- **Back to list.** A place opened from the list has a "‹ Back to list"
+  button above its name that returns to the list; × closes the card
+  altogether. Opened from a pin, there is no list to go back to, so only ×.
 - **Clearer mile wording:** "Mile 0.4 from the trailhead at W Main St,
   Brevard" on a place, and "Miles from W Main St" over the list.
 

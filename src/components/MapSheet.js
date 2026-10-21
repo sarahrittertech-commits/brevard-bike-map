@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Animated, Linking, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Bike from 'lucide-react-native/icons/bike';
+import ChevronLeft from 'lucide-react-native/icons/chevron-left';
 import ExternalLink from 'lucide-react-native/icons/external-link';
 import MapPinned from 'lucide-react-native/icons/map-pinned';
 import Route from 'lucide-react-native/icons/route';
@@ -42,6 +43,8 @@ export default function MapSheet({
   active,
   selected,
   onSelect,
+  onSelectFromList,
+  onBackToList,
   ride,
   locating,
   ridingHere,
@@ -116,6 +119,7 @@ export default function MapSheet({
           destination={selected}
           category={displayCategory(selected, active)}
           onClose={() => onSelect(null)}
+          onBack={onBackToList}
           ride={ride}
           locating={locating}
           ridingHere={ridingHere}
@@ -139,7 +143,7 @@ export default function MapSheet({
           <ScrollView contentContainerStyle={styles.listBody} showsVerticalScrollIndicator={false}>
             {destinations.map((d, i) => (
               <View key={d.id} style={i > 0 && styles.rowDivider}>
-                <PlaceRow destination={d} category={displayCategory(d, active)} onSelect={() => onSelect(d.id)} />
+                <PlaceRow destination={d} category={displayCategory(d, active)} onSelect={() => onSelectFromList(d.id)} />
               </View>
             ))}
           </ScrollView>
@@ -290,6 +294,7 @@ function SelectedPlace({
   destination,
   category,
   onClose,
+  onBack,
   ride,
   locating,
   ridingHere,
@@ -308,6 +313,18 @@ function SelectedPlace({
       showsVerticalScrollIndicator={false}
       onContentSizeChange={(_, h) => onMeasure(Math.ceil(h))}
     >
+      {onBack && (
+        <Pressable
+          onPress={onBack}
+          accessibilityRole="button"
+          accessibilityLabel="Back to the list"
+          hitSlop={HIT_SLOP}
+          style={({ pressed }) => [styles.back, pressed && styles.backPressed]}
+        >
+          <ChevronLeft size={20} color={colors.forest} strokeWidth={2.4} />
+          <Text style={styles.backText}>Back to list</Text>
+        </Pressable>
+      )}
       <View style={styles.selectedHeader}>
         <View style={[styles.selectedIcon, { backgroundColor: tint(cat.color) }]}>
           <CategoryIcon category={category} size={20} color={cat.color} />
@@ -572,6 +589,24 @@ const styles = StyleSheet.create({
   selectedEyebrow: text.eyebrow,
   // The title is one line, so the close button centres on it; its padding
   // keeps the 44pt touch area without pushing the glyph below the text.
+  back: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    gap: 2,
+    paddingVertical: 8,
+    paddingRight: 12,
+    marginBottom: 6,
+    borderRadius: radius.pill,
+  },
+  backPressed: {
+    backgroundColor: colors.forestSoft,
+  },
+  backText: {
+    fontFamily: fonts.sansSemiBold,
+    fontSize: 16,
+    color: colors.forest,
+  },
   factsHeader: {
     flexDirection: 'row',
     alignItems: 'center',

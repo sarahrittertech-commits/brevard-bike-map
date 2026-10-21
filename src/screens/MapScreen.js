@@ -139,6 +139,9 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const { regular, wide, height: windowHeight } = useLayoutClass();
   const [active, setActive] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
+  // True when the open place was picked from the sheet's list, so its card
+  // offers a way back to that list as well as closing.
+  const [fromList, setFromList] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [recenter, setRecenter] = useState(0);
   const [locating, setLocating] = useState(false);
@@ -255,7 +258,19 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const select = useCallback((id) => {
     setSelectedId(id);
     setSelectedStop(null);
+    setFromList(false);
     setSheetOpen(!!id);
+  }, []);
+  const selectFromList = useCallback((id) => {
+    setSelectedId(id);
+    setSelectedStop(null);
+    setFromList(true);
+    setSheetOpen(true);
+  }, []);
+  const backToList = useCallback(() => {
+    setSelectedId(null);
+    setFromList(false);
+    setSheetOpen(true);
   }, []);
 
   const toggle = (id) => {
@@ -529,6 +544,8 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
           active={active}
           selected={selected}
           onSelect={rideDest ? (id) => id === null && endRide() : select}
+          onSelectFromList={selectFromList}
+          onBackToList={fromList && !rideDest && !stopDest ? backToList : null}
           ride={ride}
           locating={locating}
           ridingHere={!!rideDest || !!stopDest}
