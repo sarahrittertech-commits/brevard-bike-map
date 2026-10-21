@@ -177,7 +177,9 @@ export default memo(function TrailMap({
   }, [fitKey, ready]);
 
   useEffect(() => {
-    if (!mapRef.current || !selected || !height) return undefined;
+    // While riding to the place, the fitted ride owns the camera; centring
+    // the place would zoom back in and push the rider off screen.
+    if (!mapRef.current || !selected || !height || route) return undefined;
     // Put the selected place in the middle of the map the card leaves
     // visible: between the header and the card, or between the docked column
     // and the rail. Earlier versions worked this out from the zoom they asked
@@ -222,7 +224,7 @@ export default memo(function TrailMap({
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [selected, docked, width, height, sheetHeight, clear.top, clear.left, clear.right]);
+  }, [selected, route, docked, width, height, sheetHeight, clear.top, clear.left, clear.right]);
 
   useEffect(() => {
     if (!mapRef.current || !userFocus) return;
