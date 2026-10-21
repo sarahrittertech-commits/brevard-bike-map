@@ -98,6 +98,16 @@ iPhone:
   - Showing The Hub to Bracken left the map where it was. Not reproducible
     after the review fix that stopped the sheet's appearance from triggering
     a second refit; to recheck on the next phone build.
+- **More from the second phone pass** (21 October):
+  - With location off, a place shows one real button, "Turn on location to
+    ride here", which turns location on and then starts Ride to here. The
+    grey look-alike button and the small link below it are gone. Numbered
+    stops say "Turn on location to see distance".
+  - Tapping a card's title, or the list header, slides the card up or
+    down, as well as the handle. Slid down, a long name keeps to one line.
+  - The rail's "show just the path" button is a clear ×, faded until a
+    category is on. It was a route glyph that went dark green with nothing
+    on, which read as a switch.
 - **Clearer mile wording:** "Mile 0.4 from the trailhead at W Main St,
   Brevard" on a place, and "Miles from W Main St" over the list.
 

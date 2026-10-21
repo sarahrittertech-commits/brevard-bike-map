@@ -148,6 +148,9 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   // The place the rider asked to ride to: the map then shows only it, them
   // and the way between.
   const [rideToId, setRideToId] = useState(null);
+  // A place the rider asked to ride to before location was on: the ride
+  // starts once their position arrives.
+  const [pendingRideId, setPendingRideId] = useState(null);
   const [userFocus, setUserFocus] = useState(null);
   // The "Getting around" card can be put away for the session; it comes back
   // the next time the app opens. Nothing is saved.
@@ -276,14 +279,14 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
       setLocating(false);
       setPosition(null);
       setRideToId(null);
-      return;
+      return false;
     }
     let permission = await Location.getForegroundPermissionsAsync();
     const asked = permission.status !== 'granted' && permission.canAskAgain;
     if (asked) {
       // Before the system prompt, say in the app's own words what the dot is
       // for and what happens to the location, and let the rider decline here.
-      if (!(await confirmLocation())) return;
+      if (!(await confirmLocation())) return false;
       permission = await Location.requestForegroundPermissionsAsync();
     }
     if (permission.status !== 'granted') {
@@ -298,7 +301,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
           ]
         );
       }
-      return;
+      return false;
     }
     setLocating(true);
     try {
@@ -321,6 +324,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
       // No fix yet (indoors, airplane mode). The dot appears on its own once
       // the phone finds itself; there is just nothing to centre on now.
     }
+    return true;
   };
 
   // While location is on, follow the rider so distances stay current. The
@@ -350,6 +354,18 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     setRideToId(id);
     setSheetOpen(false);
   };
+  // Start the ride the rider asked for once a route exists; drop the request
+  // if there is none (outside Brevard, nothing drawn reaches the place) or the
+  // place card has been closed.
+  if (pendingRideId && ride && (selected?.id !== pendingRideId || !ride.reachable)) {
+    setPendingRideId(null);
+  } else if (pendingRideId && ride?.reachable) {
+    setPendingRideId(null);
+    if (following) stopFollowing();
+    setRideToId(pendingRideId);
+    setSheetOpen(false);
+  }
+
   const endRide = () => {
     setRideToId(null);
     setSelectedId(null);
@@ -517,7 +533,11 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
           locating={locating}
           ridingHere={!!rideDest || !!stopDest}
           onRideTo={startRide}
-          onTurnOnLocation={() => locate(true)}
+          onTurnOnLocation={(thenRide) => {
+            if (thenRide && selected) setPendingRideId(selected.id);
+            // Declined or not granted: nothing to ride to later.
+            locate(true).then((on) => on || setPendingRideId(null));
+          }}
           expanded={sheetOpen}
           onExpandedChange={setSheetOpen}
         />

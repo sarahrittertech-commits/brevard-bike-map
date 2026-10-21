@@ -70,6 +70,11 @@ export default function MapSheet({
     onOpenHeightChange?.(height - openY);
   }, [height, openY, onOpenHeightChange]);
 
+  // The handle and each card's title area all slide the sheet up or down: a
+  // big target, easy to hit from a bike. The close buttons stay separate.
+  const toggle = () => onExpandedChange(!expanded);
+  const toggleLabel = expanded ? 'Slide this card down' : 'Slide this card up';
+
   const pan = useMemo(() => {
     const restY = expanded ? openY : closedY;
     return PanResponder.create({
@@ -101,12 +106,7 @@ export default function MapSheet({
       ]}
     >
       <View {...pan.panHandlers}>
-        <Pressable
-          onPress={() => onExpandedChange(!expanded)}
-          accessibilityRole="button"
-          accessibilityLabel={expanded ? 'Collapse place list' : 'Expand place list'}
-          style={styles.handle}
-        >
+        <Pressable onPress={toggle} accessibilityRole="button" accessibilityLabel={toggleLabel} style={styles.handle}>
           <View style={styles.grip} />
         </Pressable>
       </View>
@@ -123,17 +123,19 @@ export default function MapSheet({
           onTurnOnLocation={onTurnOnLocation}
           onMeasure={setCardHeight}
           stop={stop}
+          onToggle={toggle}
+          collapsed={!expanded}
         />
       ) : active.length === 0 ? (
-        <TrailFacts onDismiss={onDismissFacts} />
+        <TrailFacts onDismiss={onDismissFacts} onToggle={toggle} />
       ) : (
         <>
-          <View style={styles.listHeader}>
+          <Pressable onPress={toggle} accessibilityRole="button" accessibilityLabel={toggleLabel} style={styles.listHeader}>
             <Text style={styles.h2}>
               {destinations.length} {destinations.length === 1 ? 'stop' : 'stops'} on the path
             </Text>
             <Text style={styles.listHint}>Miles from W Main St</Text>
-          </View>
+          </Pressable>
           <ScrollView contentContainerStyle={styles.listBody} showsVerticalScrollIndicator={false}>
             {destinations.map((d, i) => (
               <View key={d.id} style={i > 0 && styles.rowDivider}>
@@ -147,11 +149,13 @@ export default function MapSheet({
   );
 }
 
-function TrailFacts({ onDismiss }) {
+function TrailFacts({ onDismiss, onToggle }) {
   return (
     <ScrollView contentContainerStyle={styles.pad} showsVerticalScrollIndicator={false}>
       <View style={styles.factsHeader}>
-        <Text style={[styles.h2, styles.factsTitle]}>Getting around {TOWN_NAME} by bike</Text>
+        <Pressable onPress={onToggle} style={styles.factsTitle}>
+          <Text style={styles.h2}>Getting around {TOWN_NAME} by bike</Text>
+        </Pressable>
         <Pressable
           onPress={onDismiss}
           accessibilityRole="button"
@@ -162,9 +166,11 @@ function TrailFacts({ onDismiss }) {
           <X size={22} color={colors.inkFaint} />
         </Pressable>
       </View>
-      <Text style={styles.lead}>
-        Tap a category on the right to see what is out there — or pull this up for route details.
-      </Text>
+      <Pressable onPress={onToggle}>
+        <Text style={styles.lead}>
+          Tap a category on the right to see what is out there, or tap here for route details.
+        </Text>
+      </Pressable>
 
       <View style={styles.facts}>
         <Fact icon={Ruler} label="Paved path" value={`${TRAIL_MILES} mi`} />
@@ -216,18 +222,23 @@ function Fact({ icon: Icon, label, value }) {
 // How far the rider is from a place along the drawn network, and the button
 // that shows the way. With location off it is greyed out and says why.
 function RideRow({ ride, locating, ridingHere, onRideTo, onTurnOnLocation }) {
+  // With location off, the one button turns it on. From a place it then goes
+  // straight on to Ride to here, so the button does what it says; for a stop
+  // on a followed ride it just shows the distance.
   if (!locating) {
     return (
       <View style={styles.ride}>
-        <Text style={[styles.rideDistance, styles.rideOff]}>Distance from you</Text>
-        <View style={[styles.rideButton, styles.rideButtonOff]}>
-          <Bike size={20} color={colors.inkFaint} />
-          <Text style={[styles.rideButtonText, styles.rideOff]}>Ride to here</Text>
-        </View>
-        <Text style={styles.rideNote}>Location sharing is needed to calculate a ride.</Text>
-        <Pressable onPress={onTurnOnLocation} accessibilityRole="button" hitSlop={HIT_SLOP} style={styles.rideLinkTap}>
-          <Text style={styles.rideLink}>Turn on location sharing</Text>
+        <Pressable
+          onPress={() => onTurnOnLocation(!ridingHere)}
+          accessibilityRole="button"
+          style={({ pressed }) => [styles.rideButton, styles.rideButtonOff, pressed && styles.rideButtonOffPressed]}
+        >
+          <Bike size={20} color={colors.forest} />
+          <Text style={[styles.rideButtonText, styles.rideButtonOffText]}>
+            {ridingHere ? 'Turn on location to see distance' : 'Turn on location to ride here'}
+          </Text>
         </Pressable>
+        <Text style={styles.rideNote}>Your location stays on your phone and is never saved.</Text>
       </View>
     );
   }
@@ -286,6 +297,8 @@ function SelectedPlace({
   onTurnOnLocation,
   onMeasure,
   stop,
+  onToggle,
+  collapsed,
 }) {
   const cat = categoryById[category];
   const alsoIn = destination.categories.filter((c) => c !== category);
@@ -299,12 +312,16 @@ function SelectedPlace({
         <View style={[styles.selectedIcon, { backgroundColor: tint(cat.color) }]}>
           <CategoryIcon category={category} size={20} color={cat.color} />
         </View>
-        <View style={styles.selectedTitle}>
+        <Pressable onPress={onToggle} style={styles.selectedTitle}>
           <Text style={[styles.selectedEyebrow, { color: stop ? colors.route : cat.color }]}>
             {stop ? `Stop ${stop.number} of ${stop.total}` : cat.label}
           </Text>
-          <Text style={styles.h1}>{stop ? stop.name : destination.name}</Text>
-        </View>
+          {/* Slid down, the strip has room for one line: shorten the name
+              rather than cut the second line in half. */}
+          <Text style={styles.h1} numberOfLines={collapsed ? 1 : undefined}>
+            {stop ? stop.name : destination.name}
+          </Text>
+        </Pressable>
         <Pressable
           onPress={onClose}
           accessibilityRole="button"
@@ -593,15 +610,6 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     color: colors.inkSoft,
   },
-  rideLinkTap: {
-    alignSelf: 'flex-start',
-    paddingVertical: 10,
-  },
-  rideLink: {
-    fontFamily: fonts.sansSemiBold,
-    fontSize: 15.5,
-    color: colors.forest,
-  },
   rideButton: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -614,8 +622,17 @@ const styles = StyleSheet.create({
     minHeight: 56,
   },
   rideButtonOff: {
-    backgroundColor: colors.canvas,
+    backgroundColor: colors.surface,
+    borderWidth: 2,
+    borderColor: colors.forest,
   },
+  rideButtonOffPressed: {
+    backgroundColor: colors.forestSoft,
+  },
+  rideButtonOffText: {
+    color: colors.forest,
+  },
+
   rideButtonText: {
     fontFamily: fonts.sansSemiBold,
     fontSize: 18,
