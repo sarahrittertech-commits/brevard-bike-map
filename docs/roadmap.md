@@ -7,7 +7,7 @@ title: Roadmap
 
 What is shipping, what is next, and what is planned, for both apps. Keep this
 current: when something ships it moves to the [release notes](./release-notes),
-and when a plan changes it changes here first. Last updated 21 October 2026.
+and when a plan changes it changes here first. Last updated 21 October 2026, after Ride to here moved into 1.1.
 
 Two apps are built from one codebase and one dataset:
 
@@ -30,6 +30,13 @@ Built from the `restaurants` branch. In TestFlight on 21 October 2026.
   the system asks, and nothing is saved or sent
 - Works on its side and on any size of screen
 - Clearer mile wording: "Mile 0.4 from the trailhead at W Main St, Brevard"
+- **Ride to here** (added 21 October 2026): with location on, a place shows how
+  far it is from you along the path and roughly how long by bike, and Ride to
+  here shows only you, the place and the way between. With location off it is
+  greyed out with a link to turn it on. Routes follow only the drawn lines;
+  see [ADR-0003](./architecture/adr-0003-route-data), revised. In Bike Brevard
+  Kids it includes schools, by Sarah's decision recorded in
+  [Direction after 1.0](./post-1.0-direction)
 
 **Pulled from 1.1 on 21 October 2026: restaurants.** "See the menu" sent the
 rider out of the app to a browser, which is not the experience the app should
@@ -63,29 +70,10 @@ Still to do:
    short summary on the place card, or no menus at all. Whatever is chosen,
    the rider should stay in the app.
 
-### Ride to here
-
-Tap a place and see how far it is from you along the path, in miles and
-minutes, with a **Ride to here** button that shows only you and that place.
-With location off, the distance and button show greyed out with "Location
-sharing is needed to calculate a ride" and a way to turn it on.
-
-Two decisions come first:
-- **ADR-0003 has to be revisited.** The app draws hand-curated routes and
-  deliberately computes none; distance "on the path" from wherever the rider
-  is needs the app to route along the network itself. That is the decision
-  CLAUDE.md flags as having a genuine argument on both sides.
-- **How schools are handled in Bike Brevard Kids.** A route from a phone's
-  location to a school touches the "no routes from a home to a school" line
-  in [Direction after 1.0](./post-1.0-direction). Sarah, 21 October 2026: we
-  can be more flexible here, especially for the kids app. Settle the exact
-  rule when Ride to here is designed, and record it in that document, since
-  it was made as a safety decision.
-
 ### Build my own route
 
-Pick stops and draw a ride from them. After Ride to here, because it needs the
-same routing, and at least one release later.
+Pick stops and draw a ride from them, using the same routing as Ride to here.
+At least one release after 1.1.
 
 ### Websites inside the app
 

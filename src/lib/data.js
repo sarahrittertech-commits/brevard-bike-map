@@ -66,6 +66,30 @@ export const isNearBrevard = (position) => select.isNearArea(position, networkLa
 // Places matching any switched-on category, ordered along the path.
 export const visibleDestinations = (active) => select.selectVisible(destinations, active);
 
+// "Ride to here": the way along the drawn network from where the rider is to
+// a place. A place counts as reached when the network reaches its grounds,
+// not one door, so anything within REACH_FT of a drawn line is routable; the
+// same tolerance the data checks use (DT-8). Further out, the app says no
+// drawn route reaches it rather than guessing a way across town.
+const REACH_FT = 1000;
+const routeGraph = select.buildRouteGraph(network);
+
+export function rideToPlace(position, destination) {
+  const from = [position.longitude, position.latitude];
+  const route = select.routeOnGraph(routeGraph, from, destination.coordinates);
+  if (!route || route.endOffFt > REACH_FT) return { reachable: false };
+  const miles = (route.startOffFt + route.pathFt + route.endOffFt) / 5280;
+  return {
+    reachable: true,
+    miles: Math.round(miles * 10) / 10,
+    minutes: select.rideMinutes(miles),
+    // Distance from the rider to the nearest drawn line, for saying when they
+    // are well off it.
+    offPathMiles: Math.round((route.startOffFt / 5280) * 10) / 10,
+    latLngs: [from, ...route.coordinates, destination.coordinates].map(toLatLng),
+  };
+}
+
 // Stops on an adventure that correspond to a pinned destination, in order.
 export const adventureStopPins = (adventure) =>
   select.selectStopPins(adventure, destinationById);

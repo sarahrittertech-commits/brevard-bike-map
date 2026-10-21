@@ -184,6 +184,7 @@ Bike Brevard Map 1.1
 - Pins fixed for Franklin Park, Silvermont, the King St shops, Kilwins, Earth Mountain and more, and clearer mile markers.
 - New rides: Art on the Path (17 sculptures in one loop), Pisgah Short Track Social and Earth Mountain Shop Ride.
 - Two hopscotches painted on the path, and a repair stand at the library.
+- Ride to here: tap a place to see how far it is from you along the path and about how long by bike, then show just you, the place and the way there.
 - Show my location: optional. The app explains what it is for before your phone asks, and your location is never stored.
 - Works on its side and on any size of screen.
 ```
@@ -245,8 +246,9 @@ Suggested text for the App Review team:
 ```
 This app needs no account and no sign-in. All data is bundled in the app; there
 is no backend and no network access. The only permission is location while in
-use, asked for only when the reviewer taps the location button on the map; it
-draws the reviewer's position and is never stored or sent. The app covers one town, Brevard, North Carolina, so the map opens
+use, asked for only when the reviewer taps the location button on the map
+(the app explains it first). It draws the reviewer's position and the
+distance to a place along the bike path, and is never stored or sent. The app covers one town, Brevard, North Carolina, so the map opens
 there by design rather than at the reviewer's location.
 ```
 

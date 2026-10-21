@@ -70,7 +70,9 @@ Run before every release. A simulator does not count.
 | MT-8 | Airplane mode, then cold launch | Map data and markers still load (R9) |
 | MT-9 | Pinch to zoom out fully, then back in | No crash, markers re-render |
 | MT-10 | iPhone Duo: closed, open flat, open upright, half folded both ways | Nothing under the side bars or camera; open and upright, the sheet's open edge sits on the fold; open flat, the docked column ends before the fold. See the [iPhone Duo review](./iphone-duo-design-review) |
-| MT-11 | Fresh install, tap the location button; decline. Tap again. Then allow it in Settings and tap again; tap once more | No prompt before the first tap. Declining shows nothing more; the second tap offers Settings. Allowed, the dot appears and the map centres on it (in Brevard) or says you're outside Brevard; the last tap removes the dot. Settings shows only "While Using the App" |
+| MT-11 | Fresh install, tap the location button; decline. Tap again. Then allow it in Settings and tap again; tap once more | No prompt before the first tap. The first tap shows the app's own explanation: Not now ends there, Continue brings the system prompt. Declining that shows nothing more; the second tap offers Settings. Allowed, the dot appears and the map centres on it (in Brevard) or says you're outside Brevard; the last tap removes the dot. Settings shows only "While Using the App" |
+| MT-12 | Location off: switch on ice cream, open Dolly's | "Distance from you" and "Ride to here" greyed, "Location sharing is needed to calculate a ride" and a "Turn on location sharing" link; the link turns location on and the card shows "N mi from you · about N min by bike" without closing |
+| MT-13 | Ride to here from downtown to Dolly's, then close it | Only Dolly's and the blue dot remain, the way between is drawn along the path in clay, the header says "Riding to" with miles and minutes; close returns to the list as it was |
 
 ### Android
 

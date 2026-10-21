@@ -17,14 +17,18 @@ app is recorded or transmitted anywhere.
 ## Your location
 
 The app can show where you are on the map, as a dot, if you ask it to. It is
-off until you tap the location button on the map, and the first tap asks for
-your permission. Tap the button again and the dot goes away.
+off until you tap the location button on the map. The first tap explains what
+the dot is for and lets you say no, then your phone asks for permission. Tap
+the button again and the dot goes away.
 
 - The app asks only for permission **while you are using it**. It never asks
   for, and cannot use, your location in the background.
-- Your location is used for one thing: drawing the dot and moving the map to
-  it. It is never stored, logged, sent to us or sent anywhere else, and it is
-  forgotten when you close the app.
+- Your location is used for two things, both on your phone: drawing the dot,
+  and working out how far a place is from you along the bike path ("Ride to
+  here"). While the button is on, the app follows your position so that
+  distance stays current; it stops the moment you turn the button off. Your
+  location is never stored, logged, sent to us or sent anywhere else, and it
+  is forgotten when you close the app.
 - If you say no, everything else in the app works exactly as before. You can
   change your answer at any time in your phone's Settings.
 

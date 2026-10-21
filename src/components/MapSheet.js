@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Animated, Linking, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import Bike from 'lucide-react-native/icons/bike';
 import ExternalLink from 'lucide-react-native/icons/external-link';
 import MapPinned from 'lucide-react-native/icons/map-pinned';
 import Route from 'lucide-react-native/icons/route';
@@ -39,6 +40,11 @@ export default function MapSheet({
   active,
   selected,
   onSelect,
+  ride,
+  locating,
+  ridingHere,
+  onRideTo,
+  onTurnOnLocation,
   expanded,
   onExpandedChange,
 }) {
@@ -87,7 +93,16 @@ export default function MapSheet({
       </View>
 
       {selected ? (
-        <SelectedPlace destination={selected} category={displayCategory(selected, active)} onClose={() => onSelect(null)} />
+        <SelectedPlace
+          destination={selected}
+          category={displayCategory(selected, active)}
+          onClose={() => onSelect(null)}
+          ride={ride}
+          locating={locating}
+          ridingHere={ridingHere}
+          onRideTo={() => onRideTo(selected.id)}
+          onTurnOnLocation={onTurnOnLocation}
+        />
       ) : active.length === 0 ? (
         <TrailFacts />
       ) : (
@@ -166,7 +181,62 @@ function Fact({ icon: Icon, label, value }) {
   );
 }
 
-function SelectedPlace({ destination, category, onClose }) {
+// How far the rider is from a place along the drawn network, and the button
+// that shows the way. With location off it is greyed out and says why.
+function RideRow({ ride, locating, ridingHere, onRideTo, onTurnOnLocation }) {
+  if (!locating) {
+    return (
+      <View style={styles.ride}>
+        <Text style={[styles.rideDistance, styles.rideOff]}>Distance from you</Text>
+        <View style={[styles.rideButton, styles.rideButtonOff]}>
+          <Bike size={16} color={colors.inkFaint} />
+          <Text style={[styles.rideButtonText, styles.rideOff]}>Ride to here</Text>
+        </View>
+        <Text style={styles.rideNote}>Location sharing is needed to calculate a ride.</Text>
+        <Pressable onPress={onTurnOnLocation} accessibilityRole="button" hitSlop={HIT_SLOP}>
+          <Text style={styles.rideLink}>Turn on location sharing</Text>
+        </Pressable>
+      </View>
+    );
+  }
+  if (!ride) {
+    return (
+      <View style={styles.ride}>
+        <Text style={[styles.rideDistance, styles.rideOff]}>Finding where you are…</Text>
+      </View>
+    );
+  }
+  if (!ride.reachable) {
+    return (
+      <View style={styles.ride}>
+        <Text style={[styles.rideDistance, styles.rideOff]}>No drawn route reaches here yet</Text>
+      </View>
+    );
+  }
+  return (
+    <View style={styles.ride}>
+      <Text style={styles.rideDistance}>
+        {ride.miles} mi from you · about {ride.minutes} min by bike
+      </Text>
+      {ride.offPathMiles >= 0.2 && (
+        <Text style={styles.rideNote}>Including {ride.offPathMiles} mi to reach the nearest path or link.</Text>
+      )}
+      {!ridingHere && (
+        <Pressable
+          onPress={onRideTo}
+          accessibilityRole="button"
+          accessibilityLabel="Ride to here: show only this place, you and the way between"
+          style={({ pressed }) => [styles.rideButton, pressed && { backgroundColor: colors.forestDeep }]}
+        >
+          <Bike size={16} color={colors.white} />
+          <Text style={styles.rideButtonText}>Ride to here</Text>
+        </Pressable>
+      )}
+    </View>
+  );
+}
+
+function SelectedPlace({ destination, category, onClose, ride, locating, ridingHere, onRideTo, onTurnOnLocation }) {
   const cat = categoryById[category];
   const alsoIn = destination.categories.filter((c) => c !== category);
   return (
@@ -191,6 +261,14 @@ function SelectedPlace({ destination, category, onClose }) {
       </View>
 
       <Text style={styles.selectedBlurb}>{destination.description}</Text>
+
+      <RideRow
+        ride={ride}
+        locating={locating}
+        ridingHere={ridingHere}
+        onRideTo={onRideTo}
+        onTurnOnLocation={onTurnOnLocation}
+      />
 
       <View style={styles.chips}>
         <View style={styles.chip}>
@@ -423,6 +501,47 @@ const styles = StyleSheet.create({
     padding: 8,
     marginTop: -4,
     marginRight: -4,
+  },
+  ride: {
+    marginTop: 14,
+    gap: 8,
+    alignItems: 'flex-start',
+  },
+  rideDistance: {
+    fontFamily: fonts.sansSemiBold,
+    fontSize: 15,
+    color: colors.ink,
+  },
+  rideOff: {
+    color: colors.inkFaint,
+  },
+  rideNote: {
+    fontFamily: fonts.sans,
+    fontSize: 12.5,
+    lineHeight: 16,
+    color: colors.inkSoft,
+  },
+  rideLink: {
+    fontFamily: fonts.sansSemiBold,
+    fontSize: 13.5,
+    color: colors.forest,
+  },
+  rideButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    borderRadius: radius.pill,
+    backgroundColor: colors.forest,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+  },
+  rideButtonOff: {
+    backgroundColor: colors.canvas,
+  },
+  rideButtonText: {
+    fontFamily: fonts.sansSemiBold,
+    fontSize: 14,
+    color: colors.white,
   },
   selectedBlurb: {
     marginTop: 12,

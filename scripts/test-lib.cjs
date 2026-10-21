@@ -24,6 +24,9 @@ const {
   selectVisible,
   selectStopPins,
   isNearArea,
+  buildRouteGraph,
+  routeOnGraph,
+  rideMinutes,
 } = require('../src/lib/select');
 
 const tests = [];
@@ -153,6 +156,38 @@ test('UT-7', 'forApp: each app keeps its own items and reads its own wording', (
   assert.deepEqual(kids[3].stops, [{ name: 'Shop' }, { name: 'Bridge' }]);
   // Neither the app list nor the overrides leak through to the screens.
   assert.equal('apps' in map[1] || 'kids' in map[2], false);
+});
+
+test('UT-8', 'routeOnGraph: routes only along drawn lines, joining ones that nearly touch', () => {
+  // A path running east, a connector that stops 100 ft short of it (joined),
+  // and an island 1,000 ft away (not joined). 0.001 degrees of latitude is
+  // about 364 ft.
+  const line = (id, coordinates) => ({ id, geometry: { coordinates } });
+  const network = [
+    line('path', [[-82.73, 35.23], [-82.72, 35.23]]),
+    line('spur', [[-82.725, 35.2303], [-82.725, 35.235]]),
+    line('island', [[-82.70, 35.26], [-82.70, 35.265]]),
+  ];
+  const graph = buildRouteGraph(network);
+
+  // From the west end of the path up the spur: about 0.005 deg of longitude
+  // east (~1,487 ft at this latitude), 100 ft across the join, then up the
+  // spur (~1,711 ft).
+  const r = routeOnGraph(graph, [-82.73, 35.23], [-82.725, 35.235]);
+  assert.ok(r, 'expected the spur to be joined to the path');
+  assert.ok(Math.abs(r.pathFt - (1487 + 109 + 1711)) < 60, `unexpected length ${Math.round(r.pathFt)} ft`);
+  assert.deepEqual(r.coordinates[0], [-82.73, 35.23]);
+
+  // The island is not joined: no route, rather than a straight line over town.
+  assert.equal(routeOnGraph(graph, [-82.73, 35.23], [-82.70, 35.262]), null);
+
+  // A point off the network snaps to the nearest line and reports how far off.
+  const off = routeOnGraph(graph, [-82.728, 35.229], [-82.721, 35.23]);
+  assert.ok(Math.abs(off.startOffFt - 364) < 10, `start was ${Math.round(off.startOffFt)} ft off`);
+
+  // Minutes read as an estimate.
+  assert.equal(rideMinutes(0.5), 4);
+  assert.equal(rideMinutes(2.3), 20);
 });
 
 // Run

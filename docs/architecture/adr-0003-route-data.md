@@ -5,7 +5,7 @@ title: ADR-0003 Route data
 
 # ADR-0003 — Hand-curate routes rather than compute them
 
-**Status:** Proposed · **Date:** 15 September 2026
+**Status:** Revised 21 October 2026 · **Date:** 15 September 2026
 
 This is the decision with a real argument on both sides. Read the alternatives
 before accepting it.
@@ -89,3 +89,33 @@ revisited.
 
 Destination count passes 25, the app covers a second town, or riders start
 asking for pairs that aren't in the data often enough to be a real gap.
+
+## Revised, 21 October 2026: route along the drawn network
+
+Two of the "revisit if" conditions were met: the map app has 32 places and
+the kids app more than 40, and riders asked for the distance from wherever
+they are to a place, which no curated route can answer.
+
+**Decision (Sarah):** the app now computes routes, but only along the lines
+already drawn: the main path and its connectors, each ridden or checked by
+Sarah. It never routes along a street that is not in the data, so the
+objection above, the shortest way down a highway shoulder, cannot happen: no
+such line exists to be chosen.
+
+- Line ends within 200 ft of another line are joined there; that is how the
+  drawn connectors meet the path and each other.
+- A place counts as reached when the network reaches its grounds, not one
+  door: anything within 1,000 ft of a drawn line (the DT-8 tolerance) is
+  routable. The library, with entrances on S Gaston and S Broad, is the
+  example Sarah gave.
+- The rider's own position joins the network at its nearest point, and that
+  first stretch is counted in the distance and named when it is long.
+- Times use an easy family pace of 7 mph and read as estimates.
+
+The code is `buildRouteGraph` and `routeOnGraph` in `src/lib/select.js`
+(UT-8), bound in `rideToPlace` in `src/lib/data.js`. Curated adventures stay:
+they are the rides with a story, and the network is what they are drawn on.
+
+**What this does not change:** quality is still a data problem. A bad route
+now means a missing or wrong drawn line, and the fix is to ride it and draw
+it, not to tune the algorithm.

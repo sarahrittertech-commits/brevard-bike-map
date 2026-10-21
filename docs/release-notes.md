@@ -28,6 +28,17 @@ iPhone:
   OpenStreetMap; the Sycamore stretch follows Sarah's points, because the
   sidewalk is not mapped. Both pins were far off: Weevil by 4,298 ft and
   Sycamore by 2,714 ft. Both are now at the parking lots she gave.
+- **Ride to here.** Sarah's request from the same TestFlight pass, built
+  into 1.1. With location on, a place's card shows "N mi from you · about N
+  min by bike" and a Ride to here button that hides every other pin and draws
+  the way between, with a "Riding to" header to close it. With location off
+  the row is greyed out: "Location sharing is needed to calculate a ride",
+  with a link that turns it on without closing the card. Routes follow only
+  the drawn path and connectors (ADR-0003, revised), at a 7 mph family pace.
+  Every place in the map app is reachable; places more than 1,000 ft from a
+  drawn line say "No drawn route reaches here yet". While location is on the
+  app follows the rider's position so the distance stays current, still only
+  in memory, and the privacy policy says so.
 - **Clearer mile wording:** "Mile 0.4 from the trailhead at W Main St,
   Brevard" on a place, and "Miles from W Main St" over the list.
 

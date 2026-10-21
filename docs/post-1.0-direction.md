@@ -46,6 +46,15 @@ concern real:
 Event dates come from the Bike Alliance's own announcements, not from the
 schools.
 
+### Ride to here and schools, 21 October 2026
+
+"Ride to here" works out the way from the rider's own position to a place,
+and Sarah decided it includes schools in Bike Brevard Kids: "we can be more
+flexible about this, especially for the kids app." What keeps it inside the
+original concern: the route starts from wherever the phone is at that moment
+and is computed on the phone; no home, address or route is saved, and nothing
+is sent anywhere. The app still shows no dismissal or drop-off times.
+
 ## What the public app is about
 
 Families and visitors: playgrounds, parks and ice cream, and the path that links
