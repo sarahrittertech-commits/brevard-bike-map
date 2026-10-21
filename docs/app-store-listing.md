@@ -100,7 +100,7 @@ unlike the description.
 
 ## Description
 
-*4000 characters. Using 2250 (1.1.0).*
+*4000 characters. Using 2266 (1.1.0).*
 
 Rewritten by Sarah on 25 September 2026, replacing an earlier draft of mine. The
 opening is the part that matters: it says who the app is for and why it exists,
@@ -122,11 +122,11 @@ in some of our favorite local places.
 
 THE PATH AND ITS CONNECTORS
 
-The 4-mile Brevard Bike Path, drawn end to end from real rides, plus sixteen
+The 4-mile Brevard Bike Path, drawn end to end from real rides, plus eighteen
 connectors that families actually use to get past where the pavement stops —
-along Main St to Silvermont, to the library, Franklin Park and its pool,
-Brevard College's creek, the King St shops, the new bridge, Oskar Blues and
-the campground on the Davidson River. Thirteen landmarks are labelled along the
+along Main St to Silvermont, to the library, Franklin Park, Brevard College's
+creek, the King St shops, Weevil and Sycamore Cycles, the new bridge, Oskar
+Blues and the campground on the Davidson River. Thirteen landmarks are labelled along the
 way so you can tell where you are.
 
 PLACES, BY WHAT YOU WANT

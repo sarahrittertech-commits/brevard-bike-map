@@ -20,8 +20,9 @@ Built from the `restaurants` branch. In TestFlight on 21 October 2026.
 
 - The downtown half redrawn from the 17 October rides, including the current
   detour by Brevard Middle School
-- Sixteen connectors to the places families ride: the library, Franklin
-  Park, Silvermont, Brevard College, the King St row and more
+- Eighteen connectors to the places families ride: the library, Franklin
+  Park, Silvermont, Brevard College, the King St row, Weevil, Sycamore Cycles
+  and more
 - About twenty pins corrected from photos and OpenStreetMap
 - New rides: Art on the Path, Pisgah Short Track Social, Earth Mountain Shop
   Ride
