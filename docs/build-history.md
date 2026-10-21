@@ -15,17 +15,20 @@ Sarah's interactive Apple login to create the provisioning profile.
 
 ## 1.1.0
 
-### Not yet built
+### Build 10 — 21 October 2026 · App Store
+
+Production, commit `e541c78`, tag `v1.1.0`. Build 9 plus one fix, and the
+build submitted for review in its place.
 
 - Ride to here fits the whole ride again (`aa9969b`). In build 9, centring
   the tapped place ran a second time when the card changed height, zoomed
   back in on the place and left the rider off screen. Found while retaking
   the App Store screenshots on 21 October.
 
-### Build 9 — 21 October 2026 · App Store
+### Build 9 — 21 October 2026 · replaced
 
-Production, commit `55f017d`, tag `v1.1.0`. Submitted by Sarah, processing at
-Apple. The clean release build: every finding from the pre-release code review
+Production, commit `55f017d`. Uploaded to App Store Connect, then replaced by
+build 10 when the Ride to here zoom bug turned up. The clean release build: every finding from the pre-release code review
 fixed, lint, UT-1 to UT-9 and the data validator passing.
 
 - Closing a place's card returns the sheet to peek, so the next pin tap lands.
