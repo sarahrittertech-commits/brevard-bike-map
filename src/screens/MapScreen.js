@@ -307,7 +307,11 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
                 {rideDest.name}
               </Text>
               <Text style={styles.subtitle}>
-                {ride?.reachable ? `${ride.miles} mi · about ${ride.minutes} min by bike` : 'Finding the way…'}
+                {ride?.reachable
+                  ? `${ride.miles} mi · about ${ride.minutes} min by bike`
+                  : ride?.outside
+                    ? `Distance shows when you’re in ${TOWN_NAME}`
+                    : 'Finding the way…'}
               </Text>
             </View>
             <Pressable
