@@ -15,7 +15,7 @@ const select = require('./select');
 // Which of the two apps this build is. EXPO_PUBLIC_ variables are written into
 // the bundle when it is built, so each build carries only its own app's data
 // view; eas.json sets it per build profile. See the runbook.
-export const APP = process.env.EXPO_PUBLIC_APP_VARIANT === 'kids' ? 'kids' : 'map';
+const APP = process.env.EXPO_PUBLIC_APP_VARIANT === 'kids' ? 'kids' : 'map';
 
 const categories = select.forApp(allCategories, APP);
 const destinations = select.forApp(allDestinations, APP);

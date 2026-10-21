@@ -79,7 +79,11 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const selected = rideDest ?? shown.find((d) => d.id === selectedId) ?? null;
   // Distance and time to the selected place, and the line to draw while
   // riding to one. Both follow the rider as their position updates.
-  const ride = useMemo(() => (selected && position ? rideToPlace(position, selected) : null), [selected, position]);
+  // Outside Brevard there is no sensible distance to give, so the card says so.
+  const ride = useMemo(() => {
+    if (!selected || !position) return null;
+    return isNearBrevard(position) ? rideToPlace(position, selected) : { outside: true };
+  }, [selected, position]);
   const rideRoute = rideDest && ride?.reachable ? ride.latLngs : null;
   const topInset = insets.top + 12;
   // Until the first layout reports a width, `width` is 0; never hand the

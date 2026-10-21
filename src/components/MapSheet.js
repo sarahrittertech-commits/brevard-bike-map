@@ -206,6 +206,13 @@ function RideRow({ ride, locating, ridingHere, onRideTo, onTurnOnLocation }) {
       </View>
     );
   }
+  if (ride.outside) {
+    return (
+      <View style={styles.ride}>
+        <Text style={[styles.rideDistance, styles.rideOff]}>Distance shows when you’re in {TOWN_NAME}</Text>
+      </View>
+    );
+  }
   if (!ride.reachable) {
     return (
       <View style={styles.ride}>
