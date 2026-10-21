@@ -12,6 +12,9 @@ export const colors = {
   forestDeep: '#123227',
   forestSoft: '#E7EFE9',
   clay: '#BC5B27',
+  // Connectors: a warm gray, solid. Not brown, which would read as the clay
+  // of a followed route.
+  connector: '#857C70',
   white: '#FFFFFF',
 };
 

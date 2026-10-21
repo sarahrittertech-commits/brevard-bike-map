@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, BackHandler, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import * as Location from 'expo-location';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -29,6 +29,9 @@ const EDGE = 12;
 const RAIL_WIDTH = 46;
 // Room left of a fitted route for the westernmost landmark label.
 const LABEL_ROOM = 96;
+
+// While riding to a place, a tap on the map does nothing.
+const IGNORE = () => {};
 
 // The app's own explanation, shown once before iOS or Android asks for
 // location. Resolves true only if the rider chooses to go on.
@@ -72,6 +75,9 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   // and the way between.
   const [rideToId, setRideToId] = useState(null);
   const [userFocus, setUserFocus] = useState(null);
+  // How much of the screen the open sheet covers: less than its full height
+  // when it is showing one place's card.
+  const [openSheetHeight, setOpenSheetHeight] = useState(0);
   const [{ width, height }, setSize] = useState({ width: 0, height: 0 });
 
   const shown = useMemo(() => visibleDestinations(active), [active]);
@@ -111,14 +117,31 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const railRight = insets.right + EDGE;
   const railSpace = railRight + (splitRail ? SPLIT_RAIL_WIDTH : RAIL_WIDTH) + 18;
 
+  // Handed to the map as stable values, so a tap that changes none of them
+  // does not redraw it.
+  const dockLeft = dock?.left;
+  const dockWidth = dock?.width;
+  const mapDestinations = useMemo(() => (rideDest ? [rideDest] : shown), [rideDest, shown]);
+  const mapClear = useMemo(
+    () =>
+      dockWidth !== undefined
+        ? { top: topInset, right: railSpace, bottom: 28, left: dockLeft + dockWidth + LABEL_ROOM }
+        : { top: topInset + HEADER_SPACE, right: railSpace, bottom: PEEK + 28, left: insets.left + LABEL_ROOM },
+    [dockLeft, dockWidth, topInset, railSpace, insets.left]
+  );
+  const logoInset = useMemo(
+    () => (dockWidth !== undefined ? { left: dockLeft + dockWidth, bottom: 0 } : { left: 0, bottom: PEEK }),
+    [dockLeft, dockWidth]
+  );
+
   const route = useMemo(() => (following ? lineToLatLngs(following.route) : null), [following]);
   const routeStops = useMemo(() => (following ? adventureStopPins(following) : null), [following]);
 
   // Selecting a pin or row always reveals its detail.
-  const select = (id) => {
+  const select = useCallback((id) => {
     setSelectedId(id);
     if (id) setSheetOpen(true);
-  };
+  }, []);
 
   const toggle = (id) => {
     setSelectedId(null);
@@ -260,12 +283,12 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
       onLayout={(e) => setSize({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })}
     >
       <TrailMap
-        destinations={rideDest ? [rideDest] : shown}
+        destinations={mapDestinations}
         active={active}
         selected={selected}
         // While riding to a place, a tap on the map does not end the ride;
         // the header's close button does.
-        onSelect={rideDest ? () => {} : select}
+        onSelect={rideDest ? IGNORE : select}
         route={rideRoute ?? route}
         routeStops={rideDest ? null : routeStops}
         // Docking or undocking on rotation moves what covers the map, so it
@@ -277,16 +300,12 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
         // What the map must keep clear of: the header, sheet and rail. Docked,
         // the header and sheet are a column on the left and nothing covers
         // the bottom of the map.
-        clear={
-          dock
-            ? { top: topInset, right: railSpace, bottom: 28, left: dock.left + dock.width + LABEL_ROOM }
-            : { top: topInset + HEADER_SPACE, right: railSpace, bottom: PEEK + 28, left: insets.left + LABEL_ROOM }
-        }
+        clear={mapClear}
         width={width}
         height={height}
         docked={!!dock}
-        sheetHeight={dock ? 0 : sheetHeight}
-        logoInset={dock ? { left: dock.left + dock.width, bottom: 0 } : { left: 0, bottom: PEEK }}
+        sheetHeight={dock ? 0 : openSheetHeight || sheetHeight}
+        logoInset={logoInset}
         showsUser={locating}
         userFocus={userFocus}
       />
@@ -318,10 +337,10 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
               onPress={endRide}
               accessibilityRole="button"
               accessibilityLabel="Stop riding to this place"
-              hitSlop={6}
-              style={({ pressed }) => [styles.closeButton, pressed && { backgroundColor: colors.canvas }]}
+              hitSlop={10}
+              style={({ pressed }) => [styles.closeButton, styles.closeButtonLarge, pressed && { backgroundColor: colors.canvas }]}
             >
-              <X size={16} color={colors.inkFaint} />
+              <X size={22} color={colors.inkFaint} />
             </Pressable>
           </View>
         ) : following ? (
@@ -371,6 +390,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
       {height > 0 && (
         <MapSheet
           height={sheetHeight}
+          onOpenHeightChange={setOpenSheetHeight}
           dock={dock}
           sideInsets={{ left: insets.left, right: insets.right }}
           destinations={shown}
@@ -430,6 +450,10 @@ const styles = StyleSheet.create({
   closeButton: {
     padding: 8,
     borderRadius: radius.pill,
+  },
+  // Riding to a place is used on the bike, so its close button is bigger.
+  closeButtonLarge: {
+    padding: 12,
   },
   rail: {
     position: 'absolute',

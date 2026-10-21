@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { memo, useEffect, useRef, useState } from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 
 import { LandmarkLabel, PlacePin, SELECTED_PIN_HEIGHT, StopMarker, TrailheadMarker } from './MapPins';
@@ -15,6 +15,9 @@ import {
 import { colors } from '../theme';
 
 const MIN_ZOOM = 12;
+// How much of the map, in degrees of latitude, a selected place shows: about
+// two miles, enough to keep the neighbouring places and the path in view.
+const SELECT_SPAN = 0.03;
 const MAX_ZOOM = 18;
 
 const ANDROID = Platform.OS === 'android';
@@ -37,7 +40,59 @@ const GOOGLE_STYLE = [
 
 // The design's map is a town trail guide, not a world map. Zoom is fenced;
 // panning is left free because react-native-maps only fences on Google.
-export default function TrailMap({
+// The path network, landmarks and trailheads never change while the app runs,
+// so they render once and stay put when a pin is tapped, the sheet moves or
+// the rider's position updates. Only fading under a route redraws them.
+const StaticLayers = memo(function StaticLayers({ faded, tracking }) {
+  return (
+    <>
+      {/* The network: a white casing under each segment, connectors in gray
+          so the formal path stays distinguishable. Faded under a route. */}
+      {networkLines.map((segment) => (
+        <Polyline key={`${segment.id}-casing`} coordinates={segment.latLngs} strokeColor="#FFFFFFD9" strokeWidth={9} />
+      ))}
+      {networkLines.map((segment) => (
+        <Polyline
+          key={segment.id}
+          coordinates={segment.latLngs}
+          // The path is forest green; connectors are a solid warm gray. They
+          // were dotted once, and the dots read as places: the same shape as
+          // the landmark dots, growing and shrinking with the zoom.
+          strokeColor={`${segment.kind === 'main' ? colors.forest : colors.connector}${faded ? '4D' : 'F2'}`}
+          strokeWidth={segment.kind === 'main' ? 4.5 : 3.5}
+          lineCap="round"
+        />
+      ))}
+
+      {landmarks.map((landmark) => (
+        <Marker
+          key={landmark.id}
+          coordinate={toLatLng(landmark.coordinates)}
+          anchor={{ x: landmark.labelSide === 'right' ? 0 : 1, y: 0.5 }}
+          tappable={false}
+          tracksViewChanges={tracking}
+          zIndex={-1}
+        >
+          <LandmarkLabel name={landmark.name} side={landmark.labelSide} offsetY={landmark.labelOffsetY} />
+        </Marker>
+      ))}
+
+      {trailheads.map((t) => (
+        <Marker
+          key={t.name}
+          coordinate={toLatLng(t.coordinates)}
+          anchor={{ x: 0.5, y: 0.5 }}
+          tappable={false}
+          tracksViewChanges={tracking}
+        >
+          <TrailheadMarker />
+        </Marker>
+      ))}
+    </>
+  );
+});
+
+export default memo(function TrailMap({
   destinations,
   active,
   selected,
@@ -119,49 +174,33 @@ export default function TrailMap({
 
   useEffect(() => {
     if (!mapRef.current || !selected || !height) return;
-    const latitudeDelta = Math.min(regionRef.current?.latitudeDelta ?? 0.012, 0.012);
-    // Keep longitude comfortably inside the phone's aspect ratio so the
-    // latitude span is what the map actually fits, and the shift below holds.
-    const longitudeDelta = latitudeDelta * 0.2;
-    // The screen centre sits under the sheet, so aim for the middle of the strip
-    // of map that stays visible above it, expressed as a latitude shift.
-    const stripCentre = (clear.top + (height - sheetHeight)) / 2;
-    // The marker is anchored at its tip ({ y: 1 }), so the pin's body hangs
-    // above the coordinate. The coordinate therefore has to land half a pin
-    // BELOW the strip centre for the body to be what sits centred.
+    // Fit a small box round the place into the strip of map left visible
+    // above the sheet (or beside the docked column), and let the map place
+    // it. Earlier this was worked out by hand from an assumed zoom, which
+    // MapKit adjusts, and the pin landed 54pt low, half under the sheet.
     //
-    // KNOWN GAP: this does not land where the arithmetic says it should. Measured
-    // on an iPhone 17 Pro Max (25 Sep 2026) the strip is y 159-318pt, so the pin
-    // should centre on 238 with its tip at 262 — its tip actually lands at ~316,
-    // 54pt low, touching the sheet. The error is NOT this offset and not the zoom
-    // fence (0.012 deg is about zoom 16.4, inside MIN_ZOOM..MAX_ZOOM); the strip
-    // geometry itself is confirmed, its computed bottom of 318 matching the
-    // measured sheet edge. The suspect is the assumption below that the region
-    // ends up with the latitudeDelta we asked for, which MapKit is free to adjust.
-    //
-    // Deriving a latitude shift from an assumed span is the fragile part. The
-    // robust rewrite is fitToCoordinates with edgePadding, letting MapKit place
-    // it. Deliberately not attempted before the 30 Sep ship: the pin is visible
-    // and tappable, and this is cosmetic.
-    const targetY = stripCentre + SELECTED_PIN_HEIGHT / 2;
-    // With mapPadding, Google centres the region in the padded viewport.
-    const viewHeight = height - padBottom;
-    const shift = ((viewHeight / 2 - targetY) / viewHeight) * latitudeDelta;
+    // The box keeps the current zoom if the rider is already closer than
+    // SELECT_SPAN, so a tap never zooms out, and never jumps from the whole
+    // town to street level either.
+    const span = Math.min(regionRef.current?.latitudeDelta ?? SELECT_SPAN, SELECT_SPAN) * 0.4;
     const { latitude, longitude } = toLatLng(selected.coordinates);
-    // Sideways the same idea when the sheet is docked on the left: centre the
-    // pin between the column and the rail. The map fits latitude, so its
-    // longitude span follows from the view's shape and Mercator's stretch at
-    // this latitude. Upright the pin stays centred, as it always has.
-    let lonShift = 0;
-    if (docked) {
-      const viewWidth = width - padLeft;
-      const lonSpan = (latitudeDelta * viewWidth) / viewHeight / Math.cos((latitude * Math.PI) / 180);
-      const targetX = (clear.left + width - clear.right) / 2 - padLeft;
-      lonShift = ((viewWidth / 2 - targetX) / viewWidth) * lonSpan;
-    }
-    mapRef.current.animateToRegion(
-      { latitude: latitude - shift, longitude: longitude + lonShift, latitudeDelta, longitudeDelta },
-      280
+    const lonSpan = span / Math.cos((latitude * Math.PI) / 180);
+    mapRef.current.fitToCoordinates(
+      [
+        { latitude: latitude - span / 2, longitude: longitude - lonSpan / 2 },
+        { latitude: latitude + span / 2, longitude: longitude + lonSpan / 2 },
+      ],
+      {
+        // The pin hangs above its coordinate (anchored at the tip), so the
+        // top keeps a pin's height clear as well as the header.
+        edgePadding: {
+          top: clear.top + SELECTED_PIN_HEIGHT,
+          right: clear.right,
+          bottom: (docked ? 28 : sheetHeight + 16) - padBottom,
+          left: (docked ? clear.left : 40) - padLeft,
+        },
+        animated: true,
+      }
     );
   }, [selected, docked, width, height, sheetHeight, clear.top, clear.left, clear.right, padLeft, padBottom]);
 
@@ -204,48 +243,9 @@ export default function TrailMap({
       }}
       onPress={() => onSelect(null)}
     >
-      {/* The network: a white casing under each segment, connectors dashed
-          so the formal path stays distinguishable. Faded under a route. */}
-      {networkLines.map((segment) => (
-        <Polyline key={`${segment.id}-casing`} coordinates={segment.latLngs} strokeColor="#FFFFFFD9" strokeWidth={9} />
-      ))}
-      {networkLines.map((segment) => (
-        <Polyline
-          key={segment.id}
-          coordinates={segment.latLngs}
-          strokeColor={`${colors.forest}${route ? '4D' : segment.kind === 'main' ? 'F2' : 'B3'}`}
-          strokeWidth={segment.kind === 'main' ? 4.5 : 3.5}
-          lineDashPattern={segment.kind === 'connector' ? [1, 7] : undefined}
-          lineCap="round"
-        />
-      ))}
+      <StaticLayers faded={!!route} tracking={tracking} />
 
       {route && <Polyline coordinates={route} strokeColor={colors.clay} strokeWidth={5.5} lineCap="round" />}
-
-      {landmarks.map((landmark) => (
-        <Marker
-          key={landmark.id}
-          coordinate={toLatLng(landmark.coordinates)}
-          anchor={{ x: landmark.labelSide === 'right' ? 0 : 1, y: 0.5 }}
-          tappable={false}
-          tracksViewChanges={tracking}
-          zIndex={-1}
-        >
-          <LandmarkLabel name={landmark.name} side={landmark.labelSide} offsetY={landmark.labelOffsetY} />
-        </Marker>
-      ))}
-
-      {trailheads.map((t) => (
-        <Marker
-          key={t.name}
-          coordinate={toLatLng(t.coordinates)}
-          anchor={{ x: 0.5, y: 0.5 }}
-          tappable={false}
-          tracksViewChanges={tracking}
-        >
-          <TrailheadMarker />
-        </Marker>
-      ))}
 
       {destinations.map((d) => {
         const category = displayCategory(d, active);
@@ -263,10 +263,14 @@ export default function TrailMap({
             zIndex={isSelected ? 10 : 1}
             onPress={(e) => {
               e.stopPropagation();
-              onSelect(isSelected ? null : d.id);
+              onSelect(d.id);
             }}
           >
-            <PlacePin category={category} color={categoryById[category].color} selected={isSelected} />
+            {/* Clear space round the pin, so a rider on a bike does not have
+                to hit the 26pt pin itself. None below: the tip is the anchor. */}
+            <View style={styles.pinHitArea}>
+              <PlacePin category={category} color={categoryById[category].color} selected={isSelected} />
+            </View>
           </Marker>
         );
       })}
@@ -285,4 +289,11 @@ export default function TrailMap({
       ))}
     </MapView>
   );
-}
+});
+
+const styles = StyleSheet.create({
+  pinHitArea: {
+    paddingHorizontal: 12,
+    paddingTop: 12,
+  },
+});

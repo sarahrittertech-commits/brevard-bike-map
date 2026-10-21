@@ -39,6 +39,21 @@ iPhone:
   drawn line say "No drawn route reaches here yet". While location is on the
   app follows the rider's position so the distance stays current, still only
   in memory, and the privacy policy says so.
+- **Easier to use on a bike** (Sarah, after build 8 on her phone). A place's
+  card opens only as tall as its content instead of two-thirds of the screen,
+  with larger text. The distance is larger, and Ride to here is a full-width,
+  56pt button. The close buttons and the turn-on-location link have bigger
+  touch areas, and each pin is 12pt easier to hit.
+- **Tapping a pin is calmer.** The map zooms to about two miles around the
+  place instead of street level, never zooms out, and places the pin in the
+  middle of the map above the card. The old centring maths landed it half
+  under the card (the known gap since 1.0). Tapping a selected pin again
+  keeps it selected.
+- **Links are solid warm gray lines,** not green dots that looked like the
+  landmark dots and changed size with the zoom.
+- **Less redrawing.** The path, landmarks and trailheads no longer redraw when
+  a pin is tapped, the sheet moves or the rider's position updates. This was
+  the likely cause of the lag Sarah felt.
 - **Clearer mile wording:** "Mile 0.4 from the trailhead at W Main St,
   Brevard" on a place, and "Miles from W Main St" over the list.
 

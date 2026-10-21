@@ -73,7 +73,7 @@ on, and listed in the sheet ordered by mile marker.
 
 A piece of the rideable network. `main` is the separated paved path; a
 `connector` is a sidewalk, quiet street or bridge that links the path to
-the places around it. Connectors draw dashed so the two stay distinguishable.
+the places around it. Connectors draw as solid warm gray lines and the path as green, so the two stay distinguishable.
 
 ```json
 {

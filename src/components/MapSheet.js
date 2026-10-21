@@ -23,6 +23,8 @@ import { colors, fillRow, fonts, hairlineTop, radius, text, tint } from '../them
 export const PEEK = 112;
 export const SHEET_FRACTION = 0.64;
 const EASE = { duration: 260, useNativeDriver: true };
+// The handle's height: 12 above the grip, the 4pt grip, 8 below.
+const HANDLE = 24;
 // The close button draws at 32pt; this takes its touch area to Apple's 44pt.
 const HIT_SLOP = 6;
 
@@ -47,20 +49,30 @@ export default function MapSheet({
   onTurnOnLocation,
   expanded,
   onExpandedChange,
+  onOpenHeightChange,
 }) {
   const closedY = Math.max(height - PEEK, 0);
   const [y] = useState(() => new Animated.Value(closedY));
+  // A place's card opens only as far as its content needs, rather than to the
+  // full sheet height with empty space below; lists still open all the way.
+  const [cardHeight, setCardHeight] = useState(0);
+  const openY = selected && cardHeight ? Math.min(Math.max(height - cardHeight - HANDLE, 0), closedY) : 0;
 
   useEffect(() => {
-    Animated.timing(y, { toValue: expanded ? 0 : closedY, ...EASE }).start();
-  }, [expanded, closedY, y]);
+    Animated.timing(y, { toValue: expanded ? openY : closedY, ...EASE }).start();
+  }, [expanded, openY, closedY, y]);
+
+  // The map centres a selected pin above whatever the sheet covers.
+  useEffect(() => {
+    onOpenHeightChange?.(height - openY);
+  }, [height, openY, onOpenHeightChange]);
 
   const pan = useMemo(() => {
-    const restY = expanded ? 0 : closedY;
+    const restY = expanded ? openY : closedY;
     return PanResponder.create({
       onMoveShouldSetPanResponder: (_, g) => Math.abs(g.dy) > 4,
       onPanResponderMove: (_, g) => {
-        y.setValue(Math.min(Math.max(restY + g.dy, 0), closedY));
+        y.setValue(Math.min(Math.max(restY + g.dy, openY), closedY));
       },
       onPanResponderRelease: (_, g) => {
         let next = expanded;
@@ -71,7 +83,7 @@ export default function MapSheet({
         else onExpandedChange(next);
       },
     });
-  }, [expanded, closedY, y, onExpandedChange]);
+  }, [expanded, openY, closedY, y, onExpandedChange]);
 
   return (
     <Animated.View
@@ -102,6 +114,7 @@ export default function MapSheet({
           ridingHere={ridingHere}
           onRideTo={() => onRideTo(selected.id)}
           onTurnOnLocation={onTurnOnLocation}
+          onMeasure={setCardHeight}
         />
       ) : active.length === 0 ? (
         <TrailFacts />
@@ -141,9 +154,9 @@ function TrailFacts() {
       </View>
 
       <View style={styles.legend}>
-        <View style={styles.dotted} />
+        <View style={styles.connectorSwatch} />
         <Text style={styles.legendText}>
-          Dotted lines are connectors: sidewalks, quiet streets, greenways and the new bridge. Tap a place or a ride
+          Gray lines are connectors: sidewalks, quiet streets, greenways and the new bridge. Tap a place or a ride
           for which ones suit small kids.
         </Text>
       </View>
@@ -189,11 +202,11 @@ function RideRow({ ride, locating, ridingHere, onRideTo, onTurnOnLocation }) {
       <View style={styles.ride}>
         <Text style={[styles.rideDistance, styles.rideOff]}>Distance from you</Text>
         <View style={[styles.rideButton, styles.rideButtonOff]}>
-          <Bike size={16} color={colors.inkFaint} />
+          <Bike size={20} color={colors.inkFaint} />
           <Text style={[styles.rideButtonText, styles.rideOff]}>Ride to here</Text>
         </View>
         <Text style={styles.rideNote}>Location sharing is needed to calculate a ride.</Text>
-        <Pressable onPress={onTurnOnLocation} accessibilityRole="button" hitSlop={HIT_SLOP}>
+        <Pressable onPress={onTurnOnLocation} accessibilityRole="button" hitSlop={HIT_SLOP} style={styles.rideLinkTap}>
           <Text style={styles.rideLink}>Turn on location sharing</Text>
         </Pressable>
       </View>
@@ -235,7 +248,7 @@ function RideRow({ ride, locating, ridingHere, onRideTo, onTurnOnLocation }) {
           accessibilityLabel="Ride to here: show only this place, you and the way between"
           style={({ pressed }) => [styles.rideButton, pressed && { backgroundColor: colors.forestDeep }]}
         >
-          <Bike size={16} color={colors.white} />
+          <Bike size={20} color={colors.white} />
           <Text style={styles.rideButtonText}>Ride to here</Text>
         </Pressable>
       )}
@@ -243,11 +256,25 @@ function RideRow({ ride, locating, ridingHere, onRideTo, onTurnOnLocation }) {
   );
 }
 
-function SelectedPlace({ destination, category, onClose, ride, locating, ridingHere, onRideTo, onTurnOnLocation }) {
+function SelectedPlace({
+  destination,
+  category,
+  onClose,
+  ride,
+  locating,
+  ridingHere,
+  onRideTo,
+  onTurnOnLocation,
+  onMeasure,
+}) {
   const cat = categoryById[category];
   const alsoIn = destination.categories.filter((c) => c !== category);
   return (
-    <ScrollView contentContainerStyle={styles.pad} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      contentContainerStyle={styles.pad}
+      showsVerticalScrollIndicator={false}
+      onContentSizeChange={(_, h) => onMeasure(Math.ceil(h))}
+    >
       <View style={styles.selectedHeader}>
         <View style={[styles.selectedIcon, { backgroundColor: tint(cat.color) }]}>
           <CategoryIcon category={category} size={20} color={cat.color} />
@@ -263,7 +290,7 @@ function SelectedPlace({ destination, category, onClose, ride, locating, ridingH
           hitSlop={HIT_SLOP}
           style={styles.close}
         >
-          <X size={16} color={colors.inkFaint} />
+          <X size={22} color={colors.inkFaint} />
         </Pressable>
       </View>
 
@@ -350,8 +377,8 @@ const styles = StyleSheet.create({
   },
   h1: {
     fontFamily: fonts.display,
-    fontSize: 21,
-    lineHeight: 25,
+    fontSize: 24,
+    lineHeight: 29,
     color: colors.ink,
   },
   h2: {
@@ -400,11 +427,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
-  dotted: {
+  connectorSwatch: {
     width: 24,
-    borderTopWidth: 2,
-    borderStyle: 'dotted',
-    borderColor: colors.forest,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: colors.connector,
   },
   legendText: {
     flex: 1,
@@ -458,7 +485,7 @@ const styles = StyleSheet.create({
   },
   chipText: {
     fontFamily: fonts.sansSemiBold,
-    fontSize: 12.5,
+    fontSize: 14.5,
     color: colors.inkSoft,
   },
   website: {
@@ -470,7 +497,7 @@ const styles = StyleSheet.create({
   },
   websiteText: {
     fontFamily: fonts.sansSemiBold,
-    fontSize: 13.5,
+    fontSize: 15.5,
   },
   listHeader: {
     flexDirection: 'row',
@@ -505,18 +532,19 @@ const styles = StyleSheet.create({
   selectedTitle: fillRow,
   selectedEyebrow: text.eyebrow,
   close: {
-    padding: 8,
+    padding: 12,
     marginTop: -4,
     marginRight: -4,
   },
   ride: {
     marginTop: 14,
-    gap: 8,
-    alignItems: 'flex-start',
+    gap: 10,
+    alignItems: 'stretch',
   },
   rideDistance: {
     fontFamily: fonts.sansSemiBold,
-    fontSize: 15,
+    fontSize: 21,
+    lineHeight: 27,
     color: colors.ink,
   },
   rideOff: {
@@ -524,37 +552,43 @@ const styles = StyleSheet.create({
   },
   rideNote: {
     fontFamily: fonts.sans,
-    fontSize: 12.5,
-    lineHeight: 16,
+    fontSize: 14.5,
+    lineHeight: 19,
     color: colors.inkSoft,
+  },
+  rideLinkTap: {
+    alignSelf: 'flex-start',
+    paddingVertical: 10,
   },
   rideLink: {
     fontFamily: fonts.sansSemiBold,
-    fontSize: 13.5,
+    fontSize: 15.5,
     color: colors.forest,
   },
   rideButton: {
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
     gap: 8,
     borderRadius: radius.pill,
     backgroundColor: colors.forest,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingHorizontal: 24,
+    paddingVertical: 15,
+    minHeight: 56,
   },
   rideButtonOff: {
     backgroundColor: colors.canvas,
   },
   rideButtonText: {
     fontFamily: fonts.sansSemiBold,
-    fontSize: 14,
+    fontSize: 18,
     color: colors.white,
   },
   selectedBlurb: {
     marginTop: 12,
     fontFamily: fonts.sans,
-    fontSize: 14.5,
-    lineHeight: 21,
+    fontSize: 17,
+    lineHeight: 24,
     color: colors.inkSoft,
   },
 });
