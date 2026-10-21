@@ -186,6 +186,9 @@ Bike Brevard Map 1.1
 - Two hopscotches painted on the path, and a repair stand at the library.
 - Ride to here: tap a place to see how far it is from you along the path and about how long by bike, then show just you, the place and the way there.
 - Show my location: optional. The app explains what it is for before your phone asks, and your location is never stored.
+- Easier to use on a bike: bigger text and buttons, cards that fit what's in them, pins that are easier to tap, and a tapped place centred on the map.
+- Following a ride: the route is wider, the bottom card gets out of the way, and the header opens to list every stop. Tap a numbered stop to read about it.
+- "Back to list" from a place, and a clearer map: solid gray connector lines, new category colours and a slide for playgrounds.
 - Works on its side and on any size of screen.
 ```
 
@@ -250,6 +253,12 @@ use, asked for only when the reviewer taps the location button on the map
 (the app explains it first). It draws the reviewer's position and the
 distance to a place along the bike path, and is never stored or sent. The app covers one town, Brevard, North Carolina, so the map opens
 there by design rather than at the reviewer's location.
+
+Ride to here (new in 1.1) measures the ride from the rider's position along
+the town's bike path, so outside Brevard a place shows "Distance shows when
+you're in Brevard" instead of a distance. To see it working in the Simulator,
+set a custom location of 35.2368, -82.7378 (Brevard College), turn on
+location, open any place and tap Ride to here.
 ```
 
 ## Asset Library, custom product pages and product page optimization
