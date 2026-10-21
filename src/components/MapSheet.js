@@ -96,7 +96,7 @@ export default function MapSheet({
             <Text style={styles.h2}>
               {destinations.length} {destinations.length === 1 ? 'stop' : 'stops'} on the path
             </Text>
-            <Text style={styles.listHint}>W Main → Pisgah</Text>
+            <Text style={styles.listHint}>Miles from W Main St</Text>
           </View>
           <ScrollView contentContainerStyle={styles.listBody} showsVerticalScrollIndicator={false}>
             {destinations.map((d, i) => (
@@ -194,7 +194,7 @@ function SelectedPlace({ destination, category, onClose }) {
 
       <View style={styles.chips}>
         <View style={styles.chip}>
-          <Text style={styles.chipText}>Mile {destination.mileMarker.toFixed(1)} from the West Main trailhead</Text>
+          <Text style={styles.chipText}>Mile {destination.mileMarker.toFixed(1)} from the trailhead at W Main St, {TOWN_NAME}</Text>
         </View>
         {destination.hours && (
           <View style={styles.chip}>

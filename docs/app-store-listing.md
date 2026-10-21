@@ -100,7 +100,7 @@ unlike the description.
 
 ## Description
 
-*4000 characters. Using 2309 (1.1.0).*
+*4000 characters. Using 2250 (1.1.0).*
 
 Rewritten by Sarah on 25 September 2026, replacing an earlier draft of mine. The
 opening is the part that matters: it says who the app is for and why it exists,
@@ -131,14 +131,13 @@ way so you can tell where you are.
 
 PLACES, BY WHAT YOU WANT
 
-Thirty-eight destinations you can switch on and off by category: ice cream,
-playgrounds, restaurants, breweries, bike shops and repair stations.
-Restaurants link straight to their menus. Turn on what you're
+Thirty-two destinations you can switch on and off by category: ice cream,
+playgrounds, breweries, bike shops and repair stations. Turn on what you're
 looking for and the map shows only that, listed in the order you'll reach it
 along the path with its mile marker. Turn everything off and you're back to
 just the path.
 
-FOURTEEN CURATED ADVENTURES
+TWELVE CURATED ADVENTURES
 
 Rides that locals actually do, from a 1-mile ride to summer short-track
 races by the Depot, through a 17-sculpture art loop, up to the 15.5-mile Hub
@@ -181,12 +180,11 @@ brevard,greenway,cycling,bike path,pisgah,ice cream,trail map,offline,nc,transyl
 Bike Brevard Map 1.1
 
 - Downtown, redrawn from real rides. The path now ends where it really meets West Main and follows Railroad Ave, and the current detour by Brevard Middle School is drawn the way you ride it.
-- A dozen new links from the path to the places families ride: the library, Franklin Park and the pool, Silvermont, Brevard College and its creek, the King St shops, Brevard Elementary and the Boys & Girls Club.
-- Pins fixed for Franklin Park, Silvermont, the King St shops, Kilwins, Earth Mountain and more.
-- Restaurants, with a link to each menu.
-- New rides: Art on the Path (17 sculptures in one loop), Pisgah Short Track Social, Earth Mountain Shop Ride, and two easy rides that end at lunch.
+- A dozen new links from the path to the places families ride: the library, Franklin Park, Silvermont, Brevard College and its creek, and the King St shops.
+- Pins fixed for Franklin Park, Silvermont, the King St shops, Kilwins, Earth Mountain and more, and clearer mile markers.
+- New rides: Art on the Path (17 sculptures in one loop), Pisgah Short Track Social and Earth Mountain Shop Ride.
 - Two hopscotches painted on the path, and a repair stand at the library.
-- Show my location: optional, only when you tap, and never stored.
+- Show my location: optional. The app explains what it is for before your phone asks, and your location is never stored.
 - Works on its side and on any size of screen.
 ```
 

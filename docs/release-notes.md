@@ -7,6 +7,21 @@ title: Release notes
 
 ## 1.1.0 — in preparation
 
+**Changed after TestFlight, 21 October 2026.** Sarah tested build 7 on her
+iPhone:
+- **Restaurants are pulled from 1.1.0, in both apps.** "See the menu" left
+  the app for the browser, and who to include needs more thought. The
+  category, its six places and the two lunch rides (Ninja Park and Smash
+  Burgers, Steamers and Swings) are hidden with `apps: []`, not deleted. They
+  come back in stages: coffee shops first, then restaurants, then menus. See
+  the [roadmap](./roadmap).
+- **The app explains location before the system asks.** The first tap on the
+  location button shows the app's own message: what the dot is for, that the
+  location is never saved or sent, and how to turn it off. The rider can
+  decline there, before iOS or Android asks.
+- **Clearer mile wording:** "Mile 0.4 from the trailhead at W Main St,
+  Brevard" on a place, and "Miles from W Main St" over the list.
+
 Built 20 October 2026 from the `restaurants` branch. It ships the four
 sections below that belong to Bike Brevard Map: the downtown half recorded
 (the 17 October rides, links and adventures), restaurants, show my location,

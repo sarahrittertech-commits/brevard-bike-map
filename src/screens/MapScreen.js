@@ -28,6 +28,24 @@ const RAIL_WIDTH = 46;
 // Room left of a fitted route for the westernmost landmark label.
 const LABEL_ROOM = 96;
 
+// The app's own explanation, shown once before iOS or Android asks for
+// location. Resolves true only if the rider chooses to go on.
+function confirmLocation() {
+  return new Promise((resolve) => {
+    Alert.alert(
+      'Show where you are?',
+      `${APP_NAME} can put a dot on the map where you are, so you can see what is near you. ` +
+        'It uses your location only while the app is open and this button is on. Your location is never saved or ' +
+        'sent anywhere. Tap the button again to turn it off, or switch it off for good in Settings.',
+      [
+        { text: 'Not now', style: 'cancel', onPress: () => resolve(false) },
+        { text: 'Continue', onPress: () => resolve(true) },
+      ],
+      { cancelable: true, onDismiss: () => resolve(false) }
+    );
+  });
+}
+
 // The main screen: map, floating header, category rail, bottom sheet.
 //
 // Upright, the header spans the top, the rail sits on the right and the sheet
@@ -106,7 +124,12 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     }
     let permission = await Location.getForegroundPermissionsAsync();
     const asked = permission.status !== 'granted' && permission.canAskAgain;
-    if (asked) permission = await Location.requestForegroundPermissionsAsync();
+    if (asked) {
+      // Before the system prompt, say in the app's own words what the dot is
+      // for and what happens to the location, and let the rider decline here.
+      if (!(await confirmLocation())) return;
+      permission = await Location.requestForegroundPermissionsAsync();
+    }
     if (permission.status !== 'granted') {
       // Declining the system prompt a moment ago needs no second dialog.
       if (!asked) {

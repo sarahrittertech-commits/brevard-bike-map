@@ -216,7 +216,8 @@
     },
     "kids": {
       "story": "Roll out Main St to the trailhead and take the flat path northeast past the depot and the mid-path stand to Jameson's Joy, where the ninja course gets the wiggles out. Double back a few hundred feet to the Cherry Street Greenway and follow it east to the CHUBwagon food truck. Burgers, chicken tenders, grilled cheese and a kids' cheeseburger, eaten on the big lawn. Same path home."
-    }
+    },
+    "apps": []
   },
   {
     "id": "steamers-and-swings",
@@ -262,7 +263,8 @@
         [-82.73432, 35.24039],
         [-82.73396, 35.24049]
       ]
-    }
+    },
+    "apps": []
   },
   {
     "id": "bike-to-school",
@@ -1246,7 +1248,7 @@
         "kids": {
           "name": "CHUBwagon",
           "note": "Near the turnaround. Food truck, shade, and somewhere to sit.",
-          "destination": "chubwagon"
+          "destination": null
         }
       },
       {

@@ -144,7 +144,7 @@ landmark, adventure, or an adventure's stop — can carry two optional fields:
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `apps` | `("map" \| "kids")[]` | Only when the item belongs to just one app. Missing means both. Breweries, the taprooms and the Taproom Traverse are `["map"]` |
+| `apps` | `("map" \| "kids")[]` | Only when the item belongs to just one app. Missing means both. Breweries, the taprooms and the Taproom Traverse are `["map"]`. An empty list, `[]`, hides the item from both apps while keeping its data: restaurants, their places and the two lunch rides, pulled from 1.1.0 on 21 October 2026 (see the [roadmap](./roadmap)) |
 | `kids` | object | Fields that read differently in Bike Brevard Kids, laid over the item there. Squatch is `{ "name": "Squatch Bikes", "categories": ["bike-shop"], ... }` |
 
 `forApp` in `src/lib/select.js` applies both, and `src/lib/data.js` hands the

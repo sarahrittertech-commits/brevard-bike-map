@@ -317,7 +317,8 @@
     "coordinates": [-82.7336, 35.2336],
     "description": "Steamed sandwiches and hot dogs at 33 E Main St, a block from the courthouse. Quick, cheap and easy to share.",
     "mileMarker": 0.4,
-    "website": "https://www.sullyssteamers.com/"
+    "website": "https://www.sullyssteamers.com/",
+    "apps": []
   },
   {
     "id": "homeslyce",
@@ -326,7 +327,8 @@
     "coordinates": [-82.73564, 35.2371],
     "description": "Pizza by the slice at 143 King St, almost directly across from Squatch.",
     "mileMarker": 0.2,
-    "website": "https://www.slyceisnice.com/"
+    "website": "https://www.slyceisnice.com/",
+    "apps": []
   },
   {
     "id": "morning-social",
@@ -335,7 +337,8 @@
     "coordinates": [-82.73556, 35.23778],
     "description": "Breakfast and coffee on King St, right next to Squatch.",
     "mileMarker": 0.2,
-    "website": "https://www.morningsocialbrevard.com/menu"
+    "website": "https://www.morningsocialbrevard.com/menu",
+    "apps": []
   },
   {
     "id": "chubwagon",
@@ -349,7 +352,8 @@
     "kids": {
       "name": "CHUBwagon",
       "description": "Food truck at 342 Mountain Industrial Dr, at the end of the spur: smash burgers, chicken tenders, grilled cheese, hot dogs and a kids' cheeseburger."
-    }
+    },
+    "apps": []
   },
   {
     "id": "gordingos",
@@ -358,7 +362,8 @@
     "coordinates": [-82.7061, 35.2651],
     "description": "Food at Ecusta, 451 Ecusta Rd, a few steps off the path at the north end.",
     "mileMarker": 3.7,
-    "website": "https://gordingos.com/menu/"
+    "website": "https://gordingos.com/menu/",
+    "apps": []
   },
   {
     "id": "pisgah-bakehouse",
@@ -367,7 +372,8 @@
     "coordinates": [-82.7108, 35.2682],
     "description": "Bakery at 1980 Asheville Hwy, up the short connector from the roundabout at the north end.",
     "mileMarker": 3.8,
-    "website": "https://www.pisgahbakehouse.com/"
+    "website": "https://www.pisgahbakehouse.com/",
+    "apps": []
   },
   {
     "id": "pisgah-forest-elementary",

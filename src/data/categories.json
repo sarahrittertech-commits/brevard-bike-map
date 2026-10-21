@@ -12,7 +12,8 @@
   {
     "id": "restaurant",
     "label": "Restaurants",
-    "color": "#C4502F"
+    "color": "#C4502F",
+    "apps": []
   },
   {
     "id": "school",
