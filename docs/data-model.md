@@ -26,7 +26,7 @@ app. The validator catches it.
 ## Category
 
 ```json
-{ "id": "ice-cream", "label": "Ice Cream", "color": "#D9538B" }
+{ "id": "ice-cream", "label": "Ice Cream", "color": "#B12E83" }
 ```
 
 | Field | Type | Notes |

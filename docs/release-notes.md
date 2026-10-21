@@ -77,6 +77,9 @@ iPhone:
   the following accents are walnut `#71552E` instead of clay orange; brewery
   pins are caramel `#90744D`; deep forest is `#103C2B`. Forest `#1F4D3A`
   stays the base.
+- **Playgrounds are a slide in bright green** `#2DA948`, replacing the
+  orange-brown play tower, and **ice cream is a deeper magenta** `#B12E83`
+  (white icon contrast 5.9, up from 3.8). Sarah's choices, 21 October.
 - **Clearer mile wording:** "Mile 0.4 from the trailhead at W Main St,
   Brevard" on a place, and "Miles from W Main St" over the list.
 
