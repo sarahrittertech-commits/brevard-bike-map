@@ -62,8 +62,11 @@ Still to do:
 ### Food, in stages
 
 1. **Coffee shops.** A short, clear list to start with, and a test of the
-   category before the bigger one.
-2. **Restaurants.** Decide first who is included and why: the rule should be
+   category before the bigger one. Colour reserved: espresso `#352822` (Sarah,
+   21 October 2026).
+2. **Restaurants.** Colour reserved: teal `#0C8E85` (Sarah, 21 October
+   2026). In the kids app it sits close to After School's teal `#0F7F82`, so
+   one of the two moves if restaurants return there. Decide first who is included and why: the rule should be
    one a reader could apply themselves, for example "a place you can ride to
    with a child and sit outside".
 3. **Menus.** Decide the experience before building it: an in-app page, a

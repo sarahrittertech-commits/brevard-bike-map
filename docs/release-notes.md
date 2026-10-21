@@ -82,6 +82,12 @@ iPhone:
   (white icon contrast 5.9, up from 3.8). Sarah's choices, 21 October. The slide is six strokes so it reads inside a 14pt pin; a first, more detailed version blurred at that size.
 - **Fun Stops are coral** `#EE4848` in Bike Brevard Kids, Sarah's choice:
   the old `#A23B6E` was too close to the new ice-cream magenta.
+- **New category colours, spaced around the colour wheel** (Sarah, 21
+  October): ice cream orchid `#D325ED`, playgrounds leaf green `#40990C`,
+  bike shops blue `#3C7BEF` and repair stations orange `#EF8900` (Sarah's
+  pick; its white-icon contrast is 2.5, the lowest in the set). Breweries
+  stay caramel. Reserved for later: coffee espresso `#352822` and
+  restaurants teal `#0C8E85`.
 - **Clearer mile wording:** "Mile 0.4 from the trailhead at W Main St,
   Brevard" on a place, and "Miles from W Main St" over the list.
 

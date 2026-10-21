@@ -2,17 +2,17 @@
   {
     "id": "ice-cream",
     "label": "Ice Cream",
-    "color": "#B12E83"
+    "color": "#D325ED"
   },
   {
     "id": "playground",
     "label": "Playgrounds",
-    "color": "#2DA948"
+    "color": "#40990C"
   },
   {
     "id": "restaurant",
     "label": "Restaurants",
-    "color": "#C4502F",
+    "color": "#0C8E85",
     "apps": []
   },
   {
@@ -42,11 +42,11 @@
   {
     "id": "bike-shop",
     "label": "Bike Shops",
-    "color": "#2C6BA8"
+    "color": "#3C7BEF"
   },
   {
     "id": "repair",
     "label": "Repair Stations",
-    "color": "#4A7C59"
+    "color": "#EF8900"
   }
 ]
