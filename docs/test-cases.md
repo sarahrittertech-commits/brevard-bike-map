@@ -43,6 +43,9 @@ covered by DT-1 to DT-10 above.
 | UT-5 | `toLatLng` | `[-82.73, 35.23]` becomes `{ latitude: 35.23, longitude: -82.73 }` |
 | UT-6 | `isNearArea` | A position in town counts as near the map; Asheville, and a swapped `[lat, lon]` reading of Brevard, do not |
 | UT-7 | `forApp` | Each app keeps only its own items and reads its own wording, stops included; neither `apps` nor the overrides reach the screens |
+| UT-8 | `buildRouteGraph`, `routeOnGraph` | The way between two points follows the drawn lines, joining line ends within 200 ft |
+| UT-9 | `nextStopIndex` | The next pinned stop ahead of the rider along a route; none past the last stop or far off the route |
+| UT-10 | `progressAlong` | A ride split at the rider into the part ridden and the part ahead, which meet at the rider and add up to the whole way |
 
 UT-2 reverses the earlier assumption: the design treats "no filters" as "just
 the path", with the rail's clear button making that explicit.
@@ -72,7 +75,13 @@ Run before every release. A simulator does not count.
 | MT-10 | iPhone Duo: closed, open flat, open upright, half folded both ways | Nothing under the side bars or camera; open and upright, the sheet's open edge sits on the fold; open flat, the docked column ends before the fold. See the [iPhone Duo review](./iphone-duo-design-review) |
 | MT-11 | Fresh install, tap the location button; decline. Tap again. Then allow it in Settings and tap again; tap once more | No prompt before the first tap. The first tap shows the app's own explanation: Not now ends there, Continue brings the system prompt. Declining that shows nothing more; the second tap offers Settings. Allowed, the dot appears and the map centres on it (in Brevard) or says you're outside Brevard; the last tap removes the dot. Settings shows only "While Using the App" |
 | MT-12 | Location off: switch on ice cream, open Dolly's | "Distance from you" and "Ride to here" greyed, "Location sharing is needed to calculate a ride" and a "Turn on location sharing" link; the link turns location on and the card shows "N mi from you · about N min by bike" without closing |
-| MT-13 | Ride to here from downtown to Dolly's, then close it | Only Dolly's and the blue dot remain, the way between is drawn along the path in clay, the header says "Riding to" with miles and minutes; close returns to the list as it was |
+| MT-13 | Ride to here from downtown to Dolly's, then close it | Dolly's, the blue dot and the way between, drawn along the path in walnut; the header says "Riding to" with miles and minutes; close returns to the list as it was |
+| MT-14 | Ride to here, then ride part of the way | The way stays where it was drawn: the part ridden turns faint behind the dot and the part ahead stays bold; the header says "N of M mi to go". At the place it says "You're here" |
+| MT-15 | Ride to here, then switch on playgrounds | Playground pins appear round the way; the ride carries on |
+| MT-16 | Switch on a category | Its pins show on the map; the list stays at the bottom until it is tapped or slid up |
+| MT-17 | Follow an adventure, tap stop 1, then the next-stop arrow to the last stop and back | Each stop opens in the sheet and the map moves to it; scenery stops with no place open too; the arrow fades at each end |
+| MT-18 | Location on, choose Allow Once. Put the app away, come back, tap the location button | The rail's button is off when the app returns; the app's explanation is not shown again in the same session; the system asks again |
+| MT-19 | Tap the same place pin, close it, tap it again, five times; then the same with a numbered stop | Opens every time |
 
 ### Android
 

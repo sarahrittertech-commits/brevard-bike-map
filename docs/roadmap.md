@@ -76,6 +76,14 @@ Still to do:
    short summary on the place card, or no menus at all. Whatever is chosen,
    the rider should stay in the app.
 
+### Add a stop to a ride
+
+Add one or two places to the ride you are on, for example ice cream on the
+way to the bike shop. Raised by Sarah on 22 October 2026. Use cases, test
+cases and the decisions needed are in
+[Feature request: add a stop to a ride](./feature-add-stops). The release
+after 1.1.1.
+
 ### Build my own route
 
 Pick stops and draw a ride from them, using the same routing as Ride to here.

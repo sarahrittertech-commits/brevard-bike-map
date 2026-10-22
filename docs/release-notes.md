@@ -5,6 +5,49 @@ title: Release notes
 
 # Release notes
 
+## 1.1.1 — in preparation
+
+From Sarah's ride on build 10, 22 October 2026:
+
+1. **The "just the path" button is the trail squiggle again**, not an ×,
+   which read as closing something. The "Getting around" card now has a
+   short "The buttons on the right" section saying what it and the other two
+   tools do.
+2. **Location stays in step with the button.** Coming back to the app after
+   iOS has taken location away ("Allow Once" lapses when the app is put away,
+   or it was switched off in Settings), the button turns itself off instead
+   of claiming location is on. The app's own explanation is shown once a
+   session rather than every time Allow Once makes the system ask again.
+3. **Switching on a category shows its pins and leaves the list at the
+   bottom**, instead of sliding the list up over the pins. Tap the list or
+   slide it up to read it.
+4. **Riding to a place, switched-on categories still show.** Tapping
+   playgrounds while riding to CykelWorx did nothing; now the playgrounds
+   appear round the way and the ride carries on. Adding one of them to the
+   ride is a separate feature; see
+   [Feature request: add a stop to a ride](./feature-add-stops).
+5. **Step through an adventure's stops from the bottom card.** A stop's card
+   has big previous and next buttons, so a rider can go stop to stop without
+   opening the header's list each time. Every stop opens, including scenery
+   stops with no place behind them, and the map moves to each.
+6. **Pins and numbered stops open every time.** iOS ignores a tap on a
+   marker it still counts as selected; place pins were already redrawn to
+   avoid that, and numbered stops now are too. Sarah could not make her
+   green-pin case repeat, so it stays on the list to check on the next build
+   (MT-19). Where a pin sits under a numbered stop, the stop wins the tap.
+7. **The way to a place stays put while riding.** Ride to here used to
+   redraw the line from the rider at every position update, so it shrank
+   behind them and the dot seemed to jump back. Now the way is drawn once
+   when the ride starts: the part ridden turns faint, the part ahead stays
+   bold, and the header says "0.3 of 0.5 mi to go". At the place it says
+   "You're here". If the rider leaves the way by more than 600 ft, a fresh
+   way is drawn from where they are.
+
+Also found while testing these: **a numbered stop on a followed adventure no
+longer moved the map to it** in build 10. The Ride to here fix stopped
+centring whenever any route was drawn, an adventure's included. Now only
+Ride to here keeps the camera.
+
 ## 1.1.0 — approved 21 October 2026
 
 **Approved by App Review on the night of 21 October 2026**, the same day it
