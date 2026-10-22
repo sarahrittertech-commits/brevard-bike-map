@@ -25,6 +25,7 @@ would be embarrassing in a demo.
 | DT-8 | Every destination within 1,000 ft of the network, or listed in `OFF_PATH` with its reason (warning) | A coordinate placed by eye drifting off the path, as Oskar Blues had at 1,969 ft |
 | DT-9 | No destination or landmark sits exactly on a network vertex (warning) | A placeholder pinned to the drawn line instead of surveyed — the shape of every wrong coordinate found in September |
 | DT-10 | Each app holds together on its own: every place's categories and every ride's stops exist in that app, and Bike Brevard Kids shows no brewery, taproom, tavern, beer or wine wording | A kids ride stopping at a taproom, or a shop still labelled "& Brews" in the kids build |
+| DT-11 | A stop's own `coordinates` are `[lon, lat]` in Brevard and within 500 ft of its ride's route (warning); a stop's `photo` exists in `assets/stops/` and in `stopImages` | A sculpture pinned across town, or a photo that would crash the bundle |
 
 ## Automated — unit
 

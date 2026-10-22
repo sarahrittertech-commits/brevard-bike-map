@@ -133,7 +133,9 @@ lives: every route is a line someone has ridden.
 | --- | --- | --- |
 | `image` | string | Basename of a photo in `assets/adventures/` |
 | `difficulty` | enum | `easy` · `moderate` · `ambitious` |
-| `stops[].destination` | string | Optional Destination `id`. Stops without one (a parking lot, "lunch downtown") are named but not pinned |
+| `stops[].destination` | string | Optional Destination `id`. Stops without one (a parking lot, "lunch downtown") are named but not pinned, unless they have `coordinates` |
+| `stops[].coordinates` | `[lon, lat]` | Optional. Pins a stop that is not a place, such as a sculpture, and wins over the destination's coordinates. Within 500 ft of the route (DT-11) |
+| `stops[].photo` | string | Optional basename of a 480x320 photo in `assets/stops/`, registered in `stopImages` in `src/lib/data.js`. Shown on the stop's card and in the ride's stop list |
 | `route` | LineString | Drawn once per adventure. Out-and-back rides draw one direction; `miles` is the full ride |
 
 ## Two apps from one dataset

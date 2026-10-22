@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Animated, Linking, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Animated, Image, Linking, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Bike from 'lucide-react-native/icons/bike';
 import ChevronLeft from 'lucide-react-native/icons/chevron-left';
 import ChevronRight from 'lucide-react-native/icons/chevron-right';
@@ -14,6 +14,7 @@ import X from 'lucide-react-native/icons/x';
 import CategoryIcon from './CategoryIcon';
 import PlaceRow from './PlaceRow';
 import {
+  stopImages,
   CONNECTOR_MILES,
   TOWN_NAME,
   TRAIL_MILES,
@@ -377,6 +378,9 @@ function SelectedPlace({
         </Pressable>
       </View>
 
+      {stop?.photo && stopImages[stop.photo] && (
+        <Image source={stopImages[stop.photo]} style={styles.stopPhoto} resizeMode="cover" accessibilityIgnoresInvertColors />
+      )}
       <Text style={styles.selectedBlurb}>{stop ? stop.note : destination.description}</Text>
 
       {stop && <StopSteps stop={stop} />}
@@ -702,6 +706,13 @@ const styles = StyleSheet.create({
     fontFamily: fonts.sansBold,
     fontSize: 18,
     color: colors.white,
+  },
+  stopPhoto: {
+    marginTop: 12,
+    width: '100%',
+    aspectRatio: 3 / 2,
+    borderRadius: radius.md,
+    backgroundColor: colors.line,
   },
   stopSteps: {
     marginTop: 16,

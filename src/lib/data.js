@@ -121,6 +121,11 @@ export const nextStopOf = (adventure, position) =>
 export const adventureStopPins = (adventure) =>
   select.selectStopPins(adventure, destinationById);
 
+// A stop's own photo, by the basename in its `photo` field. Small: 480x320.
+// Static require()s, like the adventure photos below; the validator checks
+// every `photo` named in the data has an entry here.
+export const stopImages = {};
+
 // Photos have to be require()d statically for the bundler to pick them up.
 export const adventureImages = {
   'playground-to-dollys': require('../../assets/adventures/playground-to-dollys.jpg'),

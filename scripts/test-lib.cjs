@@ -37,7 +37,7 @@ const test = (id, name, fn) => tests.push({ id, name, fn });
 // Fixtures. Mile markers are deliberately out of file order so a function that
 // forgets to sort cannot pass by accident.
 const OAKLAND = { id: 'oakland', name: 'Oakland Cafe', categories: ['coffee'], mileMarker: 2.1 };
-const DOLLYS = { id: 'dollys', name: "Dolly's", categories: ['ice-cream'], mileMarker: 0.8 };
+const DOLLYS = { id: 'dollys', name: "Dolly's", categories: ['ice-cream'], mileMarker: 0.8, coordinates: [-82.7531, 35.2843] };
 const BRACKEN = {
   id: 'bracken',
   name: 'Bracken Mountain Bakery',
@@ -111,6 +111,13 @@ test('UT-4', 'adventureStopPins: unpinned stops are skipped, numbering keeps its
   // The pin carries the stop's own wording, not the destination's name.
   assert.equal(pins[0].name, 'Start at the trailhead');
   assert.deepEqual(pins[1].coordinates, BRACKEN.coordinates);
+
+  // A stop's own coordinates pin it, and win over its destination's.
+  const own = selectStopPins(
+    { id: 'y', stops: [{ name: 'Sculpture', coordinates: [-82.73, 35.23] }, { name: 'Dolly', destination: 'dollys', coordinates: [-82.74, 35.24] }] },
+    BY_ID
+  );
+  assert.deepEqual(own.map((p) => p.coordinates), [[-82.73, 35.23], [-82.74, 35.24]]);
 
   // An adventure whose stops are all scenery draws no numbered pins.
   assert.deepEqual(selectStopPins({ id: 'x', stops: [{ name: 'A view' }] }, BY_ID), []);

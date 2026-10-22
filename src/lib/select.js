@@ -33,14 +33,16 @@ function selectVisible(destinations, active) {
     .sort((a, b) => a.mileMarker - b.mileMarker);
 }
 
-// Stops on an adventure that correspond to a pinned destination, in order.
-// Stops without one are skipped, but the numbering keeps the original index so
-// the map's numbered stops still match the written itinerary.
+// Stops on an adventure that can be pinned, in order: a stop with its own
+// `coordinates` (a sculpture, a corner), else the destination it names.
+// Stops with neither are skipped, but the numbering keeps the original index
+// so the map's numbered stops still match the written itinerary.
 function selectStopPins(adventure, destinationById) {
   return adventure.stops
     .map((stop, index) => {
       const destination = stop.destination ? destinationById[stop.destination] : null;
-      return destination ? { index, name: stop.name, coordinates: destination.coordinates } : null;
+      const coordinates = stop.coordinates ?? destination?.coordinates;
+      return coordinates ? { index, name: stop.name, coordinates } : null;
     })
     .filter(Boolean);
 }

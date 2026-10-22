@@ -13,6 +13,9 @@ const path = require('path');
 
 const DATA_DIR = path.join(__dirname, '..', 'src', 'data');
 const IMAGE_DIR = path.join(__dirname, '..', 'assets', 'adventures');
+const STOP_IMAGE_DIR = path.join(__dirname, '..', 'assets', 'stops');
+// A stop pinned by its own coordinates should sit on or beside its ride.
+const STOP_OFF_ROUTE_FT = 500;
 // Photos are require()d statically in src/lib/data.js; the bundler only picks
 // up images listed there, so the jpg existing on disk is not enough.
 const IMAGE_MAP_FILE = path.join(__dirname, '..', 'src', 'lib', 'data.js');
@@ -293,6 +296,26 @@ for (const a of adventures) {
   }
 
   const coords = checkLine(a.route, `Adventure "${a.id}" route`);
+
+  // DT-11 — a stop's own coordinates and photo
+  (a.stops ?? []).forEach((stop, i) => {
+    const where = `Adventure "${a.id}" stop ${i + 1} "${stop.name}"`;
+    if (stop.coordinates !== undefined) {
+      checkCoord(stop.coordinates, where);
+      if (coords && Array.isArray(stop.coordinates)) {
+        const ft = nearestOnLine(stop.coordinates, coords);
+        if (ft > STOP_OFF_ROUTE_FT) {
+          warn('DT-11', `${where} is ${Math.round(ft)} ft from the ride's route; check the coordinates or the route`);
+        }
+      }
+    }
+    if (stop.photo !== undefined) {
+      if (!registeredImages.has(stop.photo)) fail('DT-11', `${where}: photo "${stop.photo}" is not in stopImages in src/lib/data.js`);
+      if (!fs.existsSync(path.join(STOP_IMAGE_DIR, `${stop.photo}.jpg`))) {
+        fail('DT-11', `${where}: photo assets/stops/${stop.photo}.jpg is missing`);
+      }
+    }
+  });
   // DT-7 — a ride can't be shorter than the line drawn for it
   if (coords && typeof a.miles === 'number') {
     const drawn = lineMiles(coords);

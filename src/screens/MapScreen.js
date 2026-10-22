@@ -189,6 +189,12 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const stop = following && selectedStop !== null ? following.stops[selectedStop] : null;
   const stopDest = stop?.destination ? destinationById[stop.destination] : null;
   const selected = rideDest ?? stopDest ?? shown.find((d) => d.id === selectedId) ?? null;
+  // A stop with its own location (a sculpture, not a place) is where the map
+  // goes, even though the sheet shows only its name, note and photo.
+  const stopSpot = useMemo(
+    () => (stop?.coordinates ? { id: `stop-${selectedStop}`, coordinates: stop.coordinates } : null),
+    [stop, selectedStop]
+  );
   // Distance and time to the selected place, and the line to draw while
   // riding to one. Both follow the rider as their position updates.
   // Outside Brevard there is no sensible distance to give, so the card says so.
@@ -490,7 +496,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
       <TrailMap
         destinations={mapDestinations}
         active={active}
-        selected={selected}
+        selected={stopSpot ?? selected}
         // While riding to a place, a tap on the map does not end the ride;
         // the header's close button does.
         onSelect={rideDest ? IGNORE : select}
