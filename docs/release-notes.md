@@ -5,7 +5,11 @@ title: Release notes
 
 # Release notes
 
-## 1.1.0 — in preparation
+## 1.1.0 — approved 21 October 2026
+
+**Approved by App Review on the night of 21 October 2026**, the same day it
+was submitted. Build 10 (`e541c78`, tag `v1.1.0`): build 9 plus the Ride to
+here fix. Known small issues are tracked for 1.1.1.
 
 **Changed after TestFlight, 21 October 2026.** Sarah tested build 7 on her
 iPhone:

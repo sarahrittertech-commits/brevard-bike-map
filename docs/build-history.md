@@ -15,7 +15,7 @@ Sarah's interactive Apple login to create the provisioning profile.
 
 ## 1.1.0
 
-### Build 10 — 21 October 2026 · App Store
+### Build 10 — 21 October 2026 · App Store, approved
 
 Production, commit `e541c78`, tag `v1.1.0`. Build 9 plus one fix, and the
 build submitted for review in its place.
