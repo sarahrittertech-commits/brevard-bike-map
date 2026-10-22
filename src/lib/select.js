@@ -269,6 +269,36 @@ function nextStopIndex(route, stopPins, position) {
   return ahead.length ? ahead[0].index : null;
 }
 
+// How far along a ride's line the rider is: the line split where they are,
+// so the part ridden can be drawn apart from the part ahead, and the feet of
+// each. offFt is how far the rider is from the line, for noticing when they
+// have left it.
+function progressAlong(coords, point) {
+  const lat0 = coords[0][1];
+  const cosLat = Math.cos((lat0 * Math.PI) / 180);
+  const p = toFeet(point, cosLat);
+  let acc = 0;
+  let best = null;
+  for (let i = 0; i < coords.length - 1; i++) {
+    const a = toFeet(coords[i], cosLat);
+    const b = toFeet(coords[i + 1], cosLat);
+    const len = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    const hit = projectOnto(p, a, b);
+    if (!best || hit.dist < best.offFt) best = { edge: i, t: hit.t, doneFt: acc + hit.t * len, offFt: hit.dist };
+    acc += len;
+  }
+  const [x0, y0] = coords[best.edge];
+  const [x1, y1] = coords[best.edge + 1];
+  const at = [x0 + (x1 - x0) * best.t, y0 + (y1 - y0) * best.t];
+  return {
+    done: [...coords.slice(0, best.edge + 1), at],
+    ahead: [at, ...coords.slice(best.edge + 1)],
+    doneFt: best.doneFt,
+    aheadFt: acc - best.doneFt,
+    offFt: best.offFt,
+  };
+}
+
 // An easy family pace, for "about N minutes". Rounded to five minutes past
 // ten, because the number is an estimate and should read like one.
 const FAMILY_MPH = 7;
@@ -291,4 +321,5 @@ module.exports = {
   routeOnGraph,
   rideMinutes,
   nextStopIndex,
+  progressAlong,
 };

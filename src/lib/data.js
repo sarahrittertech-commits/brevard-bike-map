@@ -86,7 +86,27 @@ export function rideToPlace(position, destination) {
     // Distance from the rider to the nearest drawn line, for saying when they
     // are well off it.
     offPathMiles: Math.round((route.startOffFt / 5280) * 10) / 10,
-    latLngs: [from, ...route.coordinates, destination.coordinates].map(toLatLng),
+    // The way there, [lon, lat], kept fixed once the ride starts (rideProgress).
+    line: [from, ...route.coordinates, destination.coordinates],
+  };
+}
+
+// Where the rider is along a ride that has started: the way there stays as it
+// was drawn, split at the rider into the part ridden and the part ahead.
+// Within ARRIVED_FT of the end they are there. offFt grows when they leave the
+// way, so the screen can draw a fresh one.
+const ARRIVED_FT = 150;
+export function rideProgress(line, position) {
+  const p = select.progressAlong(line, [position.longitude, position.latitude]);
+  const milesLeft = p.aheadFt / 5280;
+  return {
+    done: p.done.map(toLatLng),
+    ahead: p.ahead.map(toLatLng),
+    arrived: p.aheadFt <= ARRIVED_FT,
+    milesLeft: Math.round(milesLeft * 10) / 10,
+    milesTotal: Math.round(((p.doneFt + p.aheadFt) / 5280) * 10) / 10,
+    minutesLeft: select.rideMinutes(milesLeft),
+    offFt: p.offFt,
   };
 }
 

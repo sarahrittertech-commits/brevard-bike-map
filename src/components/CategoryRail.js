@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import Crosshair from 'lucide-react-native/icons/crosshair';
 import LocateFixed from 'lucide-react-native/icons/locate-fixed';
-import CircleX from 'lucide-react-native/icons/circle-x';
+import Route from 'lucide-react-native/icons/route';
 
 import CategoryIcon from './CategoryIcon';
 import { categories } from '../lib/data';
@@ -50,9 +50,11 @@ export default function CategoryRail({ active, onToggle, onClear, onRecenter, lo
       </View>
 
       <View style={styles.group}>
-        {/* Clears every category: an ×, live only when something is on. It
-            was a route glyph that went dark green with nothing on, which read
-            as a switch rather than a reset. */}
+        {/* "Just the path": clears every category. The route glyph, faded
+            and inactive when nothing is on. It once went dark green with
+            nothing on, which read as a switch; an × replaced it in 1.1.0 and
+            read as closing something. The "Getting around" card says what it
+            does. */}
         <Pressable
           onPress={onClear}
           disabled={allOff}
@@ -61,7 +63,7 @@ export default function CategoryRail({ active, onToggle, onClear, onRecenter, lo
           accessibilityLabel="Clear all pins and show just the path"
           style={({ pressed }) => [styles.button, pressed && styles.pressed]}
         >
-          <CircleX size={22} color={allOff ? colors.line : colors.ink} strokeWidth={2.1} />
+          <Route size={20} color={allOff ? colors.line : colors.ink} strokeWidth={2.1} />
         </Pressable>
         <Pressable
           onPress={onRecenter}

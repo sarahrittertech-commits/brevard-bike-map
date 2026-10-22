@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Unit tests for the data selection logic.
- * Implements checks UT-1 to UT-7 from the test case documentation.
+ * Implements checks UT-1 to UT-10 from the test case documentation.
  *
  * These run against src/lib/select.js, which holds the pure functions that
  * src/lib/data.js re-exports once the bundled data is bound to them. There is
@@ -28,6 +28,7 @@ const {
   routeOnGraph,
   rideMinutes,
   nextStopIndex,
+  progressAlong,
 } = require('../src/lib/select');
 
 const tests = [];
@@ -202,6 +203,21 @@ test('UT-9', 'nextStopIndex: the next pinned stop ahead of the rider along the r
   assert.equal(nextStopIndex(route, pins, [-82.72, 35.2302]), 2, 'between them, stop 3 is next');
   assert.equal(nextStopIndex(route, pins, [-82.705, 35.23]), null, 'past the last stop');
   assert.equal(nextStopIndex(route, pins, [-82.72, 35.25]), null, 'far off the route');
+});
+
+test('UT-10', 'progressAlong: splits a ride where the rider is, keeping the whole line', () => {
+  // A ride running east about 2.3 mi (one degree of longitude is ~298,000 ft here).
+  const line = [[-82.74, 35.23], [-82.73, 35.23], [-82.70, 35.23]];
+  const halfway = progressAlong(line, [-82.72, 35.2301]);
+  assert.ok(Math.abs(halfway.doneFt - halfway.aheadFt) < 1, 'halfway: as much done as ahead');
+  assert.ok(halfway.offFt < 50, 'a few feet off the line still counts as on it');
+  assert.deepEqual(halfway.done[0], line[0], 'the ridden part starts where the ride did');
+  assert.deepEqual(halfway.ahead[halfway.ahead.length - 1], line[2], 'the part ahead ends at the place');
+  assert.deepEqual(halfway.done[halfway.done.length - 1], halfway.ahead[0], 'the two parts meet at the rider');
+  const total = halfway.doneFt + halfway.aheadFt;
+  assert.equal(Math.round(progressAlong(line, line[0]).aheadFt), Math.round(total), 'at the start, all of it is ahead');
+  assert.equal(Math.round(progressAlong(line, line[2]).aheadFt), 0, 'at the place, nothing is ahead');
+  assert.ok(progressAlong(line, [-82.72, 35.25]).offFt > 5000, 'far off the line says so');
 });
 
 // Run

@@ -2,6 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { Animated, Linking, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Bike from 'lucide-react-native/icons/bike';
 import ChevronLeft from 'lucide-react-native/icons/chevron-left';
+import ChevronRight from 'lucide-react-native/icons/chevron-right';
+import Crosshair from 'lucide-react-native/icons/crosshair';
+import LocateFixed from 'lucide-react-native/icons/locate-fixed';
 import ExternalLink from 'lucide-react-native/icons/external-link';
 import MapPinned from 'lucide-react-native/icons/map-pinned';
 import Route from 'lucide-react-native/icons/route';
@@ -62,7 +65,7 @@ export default function MapSheet({
   // A place's card opens only as far as its content needs, rather than to the
   // full sheet height with empty space below; lists still open all the way.
   const [cardHeight, setCardHeight] = useState(0);
-  const openY = selected && cardHeight ? Math.min(Math.max(height - cardHeight - HANDLE, 0), closedY) : 0;
+  const openY = (selected || stop) && cardHeight ? Math.min(Math.max(height - cardHeight - HANDLE, 0), closedY) : 0;
 
   useEffect(() => {
     Animated.timing(y, { toValue: hidden ? height : expanded ? openY : closedY, ...EASE }).start();
@@ -114,16 +117,16 @@ export default function MapSheet({
         </Pressable>
       </View>
 
-      {selected ? (
+      {selected || stop ? (
         <SelectedPlace
           destination={selected}
-          category={displayCategory(selected, active)}
+          category={selected ? displayCategory(selected, active) : null}
           onClose={() => onSelect(null)}
           onBack={onBackToList}
           ride={ride}
           locating={locating}
           ridingHere={ridingHere}
-          onRideTo={() => onRideTo(selected.id)}
+          onRideTo={() => onRideTo(selected?.id)}
           onTurnOnLocation={onTurnOnLocation}
           onMeasure={setCardHeight}
           stop={stop}
@@ -179,7 +182,7 @@ function TrailFacts({ onDismiss, onToggle }) {
       <View style={styles.facts}>
         <Fact icon={Ruler} label="Paved path" value={`${TRAIL_MILES} mi`} />
         <Fact icon={MapPinned} label="Connectors" value={`${CONNECTOR_MILES} mi`} />
-        <Fact icon={Route} label="Surface" value="Paved" />
+        <Fact icon={Bike} label="Surface" value="Paved" />
       </View>
 
       <View style={styles.legend}>
@@ -189,6 +192,11 @@ function TrailFacts({ onDismiss, onToggle }) {
           for which ones suit small kids.
         </Text>
       </View>
+
+      <Text style={styles.eyebrow}>The buttons on the right</Text>
+      <RailHelp icon={Route} text="Just the path: hides every pin, so only the path and its links show." />
+      <RailHelp icon={Crosshair} text="Back to the whole trail." />
+      <RailHelp icon={LocateFixed} text="Show where you are. Optional, and your location is never saved." />
 
       <Text style={styles.eyebrow}>Trailheads</Text>
       {trailheads.map((t) => (
@@ -208,6 +216,17 @@ function TrailFacts({ onDismiss, onToggle }) {
         ))}
       </View>
     </ScrollView>
+  );
+}
+
+function RailHelp({ icon: Icon, text: label }) {
+  return (
+    <View style={styles.railHelp}>
+      <View style={styles.railHelpIcon}>
+        <Icon size={18} color={colors.ink} strokeWidth={2.1} />
+      </View>
+      <Text style={styles.railHelpText}>{label}</Text>
+    </View>
   );
 }
 
@@ -305,8 +324,10 @@ function SelectedPlace({
   onToggle,
   collapsed,
 }) {
-  const cat = categoryById[category];
-  const alsoIn = destination.categories.filter((c) => c !== category);
+  // A stop on a followed ride may be scenery with no place behind it: then
+  // the card is just its name and note.
+  const cat = destination ? categoryById[category] : null;
+  const alsoIn = destination ? destination.categories.filter((c) => c !== category) : [];
   return (
     <ScrollView
       contentContainerStyle={styles.pad}
@@ -326,9 +347,15 @@ function SelectedPlace({
         </Pressable>
       )}
       <View style={styles.selectedHeader}>
-        <View style={[styles.selectedIcon, { backgroundColor: tint(cat.color) }]}>
-          <CategoryIcon category={category} size={20} color={cat.color} />
-        </View>
+        {stop ? (
+          <View style={styles.stopIcon}>
+            <Text style={styles.stopIconText}>{stop.number}</Text>
+          </View>
+        ) : (
+          <View style={[styles.selectedIcon, { backgroundColor: tint(cat.color) }]}>
+            <CategoryIcon category={category} size={20} color={cat.color} />
+          </View>
+        )}
         <Pressable onPress={onToggle} style={styles.selectedTitle}>
           <Text style={[styles.selectedEyebrow, { color: stop ? colors.route : cat.color }]}>
             {stop ? `Stop ${stop.number} of ${stop.total}` : cat.label}
@@ -352,6 +379,61 @@ function SelectedPlace({
 
       <Text style={styles.selectedBlurb}>{stop ? stop.note : destination.description}</Text>
 
+      {stop && <StopSteps stop={stop} />}
+
+      {destination && (
+        <PlaceDetails
+          destination={destination}
+          category={category}
+          cat={cat}
+          alsoIn={alsoIn}
+          ride={ride}
+          locating={locating}
+          ridingHere={ridingHere}
+          onRideTo={onRideTo}
+          onTurnOnLocation={onTurnOnLocation}
+        />
+      )}
+    </ScrollView>
+  );
+}
+
+// Previous and next stop on a followed ride, big enough to hit from a bike.
+function StopSteps({ stop }) {
+  return (
+    <View style={styles.stopSteps}>
+      <StepButton label={`Stop ${stop.number - 1}`} onPress={stop.onPrev} icon={ChevronLeft} />
+      <StepButton label={`Stop ${stop.number + 1}`} onPress={stop.onNext} icon={ChevronRight} trailing />
+    </View>
+  );
+}
+
+function StepButton({ label, onPress, icon: Icon, trailing }) {
+  const disabled = !onPress;
+  return (
+    <Pressable
+      onPress={onPress ?? undefined}
+      disabled={disabled}
+      accessibilityRole="button"
+      accessibilityState={{ disabled }}
+      accessibilityLabel={trailing ? 'Next stop' : 'Previous stop'}
+      style={({ pressed }) => [
+        styles.stepButton,
+        trailing && styles.stepButtonTrailing,
+        disabled && styles.stepButtonDisabled,
+        pressed && styles.backPressed,
+      ]}
+    >
+      {!trailing && <Icon size={22} color={disabled ? colors.line : colors.forest} strokeWidth={2.4} />}
+      <Text style={[styles.stepText, disabled && styles.stepTextDisabled]}>{disabled ? '' : label}</Text>
+      {trailing && <Icon size={22} color={disabled ? colors.line : colors.forest} strokeWidth={2.4} />}
+    </Pressable>
+  );
+}
+
+function PlaceDetails({ destination, category, cat, alsoIn, ride, locating, ridingHere, onRideTo, onTurnOnLocation }) {
+  return (
+    <>
       <RideRow
         ride={ride}
         locating={locating}
@@ -392,7 +474,7 @@ function SelectedPlace({
           </Text>
         </Pressable>
       )}
-    </ScrollView>
+    </>
   );
 }
 
@@ -496,6 +578,28 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     color: colors.inkSoft,
   },
+  railHelp: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 8,
+  },
+  railHelpIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.line,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  railHelpText: {
+    flex: 1,
+    fontFamily: fonts.sans,
+    fontSize: 14,
+    lineHeight: 19,
+    color: colors.inkSoft,
+  },
   eyebrow: {
     ...text.eyebrow,
     marginTop: 20,
@@ -584,6 +688,50 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 2,
+  },
+  stopIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: colors.forest,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 2,
+  },
+  stopIconText: {
+    fontFamily: fonts.sansBold,
+    fontSize: 18,
+    color: colors.white,
+  },
+  stopSteps: {
+    marginTop: 16,
+    flexDirection: 'row',
+    gap: 12,
+  },
+  stepButton: {
+    flex: 1,
+    minHeight: 56,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 14,
+    borderRadius: radius.pill,
+    borderWidth: 2,
+    borderColor: colors.forest,
+  },
+  stepButtonTrailing: {
+    justifyContent: 'flex-end',
+  },
+  stepButtonDisabled: {
+    borderColor: colors.line,
+  },
+  stepText: {
+    fontFamily: fonts.sansSemiBold,
+    fontSize: 18,
+    color: colors.forest,
+  },
+  stepTextDisabled: {
+    color: colors.inkFaint,
   },
   selectedTitle: fillRow,
   selectedEyebrow: text.eyebrow,

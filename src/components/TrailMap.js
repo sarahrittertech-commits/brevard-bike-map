@@ -98,9 +98,18 @@ export default memo(function TrailMap({
   selected,
   onSelect,
   route,
+  // True while riding to a place: the fitted ride owns the camera.
+  riding,
+  // Riding to a place: the part of the way already ridden, drawn faint.
+  routeDone,
   routeStops,
   // Index of the stop the rider reaches next, drawn larger in the route brown.
   nextStop,
+  // Index of the stop whose card is open. iOS ignores a tap on a marker it
+  // still counts as selected, so a stop's marker is redrawn when its card
+  // opens or closes, as place pins are; without it a stop opened once could
+  // not be opened again.
+  selectedStop,
   onSelectStop,
   fitKey,
   fitLatLngs,
@@ -178,8 +187,9 @@ export default memo(function TrailMap({
 
   useEffect(() => {
     // While riding to the place, the fitted ride owns the camera; centring
-    // the place would zoom back in and push the rider off screen.
-    if (!mapRef.current || !selected || !height || route) return undefined;
+    // the place would zoom back in and push the rider off screen. A stop on
+    // a followed adventure still centres.
+    if (!mapRef.current || !selected || !height || riding) return undefined;
     // Put the selected place in the middle of the map the card leaves
     // visible: between the header and the card, or between the docked column
     // and the rail. Earlier versions worked this out from the zoom they asked
@@ -224,7 +234,7 @@ export default memo(function TrailMap({
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [selected, route, docked, width, height, sheetHeight, clear.top, clear.left, clear.right]);
+  }, [selected, riding, docked, width, height, sheetHeight, clear.top, clear.left, clear.right]);
 
   useEffect(() => {
     if (!mapRef.current || !userFocus) return;
@@ -269,6 +279,9 @@ export default memo(function TrailMap({
 
       {/* The followed route: wide, with a white edge, so it reads at a glance
           from a bike. */}
+      {routeDone?.length > 1 && (
+        <Polyline coordinates={routeDone} strokeColor={`${colors.route}59`} strokeWidth={9} lineCap="round" lineJoin="round" />
+      )}
       {route && <Polyline coordinates={route} strokeColor={colors.white} strokeWidth={13} lineCap="round" lineJoin="round" />}
       {route && <Polyline coordinates={route} strokeColor={colors.route} strokeWidth={9} lineCap="round" lineJoin="round" />}
 
@@ -304,7 +317,7 @@ export default memo(function TrailMap({
         const isNext = stop.index === nextStop;
         return (
           <Marker
-            key={`stop-${stop.index}-${isNext}`}
+            key={`stop-${stop.index}-${isNext}-${stop.index === selectedStop}`}
             coordinate={toLatLng(stop.coordinates)}
             anchor={{ x: 0.5, y: 0.5 }}
             tracksViewChanges={tracking}
