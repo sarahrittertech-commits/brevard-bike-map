@@ -175,6 +175,12 @@ OpenStreetMap):
   crossings are listed before lunch, where they are ridden.
 - The Apple Maps logo is no longer hidden under the sheet; Apple's terms
   want it seen.
+- **Location comes back on by itself** (Sarah, after testing build 11).
+  Location used to start off at every launch, so a rider who had already
+  said "While Using the App" had to tap the button each time. Once it has
+  been allowed, the app now turns it on as it opens, without asking and
+  without moving the map. Nobody who has not allowed it is asked anything
+  until they tap the button, and the button still turns it off.
 - Location while riding asks for GPS accuracy; the map's own blue dot keeps
   GPS on anyway, so it costs no battery.
 

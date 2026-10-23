@@ -404,14 +404,16 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     setActive((prev) => (prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]));
   };
 
-  // Showing the rider's location is opt-in, every launch: nothing is asked
-  // until they tap the button, the dot goes away when they tap it again, and
-  // the position never leaves the phone or outlives the session. The system
-  // asks for permission the first time only; after a refusal the button
-  // explains where to turn it back on rather than asking again.
-  // `fromPlace` is set when the rider turns location on from a place's card:
-  // the card stays open and the map stays put, so the distance appears where
-  // they asked for it.
+  // Showing the rider's location is opt-in: nothing is asked until they tap
+  // the button, the dot goes away when they tap it again, and the position
+  // never leaves the phone or outlives the session. The system asks for
+  // permission the first time only; after a refusal the button explains
+  // where to turn it back on rather than asking again. Once they have allowed
+  // it, the app turns it on again at each launch (below).
+  // `fromPlace` is set when the rider turns location on from a place's card,
+  // or by that launch: the card stays open and the map stays put, so the
+  // distance appears where they asked for it. `quiet` skips the note about
+  // being outside Brevard, which a launch should not open with.
   // The app's own explanation is shown once a session. iOS's "Allow Once"
   // lapses whenever the app is put away, so without this a rider who chose it
   // would read the same message every time.
@@ -425,7 +427,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     setRideTo(null);
     setPendingRideId(null);
   };
-  const locate = async (fromPlace = false) => {
+  const locate = async (fromPlace = false, quiet = false) => {
     // Each tap starts a new run; a fix that arrives after the rider has
     // switched location off again belongs to an old run and is dropped.
     const run = ++locateRun.current;
@@ -471,7 +473,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
           setSheetOpen(false);
           setUserFocus({ key: Date.now(), latitude: fix.latitude, longitude: fix.longitude });
         }
-      } else {
+      } else if (!quiet) {
         Alert.alert(
           `You're outside ${TOWN_NAME}`,
           `Your location is on, but this map only covers ${TOWN_NAME}, so it stays here. Come ride!`
@@ -520,6 +522,18 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
       sub?.remove();
     };
   }, [locating]);
+
+  // A rider who has already allowed location (Sarah, 23 October: it should
+  // not have to be turned on again every time the app opens) gets it back at
+  // launch, with nothing asked. Anyone who has not is asked nothing until
+  // they tap the button.
+  useEffect(() => {
+    Location.getForegroundPermissionsAsync()
+      .then((p) => p.status === 'granted' && locate(true, true))
+      .catch(() => {});
+    // Once, at launch.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Riding to a place: the sheet drops to peek so the way there gets the map.
   const startRide = () => {
