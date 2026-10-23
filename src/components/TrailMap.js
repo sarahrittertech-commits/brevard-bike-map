@@ -2,7 +2,15 @@ import { memo, useEffect, useRef, useState } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 
-import { LandmarkLabel, PlacePin, SELECTED_PIN_HEIGHT, StopMarker, TrailheadMarker } from './MapPins';
+import {
+  LANDMARK_DOT_OFFSET,
+  LandmarkLabel,
+  PIN_HEIGHT,
+  PlacePin,
+  SELECTED_PIN_HEIGHT,
+  StopMarker,
+  TrailheadMarker,
+} from './MapPins';
 import {
   categoryById,
   displayCategory,
@@ -21,6 +29,8 @@ const SELECT_SPAN = 0.03;
 const MAX_ZOOM = 18;
 
 const ANDROID = Platform.OS === 'android';
+// Clear space above a place pin, part of its touch area.
+const PIN_HIT_TOP = 12;
 
 // The network never changes while the app runs, so its lines are converted
 // once here rather than on every render, which would hand the native
@@ -68,7 +78,10 @@ const StaticLayers = memo(function StaticLayers({ faded, tracking }) {
         <Marker
           key={landmark.id}
           coordinate={toLatLng(landmark.coordinates)}
+          // anchor is Google's; Apple Maps centres a custom view on the
+          // coordinate and needs centerOffset to put the dot there instead.
           anchor={{ x: landmark.labelSide === 'right' ? 0 : 1, y: 0.5 }}
+          centerOffset={{ x: landmark.labelSide === 'right' ? LANDMARK_DOT_OFFSET : -LANDMARK_DOT_OFFSET, y: 0 }}
           tappable={false}
           tracksViewChanges={tracking}
           zIndex={-1}
@@ -311,6 +324,9 @@ export default memo(function TrailMap({
             key={`${d.id}-${category}-${isSelected}`}
             coordinate={toLatLng(d.coordinates)}
             anchor={{ x: 0.5, y: 1 }}
+            // Apple Maps: lift the view by half its height so the tip, not the
+            // middle of the pin, is on the place.
+            centerOffset={{ x: 0, y: -(PIN_HIT_TOP + (isSelected ? SELECTED_PIN_HEIGHT : PIN_HEIGHT)) / 2 }}
             tracksViewChanges={tracking}
             zIndex={isSelected ? 10 : 1}
             tappable={!riding}
@@ -358,6 +374,6 @@ const styles = StyleSheet.create({
   },
   pinHitArea: {
     paddingHorizontal: 12,
-    paddingTop: 12,
+    paddingTop: PIN_HIT_TOP,
   },
 });

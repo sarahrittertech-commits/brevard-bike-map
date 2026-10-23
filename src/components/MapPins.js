@@ -8,12 +8,13 @@ const TEARDROP = 'M12 0C5.373 0 0 5.373 0 12c0 8.4 12 22 12 22s12-13.6 12-22C24 
 
 // The camera maths in TrailMap offsets by half this to centre a selected pin.
 export const SELECTED_PIN_HEIGHT = 48;
+export const PIN_HEIGHT = 37;
 
 // Teardrop pin carrying the category's own glyph, sized up when selected.
 // Anchor the Marker at { x: 0.5, y: 1 } so the tip sits on the coordinate.
 export function PlacePin({ category, color, selected }) {
   const w = selected ? 34 : 26;
-  const h = selected ? SELECTED_PIN_HEIGHT : 37;
+  const h = selected ? SELECTED_PIN_HEIGHT : PIN_HEIGHT;
   const glyph = selected ? 18 : 14;
   return (
     <View style={{ width: w, height: h }}>
@@ -34,6 +35,13 @@ export function PlacePin({ category, color, selected }) {
 // and lets neighbouring labels collide. A fixed box measures predictably, so
 // the dot lands on the coordinate and the text sits to one side of it.
 const LANDMARK_TEXT_WIDTH = 132;
+const LANDMARK_DOT = 8;
+const LANDMARK_GAP = 6;
+// How far the dot sits from the middle of its row. Apple Maps ignores a
+// marker's anchor for a custom view and centres the view on the coordinate,
+// so on iOS the row is shifted by this much (centerOffset) to put the dot
+// there instead.
+export const LANDMARK_DOT_OFFSET = (LANDMARK_DOT + LANDMARK_GAP + LANDMARK_TEXT_WIDTH) / 2 - LANDMARK_DOT / 2;
 
 // Small dot with a haloed label on one side. Anchor at the dot: x 0 for a
 // right-hand label, x 1 for a left-hand one, y 0.5.
@@ -93,15 +101,15 @@ const styles = StyleSheet.create({
   landmarkRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: LANDMARK_GAP,
     height: 16,
   },
   landmarkRowLeft: {
     flexDirection: 'row-reverse',
   },
   landmarkDot: {
-    width: 8,
-    height: 8,
+    width: LANDMARK_DOT,
+    height: LANDMARK_DOT,
     borderRadius: 4,
     backgroundColor: colors.forestDeep,
     borderWidth: 1.5,
