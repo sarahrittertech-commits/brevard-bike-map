@@ -27,6 +27,9 @@ const {
   buildRouteGraph,
   routeOnGraph,
   rideMinutes,
+  placeStops,
+  riderAlong,
+  trackAlong,
   nextStopIndex,
   progressAlong,
 } = require('../src/lib/select');
@@ -199,28 +202,54 @@ test('UT-8', 'routeOnGraph: routes only along drawn lines, joining ones that nea
   assert.equal(rideMinutes(2.3), 20);
 });
 
-test('UT-9', 'nextStopIndex: the next pinned stop ahead of the rider along the route', () => {
-  // A route running east; stops 0 and 2 are pinned, stop 1 is scenery.
-  const route = [[-82.74, 35.23], [-82.70, 35.23]];
-  const pins = [
-    { index: 0, coordinates: [-82.735, 35.23] },
-    { index: 2, coordinates: [-82.71, 35.23] },
-  ];
-  assert.equal(nextStopIndex(route, pins, [-82.739, 35.23]), 0, 'at the start, stop 1 is next');
-  assert.equal(nextStopIndex(route, pins, [-82.72, 35.2302]), 2, 'between them, stop 3 is next');
-  assert.equal(nextStopIndex(route, pins, [-82.705, 35.23]), null, 'past the last stop');
-  assert.equal(nextStopIndex(route, pins, [-82.72, 35.25]), null, 'far off the route');
-
-  // An out-and-back passes stop 1's spot twice; on the way out stop 1 is
-  // next, and on the way back the return stop is, not stop 1 again.
-  const outAndBack = [[-82.74, 35.23], [-82.70, 35.23], [-82.74, 35.2301]];
+test('UT-9', 'placeStops, riderAlong, nextStopIndex: NEXT follows a loop forwards', () => {
+  // Bracken-like loop: out east and back west a few feet north, ending where
+  // it started. Stop 1 is at the start, stop 2 at the far end, and stop 3 sits
+  // beside the start but is the last stop of the ride.
+  const loop = [[-82.74, 35.23], [-82.70, 35.23], [-82.70, 35.2302], [-82.74, 35.2302]];
   const loopPins = [
-    { index: 0, coordinates: [-82.735, 35.23] },
-    { index: 1, coordinates: [-82.70, 35.23] },
-    { index: 2, coordinates: [-82.72, 35.2301] },
+    { index: 0, coordinates: [-82.74, 35.2299] },
+    { index: 1, coordinates: [-82.70, 35.2301] },
+    { index: 2, coordinates: [-82.74, 35.2303] },
   ];
-  assert.equal(nextStopIndex(outAndBack, loopPins, [-82.739, 35.23]), 0, 'heading out: stop 1');
-  assert.equal(nextStopIndex(outAndBack, loopPins, [-82.71, 35.23009]), 2, 'heading back: the return stop, not stop 1');
+  const placed = placeStops(loop, loopPins);
+  assert.deepEqual(placed.map((p) => p.index), [0, 1, 2]);
+  assert.ok(placed[2].alongFt > placed[1].alongFt, 'the last stop is placed at the end, not the start it is near');
+  assert.ok(placed.every((p) => p.placed));
+
+  // A stop passed twice (out and back on the same line) goes on the pass
+  // that keeps the itinerary in order.
+  const outAndBack = [[-82.74, 35.23], [-82.72, 35.23], [-82.70, 35.23], [-82.72, 35.23], [-82.74, 35.23]];
+  const obPins = [
+    { index: 0, coordinates: [-82.72, 35.2301] }, // on the way out
+    { index: 1, coordinates: [-82.70, 35.2301] }, // the turn
+    { index: 2, coordinates: [-82.72, 35.2299] }, // the same spot, on the way back
+  ];
+  const obPlaced = placeStops(outAndBack, obPins);
+  assert.ok(obPlaced[0].alongFt < obPlaced[1].alongFt && obPlaced[1].alongFt < obPlaced[2].alongFt);
+
+  // A rider on that line, which is drawn back exactly over itself: walking
+  // out and back, NEXT goes 1, 2, 3 and never back to an earlier stop.
+  const walk = [];
+  for (let k = 0; k <= 40; k++) walk.push([-82.74 + (0.04 * k) / 40, 35.23]);
+  for (let k = 1; k <= 40; k++) walk.push([-82.70 - (0.04 * k) / 40, 35.23]);
+  let prev = null;
+  const seen = [];
+  for (const p of walk) {
+    const at = riderAlong(outAndBack, p, prev);
+    prev = trackAlong(prev, at.alongFt);
+    const next = nextStopIndex(obPlaced, prev);
+    if (seen[seen.length - 1] !== next) seen.push(next);
+  }
+  assert.deepEqual(seen, [0, 1, 2, null], 'NEXT 1, 2, 3, then done');
+
+  // With no earlier fix the rider is on the nearest spot; far off it, the
+  // nearest spot is still reported, with its distance.
+  assert.ok(riderAlong(outAndBack, [-82.72, 35.25]).offFt > 5000);
+  // A small step back is GPS wobble; a big one is a real turn back.
+  assert.equal(trackAlong(1000, 950), 1000);
+  assert.equal(trackAlong(1000, 400), 400);
+  assert.equal(trackAlong(null, 400), 400);
 });
 
 test('UT-10', 'progressAlong: splits a ride where the rider is, keeping the whole line', () => {
@@ -236,6 +265,13 @@ test('UT-10', 'progressAlong: splits a ride where the rider is, keeping the whol
   assert.equal(Math.round(progressAlong(line, line[0]).aheadFt), Math.round(total), 'at the start, all of it is ahead');
   assert.equal(Math.round(progressAlong(line, line[2]).aheadFt), 0, 'at the place, nothing is ahead');
   assert.ok(progressAlong(line, [-82.72, 35.25]).offFt > 5000, 'far off the line says so');
+
+  // A way that goes out a spur and back: on the way back the split stays on
+  // the return leg, given how far along the rider had got.
+  const spur = [[-82.74, 35.23], [-82.72, 35.23], [-82.74, 35.23]];
+  const out = progressAlong(spur, [-82.73, 35.23]);
+  const back = progressAlong(spur, [-82.73, 35.23], out.doneFt + 5500);
+  assert.ok(back.doneFt > out.doneFt + 4000, 'the return leg, not the way out');
 });
 
 // Run

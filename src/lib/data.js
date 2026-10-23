@@ -59,6 +59,9 @@ export const trailheads = [
 // Every point on the rideable network, for fitting the map to it.
 export const networkLatLngs = network.flatMap((s) => lineToLatLngs(s.geometry));
 
+// A { latitude, longitude } position as GeoJSON's [lon, lat].
+const toLonLat = (position) => [position.longitude, position.latitude];
+
 // About 3 miles round the network: Pisgah's edge and the far end of town still
 // count as here; Asheville does not.
 export const isNearBrevard = (position) => select.isNearArea(position, networkLatLngs, 0.05);
@@ -75,7 +78,7 @@ const REACH_FT = 1000;
 const routeGraph = select.buildRouteGraph(network);
 
 export function rideToPlace(position, destination) {
-  const from = [position.longitude, position.latitude];
+  const from = toLonLat(position);
   const route = select.routeOnGraph(routeGraph, from, destination.coordinates);
   if (!route || route.endOffFt > REACH_FT) return { reachable: false };
   const miles = (route.startOffFt + route.pathFt + route.endOffFt) / 5280;
@@ -95,11 +98,14 @@ export function rideToPlace(position, destination) {
 // was drawn, split at the rider into the part ridden and the part ahead.
 // Within ARRIVED_FT of the end they are there. offFt grows when they leave the
 // way, so the screen can draw a fresh one.
+// prevFt is how far along the line the rider had got (the last result's
+// alongFt), so a line that doubles back keeps them on the leg they are riding.
 const ARRIVED_FT = 150;
-export function rideProgress(line, position) {
-  const p = select.progressAlong(line, [position.longitude, position.latitude]);
+export function rideProgress(line, position, prevFt = null) {
+  const p = select.progressAlong(line, toLonLat(position), prevFt);
   const milesLeft = p.aheadFt / 5280;
   return {
+    alongFt: select.trackAlong(prevFt, p.doneFt),
     done: p.done.map(toLatLng),
     ahead: p.ahead.map(toLatLng),
     arrived: p.aheadFt <= ARRIVED_FT,
@@ -110,16 +116,30 @@ export function rideProgress(line, position) {
   };
 }
 
-// The stop a rider following an adventure reaches next, or null.
-export const nextStopOf = (adventure, position) =>
-  select.nextStopIndex(adventure.route.coordinates, adventureStopPins(adventure), [
-    position.longitude,
-    position.latitude,
-  ]);
-
-// Stops on an adventure that correspond to a pinned destination, in order.
+// Stops on an adventure that can be pinned (a place, or a location of their
+// own), in order.
 export const adventureStopPins = (adventure) =>
   select.selectStopPins(adventure, destinationById);
+
+// Where each pinned stop sits along its adventure's route. It never changes,
+// so it is worked out once per adventure.
+const placements = new Map();
+const placedStopsOf = (adventure) => {
+  if (!placements.has(adventure.id)) {
+    placements.set(adventure.id, select.placeStops(adventure.route.coordinates, adventureStopPins(adventure)));
+  }
+  return placements.get(adventure.id);
+};
+
+// The stop a rider following an adventure reaches next ({ index, alongFt }),
+// or null more than half a mile from the route, where "next" means nothing.
+// prevFt is the last result's alongFt: how far along the rider had got.
+export function nextStopOf(adventure, position, prevFt = null) {
+  const at = select.riderAlong(adventure.route.coordinates, toLonLat(position), prevFt);
+  if (!at || at.offFt > 2640) return null;
+  const alongFt = select.trackAlong(prevFt, at.alongFt);
+  return { index: select.nextStopIndex(placedStopsOf(adventure), alongFt), alongFt };
+}
 
 // A stop's own photo, by the basename in its `photo` field. Small: 480x320.
 // Static require()s, like the adventure photos below; the validator checks

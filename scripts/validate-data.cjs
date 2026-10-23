@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Validates the static data files before they reach a build.
- * Implements checks DT-1 to DT-10 from the test case documentation.
+ * Implements checks DT-1 to DT-12 from the test case documentation.
  *
  * Usage:
  *   node scripts/validate-data.cjs            # warnings are non-fatal
@@ -16,6 +16,9 @@ const IMAGE_DIR = path.join(__dirname, '..', 'assets', 'adventures');
 const STOP_IMAGE_DIR = path.join(__dirname, '..', 'assets', 'stops');
 // A stop pinned by its own coordinates should sit on or beside its ride.
 const STOP_OFF_ROUTE_FT = 500;
+// How much further off its route a stop may be placed, to keep the itinerary
+// in order, than the route's nearest approach to it (DT-12).
+const STOP_ORDER_SLACK_FT = 300;
 // Photos are require()d statically in src/lib/data.js; the bundler only picks
 // up images listed there, so the jpg existing on disk is not enough.
 const IMAGE_MAP_FILE = path.join(__dirname, '..', 'src', 'lib', 'data.js');
@@ -340,7 +343,7 @@ for (const a of adventures) {
 // above and still breaks one of them. Bike Brevard Kids also carries no
 // brewery, taproom or bar wording at all. "Dairy Bar" is why "bar" is not on
 // the list.
-const { APP_IDS, forApp } = require('../src/lib/select');
+const { APP_IDS, forApp, selectStopPins, placeStops, riderAlong, trackAlong, nextStopIndex } = require('../src/lib/select');
 const ADULT_WORDING = /\b(brew\w*|taprooms?|tavern|beers?|pints?|wines?|cocktails?)\b/i;
 for (const app of APP_IDS) {
   const appCategories = forApp(categories, app);
@@ -365,6 +368,50 @@ for (const app of APP_IDS) {
       warn('DT-10', `In the ${app} app, category "${c.id}" has no places`);
     }
   }
+  // DT-12 — NEXT follows each ride in order. A rider is walked along the
+  // route every ~50 ft, tracked fix to fix as the app does; every pinned stop
+  // after the first must come up as NEXT, NEXT must never go back to an
+  // earlier stop, and every stop must fit the route in itinerary order.
+  const appById = Object.fromEntries(appDestinations.map((d) => [d.id, d]));
+  for (const a of appAdventures) {
+    const r = a.route?.coordinates;
+    if (!Array.isArray(r) || r.length < 2) continue;
+    const pins = selectStopPins(a, appById);
+    if (!pins.length) continue;
+    const placed = placeStops(r, pins);
+    // Placed on a pass much further off than the route's nearest approach
+    // to the stop: the itinerary and the drawn route disagree about order.
+    for (const p of placed) {
+      const pin = pins.find((x) => x.index === p.index);
+      const nearestFt = nearestOnLine(pin.coordinates, r);
+      if (!p.placed || p.offFt > nearestFt + STOP_ORDER_SLACK_FT) {
+        fail('DT-12', `In the ${app} app, adventure "${a.id}" stop ${p.index + 1} does not fit its route in itinerary order`);
+      }
+    }
+    let prevFt = null;
+    let last;
+    const seen = new Set();
+    for (let i = 0; i < r.length - 1; i++) {
+      const steps = Math.max(1, Math.ceil(haversine(r[i], r[i + 1]) * 5280 / 50));
+      for (let k = 0; k < steps; k++) {
+        const t = k / steps;
+        const p = [r[i][0] + (r[i + 1][0] - r[i][0]) * t, r[i][1] + (r[i + 1][1] - r[i][1]) * t];
+        prevFt = trackAlong(prevFt, riderAlong(r, p, prevFt).alongFt);
+        const next = nextStopIndex(placed, prevFt);
+        if (last !== undefined && (last === null ? next !== null : next !== null && next < last)) {
+          fail('DT-12', `In the ${app} app, adventure "${a.id}": NEXT goes back from ${last === null ? 'none' : `stop ${last + 1}`} to stop ${next + 1} along its route`);
+          i = r.length;
+          break;
+        }
+        if (next !== null) seen.add(next);
+        last = next;
+      }
+    }
+    for (const pin of pins.slice(1)) {
+      if (!seen.has(pin.index)) fail('DT-12', `In the ${app} app, adventure "${a.id}" stop ${pin.index + 1} is never NEXT along its route`);
+    }
+  }
+
   if (app === 'kids') {
     const everything = [...appCategories, ...appDestinations, ...forApp(network, app), ...forApp(landmarks, app), ...appAdventures];
     for (const item of everything) {

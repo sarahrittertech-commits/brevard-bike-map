@@ -238,79 +238,145 @@ function routeOnGraph(graph, from, to) {
   return result([s.coord, ...path, t.coord], Math.min(viaA, viaB));
 }
 
-// How far along a line a [lon, lat] point is, in feet, measured at the
-// nearest spot on the line, and how far off the line it is. Used to tell
-// which stop on an adventure comes next.
-// `fromFt` ignores the line before that distance. Where the line passes the
-// point more than once (a loop, an out-and-back), the first pass within
-// `slackFt` of the closest one counts, so a stop on the way out is not
-// matched to the way back. The rider passes 0: they are on whichever pass
-// they are closest to.
-const SAME_PASS_FT = 250;
-function alongLine(coords, point, fromFt = 0, slackFt = SAME_PASS_FT) {
+// Where a [lon, lat] point falls against each segment of a line: the nearest
+// spot on that segment, how far along the line it is, and how far off.
+function segmentHits(coords, point) {
   const lat0 = coords[0][1];
   const cosLat = Math.cos((lat0 * Math.PI) / 180);
   const p = toFeet(point, cosLat);
-  let acc = 0;
   const hits = [];
-  for (let i = 0; i < coords.length - 1; i++) {
-    const a = toFeet(coords[i], cosLat);
-    const b = toFeet(coords[i + 1], cosLat);
-    const len = Math.hypot(b[0] - a[0], b[1] - a[1]);
-    const hit = projectOnto(p, a, b);
-    if (acc + hit.t * len >= fromFt) hits.push({ alongFt: acc + hit.t * len, offFt: hit.dist });
-    acc += len;
-  }
-  if (!hits.length) return null;
-  const closest = Math.min(...hits.map((h) => h.offFt));
-  return hits.find((h) => h.offFt <= closest + slackFt);
-}
-
-// The next stop on a followed adventure: the first pinned stop further along
-// the route than the rider. Null if the rider is past the last one or far
-// from the route (more than half a mile), where "next" means nothing.
-function nextStopIndex(route, stopPins, position) {
-  const rider = alongLine(route, position, 0, 0);
-  if (!rider || rider.offFt > 2640) return null;
-  // Stops are matched in itinerary order, each no earlier along the route
-  // than the one before, so a loop's stops land on the right pass.
-  let fromFt = 0;
-  const placed = stopPins.map((s) => {
-    const hit = alongLine(route, s.coordinates, fromFt) ?? { alongFt: fromFt };
-    fromFt = hit.alongFt;
-    return { index: s.index, alongFt: hit.alongFt };
-  });
-  const ahead = placed.filter((s) => s.alongFt > rider.alongFt + 100);
-  return ahead.length ? ahead[0].index : null;
-}
-
-// How far along a ride's line the rider is: the line split where they are,
-// so the part ridden can be drawn apart from the part ahead, and the feet of
-// each. offFt is how far the rider is from the line, for noticing when they
-// have left it.
-function progressAlong(coords, point) {
-  const lat0 = coords[0][1];
-  const cosLat = Math.cos((lat0 * Math.PI) / 180);
-  const p = toFeet(point, cosLat);
   let acc = 0;
-  let best = null;
   for (let i = 0; i < coords.length - 1; i++) {
     const a = toFeet(coords[i], cosLat);
     const b = toFeet(coords[i + 1], cosLat);
     const len = Math.hypot(b[0] - a[0], b[1] - a[1]);
     const hit = projectOnto(p, a, b);
-    if (!best || hit.dist < best.offFt) best = { edge: i, t: hit.t, doneFt: acc + hit.t * len, offFt: hit.dist };
+    hits.push({ edge: i, t: hit.t, alongFt: acc + hit.t * len, offFt: hit.dist });
     acc += len;
   }
-  const [x0, y0] = coords[best.edge];
-  const [x1, y1] = coords[best.edge + 1];
-  const at = [x0 + (x1 - x0) * best.t, y0 + (y1 - y0) * best.t];
+  return { hits, totalFt: acc };
+}
+
+// The separate times a line passes a point (a loop or an out-and-back passes
+// some places twice): the hits no further than the segments either side. On
+// a single pass that is one hit, the true nearest spot, not the first
+// segment that comes close on the approach. Two segments meeting at a vertex
+// both report that vertex; it counts once. A leg drawn straight back reports
+// the same distance at a different spot along the line, which is a pass of
+// its own.
+function passesNear(hits) {
+  const sameSpot = (a, b) => Math.abs(a.alongFt - b.alongFt) < 1;
+  return hits.filter((h, i) => {
+    const before = hits[i - 1];
+    const after = hits[i + 1];
+    if (before && (h.offFt > before.offFt || (h.offFt === before.offFt && sameSpot(h, before)))) return false;
+    return !after || h.offFt <= after.offFt;
+  });
+}
+
+// Where each pinned stop of an adventure sits along its route, in feet.
+// Each stop takes one of the passes near it, chosen so the stops stay in
+// itinerary order with the least total distance off the route: a loop's
+// first stop lands on the way out even if the way back runs closer, and a
+// last stop near the start lands at the end. A stop no order-keeping pass
+// fits (the itinerary and the drawn route disagree) is placed with the stop
+// before it; the validator flags those (DT-12).
+const UNPLACED_COST = 1e7;
+function placeStops(route, stopPins) {
+  let states = [{ alongFt: 0, cost: 0, path: [] }];
+  for (const pin of stopPins) {
+    const passes = passesNear(segmentHits(route, pin.coordinates).hits);
+    const next = [];
+    for (const pass of passes) {
+      let best = null;
+      for (const st of states) {
+        if (st.alongFt <= pass.alongFt && (!best || st.cost < best.cost)) best = st;
+      }
+      if (best) {
+        next.push({
+          alongFt: pass.alongFt,
+          cost: best.cost + pass.offFt,
+          path: [...best.path, { index: pin.index, alongFt: pass.alongFt, offFt: pass.offFt, placed: true }],
+        });
+      }
+    }
+    for (const st of states) {
+      next.push({
+        alongFt: st.alongFt,
+        cost: st.cost + UNPLACED_COST,
+        path: [...st.path, { index: pin.index, alongFt: st.alongFt, offFt: null, placed: false }],
+      });
+    }
+    // Of states at the same spot along the route, only the cheapest matters.
+    const byAlong = new Map();
+    for (const st of next) {
+      const key = st.alongFt.toFixed(1);
+      if (!byAlong.has(key) || st.cost < byAlong.get(key).cost) byAlong.set(key, st);
+    }
+    states = [...byAlong.values()];
+  }
+  return states.reduce((a, b) => (b.cost < a.cost ? b : a)).path;
+}
+
+// Where the rider is along a line. With no earlier position it is the
+// nearest spot on it. With one, only passes from a little behind where they were
+// (BACK_FT, for GPS wobble) to a stretch ahead (AHEAD_FT) count, and going
+// backwards costs as much as being off the line (and a long jump ahead a
+// quarter as much): where a leg is drawn back
+// over itself both passes are equally near, and the rider is on the one
+// that carries them forward. With no pass in that window (they turned back,
+// or jumped) it falls back to the nearest pass.
+const BACK_FT = 150;
+const AHEAD_FT = 1500;
+const JUMP_FT = 150;
+function riderAlong(coords, point, prevFt = null) {
+  if (coords.length < 2) return null;
+  // Every segment, not just passesNear: where a spur is drawn out and back,
+  // both legs touch the rider at the same distance and only the cost below
+  // can tell them apart.
+  const { hits, totalFt } = segmentHits(coords, point);
+  const best = (list, cost) => list.reduce((a, b) => (cost(b) < cost(a) ? b : a));
+  let pick = best(hits, (h) => h.offFt);
+  if (prevFt !== null) {
+    const inWindow = hits.filter((h) => h.alongFt >= prevFt - BACK_FT && h.alongFt <= prevFt + AHEAD_FT);
+    // A fix comes every 20 m or so, so a long jump ahead is suspect too: on
+    // a return leg drawn a few feet from the way out, GPS wobble alone can
+    // make the later leg look nearer.
+    const cost = (h) => h.offFt + Math.max(0, prevFt - h.alongFt) + 0.25 * Math.max(0, h.alongFt - prevFt - JUMP_FT);
+    if (inWindow.length) pick = best(inWindow, cost);
+  }
+  return { ...pick, totalFt };
+}
+
+// How far along the rider has got, from their last value and a new fix: a
+// step back within BACK_FT is GPS wobble and does not count, so NEXT does
+// not flicker at a stop; a bigger one means they turned back.
+function trackAlong(prevFt, fixFt) {
+  if (prevFt === null || fixFt < prevFt - BACK_FT) return fixFt;
+  return Math.max(prevFt, fixFt);
+}
+
+// The next stop on a followed adventure: the first placed stop further along
+// the route than the rider, or null past the last one.
+function nextStopIndex(placed, riderFt) {
+  const ahead = placed.find((s) => s.alongFt > riderFt + 100);
+  return ahead ? ahead.index : null;
+}
+
+// A ride's line split where the rider is, so the part ridden can be drawn
+// apart from the part ahead, with the feet of each. offFt is how far the
+// rider is from the line, for noticing when they have left it.
+function progressAlong(coords, point, prevFt = null) {
+  const at = riderAlong(coords, point, prevFt);
+  const [x0, y0] = coords[at.edge];
+  const [x1, y1] = coords[at.edge + 1];
+  const split = [x0 + (x1 - x0) * at.t, y0 + (y1 - y0) * at.t];
   return {
-    done: [...coords.slice(0, best.edge + 1), at],
-    ahead: [at, ...coords.slice(best.edge + 1)],
-    doneFt: best.doneFt,
-    aheadFt: acc - best.doneFt,
-    offFt: best.offFt,
+    done: [...coords.slice(0, at.edge + 1), split],
+    ahead: [split, ...coords.slice(at.edge + 1)],
+    doneFt: at.alongFt,
+    aheadFt: at.totalFt - at.alongFt,
+    offFt: at.offFt,
   };
 }
 
@@ -335,6 +401,9 @@ module.exports = {
   buildRouteGraph,
   routeOnGraph,
   rideMinutes,
+  placeStops,
+  riderAlong,
+  trackAlong,
   nextStopIndex,
   progressAlong,
 };
