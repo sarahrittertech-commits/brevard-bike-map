@@ -28,7 +28,7 @@ const ANDROID = Platform.OS === 'android';
 const networkLines = network.map((segment) => ({ ...segment, latLngs: lineToLatLngs(segment.geometry) }));
 
 // Google's base map, quietened to match the muted Apple Maps style iOS uses.
-// showsPointsOfInterest is iOS-only, so on Android the businesses, transit and
+// showsPointsOfInterests is iOS-only, so on Android the businesses, transit and
 // clutter are hidden here instead; parks stay because Pisgah is the point.
 const GOOGLE_STYLE = [
   { stylers: [{ saturation: -35 }] },
@@ -277,7 +277,9 @@ export default memo(function TrailMap({
       // here. Google's own "my location" button is off; the rail has one.
       showsUserLocation={showsUser}
       showsMyLocationButton={false}
-      showsPointsOfInterest={false}
+      // The prop is plural; the singular spelling was silently ignored, so Apple
+      // drew its own businesses and campuses over ours until 1.1.1.
+      showsPointsOfInterests={false}
       showsCompass={false}
       pitchEnabled={false}
       rotateEnabled={false}
