@@ -21,8 +21,7 @@
     "id": "music-center",
     "name": "Music Center",
     "coordinates": [-82.745, 35.2405],
-    "labelSide": "left",
-    "labelOffsetY": -11
+    "labelSide": "left"
   },
   {
     "id": "brevard-college",
