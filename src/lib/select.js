@@ -241,33 +241,46 @@ function routeOnGraph(graph, from, to) {
 // How far along a line a [lon, lat] point is, in feet, measured at the
 // nearest spot on the line, and how far off the line it is. Used to tell
 // which stop on an adventure comes next.
-function alongLine(coords, point) {
+// `fromFt` ignores the line before that distance. Where the line passes the
+// point more than once (a loop, an out-and-back), the first pass within
+// `slackFt` of the closest one counts, so a stop on the way out is not
+// matched to the way back. The rider passes 0: they are on whichever pass
+// they are closest to.
+const SAME_PASS_FT = 250;
+function alongLine(coords, point, fromFt = 0, slackFt = SAME_PASS_FT) {
   const lat0 = coords[0][1];
   const cosLat = Math.cos((lat0 * Math.PI) / 180);
   const p = toFeet(point, cosLat);
   let acc = 0;
-  let best = null;
+  const hits = [];
   for (let i = 0; i < coords.length - 1; i++) {
     const a = toFeet(coords[i], cosLat);
     const b = toFeet(coords[i + 1], cosLat);
     const len = Math.hypot(b[0] - a[0], b[1] - a[1]);
     const hit = projectOnto(p, a, b);
-    if (!best || hit.dist < best.offFt) best = { alongFt: acc + hit.t * len, offFt: hit.dist };
+    if (acc + hit.t * len >= fromFt) hits.push({ alongFt: acc + hit.t * len, offFt: hit.dist });
     acc += len;
   }
-  return best;
+  if (!hits.length) return null;
+  const closest = Math.min(...hits.map((h) => h.offFt));
+  return hits.find((h) => h.offFt <= closest + slackFt);
 }
 
 // The next stop on a followed adventure: the first pinned stop further along
 // the route than the rider. Null if the rider is past the last one or far
 // from the route (more than half a mile), where "next" means nothing.
 function nextStopIndex(route, stopPins, position) {
-  const rider = alongLine(route, position);
+  const rider = alongLine(route, position, 0, 0);
   if (!rider || rider.offFt > 2640) return null;
-  const ahead = stopPins
-    .map((s) => ({ index: s.index, ...alongLine(route, s.coordinates) }))
-    .filter((s) => s.alongFt > rider.alongFt + 100)
-    .sort((a, b) => a.alongFt - b.alongFt);
+  // Stops are matched in itinerary order, each no earlier along the route
+  // than the one before, so a loop's stops land on the right pass.
+  let fromFt = 0;
+  const placed = stopPins.map((s) => {
+    const hit = alongLine(route, s.coordinates, fromFt) ?? { alongFt: fromFt };
+    fromFt = hit.alongFt;
+    return { index: s.index, alongFt: hit.alongFt };
+  });
+  const ahead = placed.filter((s) => s.alongFt > rider.alongFt + 100);
   return ahead.length ? ahead[0].index : null;
 }
 

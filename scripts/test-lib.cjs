@@ -210,6 +210,17 @@ test('UT-9', 'nextStopIndex: the next pinned stop ahead of the rider along the r
   assert.equal(nextStopIndex(route, pins, [-82.72, 35.2302]), 2, 'between them, stop 3 is next');
   assert.equal(nextStopIndex(route, pins, [-82.705, 35.23]), null, 'past the last stop');
   assert.equal(nextStopIndex(route, pins, [-82.72, 35.25]), null, 'far off the route');
+
+  // An out-and-back passes stop 1's spot twice; on the way out stop 1 is
+  // next, and on the way back the return stop is, not stop 1 again.
+  const outAndBack = [[-82.74, 35.23], [-82.70, 35.23], [-82.74, 35.2301]];
+  const loopPins = [
+    { index: 0, coordinates: [-82.735, 35.23] },
+    { index: 1, coordinates: [-82.70, 35.23] },
+    { index: 2, coordinates: [-82.72, 35.2301] },
+  ];
+  assert.equal(nextStopIndex(outAndBack, loopPins, [-82.739, 35.23]), 0, 'heading out: stop 1');
+  assert.equal(nextStopIndex(outAndBack, loopPins, [-82.71, 35.23009]), 2, 'heading back: the return stop, not stop 1');
 });
 
 test('UT-10', 'progressAlong: splits a ride where the rider is, keeping the whole line', () => {
