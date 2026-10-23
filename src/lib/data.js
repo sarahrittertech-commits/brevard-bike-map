@@ -118,7 +118,8 @@ export function rideProgress(line, position, prevFt = null) {
     // Never "0 mi to go" short of the place: the last stretch reads 0.1.
     miles: arrived ? 0 : Math.max(0.1, Math.round(milesLeft * 10) / 10),
     minutes: select.rideMinutes(milesLeft),
-    milesTotal: Math.round((at.totalFt / 5280) * 10) / 10,
+    // Never less than the miles to go: a ride of a few hundred feet reads 0.1 of 0.1.
+    milesTotal: Math.max(0.1, Math.round((at.totalFt / 5280) * 10) / 10),
     alongFt: at.alongFt,
     offFt: at.offFt,
     done: done.map(toLatLng),

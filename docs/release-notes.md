@@ -41,7 +41,15 @@ From Sarah's ride on build 10, 22 October 2026:
    lying over a pin could take the pin's tap and close the card instead of
    opening it. Labels and trailheads now hide wherever they overlap a pin
    or a numbered stop, so the pin is the only thing there to tap, and a tap
-   on a label no longer closes the open card.
+   on a label no longer closes the open card. The real cause turned up
+   after build 11: every pin's touch box sat 12 points up and left of the
+   pin drawn, so only its top-left half answered a tap, and a pin standing
+   on its own (Dolly's, Sycamore Cycles, the Pisgah repair stand) often
+   answered none. React Native drops a wrapper view that only adds padding,
+   and the map then sizes the marker to the pin without its offset. Keeping
+   the wrapper fixes the touch box, and puts each pin's tip exactly on its
+   place: pins move 12 points left and 6 up from build 11, numbered stops
+   10 points.
 7. **The way to a place stays put while riding.** Ride to here used to
    redraw the line from the rider at every position update, so it shrank
    behind them and the dot seemed to jump back. Now the way is drawn once

@@ -329,7 +329,7 @@ next build before it is closed:
 | F-3 (map would not move with a card open) | A place centres once; the card no longer pulls the map back after the rider pans |
 | F-5 (White Squirrel Arcade misplaced) | Moved 502 ft to 40 N Caldwell St |
 | F-6 (no brewery pins during a ride) | Switched-on categories still show while riding |
-| F-8, F-12, F-17, F-19 (pins and stops needing several taps) | Pins and numbered stops open every time. Found in the simulator on 23 October: a landmark label or trailhead square over a pin took the pin's tap and closed the card; they now hide under pins and stops |
+| F-8, F-12, F-17, F-19 (pins and stops needing several taps) | Pins and numbered stops open every time. Found in the simulator on 23 October: a landmark label or trailhead square over a pin took the pin's tap and closed the card; they now hide under pins and stops. The root cause, found after build 11 by hit-testing the native views: each pin's touch box was offset 12pt up-left of the pin drawn, because the padding wrapper was collapsed out of the native tree. Fixed for build 12; recheck MT-19 and MT-28 on a phone, Dolly's especially |
 | F-15 (list miles not from the rider) | Not built: the list's miles are still from the W Main St trailhead. A feature, not a location bug; UC-11's "from her with location on" describes what is wanted |
 | F-7 (pins not tappable mid-ride) | Decided for now: pins round a ride are deliberately not tappable. UC-15 asks for the opposite, so it stays a design question |
 

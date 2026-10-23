@@ -139,8 +139,13 @@ const PlaceMarker = memo(function PlaceMarker({ destination, category, selected,
       }}
     >
       {/* Clear space round the pin, so a rider on a bike does not have to hit
-          the 26pt pin itself. None below: the tip is the anchor. */}
-      <View style={styles.pinHitArea}>
+          the 26pt pin itself. None below: the tip is the anchor. It must not
+          collapse: a View that only lays out is dropped from the native tree,
+          and react-native-maps then sizes the marker to the pin alone, keeping
+          its size but not its offset. The touch box sat 12pt up and left of
+          the pin drawn, so a pin on its own, like Dolly's, often answered no
+          tap at all (F-12). */}
+      <View style={styles.pinHitArea} collapsable={false}>
         <PlacePin category={category} color={categoryById[category].color} selected={selected} />
       </View>
     </Marker>
@@ -394,7 +399,7 @@ export default memo(function TrailMap({
               onSelectStop(stop.index);
             }}
           >
-            <View style={styles.stopHitArea}>
+            <View style={styles.stopHitArea} collapsable={false}>
               <StopMarker number={stop.index + 1} next={isNext} />
             </View>
           </Marker>
