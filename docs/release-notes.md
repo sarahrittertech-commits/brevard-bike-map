@@ -80,6 +80,14 @@ walking simulated riders along every ride with the real data):
 - No flash of the Getting around card when a stop's card closes.
 - **White Squirrel Arcade** moved 502 ft to Sarah's location at 40 N
   Caldwell St.
+- **A cleaner map** (Sarah, 23 October). Apple Maps' own businesses and
+  campuses no longer show (a misspelt setting had let them through since
+  1.0, adding a second Brevard College and the Stone Bowl House). Landmark
+  dots and pin tips now sit on their places on iPhone; they had been off
+  by about 69 points since 1.0, which showed most when zoomed out. The
+  Pisgah Entrance and Lowe's Crossing labels are gone, and Davidson River,
+  Hospital, Music Center and Brevard College have their labels on the side
+  with more room.
 - **Ride to a Downtown Festival** starts at Jameson's Joy (Ninja Park),
   with its free, easy parking, instead of the Pisgah Forest end, and ends
   where the path meets W Main, with a note to walk bikes to the bike valet

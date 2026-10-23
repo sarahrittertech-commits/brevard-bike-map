@@ -9,31 +9,19 @@
     "id": "davidson-river",
     "name": "Davidson River",
     "coordinates": [-82.7226, 35.2812],
-    "labelSide": "right"
-  },
-  {
-    "id": "pisgah-entrance",
-    "name": "Pisgah Entrance",
-    "coordinates": [-82.7073, 35.2747],
-    "labelSide": "left"
-  },
-  {
-    "id": "lowes-crossing",
-    "name": "Lowe’s Crossing",
-    "coordinates": [-82.7046, 35.2705],
     "labelSide": "left"
   },
   {
     "id": "the-hospital",
     "name": "Hospital",
     "coordinates": [-82.7124, 35.2561],
-    "labelSide": "left"
+    "labelSide": "right"
   },
   {
     "id": "music-center",
     "name": "Music Center",
     "coordinates": [-82.745, 35.2405],
-    "labelSide": "left",
+    "labelSide": "right",
     "labelOffsetY": -11
   },
   {
