@@ -49,12 +49,6 @@
     "labelSide": "left"
   },
   {
-    "id": "dog-park",
-    "name": "Dog Park",
-    "coordinates": [-82.708333, 35.257556],
-    "labelSide": "left"
-  },
-  {
     "id": "library",
     "name": "Library",
     "coordinates": [-82.7355, 35.232],
