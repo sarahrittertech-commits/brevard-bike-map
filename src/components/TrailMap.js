@@ -91,11 +91,17 @@ const StaticLayers = memo(function StaticLayers({ faded, tracking }) {
           // coordinate and needs centerOffset to put the dot there instead.
           anchor={{ x: landmark.labelSide === 'right' ? 0 : 1, y: 0.5 }}
           centerOffset={{ x: landmark.labelSide === 'right' ? LANDMARK_DOT_OFFSET : -LANDMARK_DOT_OFFSET, y: 0 }}
-          displayPriority={READ_ONLY_PRIORITY}
+          // A muted label also gives way first to the other labels.
+          displayPriority={landmark.muted ? 'low' : READ_ONLY_PRIORITY}
           tracksViewChanges={tracking}
           zIndex={-1}
         >
-          <LandmarkLabel name={landmark.name} side={landmark.labelSide} offsetY={landmark.labelOffsetY} />
+          <LandmarkLabel
+            name={landmark.name}
+            side={landmark.labelSide}
+            offsetY={landmark.labelOffsetY}
+            muted={landmark.muted}
+          />
         </Marker>
       ))}
 

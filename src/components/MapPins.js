@@ -44,16 +44,18 @@ const LANDMARK_GAP = 6;
 export const LANDMARK_DOT_OFFSET = (LANDMARK_DOT + LANDMARK_GAP + LANDMARK_TEXT_WIDTH) / 2 - LANDMARK_DOT / 2;
 
 // Small dot with a haloed label on one side. Anchor at the dot: x 0 for a
-// right-hand label, x 1 for a left-hand one, y 0.5.
-export function LandmarkLabel({ name, side, offsetY = 0 }) {
+// right-hand label, x 1 for a left-hand one, y 0.5. A muted landmark is gray:
+// somewhere to find your way by, not somewhere to ride to.
+export function LandmarkLabel({ name, side, offsetY = 0, muted }) {
   const right = side === 'right';
   return (
     <View style={[styles.landmarkRow, !right && styles.landmarkRowLeft]} pointerEvents="none">
-      <View style={styles.landmarkDot} />
+      <View style={[styles.landmarkDot, muted && styles.landmarkDotMuted]} />
       <Text
         numberOfLines={1}
         style={[
           styles.landmarkText,
+          muted && styles.landmarkTextMuted,
           { textAlign: right ? 'left' : 'right' },
           // Shifts the text only, so the dot stays on its coordinate.
           offsetY ? { transform: [{ translateY: offsetY }] } : null,
@@ -114,6 +116,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.forestDeep,
     borderWidth: 1.5,
     borderColor: colors.white,
+  },
+  landmarkDotMuted: {
+    backgroundColor: colors.inkFaint,
+  },
+  landmarkTextMuted: {
+    fontFamily: fonts.sansMedium,
+    color: colors.inkFaint,
   },
   landmarkText: {
     width: LANDMARK_TEXT_WIDTH,

@@ -102,7 +102,8 @@ town at a glance.
 | --- | --- | --- | --- |
 | `name` | string | yes | Keep it short. The app only covers Brevard, so "Transylvania County Library" is just "Library" — long names crowd each other at the widest zoom |
 | `labelSide` | enum | yes | `left` · `right` — which side of the dot the label sits on, so it stays on screen |
-| `labelOffsetY` | number | no | Pixels to shift the text vertically. For the handful of landmarks that share a latitude and would otherwise print on top of each other. Moves the text only; the dot stays on its coordinate |
+| `muted` | boolean | no | Drawn in gray, and gives way first where labels collide: a point to find your way by rather than somewhere to ride to. The hospital (Sarah, 23 October) |
+| `labelOffsetY` | number | no | Pixels to shift the text vertically. For the handful of landmarks that share a latitude and would otherwise print on top of each other, or whose text would lie across the path: the map draws labels over the route, never under it. Moves the text only; the dot stays on its coordinate |
 
 ## Crossing
 

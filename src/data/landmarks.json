@@ -15,7 +15,9 @@
     "id": "the-hospital",
     "name": "Hospital",
     "coordinates": [-82.7124, 35.2561],
-    "labelSide": "right"
+    "labelSide": "left",
+    "labelOffsetY": -12,
+    "muted": true
   },
   {
     "id": "music-center",

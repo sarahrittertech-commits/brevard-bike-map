@@ -96,7 +96,10 @@ walking simulated riders along every ride with the real data):
   it was, and Ball Fields moves 845 ft off the dog park to the middle of
   the baseball fields, from the corners Sarah walked. Davidson River,
   Brevard College, Ball Fields and Depot Park have their labels on the side
-  with more room, and Music Center's sits level with its dot.
+  with more room, and Music Center's sits level with its dot. The Hospital
+  label is gray, since it is somewhere to find your way by rather than
+  somewhere to ride to, and sits just above the path instead of across it.
+  An iPhone map draws every label over the route, so it cannot go under it.
 - **Ride to a Downtown Festival** starts at Jameson's Joy (Ninja Park),
   with its free, easy parking, instead of the Pisgah Forest end, and ends
   where the path meets W Main, with a note to walk bikes to the bike valet

@@ -278,6 +278,7 @@ for (const l of landmarks) {
   if (l.labelOffsetY !== undefined && !Number.isFinite(l.labelOffsetY)) {
     fail('SCHEMA', `Landmark "${l.id}" labelOffsetY must be a number`);
   }
+  if (l.muted !== undefined && typeof l.muted !== 'boolean') fail('SCHEMA', `Landmark "${l.id}" muted must be true or false`);
   if (l.name && l.name.length > MAX_LANDMARK_NAME) {
     warn('SCHEMA', `Landmark "${l.id}" name is ${l.name.length} characters; the map clips it at about ${MAX_LANDMARK_NAME}`);
   }
