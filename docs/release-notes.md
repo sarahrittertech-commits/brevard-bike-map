@@ -26,10 +26,11 @@ From Sarah's ride on build 10, 22 October 2026:
    appear round the way and the ride carries on. Adding one of them to the
    ride is a separate feature; see
    [Feature request: add a stop to a ride](./feature-add-stops).
-5. **Step through an adventure's stops from the bottom card.** A stop's card
-   has big previous and next buttons, so a rider can go stop to stop without
-   opening the header's list each time. Every stop opens, including scenery
-   stops with no place behind them, and the map moves to each.
+5. **Step through an adventure's stops from the bottom card.** Small ‹ and ›
+   arrows either side of the stop's note, drawn like the close button (Sarah:
+   no outlined buttons, no "Stop 3" text), go to the stop before and after.
+   Every stop opens, including scenery stops with no place behind them, and
+   the map moves to each one that has a place or a location of its own.
 6. **Pins and numbered stops open every time.** iOS ignores a tap on a
    marker it still counts as selected; place pins were already redrawn to
    avoid that, and numbered stops now are too. Sarah could not make her
@@ -52,6 +53,33 @@ the Red Wolf and Elk, the Otter, the Red Fox, the deer, the Wild Turkey and
 the Black Bear. All eleven are within 150 ft of the drawn route. The NEXT
 marker also follows the loop in order now; on the way out it had skipped
 the cows, which sit beside the path the ride also comes back along.
+
+**From the full review of 1.1.1** (23 October; ten reviewers, three of them
+walking simulated riders along every ride with the real data):
+
+- **NEXT is right on every ride.** The first 1.1.1 version placed stops on
+  their approach and matched the rider to whichever pass of the route was
+  nearest. NEXT vanished 80 ft into The Hub to Bracken, never named The Hub
+  on Gateway to Pisgah, and ran backwards on Sculpture on the Path's legs
+  drawn back over themselves. Now each stop is placed once along its route
+  in itinerary order, and the rider is tracked forward from fix to fix.
+  Walked over all 16 rides with up to 45 ft of simulated GPS wobble, NEXT
+  goes forward through every stop. DT-12 checks this on every data change.
+- **Ending a ride ends all of it.** Turning location off, iOS taking "Allow
+  Once" away or tapping Show route on map left the old way behind, and a
+  later ride to the same place could pick it up with the old miles.
+- While riding, the card shows the same miles to go as the header.
+- Closing an adventure with its stop card open no longer leaves the full
+  list over the map.
+- No "Back to list" on a stop's card; pins round a ride are not tappable,
+  since a tap could not open them.
+- A place centres once: the card changing height no longer pulls the map
+  back after the rider has panned away.
+- The town overview is back to its 1.1.0 size; only a followed ride keeps
+  extra room for its numbered stops.
+- No flash of the Getting around card when a stop's card closes.
+- **White Squirrel Arcade** moved 502 ft to Sarah's location at 40 N
+  Caldwell St.
 
 Also found while testing these: **a numbered stop on a followed adventure no
 longer moved the map to it** in build 10. The Ride to here fix stopped

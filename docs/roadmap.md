@@ -7,16 +7,22 @@ title: Roadmap
 
 What is shipping, what is next, and what is planned, for both apps. Keep this
 current: when something ships it moves to the [release notes](./release-notes),
-and when a plan changes it changes here first. Last updated 21 October 2026, after Ride to here moved into 1.1.
+and when a plan changes it changes here first. Last updated 23 October 2026, after 1.1 shipped.
 
 Two apps are built from one codebase and one dataset:
 
 - **Bike Brevard Map**, on the App Store since 1.0 (25 September 2026)
 - **Bike Brevard Kids**, the family edition, getting ready for its first release
 
-## Now: Bike Brevard Map 1.1
+## Next: Bike Brevard Map 1.1.1
 
-Built from the `restaurants` branch. In TestFlight on 21 October 2026.
+Fixes from Sarah's ride on 1.1.0 and the review that followed: see the
+[release notes](./release-notes). Needs one TestFlight build and a phone
+check (MT-14 to MT-19) before review.
+
+## Shipped: Bike Brevard Map 1.1
+
+Approved by App Review on 21 October 2026 (build 10).
 
 - The downtown half redrawn from the 17 October rides, including the current
   detour by Brevard Middle School

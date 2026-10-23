@@ -26,6 +26,7 @@ would be embarrassing in a demo.
 | DT-9 | No destination or landmark sits exactly on a network vertex (warning) | A placeholder pinned to the drawn line instead of surveyed — the shape of every wrong coordinate found in September |
 | DT-10 | Each app holds together on its own: every place's categories and every ride's stops exist in that app, and Bike Brevard Kids shows no brewery, taproom, tavern, beer or wine wording | A kids ride stopping at a taproom, or a shop still labelled "& Brews" in the kids build |
 | DT-11 | A stop's own `coordinates` are `[lon, lat]` in Brevard and within 500 ft of its ride's route (warning); a stop's `photo` exists in `assets/stops/` and in `stopImages` | A sculpture pinned across town, or a photo that would crash the bundle |
+| DT-12 | Walking every ride in both apps every ~50 ft, as the app tracks a rider, NEXT never goes back and names every pinned stop after the first; every stop fits its route in itinerary order | A stop list out of order with the drawn route, or a NEXT that skips or runs backwards (the 1.1.1 review found both) |
 
 ## Automated — unit
 
@@ -33,19 +34,19 @@ Run by `npm test` in CI on every push. These run against `src/lib/select.js`,
 which holds the pure selection logic that `src/lib/data.js` binds the bundled
 data to. They use fixtures rather than the real dataset, so they assert
 behaviour and do not start failing because a cafe closed — the real data is
-covered by DT-1 to DT-10 above.
+covered by DT-1 to DT-12 above.
 
 | ID | Unit | Assertion |
 | --- | --- | --- |
 | UT-1 | `visibleDestinations` | One category on returns only places in that category, ordered by mile marker |
 | UT-2 | `visibleDestinations`, none on | Returns an empty list — the map shows just the path by design |
 | UT-3 | `displayCategory` | A two-category place draws as whichever of its categories is switched on |
-| UT-4 | `adventureStopPins` | Stops without a `destination` are skipped; numbering keeps the original index |
+| UT-4 | `adventureStopPins` | A stop is pinned by its own `coordinates`, else its `destination`'s; stops with neither are skipped; numbering keeps the original index |
 | UT-5 | `toLatLng` | `[-82.73, 35.23]` becomes `{ latitude: 35.23, longitude: -82.73 }` |
 | UT-6 | `isNearArea` | A position in town counts as near the map; Asheville, and a swapped `[lat, lon]` reading of Brevard, do not |
 | UT-7 | `forApp` | Each app keeps only its own items and reads its own wording, stops included; neither `apps` nor the overrides reach the screens |
 | UT-8 | `buildRouteGraph`, `routeOnGraph` | The way between two points follows the drawn lines, joining line ends within 200 ft |
-| UT-9 | `nextStopIndex` | The next pinned stop ahead of the rider along a route; none past the last stop or far off the route |
+| UT-9 | `placeStops`, `riderAlong`, `trackAlong`, `nextStopIndex` | A loop's last stop is placed at the end, not the start it sits beside; on an out-and-back drawn over itself, NEXT goes 1, 2, 3 and never back; a small step back is GPS wobble |
 | UT-10 | `progressAlong` | A ride split at the rider into the part ridden and the part ahead, which meet at the rider and add up to the whole way |
 
 UT-2 reverses the earlier assumption: the design treats "no filters" as "just
@@ -80,7 +81,7 @@ Run before every release. A simulator does not count.
 | MT-14 | Ride to here, then ride part of the way | The way stays where it was drawn: the part ridden turns faint behind the dot and the part ahead stays bold; the header says "N of M mi to go". At the place it says "You're here" |
 | MT-15 | Ride to here, then switch on playgrounds | Playground pins appear round the way; the ride carries on |
 | MT-16 | Switch on a category | Its pins show on the map; the list stays at the bottom until it is tapped or slid up |
-| MT-17 | Follow an adventure, tap stop 1, then the next-stop arrow to the last stop and back | Each stop opens in the sheet and the map moves to it; scenery stops with no place open too; the arrow fades at each end |
+| MT-17 | Follow an adventure, tap stop 1, then the › arrow beside the note to the last stop and back with ‹ | Each stop opens in the sheet; a stop with a place or a location of its own moves the map to it; scenery stops open too; the arrow is hidden at each end |
 | MT-18 | Location on, choose Allow Once. Put the app away, come back, tap the location button | The rail's button is off when the app returns; the app's explanation is not shown again in the same session; the system asks again |
 | MT-19 | Tap the same place pin, close it, tap it again, five times; then the same with a numbered stop | Opens every time |
 
