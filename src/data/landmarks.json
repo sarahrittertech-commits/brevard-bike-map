@@ -21,7 +21,7 @@
     "id": "music-center",
     "name": "Music Center",
     "coordinates": [-82.745, 35.2405],
-    "labelSide": "right",
+    "labelSide": "left",
     "labelOffsetY": -11
   },
   {
@@ -58,7 +58,7 @@
     "id": "railroad-depot",
     "name": "Depot Park",
     "coordinates": [-82.73353, 35.24078],
-    "labelSide": "right",
+    "labelSide": "left",
     "labelOffsetY": 4
   }
 ]
