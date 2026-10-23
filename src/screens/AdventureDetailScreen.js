@@ -4,10 +4,10 @@ import Activity from 'lucide-react-native/icons/activity';
 import Baby from 'lucide-react-native/icons/baby';
 import ChevronLeft from 'lucide-react-native/icons/chevron-left';
 import Clock from 'lucide-react-native/icons/clock';
-import Map from 'lucide-react-native/icons/map';
+import MapIcon from 'lucide-react-native/icons/map';
 import Ruler from 'lucide-react-native/icons/ruler';
 
-import { DIFFICULTY_LABEL, adventureImages, categoryById, destinationById, stopImages } from '../lib/data';
+import { DIFFICULTY_LABEL, adventureImages, categoryById, destinationById } from '../lib/data';
 import { READING_WIDTH, photoHeight, useLayoutClass } from '../lib/layout';
 import { colors, fonts, radius, shadowFloat, text } from '../theme';
 
@@ -81,9 +81,6 @@ export default function AdventureDetailScreen({ adventure, onBack, onShowOnMap }
                   <View style={[styles.stopBody, last && { paddingBottom: 4 }]}>
                     <Text style={styles.stopName}>{stop.name}</Text>
                     <Text style={styles.stopNote}>{stop.note}</Text>
-                    {stop.photo && stopImages[stop.photo] && (
-                      <Image source={stopImages[stop.photo]} style={styles.stopPhoto} resizeMode="cover" />
-                    )}
                   </View>
                 </View>
               );
@@ -103,7 +100,7 @@ export default function AdventureDetailScreen({ adventure, onBack, onShowOnMap }
           accessibilityRole="button"
           style={({ pressed }) => [styles.cta, pressed && { backgroundColor: colors.forestDeep }]}
         >
-          <Map size={18} color={colors.white} />
+          <MapIcon size={18} color={colors.white} />
           <Text style={styles.ctaText}>Show route on map</Text>
         </Pressable>
       </View>
@@ -270,13 +267,6 @@ const styles = StyleSheet.create({
     fontSize: 13.5,
     lineHeight: 18,
     color: colors.inkSoft,
-  },
-  stopPhoto: {
-    marginTop: 8,
-    width: 160,
-    height: 107,
-    borderRadius: radius.md,
-    backgroundColor: colors.line,
   },
   ctaBar: {
     position: 'absolute',

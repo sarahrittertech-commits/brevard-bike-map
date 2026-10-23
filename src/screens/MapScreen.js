@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, AppState, BackHandler, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import * as Location from 'expo-location';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -45,6 +45,33 @@ const IGNORE = () => {};
 // Further than this from the way being ridden, the rider has left it: draw a
 // fresh way from where they are.
 const OFF_ROUTE_FT = 600;
+// A fix from Wi-Fi or a cell tower rather than GPS can be hundreds of feet
+// out; one less sure than this never redraws a ride.
+const MAX_FIX_M = 100;
+
+// A location fix as the screen keeps it, or null if it is not a usable one.
+const toPosition = (c) =>
+  Number.isFinite(c.latitude) && Number.isFinite(c.longitude)
+    ? { latitude: c.latitude, longitude: c.longitude, accuracy: c.accuracy }
+    : null;
+
+// Something worked out from each new position, starting from how far along
+// the last one had got (its alongFt): progress along a ride to a place, or
+// along a followed adventure. A new key (another ride, or an adventure shown
+// again) or no position starts from scratch. Held in state and updated
+// during render, React's way of deriving from a changing prop with memory.
+const UNTRACKED = { key: null, position: null, result: null };
+function useTracked(key, position, step) {
+  const [track, setTrack] = useState(UNTRACKED);
+  if (key === null || !position) {
+    if (track !== UNTRACKED) setTrack(UNTRACKED);
+    return null;
+  }
+  if (track.key === key && track.position === position) return track.result;
+  const result = step(track.key === key ? (track.result?.alongFt ?? null) : null);
+  setTrack({ key, position, result });
+  return result;
+}
 
 // The app's own explanation, shown once before iOS or Android asks for
 // location. Resolves true only if the rider chooses to go on.
@@ -65,18 +92,13 @@ function confirmLocation() {
 }
 
 // The line under the place's name while riding to it.
-function rideSummary(progress, ride) {
-  if (progress?.arrived) return `${progress.milesTotal} mi ridden`;
-  if (progress) return `${progress.milesLeft} of ${progress.milesTotal} mi to go · about ${progress.minutesLeft} min`;
-  if (ride?.reachable) return `${ride.miles} mi · about ${ride.minutes} min by bike`;
+function rideSummary(ride) {
   if (ride?.outside) return `Distance shows when you’re in ${TOWN_NAME}`;
-  return 'Finding the way…';
+  if (!ride) return 'Finding the way…';
+  if (ride.arrived) return `${ride.milesTotal} mi ridden`;
+  return `${ride.miles} of ${ride.milesTotal} mi to go · about ${ride.minutes} min`;
 }
 
-// The header while following an adventure. Tap it to open the list of stops
-// and review where the ride goes; with location on, the next stop is marked.
-// Any stop can be tapped to open its card; one tied to a place also shows on
-// the map.
 // A road crossing in the stop list: a cone and "Cross here", no number. Not
 // tappable; there is nothing more to say about it than where it is.
 function CrossingRow({ id }) {
@@ -90,10 +112,15 @@ function CrossingRow({ id }) {
   );
 }
 
-function FollowingCard({ adventure, open, onToggle, nextStop, onSelectStop, onClose, maxListHeight }) {
+// The header while following an adventure. Tap it to open the list of stops
+// and review where the ride goes; with location on, the next stop is marked.
+// Any stop can be tapped to open its card; one tied to a place also shows on
+// the map. Memoised, so a position update that leaves NEXT alone does not
+// redraw the list.
+const FollowingCard = memo(function FollowingCard({ adventure, open, onToggle, nextStop, onSelectStop, onClose, maxListHeight }) {
   const Chevron = open ? ChevronUp : ChevronDown;
   const itinerary = adventureItinerary(adventure);
-  const crossingCount = itinerary.crossings.length;
+  const { crossingCount } = itinerary;
   return (
     <View style={[styles.card, styles.followingCardOuter]}>
       <View style={styles.followingCard}>
@@ -162,7 +189,7 @@ function FollowingCard({ adventure, open, onToggle, nextStop, onSelectStop, onCl
       )}
     </View>
   );
-}
+});
 
 // The main screen: map, floating header, category rail, bottom sheet.
 //
@@ -220,34 +247,27 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     () => (stop?.coordinates ? { id: `stop-${selectedStop}`, coordinates: stop.coordinates } : null),
     [stop, selectedStop]
   );
-  // Riding to a place: how far along the fixed way the rider is. Each fix
-  // starts from how far they had got at the last one, so a way that doubles
-  // back keeps them on the leg they are riding; hence state updated as the
-  // position changes, not a value worked out from scratch.
-  const line = rideTo?.line ?? null;
-  const [rideTrack, setRideTrack] = useState({ line: null, position: null, progress: null });
-  if (line && position && (rideTrack.line !== line || rideTrack.position !== position)) {
-    const prevFt = rideTrack.line === line ? rideTrack.progress.alongFt : null;
-    setRideTrack({ line, position, progress: rideProgress(line, position, prevFt) });
-  }
-  const progress = line && position && rideTrack.line === line ? rideTrack.progress : null;
+  // Outside Brevard there is no sensible distance to give, so the card and a
+  // ride's header say so rather than measure from miles away.
+  const away = useMemo(() => !!position && !isNearBrevard(position), [position]);
+  // Riding to a place: how far along the fixed way the rider has got.
+  const line = rideTo && !away ? rideTo.line : null;
+  const progress = useTracked(line, position, (prevFt) => rideProgress(line, position, prevFt));
   // Left the way by more than OFF_ROUTE_FT: draw a fresh one from here.
-  if (rideDest && progress && progress.offFt > OFF_ROUTE_FT) {
+  if (rideDest && progress && progress.offFt > OFF_ROUTE_FT && !(position.accuracy > MAX_FIX_M)) {
     const fresh = rideToPlace(position, rideDest);
     if (fresh.reachable) setRideTo({ id: rideDest.id, line: fresh.line });
   }
-  // Distance and time to the selected place. While riding there it is the
-  // way still ahead, the same figure as the header's; otherwise the shortest
-  // way from the rider. Outside Brevard there is no sensible distance to
-  // give, so the card says so.
+  // Distance and time to the selected place: while riding there, the way
+  // still ahead, the same figure as the header's; otherwise the shortest way
+  // from the rider.
   const placeRide = useMemo(() => {
-    if (rideDest || !selected || !position) return null;
-    return isNearBrevard(position) ? rideToPlace(position, selected) : { outside: true };
-  }, [rideDest, selected, position]);
-  const ride = progress
-    ? { reachable: true, miles: progress.milesLeft, minutes: progress.minutesLeft, offPathMiles: 0 }
-    : placeRide;
-  const rideRoute = useMemo(() => (line ? line.map(toLatLng) : null), [line]);
+    if (!selected || !position) return null;
+    if (away) return { outside: true };
+    return rideDest ? null : rideToPlace(position, selected);
+  }, [rideDest, selected, position, away]);
+  const ride = progress ?? placeRide;
+  const rideRoute = useMemo(() => (rideTo ? rideTo.line.map(toLatLng) : null), [rideTo]);
   // Nothing in the sheet to show: following an adventure (the header card
   // lists its stops), or the rider put the "Getting around" card away. The
   // map then has the whole screen.
@@ -289,7 +309,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   // Riding to a place, its pin stays and any switched-on category shows round
   // it: what else is along the way or nearby.
   const mapDestinations = useMemo(
-    () => (rideDest ? [rideDest, ...shown.filter((d) => d !== rideDest)] : shown),
+    () => (rideDest && !shown.includes(rideDest) ? [...shown, rideDest] : shown),
     [rideDest, shown]
   );
   const mapClear = useMemo(
@@ -324,14 +344,9 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   );
 
   // Following an adventure: the stop the rider reaches next, tracked from
-  // fix to fix the same way as a ride to a place.
-  const [followTrack, setFollowTrack] = useState({ id: null, position: null, next: null });
-  if (following && position && (followTrack.id !== following.id || followTrack.position !== position)) {
-    const prevFt = followTrack.id === following.id ? (followTrack.next?.alongFt ?? null) : null;
-    setFollowTrack({ id: following.id, position, next: nextStopOf(following, position, prevFt) });
-  }
-  const nextStop =
-    following && position && followTrack.id === following.id ? (followTrack.next?.index ?? null) : null;
+  // fix to fix the same way. Showing the route again starts afresh.
+  const followKey = following ? `${following.id}:${showNonce}` : null;
+  const nextStop = useTracked(followKey, position, (prevFt) => nextStopOf(following, position, prevFt))?.index ?? null;
 
   // A numbered stop on the map, or in the header's list: show it in the
   // sheet and move the map to it.
@@ -347,6 +362,8 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     const next = selectedStop + delta;
     if (following && next >= 0 && next < following.stops.length) selectStop(next);
   };
+
+  const toggleStops = useCallback(() => setStopsOpen((open) => !open), []);
 
   const stopFollowing = useCallback(() => {
     setSelectedStop(null);
@@ -441,14 +458,18 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     }
     setLocating(true);
     try {
+      // Balanced, for a quick first fix to centre on; the watch below
+      // sharpens it.
       const { coords } = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
       if (run !== locateRun.current) return false;
-      setPosition({ latitude: coords.latitude, longitude: coords.longitude });
-      if (isNearBrevard(coords)) {
+      const fix = toPosition(coords);
+      if (!fix) return true;
+      setPosition(fix);
+      if (isNearBrevard(fix)) {
         if (!fromPlace) {
           setSelectedId(null);
           setSheetOpen(false);
-          setUserFocus({ key: Date.now(), latitude: coords.latitude, longitude: coords.longitude });
+          setUserFocus({ key: Date.now(), latitude: fix.latitude, longitude: fix.longitude });
         }
       } else {
         Alert.alert(
@@ -477,15 +498,18 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     return () => sub.remove();
   }, [locating]);
 
-  // While location is on, follow the rider so distances stay current. The
-  // subscription ends the moment they switch it off or leave the screen.
+  // While location is on, follow the rider so distances stay current. GPS
+  // grade: following a ride works in tens of feet, and the map's own blue dot
+  // keeps GPS on anyway. The subscription ends the moment they switch it off
+  // or leave the screen.
   useEffect(() => {
     if (!locating) return undefined;
     let sub = null;
     let cancelled = false;
-    Location.watchPositionAsync({ accuracy: Location.Accuracy.Balanced, distanceInterval: 20 }, ({ coords }) =>
-      setPosition({ latitude: coords.latitude, longitude: coords.longitude })
-    )
+    Location.watchPositionAsync({ accuracy: Location.Accuracy.High, distanceInterval: 20 }, ({ coords }) => {
+      const fix = toPosition(coords);
+      if (fix) setPosition(fix);
+    })
       .then((s) => {
         if (cancelled) s.remove();
         else sub = s;
@@ -497,11 +521,9 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     };
   }, [locating]);
 
-  // Riding to a place replaces any followed adventure, and the sheet drops to
-  // peek so the way there gets the map.
+  // Riding to a place: the sheet drops to peek so the way there gets the map.
   const startRide = () => {
     if (!placeRide?.reachable) return;
-    if (following) stopFollowing();
     setRideTo({ id: selected.id, line: placeRide.line });
     setSheetOpen(false);
   };
@@ -512,10 +534,15 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     setPendingRideId(null);
   } else if (pendingRideId && placeRide?.reachable) {
     setPendingRideId(null);
-    if (following) stopFollowing();
     setRideTo({ id: pendingRideId, line: placeRide.line });
     setSheetOpen(false);
   }
+  // A ride to a place replaces a followed adventure. App holds `following`,
+  // so this waits until after the render rather than changing another
+  // component's state in the middle of this one's.
+  useEffect(() => {
+    if (rideTo && following) onStopFollowing();
+  }, [rideTo, following, onStopFollowing]);
 
   const endRide = () => {
     setRideTo(null);
@@ -632,9 +659,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
               <Text style={styles.title} numberOfLines={1}>
                 {rideDest.name}
               </Text>
-              <Text style={styles.subtitle}>
-                {rideSummary(progress, ride)}
-              </Text>
+              <Text style={styles.subtitle}>{rideSummary(ride)}</Text>
             </View>
             <Pressable
               onPress={endRide}
@@ -650,7 +675,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
           <FollowingCard
             adventure={following}
             open={stopsOpen}
-            onToggle={() => setStopsOpen((o) => !o)}
+            onToggle={toggleStops}
             nextStop={nextStop}
             onSelectStop={selectStop}
             onClose={stopFollowing}

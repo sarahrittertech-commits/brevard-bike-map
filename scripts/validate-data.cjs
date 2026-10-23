@@ -13,7 +13,6 @@ const path = require('path');
 
 const DATA_DIR = path.join(__dirname, '..', 'src', 'data');
 const IMAGE_DIR = path.join(__dirname, '..', 'assets', 'adventures');
-const STOP_IMAGE_DIR = path.join(__dirname, '..', 'assets', 'stops');
 // A stop pinned by its own coordinates should sit on or beside its ride.
 const STOP_OFF_ROUTE_FT = 500;
 // How much further off its route a stop may be placed, to keep the itinerary
@@ -317,7 +316,7 @@ for (const a of adventures) {
 
   const coords = checkLine(a.route, `Adventure "${a.id}" route`);
 
-  // DT-11 — a stop's own coordinates and photo
+  // DT-11 — a stop's own coordinates sit beside its ride
   (a.stops ?? []).forEach((stop, i) => {
     const where = `Adventure "${a.id}" stop ${i + 1} "${stop.name}"`;
     if (stop.coordinates !== undefined) {
@@ -327,12 +326,6 @@ for (const a of adventures) {
         if (ft > STOP_OFF_ROUTE_FT) {
           warn('DT-11', `${where} is ${Math.round(ft)} ft from the ride's route; check the coordinates or the route`);
         }
-      }
-    }
-    if (stop.photo !== undefined) {
-      if (!registeredImages.has(stop.photo)) fail('DT-11', `${where}: photo "${stop.photo}" is not in stopImages in src/lib/data.js`);
-      if (!fs.existsSync(path.join(STOP_IMAGE_DIR, `${stop.photo}.jpg`))) {
-        fail('DT-11', `${where}: photo assets/stops/${stop.photo}.jpg is missing`);
       }
     }
   });
@@ -360,7 +353,68 @@ for (const a of adventures) {
 // above and still breaks one of them. Bike Brevard Kids also carries no
 // brewery, taproom or bar wording at all. "Dairy Bar" is why "bar" is not on
 // the list.
-const { APP_IDS, forApp, selectStopPins, placeStops, riderAlong, trackAlong, nextStopIndex } = require('../src/lib/select');
+const { APP_IDS, forApp, selectStopPins, placeStops, followStep, nextStopIndex } = require('../src/lib/select');
+// Points every `stepFt` along a route with how far along each is, measured as
+// src/lib/select.js measures: flat feet round the route's start.
+const FT_PER_DEGREE = 364000;
+function pointsAlong(r, stepFt) {
+  const cosLat = Math.cos((r[0][1] * Math.PI) / 180);
+  const out = [];
+  let acc = 0;
+  let s = 0;
+  for (let i = 0; i < r.length - 1; i++) {
+    const len = Math.hypot((r[i + 1][0] - r[i][0]) * FT_PER_DEGREE * cosLat, (r[i + 1][1] - r[i][1]) * FT_PER_DEGREE);
+    for (; s <= acc + len; s += stepFt) {
+      const t = len ? (s - acc) / len : 0;
+      out.push({ s, p: [r[i][0] + t * (r[i + 1][0] - r[i][0]), r[i][1] + t * (r[i + 1][1] - r[i][1])] });
+    }
+    acc += len;
+  }
+  return out;
+}
+// GPS wobble from a fixed seed, so every run walks the same fixes.
+function wobble(seed, sigmaFt) {
+  let state = seed;
+  const rand = () => {
+    state = (state + 0x6d2b79f5) | 0;
+    let t = Math.imul(state ^ (state >>> 15), 1 | state);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  const gauss = () => Math.sqrt(-2 * Math.log(1 - rand())) * Math.cos(2 * Math.PI * rand());
+  return ({ s, p: [lon, lat] }) => ({
+    s,
+    p: [lon + (gauss() * sigmaFt) / (FT_PER_DEGREE * Math.cos((lat * Math.PI) / 180)), lat + (gauss() * sigmaFt) / FT_PER_DEGREE],
+  });
+}
+// Within this of a stop, NEXT naming it or the one after is fair.
+const NEAR_STOP_FT = 250;
+// One walk along a route, fix by fix as the app tracks a rider: whether NEXT
+// ever went back, the longest stretch it named a stop the rider was not
+// really reaching next (away from the stops themselves), and the stops it
+// named.
+function walkNext(route, placed, fixes) {
+  let prevFt = null;
+  let last;
+  let back = null;
+  let run = 0;
+  let worstFt = 0;
+  const seen = new Set();
+  for (const { s, p } of fixes) {
+    const step = followStep(route, placed, p, prevFt);
+    prevFt = step ? step.alongFt : null;
+    const next = step ? step.index : null;
+    if (!back && last !== undefined && (last === null ? next !== null : next !== null && next < last)) {
+      back = `from ${last === null ? 'blank' : `stop ${last + 1}`} to stop ${next + 1} at ${Math.round(s)} ft`;
+    }
+    const nearStop = placed.some((q) => Math.abs(q.alongFt - s) < NEAR_STOP_FT);
+    run = next !== nextStopIndex(placed, s) && !nearStop ? run + 1 : 0;
+    worstFt = Math.max(worstFt, run * 50);
+    if (next !== null) seen.add(next);
+    last = next;
+  }
+  return { back, worstFt, seen };
+}
 const ADULT_WORDING = /\b(brew\w*|taprooms?|tavern|beers?|pints?|wines?|cocktails?)\b/i;
 for (const app of APP_IDS) {
   const appCategories = forApp(categories, app);
@@ -385,10 +439,18 @@ for (const app of APP_IDS) {
       warn('DT-10', `In the ${app} app, category "${c.id}" has no places`);
     }
   }
-  // DT-12 — NEXT follows each ride in order. A rider is walked along the
-  // route every ~50 ft, tracked fix to fix as the app does; every pinned stop
-  // after the first must come up as NEXT, NEXT must never go back to an
-  // earlier stop, and every stop must fit the route in itinerary order.
+  // DT-12 — NEXT follows each ride in order, tracked fix to fix as the app
+  // does (followStep). Every stop must fit its route in itinerary order, and
+  // a rider is walked along every route every 50 ft: straight; with 30 ft of
+  // GPS wobble; with the phone locked for a quarter of the ride; and turning
+  // location on at each stop. NEXT must never go back, every pinned stop
+  // after the first must come up, and away from the stops it must name the
+  // stop the rider really reaches next: at once, or within GAP_SETTLE_FT of
+  // the phone unlocking, or within START_SETTLE_FT of turning location on.
+  // A stop the way back passes too (The Yard on an out-and-back) is taken
+  // for the way out until the rider has moved a few fixes.
+  const GAP_SETTLE_FT = 600;
+  const START_SETTLE_FT = 300;
   const appById = Object.fromEntries(appDestinations.map((d) => [d.id, d]));
   for (const a of appAdventures) {
     const r = a.route?.coordinates;
@@ -396,36 +458,37 @@ for (const app of APP_IDS) {
     const pins = selectStopPins(a, appById);
     if (!pins.length) continue;
     const placed = placeStops(r, pins);
+    const where = `In the ${app} app, adventure "${a.id}"`;
     // Placed on a pass much further off than the route's nearest approach
     // to the stop: the itinerary and the drawn route disagree about order.
     for (const p of placed) {
       const pin = pins.find((x) => x.index === p.index);
       const nearestFt = nearestOnLine(pin.coordinates, r);
       if (!p.placed || p.offFt > nearestFt + STOP_ORDER_SLACK_FT) {
-        fail('DT-12', `In the ${app} app, adventure "${a.id}" stop ${p.index + 1} does not fit its route in itinerary order`);
+        fail('DT-12', `${where} stop ${p.index + 1} does not fit its route in itinerary order`);
       }
     }
-    let prevFt = null;
-    let last;
-    const seen = new Set();
-    for (let i = 0; i < r.length - 1; i++) {
-      const steps = Math.max(1, Math.ceil(haversine(r[i], r[i + 1]) * 5280 / 50));
-      for (let k = 0; k < steps; k++) {
-        const t = k / steps;
-        const p = [r[i][0] + (r[i + 1][0] - r[i][0]) * t, r[i][1] + (r[i + 1][1] - r[i][1]) * t];
-        prevFt = trackAlong(prevFt, riderAlong(r, p, prevFt).alongFt);
-        const next = nextStopIndex(placed, prevFt);
-        if (last !== undefined && (last === null ? next !== null : next !== null && next < last)) {
-          fail('DT-12', `In the ${app} app, adventure "${a.id}": NEXT goes back from ${last === null ? 'none' : `stop ${last + 1}`} to stop ${next + 1} along its route`);
-          i = r.length;
-          break;
+    const points = pointsAlong(r, 50);
+    const total = points[points.length - 1].s;
+    const walks = [
+      ['walked straight', points, 0],
+      ...[1, 2, 3].map((seed) => [`with GPS wobble (seed ${seed})`, points.map(wobble(seed, 30)), 0]),
+      ['after the phone was locked', points.filter((q) => q.s < 0.3 * total || q.s > 0.55 * total), GAP_SETTLE_FT],
+      ...placed.map((q) => [
+        `turning location on at stop ${q.index + 1}`,
+        [{ s: q.alongFt, p: pins.find((x) => x.index === q.index).coordinates }, ...points.filter((x) => x.s > q.alongFt)],
+        START_SETTLE_FT,
+      ]),
+    ];
+    for (const [how, fixes, allowFt] of walks) {
+      const { back, worstFt, seen } = walkNext(r, placed, fixes);
+      if (back) fail('DT-12', `${where}, ${how}: NEXT goes back ${back}`);
+      else if (worstFt > allowFt) fail('DT-12', `${where}, ${how}: NEXT names the wrong stop for ${worstFt} ft`);
+      if (how === 'walked straight') {
+        for (const pin of pins.slice(1)) {
+          if (!seen.has(pin.index)) fail('DT-12', `${where} stop ${pin.index + 1} is never NEXT along its route`);
         }
-        if (next !== null) seen.add(next);
-        last = next;
       }
-    }
-    for (const pin of pins.slice(1)) {
-      if (!seen.has(pin.index)) fail('DT-12', `In the ${app} app, adventure "${a.id}" stop ${pin.index + 1} is never NEXT along its route`);
     }
   }
 

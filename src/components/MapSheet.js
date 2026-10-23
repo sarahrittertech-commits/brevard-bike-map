@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Animated, Image, Linking, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Animated, Linking, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Bike from 'lucide-react-native/icons/bike';
 import ChevronLeft from 'lucide-react-native/icons/chevron-left';
 import ChevronRight from 'lucide-react-native/icons/chevron-right';
@@ -14,7 +14,6 @@ import X from 'lucide-react-native/icons/x';
 import CategoryIcon from './CategoryIcon';
 import PlaceRow from './PlaceRow';
 import {
-  stopImages,
   CONNECTOR_MILES,
   TOWN_NAME,
   TRAIL_MILES,
@@ -289,6 +288,13 @@ function RideRow({ ride, locating, ridingHere, onRideTo, onTurnOnLocation }) {
       </View>
     );
   }
+  if (ride.arrived) {
+    return (
+      <View style={styles.ride}>
+        <Text style={styles.rideDistance}>You’re here</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.ride}>
       <Text style={styles.rideDistance}>
@@ -380,9 +386,6 @@ function SelectedPlace({
         </Pressable>
       </View>
 
-      {stop?.photo && stopImages[stop.photo] && (
-        <Image source={stopImages[stop.photo]} style={styles.stopPhoto} resizeMode="cover" accessibilityIgnoresInvertColors />
-      )}
       {stop ? (
         // Small arrows either side of the note, drawn like the close button,
         // step to the stop before and after.
@@ -702,13 +705,6 @@ const styles = StyleSheet.create({
     fontFamily: fonts.sansBold,
     fontSize: 18,
     color: colors.white,
-  },
-  stopPhoto: {
-    marginTop: 12,
-    width: '100%',
-    aspectRatio: 3 / 2,
-    borderRadius: radius.md,
-    backgroundColor: colors.line,
   },
   stopNoteRow: {
     marginTop: 12,

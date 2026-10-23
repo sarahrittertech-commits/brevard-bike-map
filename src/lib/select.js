@@ -338,16 +338,19 @@ function crossingPasses(line, crossings) {
 // crossings between them where the line passes them, then, for a ride drawn
 // one way only (it ends more than ONE_WAY_FT from where it starts), the same
 // crossings in reverse under "On the way back". A loop's way back is on its
-// line already. A stop with no location sits with the stop before it.
-// Items are { kind: 'stop', index } or { kind: 'crossing', id }.
+// line already. A stop with no location sits with the stop before it, and
+// one after every located stop (back to the start, say) at the end of the
+// line. Items are { kind: 'stop', index } or { kind: 'crossing', id }.
 const ONE_WAY_FT = 1000;
 function rideItinerary(line, stopCount, placed, passes) {
   const alongOf = new Map(placed.map((p) => [p.index, p.alongFt]));
+  const lastPlaced = Math.max(-1, ...placed.map((p) => p.index));
   const items = [];
   let at = 0;
   let next = 0;
   for (let index = 0; index < stopCount; index++) {
     if (alongOf.has(index)) at = alongOf.get(index);
+    else if (index > lastPlaced) at = Infinity;
     while (next < passes.length && passes[next].alongFt < at) items.push({ kind: 'crossing', id: passes[next++].id });
     items.push({ kind: 'stop', index });
   }
@@ -359,42 +362,57 @@ function rideItinerary(line, stopCount, placed, passes) {
   return { items, back };
 }
 
-// Where the rider is along a line. With no earlier position it is the
-// nearest spot on it. With one, only passes from a little behind where they were
-// (BACK_FT, for GPS wobble) to a stretch ahead (AHEAD_FT) count, and going
-// backwards costs as much as being off the line (and a long jump ahead a
-// quarter as much): where a leg is drawn back
-// over itself both passes are equally near, and the rider is on the one
-// that carries them forward. With no pass in that window (they turned back,
-// or jumped) it falls back to the nearest pass.
-const BACK_FT = 150;
+// Where the rider is along a line, from a fix and how far along they had got
+// (prevFt). Every segment has a nearest spot to the rider however far off it
+// is, so only the passes about as near as the nearest count: NEAR_FT allows
+// for GPS wobble and for a way back drawn beside the way out.
+// - With no earlier position, the earliest of those passes. A ride is
+//   followed from its start, so on a loop that ends beside where it began,
+//   or a way back drawn next to the way out, the rider is on the way out.
+// - With one, the pass that carries them on from where they were, looking
+//   from a little behind (BACK_FT) to a stretch ahead (AHEAD_FT). Going
+//   backwards costs as much as being off the line, and a long jump ahead a
+//   quarter as much: where a leg is drawn back over itself both passes are
+//   equally near, and GPS wobble alone can make the later leg look nearer.
+// - With no pass there (a gap in fixes while the phone was locked, a stop
+//   skipped, a turn back), they are found again: the earliest pass ahead of
+//   where they were, else the nearest.
+// The distances were tuned by walking simulated riders along every ride
+// with GPS wobble, gaps in fixes and starts part way round (DT-12).
+const NEAR_FT = 200;
+const BACK_FT = 400;
 const AHEAD_FT = 1500;
 const JUMP_FT = 150;
 function riderAlong(coords, point, prevFt = null) {
-  if (coords.length < 2) return null;
-  // Every segment, not just passesNear: where a spur is drawn out and back,
-  // both legs touch the rider at the same distance and only the cost below
-  // can tell them apart.
+  if (coords.length < 2 || !point.every(Number.isFinite)) return null;
   const { hits, totalFt } = segmentHits(coords, point);
-  const best = (list, cost) => list.reduce((a, b) => (cost(b) < cost(a) ? b : a));
-  let pick = best(hits, (h) => h.offFt);
+  const passes = passesNear(hits);
+  const nearestFt = Math.min(...passes.map((h) => h.offFt));
+  const near = passes.filter((h) => h.offFt <= nearestFt + NEAR_FT);
+  let pick = near[0];
   if (prevFt !== null) {
-    const inWindow = hits.filter((h) => h.alongFt >= prevFt - BACK_FT && h.alongFt <= prevFt + AHEAD_FT);
-    // A fix comes every 20 m or so, so a long jump ahead is suspect too: on
-    // a return leg drawn a few feet from the way out, GPS wobble alone can
-    // make the later leg look nearer.
+    const inWindow = near.filter((h) => h.alongFt >= prevFt - BACK_FT && h.alongFt <= prevFt + AHEAD_FT);
     const cost = (h) => h.offFt + Math.max(0, prevFt - h.alongFt) + 0.25 * Math.max(0, h.alongFt - prevFt - JUMP_FT);
-    if (inWindow.length) pick = best(inWindow, cost);
+    pick = inWindow.length
+      ? inWindow.reduce((a, b) => (cost(b) < cost(a) ? b : a))
+      : (near.find((h) => h.alongFt > prevFt) ?? near.reduce((a, b) => (b.offFt < a.offFt ? b : a)));
   }
   return { ...pick, totalFt };
 }
 
 // How far along the rider has got, from their last value and a new fix: a
-// step back within BACK_FT is GPS wobble and does not count, so NEXT does
-// not flicker at a stop; a bigger one means they turned back.
+// step back of up to BACK_FT is GPS wobble, or circling at a stop, and does
+// not count, so NEXT does not flicker; further back means they turned back.
 function trackAlong(prevFt, fixFt) {
   if (prevFt === null || fixFt < prevFt - BACK_FT) return fixFt;
   return Math.max(prevFt, fixFt);
+}
+
+// Following a line one fix at a time: how far along it the rider has got
+// (prevFt is the last result's alongFt), and how far off it they are.
+function followLine(coords, point, prevFt = null) {
+  const at = riderAlong(coords, point, prevFt);
+  return at && { alongFt: trackAlong(prevFt, at.alongFt), offFt: at.offFt, totalFt: at.totalFt };
 }
 
 // The next stop on a followed adventure: the first placed stop further along
@@ -404,21 +422,35 @@ function nextStopIndex(placed, riderFt) {
   return ahead ? ahead.index : null;
 }
 
-// A ride's line split where the rider is, so the part ridden can be drawn
-// apart from the part ahead, with the feet of each. offFt is how far the
-// rider is from the line, for noticing when they have left it.
-function progressAlong(coords, point, prevFt = null) {
-  const at = riderAlong(coords, point, prevFt);
-  const [x0, y0] = coords[at.edge];
-  const [x1, y1] = coords[at.edge + 1];
-  const split = [x0 + (x1 - x0) * at.t, y0 + (y1 - y0) * at.t];
-  return {
-    done: [...coords.slice(0, at.edge + 1), split],
-    ahead: [split, ...coords.slice(at.edge + 1)],
-    doneFt: at.alongFt,
-    aheadFt: at.totalFt - at.alongFt,
-    offFt: at.offFt,
-  };
+// Following an adventure, one fix at a time: how far along its route the
+// rider has got and the stop they reach next ({ alongFt, index }). Null more
+// than half a mile from the route, where "next" means nothing; the next fix
+// then starts afresh.
+const FOLLOW_FT = 2640;
+function followStep(route, placed, point, prevFt = null) {
+  const at = followLine(route, point, prevFt);
+  if (!at || at.offFt > FOLLOW_FT) return null;
+  return { alongFt: at.alongFt, index: nextStopIndex(placed, at.alongFt) };
+}
+
+// A line cut at a distance along it: the part before and the part after,
+// both including the cut, so the part ridden can be drawn apart from the
+// part ahead.
+function splitLine(coords, alongFt) {
+  const cosLat = Math.cos((coords[0][1] * Math.PI) / 180);
+  let acc = 0;
+  for (let i = 0; i < coords.length - 1; i++) {
+    const a = toFeet(coords[i], cosLat);
+    const b = toFeet(coords[i + 1], cosLat);
+    const len = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    if (acc + len >= alongFt || i === coords.length - 2) {
+      const t = len === 0 ? 0 : Math.max(0, Math.min(1, (alongFt - acc) / len));
+      const cut = [coords[i][0] + t * (coords[i + 1][0] - coords[i][0]), coords[i][1] + t * (coords[i + 1][1] - coords[i][1])];
+      return { done: [...coords.slice(0, i + 1), cut], ahead: [cut, ...coords.slice(i + 1)] };
+    }
+    acc += len;
+  }
+  return null;
 }
 
 // An easy family pace, for "about N minutes". Rounded to five minutes past
@@ -447,6 +479,8 @@ module.exports = {
   rideItinerary,
   riderAlong,
   trackAlong,
+  followLine,
   nextStopIndex,
-  progressAlong,
+  followStep,
+  splitLine,
 };

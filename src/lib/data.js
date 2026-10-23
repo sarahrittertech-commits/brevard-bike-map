@@ -26,7 +26,7 @@ const adventures = select.forApp(allAdventures, APP);
 // Road crossings belong to the path, not to a ride, so both apps have them all.
 const crossings = allCrossings;
 
-export { categories, destinations, network, landmarks, adventures, crossings };
+export { categories, destinations, network, landmarks, adventures };
 
 export const APP_NAME = APP === 'kids' ? 'Bike Brevard Kids' : 'Bike Brevard Map';
 export const TOWN_NAME = 'Brevard';
@@ -98,24 +98,31 @@ export function rideToPlace(position, destination) {
 }
 
 // Where the rider is along a ride that has started: the way there stays as it
-// was drawn, split at the rider into the part ridden and the part ahead.
-// Within ARRIVED_FT of the end they are there. offFt grows when they leave the
-// way, so the screen can draw a fresh one.
-// prevFt is how far along the line the rider had got (the last result's
-// alongFt), so a line that doubles back keeps them on the leg they are riding.
+// was drawn, cut where they have got to into the part ridden and the part
+// ahead. Within ARRIVED_FT of the end they are there, and wobble at the place
+// does not undo it. offFt grows when they leave the way, so the screen can
+// draw a fresh one. prevFt is how far along the line they had got (the last
+// result's alongFt), so a line that doubles back keeps them on the leg they
+// are riding. Shaped like rideToPlace's answer, so the card shows either.
 const ARRIVED_FT = 150;
 export function rideProgress(line, position, prevFt = null) {
-  const p = select.progressAlong(line, toLonLat(position), prevFt);
-  const milesLeft = p.aheadFt / 5280;
+  const at = select.followLine(line, toLonLat(position), prevFt);
+  if (!at) return null;
+  const { done, ahead } = select.splitLine(line, at.alongFt);
+  const aheadFt = Math.max(0, at.totalFt - at.alongFt);
+  const milesLeft = aheadFt / 5280;
+  const arrived = aheadFt <= ARRIVED_FT;
   return {
-    alongFt: select.trackAlong(prevFt, p.doneFt),
-    done: p.done.map(toLatLng),
-    ahead: p.ahead.map(toLatLng),
-    arrived: p.aheadFt <= ARRIVED_FT,
-    milesLeft: Math.round(milesLeft * 10) / 10,
-    milesTotal: Math.round(((p.doneFt + p.aheadFt) / 5280) * 10) / 10,
-    minutesLeft: select.rideMinutes(milesLeft),
-    offFt: p.offFt,
+    reachable: true,
+    arrived,
+    // Never "0 mi to go" short of the place: the last stretch reads 0.1.
+    miles: arrived ? 0 : Math.max(0.1, Math.round(milesLeft * 10) / 10),
+    minutes: select.rideMinutes(milesLeft),
+    milesTotal: Math.round((at.totalFt / 5280) * 10) / 10,
+    alongFt: at.alongFt,
+    offFt: at.offFt,
+    done: done.map(toLatLng),
+    ahead: ahead.map(toLatLng),
   };
 }
 
@@ -136,39 +143,25 @@ const placedStopsOf = (adventure) => {
 
 export const crossingById = byId(crossings);
 
-// The crossings a line passes, each once. line is [lon, lat] pairs.
-function crossingsOnLine(line) {
-  const ids = new Set(select.crossingPasses(line, crossings).map((p) => p.id));
-  return crossings.filter((c) => ids.has(c.id));
-}
-
-// A followed ride's stop list with its crossings: { items, back, crossings }.
-// See rideItinerary. Worked out once per adventure.
+// A followed ride's stop list with its crossings ({ items, back }, see
+// rideItinerary) and how many different roads it crosses. Worked out once
+// per adventure.
 const itineraries = new Map();
 export function adventureItinerary(adventure) {
   if (!itineraries.has(adventure.id)) {
     const line = adventure.route.coordinates;
     const passes = select.crossingPasses(line, crossings);
     const { items, back } = select.rideItinerary(line, adventure.stops.length, placedStopsOf(adventure), passes);
-    itineraries.set(adventure.id, { items, back, crossings: crossingsOnLine(line) });
+    itineraries.set(adventure.id, { items, back, crossingCount: new Set(passes.map((p) => p.id)).size });
   }
   return itineraries.get(adventure.id);
 }
 
 // The stop a rider following an adventure reaches next ({ index, alongFt }),
-// or null more than half a mile from the route, where "next" means nothing.
-// prevFt is the last result's alongFt: how far along the rider had got.
-export function nextStopOf(adventure, position, prevFt = null) {
-  const at = select.riderAlong(adventure.route.coordinates, toLonLat(position), prevFt);
-  if (!at || at.offFt > 2640) return null;
-  const alongFt = select.trackAlong(prevFt, at.alongFt);
-  return { index: select.nextStopIndex(placedStopsOf(adventure), alongFt), alongFt };
-}
-
-// A stop's own photo, by the basename in its `photo` field. Small: 480x320.
-// Static require()s, like the adventure photos below; the validator checks
-// every `photo` named in the data has an entry here.
-export const stopImages = {};
+// or null more than half a mile from the route. prevFt is the last result's
+// alongFt: how far along the rider had got.
+export const nextStopOf = (adventure, position, prevFt = null) =>
+  select.followStep(adventure.route.coordinates, placedStopsOf(adventure), toLonLat(position), prevFt);
 
 // Photos have to be require()d statically for the bundler to pick them up.
 export const adventureImages = {

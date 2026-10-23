@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Unit tests for the data selection logic.
- * Implements checks UT-1 to UT-11 from the test case documentation.
+ * Implements checks UT-1 to UT-12 from the test case documentation.
  *
  * These run against src/lib/select.js, which holds the pure functions that
  * src/lib/data.js re-exports once the bundled data is bound to them. There is
@@ -9,7 +9,7 @@
  * without), so this file is a plain node script like validate-data.cjs.
  *
  * Fixtures rather than the real dataset: these assert behaviour, and should not
- * start failing because a cafe closed. The real data is checked by DT-1 to DT-7.
+ * start failing because a cafe closed. The real data is checked by DT-1 to DT-13.
  *
  * Usage:
  *   node scripts/test-lib.cjs
@@ -30,8 +30,9 @@ const {
   placeStops,
   riderAlong,
   trackAlong,
-  nextStopIndex,
-  progressAlong,
+  followLine,
+  followStep,
+  splitLine,
   crossingPasses,
   rideItinerary,
 } = require('../src/lib/select');
@@ -204,7 +205,7 @@ test('UT-8', 'routeOnGraph: routes only along drawn lines, joining ones that nea
   assert.equal(rideMinutes(2.3), 20);
 });
 
-test('UT-9', 'placeStops, riderAlong, nextStopIndex: NEXT follows a loop forwards', () => {
+test('UT-9', 'placeStops, followStep: NEXT follows a loop forwards', () => {
   // Bracken-like loop: out east and back west a few feet north, ending where
   // it started. Stop 1 is at the start, stop 2 at the far end, and stop 3 sits
   // beside the start but is the last stop of the ride.
@@ -238,42 +239,64 @@ test('UT-9', 'placeStops, riderAlong, nextStopIndex: NEXT follows a loop forward
   let prev = null;
   const seen = [];
   for (const p of walk) {
-    const at = riderAlong(outAndBack, p, prev);
-    prev = trackAlong(prev, at.alongFt);
-    const next = nextStopIndex(obPlaced, prev);
-    if (seen[seen.length - 1] !== next) seen.push(next);
+    const step = followStep(outAndBack, obPlaced, p, prev?.alongFt ?? null);
+    prev = step;
+    if (seen[seen.length - 1] !== step.index) seen.push(step.index);
   }
   assert.deepEqual(seen, [0, 1, 2, null], 'NEXT 1, 2, 3, then done');
 
-  // With no earlier fix the rider is on the nearest spot; far off it, the
-  // nearest spot is still reported, with its distance.
-  assert.ok(riderAlong(outAndBack, [-82.72, 35.25]).offFt > 5000);
+  // More than half a mile from the route, NEXT means nothing.
+  assert.equal(followStep(outAndBack, obPlaced, [-82.72, 35.25]), null);
   // A small step back is GPS wobble; a big one is a real turn back.
-  assert.equal(trackAlong(1000, 950), 1000);
+  assert.equal(trackAlong(1000, 700), 1000);
   assert.equal(trackAlong(1000, 400), 400);
   assert.equal(trackAlong(null, 400), 400);
 });
 
-test('UT-10', 'progressAlong: splits a ride where the rider is, keeping the whole line', () => {
+test('UT-12', 'riderAlong: a first fix, a gap in fixes and a fix that is not a number', () => {
+  // The loop's way back runs 73 ft north of the way out. With no earlier fix,
+  // a rider between them, nearer the way back, is on the way out: a ride is
+  // followed from its start.
+  const loop = [[-82.74, 35.23], [-82.70, 35.23], [-82.70, 35.2302], [-82.74, 35.2302]];
+  const first = riderAlong(loop, [-82.72, 35.23015]);
+  assert.ok(first.alongFt < 7000, `on the way out, not ${Math.round(first.alongFt)} ft along`);
+
+  // A straight ride drawn in short pieces. After a gap in fixes (the phone
+  // locked), the rider is found where they are, not at the end of a piece
+  // near where they were.
+  const line = [];
+  for (let k = 0; k <= 12; k++) line.push([-82.74 + 0.0034 * k, 35.23]);
+  const before = riderAlong(line, [-82.7333, 35.23]);
+  const after = riderAlong(line, [-82.7095, 35.23], before.alongFt);
+  assert.ok(Math.abs(after.alongFt - 9100) < 100, `found again at ${Math.round(after.alongFt)} ft`);
+  assert.ok(after.offFt < 1, 'on the line');
+
+  assert.equal(riderAlong(line, [NaN, 35.23]), null, 'a fix that is not a number is not used');
+});
+
+test('UT-10', 'followLine, splitLine: a ride cut where the rider has got, keeping the whole line', () => {
   // A ride running east about 2.3 mi (one degree of longitude is ~298,000 ft here).
   const line = [[-82.74, 35.23], [-82.73, 35.23], [-82.70, 35.23]];
-  const halfway = progressAlong(line, [-82.72, 35.2301]);
-  assert.ok(Math.abs(halfway.doneFt - halfway.aheadFt) < 1, 'halfway: as much done as ahead');
+  const halfway = followLine(line, [-82.72, 35.2301]);
+  assert.ok(Math.abs(halfway.alongFt * 2 - halfway.totalFt) < 1, 'halfway along');
   assert.ok(halfway.offFt < 50, 'a few feet off the line still counts as on it');
-  assert.deepEqual(halfway.done[0], line[0], 'the ridden part starts where the ride did');
-  assert.deepEqual(halfway.ahead[halfway.ahead.length - 1], line[2], 'the part ahead ends at the place');
-  assert.deepEqual(halfway.done[halfway.done.length - 1], halfway.ahead[0], 'the two parts meet at the rider');
-  const total = halfway.doneFt + halfway.aheadFt;
-  assert.equal(Math.round(progressAlong(line, line[0]).aheadFt), Math.round(total), 'at the start, all of it is ahead');
-  assert.equal(Math.round(progressAlong(line, line[2]).aheadFt), 0, 'at the place, nothing is ahead');
-  assert.ok(progressAlong(line, [-82.72, 35.25]).offFt > 5000, 'far off the line says so');
+  const { done, ahead } = splitLine(line, halfway.alongFt);
+  assert.deepEqual(done[0], line[0], 'the ridden part starts where the ride did');
+  assert.deepEqual(ahead[ahead.length - 1], line[2], 'the part ahead ends at the place');
+  assert.deepEqual(done[done.length - 1], ahead[0], 'the two parts meet at the rider');
+  assert.equal(Math.round(followLine(line, line[0]).alongFt), 0, 'at the start, none of it is ridden');
+  const there = followLine(line, line[2]);
+  assert.equal(Math.round(there.alongFt), Math.round(halfway.totalFt), 'at the place, all of it is');
+  assert.ok(followLine(line, [-82.72, 35.25]).offFt > 5000, 'far off the line says so');
+  // Wobble back at the place does not undo arriving.
+  assert.equal(followLine(line, [-82.7003, 35.23], there.alongFt).alongFt, there.alongFt);
 
-  // A way that goes out a spur and back: on the way back the split stays on
-  // the return leg, given how far along the rider had got.
+  // A way that goes out a spur and back: on the way back the rider stays on
+  // the return leg, given how far along they had got.
   const spur = [[-82.74, 35.23], [-82.72, 35.23], [-82.74, 35.23]];
-  const out = progressAlong(spur, [-82.73, 35.23]);
-  const back = progressAlong(spur, [-82.73, 35.23], out.doneFt + 5500);
-  assert.ok(back.doneFt > out.doneFt + 4000, 'the return leg, not the way out');
+  const out = followLine(spur, [-82.73, 35.23]);
+  const back = followLine(spur, [-82.73, 35.23], out.alongFt + 5500);
+  assert.ok(back.alongFt > out.alongFt + 4000, 'the return leg, not the way out');
 });
 
 test('UT-11', 'rideItinerary: crossings between the stops, and back again on a one-way ride', () => {
@@ -298,6 +321,11 @@ test('UT-11', 'rideItinerary: crossings between the stops, and back again on a o
     'the crossing sits before the stop past it; a stop with no location stays after the one before it'
   );
   assert.deepEqual(back.map((i) => i.id), ['main-st'], 'a one-way ride lists its crossings again for the way back');
+
+  // A last stop with no location (back to the start) is where the ride ends:
+  // the crossings before the end come before it.
+  const ending = rideItinerary(line, 3, [{ index: 0, alongFt: 0 }, { index: 1, alongFt: 1000 }], passes).items;
+  assert.deepEqual(ending.map((i) => (i.kind === 'stop' ? i.index : i.id)), [0, 1, 'main-st', 2]);
 
   // A loop whose way back runs beside the way out crosses the road twice, and
   // has no separate way back.

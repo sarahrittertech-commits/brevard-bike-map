@@ -25,8 +25,8 @@ would be embarrassing in a demo.
 | DT-8 | Every destination within 1,000 ft of the network, or listed in `OFF_PATH` with its reason (warning) | A coordinate placed by eye drifting off the path, as Oskar Blues had at 1,969 ft |
 | DT-9 | No destination or landmark sits exactly on a network vertex (warning) | A placeholder pinned to the drawn line instead of surveyed — the shape of every wrong coordinate found in September |
 | DT-10 | Each app holds together on its own: every place's categories and every ride's stops exist in that app, and Bike Brevard Kids shows no brewery, taproom, tavern, beer or wine wording | A kids ride stopping at a taproom, or a shop still labelled "& Brews" in the kids build |
-| DT-11 | A stop's own `coordinates` are `[lon, lat]` in Brevard and within 500 ft of its ride's route (warning); a stop's `photo` exists in `assets/stops/` and in `stopImages` | A sculpture pinned across town, or a photo that would crash the bundle |
-| DT-12 | Walking every ride in both apps every ~50 ft, as the app tracks a rider, NEXT never goes back and names every pinned stop after the first; every stop fits its route in itinerary order | A stop list out of order with the drawn route, or a NEXT that skips or runs backwards (the 1.1.1 review found both) |
+| DT-11 | A stop's own `coordinates` are `[lon, lat]` in Brevard and within 500 ft of its ride's route (warning) | A sculpture pinned across town |
+| DT-12 | Walking every ride in both apps every 50 ft as the app tracks a rider (`followStep`): straight, with 30 ft of seeded GPS wobble, with the phone locked for a quarter of the ride, and turning location on at each stop. NEXT never goes back, names every pinned stop after the first, and away from the stops names the stop the rider really reaches next (within 600 ft of unlocking, 300 ft of turning location on); every stop fits its route in itinerary order | A stop list out of order with the drawn route, or a NEXT that skips, runs backwards or sticks after a gap in fixes (the 1.1.1 reviews found all three) |
 | DT-13 | Every road crossing is within 200 ft of the network | A "Cross here" warning for a road the path does not meet |
 
 ## Automated — unit
@@ -35,7 +35,7 @@ Run by `npm test` in CI on every push. These run against `src/lib/select.js`,
 which holds the pure selection logic that `src/lib/data.js` binds the bundled
 data to. They use fixtures rather than the real dataset, so they assert
 behaviour and do not start failing because a cafe closed — the real data is
-covered by DT-1 to DT-12 above.
+covered by DT-1 to DT-13 above.
 
 | ID | Unit | Assertion |
 | --- | --- | --- |
@@ -47,9 +47,10 @@ covered by DT-1 to DT-12 above.
 | UT-6 | `isNearArea` | A position in town counts as near the map; Asheville, and a swapped `[lat, lon]` reading of Brevard, do not |
 | UT-7 | `forApp` | Each app keeps only its own items and reads its own wording, stops included; neither `apps` nor the overrides reach the screens |
 | UT-8 | `buildRouteGraph`, `routeOnGraph` | The way between two points follows the drawn lines, joining line ends within 200 ft |
-| UT-9 | `placeStops`, `riderAlong`, `trackAlong`, `nextStopIndex` | A loop's last stop is placed at the end, not the start it sits beside; on an out-and-back drawn over itself, NEXT goes 1, 2, 3 and never back; a small step back is GPS wobble |
-| UT-10 | `progressAlong` | A ride split at the rider into the part ridden and the part ahead, which meet at the rider and add up to the whole way |
+| UT-9 | `placeStops`, `followStep`, `trackAlong` | A loop's last stop is placed at the end, not the start it sits beside; on an out-and-back drawn over itself NEXT goes 1, 2, 3 and never back; more than half a mile off the route NEXT is blank; a small step back is wobble and a big one a turn back |
+| UT-10 | `followLine`, `splitLine` | A ride cut where the rider has got into the part ridden and the part ahead, which meet there and make the whole way; wobble back at the place does not undo arriving; on a spur the rider stays on the return leg |
 | UT-11 | `crossingPasses`, `rideItinerary` | A crossing goes before the stop past it; a ride drawn one way lists its crossings again for the way back; a loop that passes one twice lists it twice and has no separate way back |
+| UT-12 | `riderAlong` | A first fix between a way out and a way back drawn beside it is on the way out; after a gap in fixes the rider is found where they are, not at the end of a piece of line near where they were; a fix that is not a number is not used |
 
 UT-2 reverses the earlier assumption: the design treats "no filters" as "just
 the path", with the rail's clear button making that explicit.
