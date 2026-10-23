@@ -1,0 +1,41 @@
+Feature,Kind,Latitude,Longitude,As Sarah gave it,In the app
+"Public parking (south) — Ninja Park, Rec building, south fields",parking,35.256056,-82.707417,"35°15'21.8""N 82°42'26.7""W",Stop: Brevard Ball Fields (Ball Field to Library Loop; Concert Night at the Music Center)
+Parking (north) — baseball fields and turf soccer field,parking,35.260000,-82.706194,"35°15'36.0""N 82°42'22.3""W",Not used yet
+Ecusta Rd crossing — towards Ecusta Brewing / the forest,crossing,35.261000,-82.706028,"35°15'39.6""N 82°42'21.7""W",Not built yet (F-18)
+Ecusta Rd crossing — back towards the ball fields / town,crossing,35.261083,-82.705917,"35°15'39.9""N 82°42'21.3""W",Not built yet (F-18)
+Jameson's Joy (Ninja Park),place,35.256056,-82.708028,"35°15'21.8""N 82°42'28.9""W","Pin, both apps"
+Sports Complex Skate Park,place,35.260222,-82.707056,"35°15'36.8""N 82°42'25.4""W","Pin, both apps"
+Transylvania County Parks & Recreation,place,35.256833,-82.705722,"35°15'24.6""N 82°42'20.6""W","Pin, Kids app"
+City of Brevard Dog Park,place,35.257556,-82.708333,"35°15'27.2""N 82°42'30.0""W",Label: Dog Park
+Pisgah Forest Elementary School,place,35.256361,-82.704389,"35°15'22.9""N 82°42'15.8""W","Pin, Kids app"
+Ball Fields label,label,35.259174,-82.706056,centre of the north baseball area,Label: Ball Fields
+road entrance,entrance,35.26025,-82.705639,"Sarah, 23 Oct",
+far corner of the Ecusta turf field (east),field corner,35.261167,-82.706194,"35°15'40.2""N 82°42'22.3""W",
+far corner of the Ecusta turf field (west),field corner,35.261222,-82.707083,"35°15'40.4""N 82°42'25.5""W",
+near side of the Ecusta turf field (west),field corner,35.260556,-82.707167,"35°15'38.0""N 82°42'25.8""W",
+near side of the Ecusta turf field (east),field corner,35.260278,-82.706056,"35°15'37.0""N 82°42'21.8""W",
+"baseball area, point 1 of 4",field corner,35.259806,-82.705472,"35°15'35.3""N 82°42'19.7""W",
+"baseball area, point 2 of 4",field corner,35.258917,-82.704750,"35°15'32.1""N 82°42'17.1""W",
+"baseball area, point 3 of 4",field corner,35.259639,-82.707028,"35°15'34.7""N 82°42'25.3""W",
+"baseball area, point 4 of 4",field corner,35.258333,-82.706972,"35°15'30.0""N 82°42'25.1""W",
+"small grass sports field, point 1 of 4",field corner,35.257667,-82.707667,"35°15'27.6""N 82°42'27.6""W",
+"small grass sports field, point 2 of 4",field corner,35.257333,-82.706694,"35°15'26.4""N 82°42'24.1""W",
+"small grass sports field, point 3 of 4",field corner,35.256500,-82.706889,"35°15'23.4""N 82°42'24.8""W",
+"small grass sports field, point 4 of 4",field corner,35.256750,-82.707639,"35°15'24.3""N 82°42'27.5""W",
+"Jameson's Joy (Ninja Park) — outline, point 1 of 4",field corner,35.256028,-82.707833,"35°15'21.7""N 82°42'28.2""W",
+"Jameson's Joy (Ninja Park) — outline, point 2 of 4",field corner,35.255889,-82.708417,"35°15'21.2""N 82°42'30.3""W",
+"Jameson's Joy (Ninja Park) — outline, point 3 of 4",field corner,35.255667,-82.707778,"35°15'20.4""N 82°42'28.0""W",
+"Jameson's Joy (Ninja Park) — outline, point 4 of 4",field corner,35.255750,-82.708222,"35°15'20.7""N 82°42'29.6""W",
+"soccer fields (south), point 1 of 4",field corner,35.256056,-82.705111,"35°15'21.8""N 82°42'18.4""W",
+"soccer fields (south), point 2 of 4",field corner,35.256222,-82.705972,"35°15'22.4""N 82°42'21.5""W",
+"soccer fields (south), point 3 of 4",field corner,35.254972,-82.705167,"35°15'17.9""N 82°42'18.6""W",
+"soccer fields (south), point 4 of 4",field corner,35.254861,-82.706000,"35°15'17.5""N 82°42'21.6""W",
+"baseball fields (south), point 1 of 4",field corner,35.255778,-82.706417,"35°15'20.8""N 82°42'23.1""W",
+"baseball fields (south), point 2 of 4",field corner,35.254583,-82.706722,"35°15'16.5""N 82°42'24.2""W",
+"baseball fields (south), point 3 of 4",field corner,35.254528,-82.707917,"35°15'16.3""N 82°42'28.5""W",
+"baseball fields (south), point 4 of 4",field corner,35.255528,-82.707417,"35°15'19.9""N 82°42'26.7""W",
+"soccer and grass fields (southwest), point 1 of 4",field corner,35.255778,-82.708639,"35°15'20.8""N 82°42'31.1""W",
+"soccer and grass fields (southwest), point 2 of 4",field corner,35.255528,-82.709722,"35°15'19.9""N 82°42'35.0""W",
+"soccer and grass fields (southwest), point 3 of 4",field corner,35.254222,-82.708472,"35°15'15.2""N 82°42'30.5""W",
+"soccer and grass fields (southwest), point 4 of 4",field corner,35.254000,-82.709806,"35°15'14.4""N 82°42'35.3""W",
+Whole complex — bounding box,outline,35.254000 to 35.261222,-82.709806 to -82.704750,from the corners above,"Not used; about 2,630 ft N–S by 1,500 ft E–W"

@@ -5,6 +5,8 @@ title: Use cases
 
 # Use cases
 
+UC-6 to UC-10 are taken by [Add stops](./feature-add-stops).
+
 Each use case maps to requirements in the [PRD](./prd) and to test cases in
 [Test cases](./test-cases).
 
@@ -159,6 +161,164 @@ when one is older than that.
 
 Ratings, reviews, prices, delivery, reservations, ordering, and "near me"
 sorting. The list stays ordered by mile marker, like every other category.
+
+## UC-11 — Pick a place and ride to it
+
+**Status:** Recorded 23 October 2026. Draft. The basic use case the others
+build on; tested place by place by MT-28.
+
+**Actor:** Any rider
+
+**Trigger:** Wants to go to one kind of place: ice cream, a playground, a
+brewery, a bike shop or a repair station.
+
+**Flow:**
+
+1. Taps that category on the rail on the right. Its pins appear.
+2. Taps a pin, or a row in the list.
+3. Reads the card: what the place is, where it is on the path, its hours.
+4. Taps **Ride to here** (turning on location if asked). The way is drawn
+   from her to the place.
+
+The list gives each place's miles: from the W Main St trailhead with location
+off, and from her with location on.
+
+**Requirements:** R2, R3, R5
+
+**Succeeds when:** for every place on the map, she can read its card and get
+a way drawn to it, and the pin is where the place is.
+
+## UC-12 — Which ice cream today?
+
+**Status:** Recorded from Sarah's walkthrough, 23 October 2026. Draft — the
+flow is how it should work, not how it works today; see findings F-2 to F-4
+in [Test cases](./test-cases#open-findings--walkthrough-23-october-2026).
+
+**Actor:** The local parent, or anyone with a sweet tooth
+
+**Trigger:** Wants ice cream on a ride, and wants to pick the place by what
+kind they feel like today — soft serve, shaved ice, a sundae.
+
+**Flow:**
+
+1. Switches on Ice Cream. Pins appear on the map; the sheet stays down, so the
+   pins are what she sees first.
+2. Scans the pins. Several sit close together downtown, so she pans and
+   zooms in to tell them apart.
+3. Taps a pin, or slides the sheet up and taps a row in the list
+   ("7 stops on the path").
+4. The map centres on that place, and the card says what it serves.
+5. Goes back to the list, taps the next one, and the map moves with her.
+6. Picks one and rides there, or taps "Ride to here".
+
+**Requirements:** R2, R3, R4
+
+**Succeeds when:** she can compare every ice cream stop, see where each one is
+on the map as she reads about it, and choose by what it serves.
+
+## UC-13 — What is this app, and what are Adventures?
+
+**Status:** Recorded 23 October 2026. Draft. See finding F-1.
+
+**Actor:** The visiting cyclist, first launch
+
+**Trigger:** Has just opened the app and taps the "Getting around Brevard by
+bike" card to find out what she is looking at.
+
+**Flow:**
+
+1. Opens the app. The "Getting around" card is up.
+2. Taps it. It explains the path, the sidewalks and the quiet-street
+   connectors.
+3. It also says, in a line or two each, what the **Trail Map** tab is for
+   (places along the path, by category) and what an **Adventure** is (a ride
+   locals actually do, with stops and notes).
+4. Knows which tab to use for what she wants.
+
+**Requirements:** R1, R8
+
+**Succeeds when:** a first-time rider can say what an Adventure is without
+having opened the Adventures tab.
+
+## UC-14 — Plan today's streets, and what's along them
+
+**Status:** Recorded 23 October 2026. Draft. See findings F-5 and F-6.
+
+**Actor:** A rider heading somewhere specific today
+
+**Trigger:** Has picked a place (White Squirrel Arcade, in the walkthrough)
+and wants to know how to get there and what else is on the way.
+
+**Flow:**
+
+1. With Ice Cream on, opens the list and taps the place.
+2. Turns on location and taps **Ride to here**. The way is drawn from the
+   blue dot to the pin, with miles and minutes in the header.
+3. Pinches, zooms and drags the map to read which streets the way uses.
+4. Switches on Breweries to see what else sits along the way. Brewery pins
+   appear round the ride; the ride carries on.
+5. Taps the close button to end the ride when done.
+
+**Requirements:** R2, R3, R5
+
+**Succeeds when:** before setting off, she knows the streets she will ride and
+what she could stop at on the way, and the pin she is riding to is where the
+place actually is.
+
+## UC-15 — Ride to a place, and see what else is around it
+
+**Status:** Recorded 23 October 2026. Draft. The advanced form of UC-11 and
+UC-14. See findings F-6 and F-7.
+
+**Actor:** A rider already on the way somewhere
+
+**Trigger:** Riding to one place, wants to know what else is near the way or
+near where she is going.
+
+**Flow:**
+
+1. Starts Ride to here to a place (UC-11).
+2. Switches on one or more other categories. Their pins appear round the way.
+3. Taps one of those pins and reads its card, without losing the ride.
+4. Closes that card and carries on to the place she set out for, or ends the
+   ride.
+
+**Requirements:** R2, R3, R5
+
+**Succeeds when:** during any ride, every other category can be shown and any
+of its places read, and the ride is still there afterwards. Tested for every
+combination by MT-29.
+
+**The same need with an adventure (Sarah, 23 October):** with the brown route
+drawn — riding to a place, or following an adventure after Show route on
+map — she wants to explore what is on that route: open each numbered stop,
+switch on a category and open the places along the line, close the card and
+open the next. This is the use case the app has struggled with most:
+sometimes a card does not show up. Every tap on a stop or a pin along a drawn
+route opens its card, every time, and closing a card leaves the route as it
+was. Tested by MT-41 to MT-44; the open problem is F-19.
+
+## UC-16 — Browse adventures, then follow one
+
+**Status:** Recorded 23 October 2026. Draft. See findings F-8 to F-11.
+
+**Actor:** Any rider looking for a ride idea
+
+**Flow:**
+
+1. Opens the Adventures tab and taps an adventure. Reads its detail.
+2. Taps back. Returns to the Adventures list.
+3. Opens another adventure and taps **Show route on map**.
+4. The route is drawn with a numbered dot for every stop the header says it
+   has ("6 stops", six dots).
+5. Opens and collapses the header card to read the list of stops.
+6. Taps a dot. The stop's card opens with its note, and the distance and time
+   from her if location is on.
+
+**Requirements:** R5, R8
+
+**Succeeds when:** every stop an adventure lists is on the map and can be
+opened, and every stop is somewhere a rider can actually stop.
 
 ---
 

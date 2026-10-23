@@ -80,6 +80,47 @@ walking simulated riders along every ride with the real data):
 - No flash of the Getting around card when a stop's card closes.
 - **White Squirrel Arcade** moved 502 ft to Sarah's location at 40 N
   Caldwell St.
+- **Ride to a Downtown Festival** starts at Jameson's Joy (Ninja Park),
+  with its free, easy parking, instead of the Pisgah Forest end, and ends
+  where the path meets W Main, with a note to walk bikes to the bike valet
+  there. The Mid-Path Fix-It Stand and Rocky's are no longer stops. 3.1 mi
+  and 25 minutes, down from 4.3 and 35.
+- **Sports Complex Skate Park** is a new pin, from Sarah's location beside
+  the turf soccer field: under Playgrounds in both apps, and Fun Stops too
+  in Bike Brevard Kids.
+- **Transylvania County Parks & Recreation** is a new pin in Bike Brevard
+  Kids, under After School and Fun Stops: indoor basketball, kids' events
+  and birthday-party rental.
+- **Dog Park** is a new map label in both apps, at the City of Brevard dog
+  park. The **Ball Fields** label, which had been sitting on the dog park,
+  moves 845 ft to the middle of the baseball fields, from the corners Sarah
+  walked.
+- **Pisgah Forest Elementary School** moved 176 ft to Sarah's location.
+- The **Brevard Ball Fields** stop on Ball Field to Library Loop and Concert
+  Night at the Music Center now has a dot, at the sports complex's public
+  parking from Sarah's location. Before, it had no location and was skipped.
+- **Jameson's Joy (Ninja Park)** moved 69 ft to Sarah's location, beside the
+  public parking.
+- **Transylvania County Library** (Bike Brevard Kids) moved 206 ft to the
+  front door, from Sarah's photo IMG_5611.
+- The **River Pull-Off** stop on Downtown to the River now has a dot, from
+  Sarah's location 37 ft off the route.
+- **Sycamore Flats** now has a dot on Downtown to the River and The Hub to
+  Bracken and Back, from Sarah's location. The picnic tables are across the
+  river, so the note says to leave the bike and swim over.
+- The **Bracken Mountain Trailhead** stop on The Hub to Bracken and Back
+  now has a dot, at the Bracken Preserve entrance from Sarah's location.
+- **Davidson River Campground** now has a dot on both rides that stop there,
+  from Sarah's locations: the parking lot at the end of Downtown to the
+  River, and the campground itself where The Hub to Bracken and Back comes
+  out of the connector.
+- **"Cross here" warnings.** A followed ride's stop list now warns of each
+  road it crosses — N Broad St at Blue Ridge Community College, Deerlake Rd,
+  Jackson Ct, Ecusta Rd and Asheville Hwy at Lowe's — with a small traffic
+  cone between the stops where you meet it, and again for the way back. The
+  header counts them. Located from where Sarah stood on each side. A crossing
+  is not a stop, so Lowe's Crossing leaves Downtown to the River's numbered
+  stops.
 
 Also found while testing these: **a numbered stop on a followed adventure no
 longer moved the map to it** in build 10. The Ride to here fix stopped
