@@ -238,7 +238,9 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const railBottom = dock ? height - EDGE : height - bottomCover - 8;
   const splitRail = railBottom - railTop < RAIL_HEIGHT;
   const railRight = insets.right + EDGE;
-  const railSpace = railRight + (splitRail ? SPLIT_RAIL_WIDTH : RAIL_WIDTH) + 18;
+  // 34: room for half a numbered stop (32pt) beyond the fitted edge, so a
+  // stop at the edge of a ride sits clear of the rail rather than touching it.
+  const railSpace = railRight + (splitRail ? SPLIT_RAIL_WIDTH : RAIL_WIDTH) + 34;
 
   // Handed to the map as stable values, so a tap that changes none of them
   // does not redraw it.
@@ -264,6 +266,12 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
 
   const route = useMemo(() => (following ? lineToLatLngs(following.route) : null), [following]);
   const routeStops = useMemo(() => (following ? adventureStopPins(following) : null), [following]);
+  // A followed ride fits its line and its numbered stops, which can sit a
+  // little off the line (a sculpture on a lawn), so none hides under the rail.
+  const routeFit = useMemo(
+    () => (route ? [...route, ...routeStops.map((s) => toLatLng(s.coordinates))] : null),
+    [route, routeStops]
+  );
 
   const nextStop = useMemo(
     () => (following && position ? nextStopOf(following, position) : null),
@@ -514,7 +522,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
         // width is in the key, not just whether it exists, because it settles
         // only once this screen's own layout reports the new size.
         fitKey={`${rideToId ?? following?.id ?? 'trail'}-${rideRoute ? 'ride' : ''}-${recenter}-${showNonce}-${dock ? dock.width : 'upright'}`}
-        fitLatLngs={rideRoute ?? route ?? networkLatLngs}
+        fitLatLngs={rideRoute ?? routeFit ?? networkLatLngs}
         // What the map must keep clear of: the header, sheet and rail. Docked,
         // the header and sheet are a column on the left and nothing covers
         // the bottom of the map.
