@@ -16,8 +16,9 @@ app is recorded or transmitted anywhere.
 
 ## Your location
 
-The app can show where you are on the map, as a dot, if you ask it to. It is
-off until you tap the location button on the map. The first tap explains what
+The app can show where you are on the map, as a dot, if you ask it to. Until
+you have allowed it, it stays off and asks nothing until you tap the location
+button on the map. The first tap explains what
 the dot is for and lets you say no, then your phone asks for permission. Tap
 the button again and the dot goes away. Once you have allowed it, the dot
 comes back on by itself each time you open the app; to stop that, choose
