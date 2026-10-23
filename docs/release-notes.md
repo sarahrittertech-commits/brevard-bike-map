@@ -138,6 +138,38 @@ walking simulated riders along every ride with the real data):
   is not a stop, so Lowe's Crossing leaves Downtown to the River's numbered
   stops.
 
+**From the second full review** (23 October; twelve reviewers, six of them
+riding simulated riders along every ride, plus a check of every pin against
+OpenStreetMap):
+
+- **NEXT keeps up when the phone has been locked.** Location only runs while
+  the app is open, so a locked phone leaves a gap. Afterwards NEXT could stay
+  on a stop already passed for the rest of the ride, and turning location on
+  at the Cows put the rider at the end of Sculpture on the Path. The rider is
+  now found again after a gap, a skipped stop or a turn back, and a first
+  fix counts as the start of the ride. Showing a route again, or turning
+  location off and on, starts afresh instead of carrying on from the last
+  ride. Walked with wobble, gaps and starts at every stop, the wrong-NEXT
+  stretches went from up to three miles to a few hundred feet; DT-12 now
+  walks all of these on every data change.
+- **Riding to a place:** the ridden part, the miles to go and "You're here"
+  follow how far the rider has got, so wobble at the place no longer flips
+  the header back to "Riding to", and the last stretch reads 0.1 mi, not 0.
+  The way is redrawn only from a GPS-grade fix, never a Wi-Fi guess, and
+  not at all outside Brevard, where the header says distance shows in town.
+  The card says "You're here" too.
+- **Ball Field to Library Loop, Concert Night and Short Track Social are
+  drawn there and back**, as they are ridden. The Yard, on the way home, was
+  placed on the way out, so NEXT named it for 2.4 miles straight after the
+  Ninja Park. Lunch, dinner and the start of Short Track Social and the Rock
+  Gym ride now have dots at the W Main trailhead, where their notes say to
+  lock up or start, and the library has one at its front door. The road
+  crossings are listed before lunch, where they are ridden.
+- The Apple Maps logo is no longer hidden under the sheet; Apple's terms
+  want it seen.
+- Location while riding asks for GPS accuracy; the map's own blue dot keeps
+  GPS on anyway, so it costs no battery.
+
 Also found while testing these: **a numbered stop on a followed adventure no
 longer moved the map to it** in build 10. The Ride to here fix stopped
 centring whenever any route was drawn, an adventure's included. Now only

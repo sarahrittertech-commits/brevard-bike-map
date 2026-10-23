@@ -16,7 +16,7 @@
     "name": "Hospital",
     "coordinates": [-82.7124, 35.2561],
     "labelSide": "left",
-    "labelOffsetY": -12,
+    "labelOffsetY": -15,
     "muted": true
   },
   {
