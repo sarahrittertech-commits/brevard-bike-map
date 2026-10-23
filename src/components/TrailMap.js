@@ -48,6 +48,15 @@ const GOOGLE_STYLE = [
   { featureType: 'road', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
 ];
 
+// Landmark labels and trailhead squares are for reading, not tapping, but
+// Apple Maps gives every marker a touch box and no way to turn it off
+// (`tappable` is Google-only). A label sitting over a pin could take the tap
+// meant for the pin, whichever MapKit happened to stack on top, so a pin
+// sometimes needed two or three tries (F-12, F-19). Below "required" display
+// priority, MapKit hides a marker wherever it collides with a pin or a
+// numbered stop, so the pin is the only thing there to tap.
+const READ_ONLY_PRIORITY = 'high';
+
 // The design's map is a town trail guide, not a world map. Zoom is fenced;
 // panning is left free because react-native-maps only fences on Google.
 // The path network, landmarks and trailheads never change while the app runs,
@@ -82,7 +91,7 @@ const StaticLayers = memo(function StaticLayers({ faded, tracking }) {
           // coordinate and needs centerOffset to put the dot there instead.
           anchor={{ x: landmark.labelSide === 'right' ? 0 : 1, y: 0.5 }}
           centerOffset={{ x: landmark.labelSide === 'right' ? LANDMARK_DOT_OFFSET : -LANDMARK_DOT_OFFSET, y: 0 }}
-          tappable={false}
+          displayPriority={READ_ONLY_PRIORITY}
           tracksViewChanges={tracking}
           zIndex={-1}
         >
@@ -95,7 +104,7 @@ const StaticLayers = memo(function StaticLayers({ faded, tracking }) {
           key={t.name}
           coordinate={toLatLng(t.coordinates)}
           anchor={{ x: 0.5, y: 0.5 }}
-          tappable={false}
+          displayPriority={READ_ONLY_PRIORITY}
           tracksViewChanges={tracking}
         >
           <TrailheadMarker />
@@ -111,8 +120,7 @@ export default memo(function TrailMap({
   selected,
   onSelect,
   route,
-  // True while riding to a place: the fitted ride owns the camera, and the
-  // pins round it are there to look at, not to open.
+  // True while riding to a place: the fitted ride owns the camera.
   riding,
   // Riding to a place: the part of the way already ridden, drawn faint.
   routeDone,
@@ -300,7 +308,9 @@ export default memo(function TrailMap({
       onRegionChangeComplete={(region) => {
         regionRef.current = region;
       }}
-      onPress={() => onSelect(null)}
+      // A tap on a label or trailhead reaches the map as a 'marker-press'; it is
+      // not a tap on empty map, so it does not close the open card.
+      onPress={(e) => e.nativeEvent.action !== 'marker-press' && onSelect(null)}
     >
       <StaticLayers faded={!!route} tracking={tracking} />
 
@@ -329,7 +339,6 @@ export default memo(function TrailMap({
             centerOffset={{ x: 0, y: -(PIN_HIT_TOP + (isSelected ? SELECTED_PIN_HEIGHT : PIN_HEIGHT)) / 2 }}
             tracksViewChanges={tracking}
             zIndex={isSelected ? 10 : 1}
-            tappable={!riding}
             onPress={(e) => {
               e.stopPropagation();
               onSelect(d.id);

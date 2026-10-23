@@ -36,6 +36,12 @@ From Sarah's ride on build 10, 22 October 2026:
    avoid that, and numbered stops now are too. Sarah could not make her
    green-pin case repeat, so it stays on the list to check on the next build
    (MT-19). Where a pin sits under a numbered stop, the stop wins the tap.
+   Testing in the simulator on 23 October found the other cause: on
+   iPhone the map's labels and trailhead squares take taps too, and one
+   lying over a pin could take the pin's tap and close the card instead of
+   opening it. Labels and trailheads now hide wherever they overlap a pin
+   or a numbered stop, so the pin is the only thing there to tap, and a tap
+   on a label no longer closes the open card.
 7. **The way to a place stays put while riding.** Ride to here used to
    redraw the line from the rider at every position update, so it shrank
    behind them and the dot seemed to jump back. Now the way is drawn once
