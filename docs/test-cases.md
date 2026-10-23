@@ -148,7 +148,8 @@ draws in clay with stops 1–4.
 One cosmetic note, shared with iOS rather than Android's own: at this width the
 path plus its labels does not quite fit, so the westernmost label (Music
 Center) runs off the left edge and Ball Fields sits under the category rail.
-iOS clips Pisgah Entrance and Lowe's Crossing under the rail the same way.
+iOS clipped Pisgah Entrance and Lowe's Crossing under the rail the same way;
+both labels were removed on 23 October 2026.
 
 ### MT-28 checklist — every place, one by one
 

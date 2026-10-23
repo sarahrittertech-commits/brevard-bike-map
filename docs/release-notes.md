@@ -85,9 +85,12 @@ walking simulated riders along every ride with the real data):
   1.0, adding a second Brevard College and the Stone Bowl House). Landmark
   dots and pin tips now sit on their places on iPhone; they had been off
   by about 69 points since 1.0, which showed most when zoomed out. The
-  Pisgah Entrance and Lowe's Crossing labels are gone, and Davidson River,
-  Hospital, Music Center and Brevard College have their labels on the side
-  with more room.
+  Pisgah Entrance, Lowe's Crossing and Courthouse labels are gone. The
+  Brevard College label moves onto the campus, about 3,500 ft from where
+  it was, and Ball Fields moves 845 ft off the dog park to the middle of
+  the baseball fields, from the corners Sarah walked. Davidson River,
+  Brevard College, Ball Fields and Depot Park have their labels on the side
+  with more room, and Music Center's sits level with its dot.
 - **Ride to a Downtown Festival** starts at Jameson's Joy (Ninja Park),
   with its free, easy parking, instead of the Pisgah Forest end, and ends
   where the path meets W Main, with a note to walk bikes to the bike valet
@@ -99,10 +102,6 @@ walking simulated riders along every ride with the real data):
 - **Transylvania County Parks & Recreation** is a new pin in Bike Brevard
   Kids, under After School and Fun Stops: indoor basketball, kids' events
   and birthday-party rental.
-- **Dog Park** is a new map label in both apps, at the City of Brevard dog
-  park. The **Ball Fields** label, which had been sitting on the dog park,
-  moves 845 ft to the middle of the baseball fields, from the corners Sarah
-  walked.
 - **Pisgah Forest Elementary School** moved 176 ft to Sarah's location.
 - The **Brevard Ball Fields** stop on Ball Field to Library Loop and Concert
   Night at the Music Center now has a dot, at the sports complex's public

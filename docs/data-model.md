@@ -9,8 +9,8 @@ The app ships its data as static files bundled with the build. There is no
 backend and no database — see
 [ADR-0004](./architecture/adr-0004-storage-and-costs).
 
-Five entities: **Category**, **Destination**, **Network segment**,
-**Landmark**, **Adventure**. The shape follows the
+Six entities: **Category**, **Destination**, **Network segment**,
+**Landmark**, **Crossing**, **Adventure**. The shape follows the
 [app design](https://github.com/sarahrittertech-commits/Bike-Path-Adventures-Map-Design)
 (18 September 2026), which replaced pairwise start/end routes with a drawn
 path network plus curated adventures.
@@ -90,12 +90,12 @@ The first and last points of the `main` segment are the two trailheads.
 
 ## Landmark
 
-An always-on orientation label — the courthouse, the hospital, the college.
+An always-on orientation label — the library, the hospital, the college.
 Not filterable, not tappable; it exists so a rider can place themselves in
 town at a glance.
 
 ```json
-{ "id": "courthouse", "name": "Courthouse", "coordinates": [-82.7345, 35.2337], "labelSide": "left" }
+{ "id": "library", "name": "Library", "coordinates": [-82.7355, 35.232], "labelSide": "left" }
 ```
 
 | Field | Type | Required | Notes |
@@ -202,3 +202,7 @@ assets/adventures/
 - No name containing "sample" or "placeholder" reaches a release build (DT-6)
 - Stated distances are plausible against drawn geometry (DT-7, warning only —
   out-and-back rides legitimately draw half their distance)
+- DT-8 to DT-13: places near the network, no point sitting on a drawn vertex,
+  each app holding together on its own, stops' own locations near their
+  route, NEXT going forward along every ride, and crossings on the network.
+  See [Test cases](./test-cases) for each
