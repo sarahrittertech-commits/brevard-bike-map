@@ -1,0 +1,32 @@
+[
+  {
+    "id": "brcc",
+    "name": "N Broad St at Blue Ridge Community College",
+    "coordinates": [-82.721833, 35.249403],
+    "button": true
+  },
+  {
+    "id": "deerlake",
+    "name": "Deerlake Rd",
+    "coordinates": [-82.722333, 35.248347],
+    "button": false
+  },
+  {
+    "id": "jackson-ct",
+    "name": "Jackson Ct",
+    "coordinates": [-82.722944, 35.247139],
+    "button": true
+  },
+  {
+    "id": "ecusta-rd",
+    "name": "Ecusta Rd",
+    "coordinates": [-82.705972, 35.261042],
+    "button": true
+  },
+  {
+    "id": "lowes",
+    "name": "Asheville Hwy at Lowe's",
+    "coordinates": [-82.706, 35.272069],
+    "button": true
+  }
+]

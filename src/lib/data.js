@@ -6,6 +6,7 @@ import allCategories from '../data/categories.json';
 import allDestinations from '../data/destinations.json';
 import allNetwork from '../data/network.json';
 import allLandmarks from '../data/landmarks.json';
+import allCrossings from '../data/crossings.json';
 import allAdventures from '../data/adventures.json';
 
 // require() rather than import: select.js is CommonJS so plain node can run
@@ -22,8 +23,10 @@ const destinations = select.forApp(allDestinations, APP);
 const network = select.forApp(allNetwork, APP);
 const landmarks = select.forApp(allLandmarks, APP);
 const adventures = select.forApp(allAdventures, APP);
+// Road crossings belong to the path, not to a ride, so both apps have them all.
+const crossings = allCrossings;
 
-export { categories, destinations, network, landmarks, adventures };
+export { categories, destinations, network, landmarks, adventures, crossings };
 
 export const APP_NAME = APP === 'kids' ? 'Bike Brevard Kids' : 'Bike Brevard Map';
 export const TOWN_NAME = 'Brevard';
@@ -130,6 +133,27 @@ const placedStopsOf = (adventure) => {
   }
   return placements.get(adventure.id);
 };
+
+export const crossingById = byId(crossings);
+
+// The crossings a line passes, each once. line is [lon, lat] pairs.
+function crossingsOnLine(line) {
+  const ids = new Set(select.crossingPasses(line, crossings).map((p) => p.id));
+  return crossings.filter((c) => ids.has(c.id));
+}
+
+// A followed ride's stop list with its crossings: { items, back, crossings }.
+// See rideItinerary. Worked out once per adventure.
+const itineraries = new Map();
+export function adventureItinerary(adventure) {
+  if (!itineraries.has(adventure.id)) {
+    const line = adventure.route.coordinates;
+    const passes = select.crossingPasses(line, crossings);
+    const { items, back } = select.rideItinerary(line, adventure.stops.length, placedStopsOf(adventure), passes);
+    itineraries.set(adventure.id, { items, back, crossings: crossingsOnLine(line) });
+  }
+  return itineraries.get(adventure.id);
+}
 
 // The stop a rider following an adventure reaches next ({ index, alongFt }),
 // or null more than half a mile from the route, where "next" means nothing.

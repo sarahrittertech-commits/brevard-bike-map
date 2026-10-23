@@ -318,6 +318,47 @@ function placeStops(route, stopPins) {
   return states.reduce((a, b) => (b.cost < a.cost ? b : a)).path;
 }
 
+// The road crossings a line passes, in order along it: { id, alongFt } for
+// each pass, so an out-and-back or a loop that crosses a road twice lists it
+// twice. A crossing counts within CROSSING_NEAR_FT of the line: the cones are
+// where Sarah stood at the curb, and the drawn line is traced.
+const CROSSING_NEAR_FT = 250;
+function crossingPasses(line, crossings) {
+  if (line.length < 2) return [];
+  const passes = [];
+  for (const c of crossings) {
+    for (const hit of passesNear(segmentHits(line, c.coordinates).hits)) {
+      if (hit.offFt <= CROSSING_NEAR_FT) passes.push({ id: c.id, alongFt: hit.alongFt });
+    }
+  }
+  return passes.sort((a, b) => a.alongFt - b.alongFt);
+}
+
+// A followed ride's list, top to bottom: its stops in order with the
+// crossings between them where the line passes them, then, for a ride drawn
+// one way only (it ends more than ONE_WAY_FT from where it starts), the same
+// crossings in reverse under "On the way back". A loop's way back is on its
+// line already. A stop with no location sits with the stop before it.
+// Items are { kind: 'stop', index } or { kind: 'crossing', id }.
+const ONE_WAY_FT = 1000;
+function rideItinerary(line, stopCount, placed, passes) {
+  const alongOf = new Map(placed.map((p) => [p.index, p.alongFt]));
+  const items = [];
+  let at = 0;
+  let next = 0;
+  for (let index = 0; index < stopCount; index++) {
+    if (alongOf.has(index)) at = alongOf.get(index);
+    while (next < passes.length && passes[next].alongFt < at) items.push({ kind: 'crossing', id: passes[next++].id });
+    items.push({ kind: 'stop', index });
+  }
+  while (next < passes.length) items.push({ kind: 'crossing', id: passes[next++].id });
+  const cosLat = Math.cos((line[0][1] * Math.PI) / 180);
+  const [a, b] = [toFeet(line[0], cosLat), toFeet(line[line.length - 1], cosLat)];
+  const oneWay = Math.hypot(b[0] - a[0], b[1] - a[1]) > ONE_WAY_FT;
+  const back = oneWay ? passes.map((p) => ({ kind: 'crossing', id: p.id })).reverse() : [];
+  return { items, back };
+}
+
 // Where the rider is along a line. With no earlier position it is the
 // nearest spot on it. With one, only passes from a little behind where they were
 // (BACK_FT, for GPS wobble) to a stretch ahead (AHEAD_FT) count, and going
@@ -402,6 +443,8 @@ module.exports = {
   routeOnGraph,
   rideMinutes,
   placeStops,
+  crossingPasses,
+  rideItinerary,
   riderAlong,
   trackAlong,
   nextStopIndex,

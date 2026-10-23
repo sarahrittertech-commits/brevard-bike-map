@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
+import Svg, { Path, Rect } from 'react-native-svg';
 
 import CategoryIcon from './CategoryIcon';
 import { colors, fonts } from '../theme';
@@ -54,6 +54,19 @@ export function LandmarkLabel({ name, side, offsetY = 0 }) {
         {name}
       </Text>
     </View>
+  );
+}
+
+// A small traffic cone, beside a road crossing in a ride's stop list.
+const CONE_ORANGE = '#E8742A';
+export const CROSSING_ORANGE = '#9A4512';
+export function ConeGlyph({ size = 14 }) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 14 14">
+      <Path d="M5.4 1.5h3.2L12 11.5H2z" fill={CONE_ORANGE} />
+      <Path d="M4.3 6.6h5.4l.7 2H3.6z" fill={colors.white} />
+      <Rect x={1} y={11.5} width={12} height={1.8} rx={0.6} fill={CONE_ORANGE} />
+    </Svg>
   );
 }
 

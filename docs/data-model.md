@@ -104,6 +104,27 @@ town at a glance.
 | `labelSide` | enum | yes | `left` · `right` — which side of the dot the label sits on, so it stays on screen |
 | `labelOffsetY` | number | no | Pixels to shift the text vertically. For the handful of landmarks that share a latitude and would otherwise print on top of each other. Moves the text only; the dot stays on its coordinate |
 
+## Crossing
+
+A road the path crosses. It is not a stop and it is not drawn on the map:
+it is a warning in a followed ride's stop list, a small traffic cone and
+"Cross here · <road>", between the stops where the line passes it. A ride
+drawn one way lists them again, in reverse, under "On the way back", and
+the header counts them ("5 stops · 5 crossings"). Located from where Sarah
+stood on each side of the road, 23 October 2026; the coordinate is the
+midpoint, and only decides where in the list a crossing falls.
+
+```json
+{ "id": "deerlake", "name": "Deerlake Rd", "coordinates": [-82.722333, 35.248347], "button": false }
+```
+
+| Field | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `name` | string | yes | The road crossed, shown after "Cross here" |
+| `button` | boolean | yes | Whether there is a push button to cross. Not shown in the app today; the cone just says "Cross here" |
+
+The validator fails a crossing more than 200 ft from the network (DT-13).
+
 ## Adventure
 
 A curated ride with a story, an ordered list of stops and a drawn route.
@@ -162,6 +183,7 @@ src/data/
   destinations.json
   network.json
   landmarks.json
+  crossings.json
   adventures.json
 assets/adventures/
   <adventure image>.jpg

@@ -92,7 +92,7 @@ src/theme.js                colours, font names, radii from the design's Tailwin
 src/lib/data.js             the only way the UI reads data; owns [lon, lat] -> {latitude, longitude}
 src/lib/select.js           the pure selection logic data.js binds data to; CommonJS so node can test it
 src/lib/layout.js           useLayoutClass(): regular/wide from window size — every layout branch hangs off it
-src/data/                   five JSON files (see docs/data-model.md)
+src/data/                   six JSON files (see docs/data-model.md)
 src/screens/                MapScreen, AdventuresScreen, AdventureDetailScreen
 src/components/TrailMap     MapView + network polylines + all markers
 src/components/MapPins      pin / landmark / trailhead / stop marker views
@@ -131,7 +131,7 @@ splash**, so the real launch screen only appears in an EAS or local build;
 ## Data
 
 `src/data/` holds `categories.json`, `destinations.json`, `network.json`,
-`landmarks.json` and `adventures.json`. This is the real Brevard dataset,
+`landmarks.json`, `crossings.json` and `adventures.json`. This is the real Brevard dataset,
 converted from the design repo. The network geometry is traced rather than
 surveyed; the design notes it should be replaced with the town GIS centerline
 before launch.

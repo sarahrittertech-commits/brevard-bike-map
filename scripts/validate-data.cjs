@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Validates the static data files before they reach a build.
- * Implements checks DT-1 to DT-12 from the test case documentation.
+ * Implements checks DT-1 to DT-13 from the test case documentation.
  *
  * Usage:
  *   node scripts/validate-data.cjs            # warnings are non-fatal
@@ -60,6 +60,7 @@ const destinations = load('destinations');
 const network = load('network');
 const landmarks = load('landmarks');
 const adventures = load('adventures');
+const crossings = load('crossings');
 
 const categoryIds = new Set(categories.map((c) => c.id));
 const destinationIds = new Set(destinations.map((d) => d.id));
@@ -73,6 +74,7 @@ function checkUnique(items, label) {
   }
 }
 checkUnique(categories, 'categories');
+checkUnique(crossings, 'crossings');
 checkUnique(destinations, 'destinations');
 checkUnique(network, 'network');
 checkUnique(landmarks, 'landmarks');
@@ -253,6 +255,20 @@ if (mainSegments.length !== 1) {
   fail('SCHEMA', `Network needs exactly one segment with kind "main", found ${mainSegments.length}`);
 } else if (typeof mainSegments[0].miles !== 'number') {
   fail('SCHEMA', `Segment "${mainSegments[0].id}" needs a numeric miles`);
+}
+
+// Road crossings: a "Cross here" warning, not a stop. One off the path would
+// tell a rider to cross a road the path does not meet, so it must sit on it.
+// 200 ft, not less: the drawn line is traced, and Deerlake Rd, measured where
+// Sarah stood at the curb, is 153 ft from it.
+const CROSSING_FT = 200;
+for (const c of crossings) {
+  if (!c.id || !c.name) fail('SCHEMA', `Crossing missing id or name: ${JSON.stringify(c)}`);
+  if (typeof c.button !== 'boolean') fail('SCHEMA', `Crossing "${c.id}" needs button: true or false`);
+  checkCoord(c.coordinates, `Crossing "${c.id}"`);
+  if (!Array.isArray(c.coordinates) || segmentLines.length === 0) continue;
+  const ft = Math.min(...segmentLines.map((coords) => nearestOnLine(c.coordinates, coords)));
+  if (ft > CROSSING_FT) fail('DT-13', `Crossing "${c.id}" is ${Math.round(ft)} ft from the network; a crossing sits on the path`);
 }
 
 // Landmarks

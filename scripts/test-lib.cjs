@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Unit tests for the data selection logic.
- * Implements checks UT-1 to UT-10 from the test case documentation.
+ * Implements checks UT-1 to UT-11 from the test case documentation.
  *
  * These run against src/lib/select.js, which holds the pure functions that
  * src/lib/data.js re-exports once the bundled data is bound to them. There is
@@ -32,6 +32,8 @@ const {
   trackAlong,
   nextStopIndex,
   progressAlong,
+  crossingPasses,
+  rideItinerary,
 } = require('../src/lib/select');
 
 const tests = [];
@@ -272,6 +274,37 @@ test('UT-10', 'progressAlong: splits a ride where the rider is, keeping the whol
   const out = progressAlong(spur, [-82.73, 35.23]);
   const back = progressAlong(spur, [-82.73, 35.23], out.doneFt + 5500);
   assert.ok(back.doneFt > out.doneFt + 4000, 'the return leg, not the way out');
+});
+
+test('UT-11', 'rideItinerary: crossings between the stops, and back again on a one-way ride', () => {
+  // A ride running east about 2.3 mi, a road crossed a third of the way, and
+  // another road a mile north that the ride never meets.
+  const line = [[-82.74, 35.23], [-82.73, 35.23], [-82.70, 35.23]];
+  const crossings = [
+    { id: 'main-st', coordinates: [-82.7268, 35.2302] },
+    { id: 'far-rd', coordinates: [-82.72, 35.245] },
+  ];
+  const passes = crossingPasses(line, crossings);
+  assert.deepEqual(passes.map((p) => p.id), ['main-st'], 'only the road the line meets');
+
+  const placed = [
+    { index: 0, alongFt: 0 },
+    { index: 2, alongFt: 12000 },
+  ];
+  const { items, back } = rideItinerary(line, 3, placed, passes);
+  assert.deepEqual(
+    items.map((i) => (i.kind === 'stop' ? i.index : i.id)),
+    [0, 1, 'main-st', 2],
+    'the crossing sits before the stop past it; a stop with no location stays after the one before it'
+  );
+  assert.deepEqual(back.map((i) => i.id), ['main-st'], 'a one-way ride lists its crossings again for the way back');
+
+  // A loop whose way back runs beside the way out crosses the road twice, and
+  // has no separate way back.
+  const loop = [[-82.74, 35.23], [-82.72, 35.23], [-82.72, 35.2302], [-82.74, 35.2302], [-82.74, 35.23]];
+  const loopPasses = crossingPasses(loop, [{ id: 'main-st', coordinates: [-82.73, 35.2301] }]);
+  assert.equal(loopPasses.length, 2, 'a loop passing a crossing twice lists it twice');
+  assert.equal(rideItinerary(loop, 1, [{ index: 0, alongFt: 0 }], loopPasses).back.length, 0, 'a loop has no separate way back');
 });
 
 // Run

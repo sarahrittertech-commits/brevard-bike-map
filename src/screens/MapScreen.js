@@ -7,12 +7,15 @@ import ChevronUp from 'lucide-react-native/icons/chevron-up';
 import X from 'lucide-react-native/icons/x';
 
 import CategoryRail, { RAIL_HEIGHT, SPLIT_RAIL_WIDTH } from '../components/CategoryRail';
+import { ConeGlyph, CROSSING_ORANGE } from '../components/MapPins';
 import MapSheet, { PEEK, SHEET_FRACTION } from '../components/MapSheet';
 import TrailMap from '../components/TrailMap';
 import {
   APP_NAME,
   TOWN_NAME,
+  adventureItinerary,
   adventureStopPins,
+  crossingById,
   destinationById,
   isNearBrevard,
   lineToLatLngs,
@@ -74,8 +77,23 @@ function rideSummary(progress, ride) {
 // and review where the ride goes; with location on, the next stop is marked.
 // Any stop can be tapped to open its card; one tied to a place also shows on
 // the map.
+// A road crossing in the stop list: a cone and "Cross here", no number. Not
+// tappable; there is nothing more to say about it than where it is.
+function CrossingRow({ id }) {
+  return (
+    <View style={styles.crossingRow}>
+      <View style={styles.crossingIcon}>
+        <ConeGlyph size={18} />
+      </View>
+      <Text style={styles.crossingText}>Cross here · {crossingById[id].name}</Text>
+    </View>
+  );
+}
+
 function FollowingCard({ adventure, open, onToggle, nextStop, onSelectStop, onClose, maxListHeight }) {
   const Chevron = open ? ChevronUp : ChevronDown;
+  const itinerary = adventureItinerary(adventure);
+  const crossingCount = itinerary.crossings.length;
   return (
     <View style={[styles.card, styles.followingCardOuter]}>
       <View style={styles.followingCard}>
@@ -93,6 +111,7 @@ function FollowingCard({ adventure, open, onToggle, nextStop, onSelectStop, onCl
             </Text>
             <Text style={styles.subtitle}>
               {adventure.miles} mi · {adventure.minutes} min · {adventure.stops.length} stops
+              {crossingCount ? ` · ${crossingCount} crossing${crossingCount === 1 ? '' : 's'}` : ''}
               {nextStop !== null ? ` · next: ${nextStop + 1}` : ''}
             </Text>
           </View>
@@ -110,7 +129,10 @@ function FollowingCard({ adventure, open, onToggle, nextStop, onSelectStop, onCl
       </View>
       {open && (
         <ScrollView style={[styles.stopList, { maxHeight: maxListHeight }]}>
-          {adventure.stops.map((s, i) => {
+          {itinerary.items.map((item, k) => {
+            if (item.kind === 'crossing') return <CrossingRow key={`x-${item.id}-${k}`} id={item.id} />;
+            const i = item.index;
+            const s = adventure.stops[i];
             const isNext = i === nextStop;
             return (
               <Pressable
@@ -132,6 +154,10 @@ function FollowingCard({ adventure, open, onToggle, nextStop, onSelectStop, onCl
               </Pressable>
             );
           })}
+          {itinerary.back.length > 0 && <Text style={styles.wayBack}>On the way back</Text>}
+          {itinerary.back.map((item, k) => (
+            <CrossingRow key={`back-${item.id}-${k}`} id={item.id} />
+          ))}
         </ScrollView>
       )}
     </View>
@@ -770,6 +796,31 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 4,
     overflow: 'hidden',
+  },
+  crossingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingVertical: 6,
+    paddingHorizontal: 6,
+  },
+  crossingIcon: {
+    width: 28,
+    alignItems: 'center',
+  },
+  crossingText: {
+    flexShrink: 1,
+    fontFamily: fonts.sansSemiBold,
+    fontSize: 14,
+    color: CROSSING_ORANGE,
+  },
+  wayBack: {
+    marginTop: 10,
+    marginBottom: 2,
+    paddingHorizontal: 6,
+    fontFamily: fonts.sansSemiBold,
+    fontSize: 13,
+    color: colors.inkSoft,
   },
   stopNote: {
     marginTop: 2,
