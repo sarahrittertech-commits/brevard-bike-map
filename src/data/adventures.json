@@ -1525,7 +1525,8 @@
       },
       {
         "name": "Cows",
-        "note": "Aaron Alderman's herd grazes in the Lumberyard behind the old Brevard Lumber Company sign, where you leave the path for Whitmire St."
+        "note": "Aaron Alderman's herd grazes in the Lumberyard behind the old Brevard Lumber Company sign, where you leave the path for Whitmire St.",
+        "coordinates": [-82.73617, 35.23847]
       },
       {
         "name": "First United Methodist",
