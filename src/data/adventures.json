@@ -1544,7 +1544,8 @@
       },
       {
         "name": "Otter",
-        "note": "Splash the Otter in the fountain at the Visitor Center, 175 E Main. You pass the Earth Mountain bike mural on the way."
+        "note": "Splash the Otter in the fountain at the Visitor Center, 175 E Main. You pass the Earth Mountain bike mural on the way.",
+        "coordinates": [-82.73144, 35.23258]
       },
       {
         "name": "Red Fox and Tim Murray abstract",
