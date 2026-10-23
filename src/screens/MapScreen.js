@@ -161,13 +161,12 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const locateRun = useRef(0);
   // Where the rider is, while they have location on. Kept in memory only.
   const [position, setPosition] = useState(null);
-  // The place the rider asked to ride to: the map then shows only it, them
-  // and the way between.
-  const [rideToId, setRideToId] = useState(null);
-  // The way to that place as drawn when the ride started ({ id, line }), kept
-  // so the rider sees how far along it they are rather than a line that
-  // shrinks behind them.
-  const [rideLine, setRideLine] = useState(null);
+  // The place the rider asked to ride to and the way there as drawn when the
+  // ride started ({ id, line }): the map then shows it, them and the way
+  // between. The line is kept, so the rider sees how far along it they are
+  // rather than a line that shrinks behind them. One value, so every way a
+  // ride ends clears all of it.
+  const [rideTo, setRideTo] = useState(null);
   // A place the rider asked to ride to before location was on: the ride
   // starts once their position arrives.
   const [pendingRideId, setPendingRideId] = useState(null);
@@ -185,7 +184,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const [{ width, height }, setSize] = useState({ width: 0, height: 0 });
 
   const shown = useMemo(() => visibleDestinations(active), [active]);
-  const rideDest = rideToId ? destinationById[rideToId] : null;
+  const rideDest = rideTo ? destinationById[rideTo.id] : null;
   const stop = following && selectedStop !== null ? following.stops[selectedStop] : null;
   const stopDest = stop?.destination ? destinationById[stop.destination] : null;
   const selected = rideDest ?? stopDest ?? shown.find((d) => d.id === selectedId) ?? null;
@@ -195,19 +194,33 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     () => (stop?.coordinates ? { id: `stop-${selectedStop}`, coordinates: stop.coordinates } : null),
     [stop, selectedStop]
   );
-  // Distance and time to the selected place, and the line to draw while
-  // riding to one. Both follow the rider as their position updates.
-  // Outside Brevard there is no sensible distance to give, so the card says so.
-  const ride = useMemo(() => {
-    if (!selected || !position) return null;
-    return isNearBrevard(position) ? rideToPlace(position, selected) : { outside: true };
-  }, [selected, position]);
-  // Fix the way when the ride starts, and again if the rider leaves it.
-  const line = rideDest && rideLine?.id === rideDest.id ? rideLine.line : null;
-  const progress = useMemo(() => (line && position ? rideProgress(line, position) : null), [line, position]);
-  if (rideDest && ride?.reachable && (!line || progress?.offFt > OFF_ROUTE_FT)) {
-    setRideLine({ id: rideDest.id, line: ride.line });
+  // Riding to a place: how far along the fixed way the rider is. Each fix
+  // starts from how far they had got at the last one, so a way that doubles
+  // back keeps them on the leg they are riding; hence state updated as the
+  // position changes, not a value worked out from scratch.
+  const line = rideTo?.line ?? null;
+  const [rideTrack, setRideTrack] = useState({ line: null, position: null, progress: null });
+  if (line && position && (rideTrack.line !== line || rideTrack.position !== position)) {
+    const prevFt = rideTrack.line === line ? rideTrack.progress.alongFt : null;
+    setRideTrack({ line, position, progress: rideProgress(line, position, prevFt) });
   }
+  const progress = line && position && rideTrack.line === line ? rideTrack.progress : null;
+  // Left the way by more than OFF_ROUTE_FT: draw a fresh one from here.
+  if (rideDest && progress && progress.offFt > OFF_ROUTE_FT) {
+    const fresh = rideToPlace(position, rideDest);
+    if (fresh.reachable) setRideTo({ id: rideDest.id, line: fresh.line });
+  }
+  // Distance and time to the selected place. While riding there it is the
+  // way still ahead, the same figure as the header's; otherwise the shortest
+  // way from the rider. Outside Brevard there is no sensible distance to
+  // give, so the card says so.
+  const placeRide = useMemo(() => {
+    if (rideDest || !selected || !position) return null;
+    return isNearBrevard(position) ? rideToPlace(position, selected) : { outside: true };
+  }, [rideDest, selected, position]);
+  const ride = progress
+    ? { reachable: true, miles: progress.milesLeft, minutes: progress.minutesLeft, offPathMiles: 0 }
+    : placeRide;
   const rideRoute = useMemo(() => (line ? line.map(toLatLng) : null), [line]);
   // Nothing in the sheet to show: following an adventure (the header card
   // lists its stops), or the rider put the "Getting around" card away. The
@@ -238,9 +251,10 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const railBottom = dock ? height - EDGE : height - bottomCover - 8;
   const splitRail = railBottom - railTop < RAIL_HEIGHT;
   const railRight = insets.right + EDGE;
-  // 34: room for half a numbered stop (32pt) beyond the fitted edge, so a
-  // stop at the edge of a ride sits clear of the rail rather than touching it.
-  const railSpace = railRight + (splitRail ? SPLIT_RAIL_WIDTH : RAIL_WIDTH) + 34;
+  const railSpace = railRight + (splitRail ? SPLIT_RAIL_WIDTH : RAIL_WIDTH) + 18;
+  // A followed ride's numbered stops are 32pt across and can sit at the very
+  // edge of the fit, so it keeps half a stop more room on every side.
+  const stopRoom = following ? 16 : 0;
 
   // Handed to the map as stable values, so a tap that changes none of them
   // does not redraw it.
@@ -255,9 +269,19 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const mapClear = useMemo(
     () =>
       dockWidth !== undefined
-        ? { top: topInset, right: railSpace, bottom: 28, left: dockLeft + dockWidth + LABEL_ROOM }
-        : { top: topInset + HEADER_SPACE, right: railSpace, bottom: bottomCover + 28, left: insets.left + LABEL_ROOM },
-    [dockLeft, dockWidth, topInset, railSpace, insets.left, bottomCover]
+        ? {
+            top: topInset + stopRoom,
+            right: railSpace + stopRoom,
+            bottom: 28 + stopRoom,
+            left: dockLeft + dockWidth + LABEL_ROOM,
+          }
+        : {
+            top: topInset + HEADER_SPACE + stopRoom,
+            right: railSpace + stopRoom,
+            bottom: bottomCover + 28 + stopRoom,
+            left: insets.left + LABEL_ROOM,
+          },
+    [dockLeft, dockWidth, topInset, railSpace, stopRoom, insets.left, bottomCover]
   );
   const logoInset = useMemo(
     () => (dockWidth !== undefined ? { left: dockLeft + dockWidth, bottom: 0 } : { left: 0, bottom: bottomCover }),
@@ -273,15 +297,21 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     [route, routeStops]
   );
 
-  const nextStop = useMemo(
-    () => (following && position ? nextStopOf(following, position) : null),
-    [following, position]
-  );
+  // Following an adventure: the stop the rider reaches next, tracked from
+  // fix to fix the same way as a ride to a place.
+  const [followTrack, setFollowTrack] = useState({ id: null, position: null, next: null });
+  if (following && position && (followTrack.id !== following.id || followTrack.position !== position)) {
+    const prevFt = followTrack.id === following.id ? (followTrack.next?.alongFt ?? null) : null;
+    setFollowTrack({ id: following.id, position, next: nextStopOf(following, position, prevFt) });
+  }
+  const nextStop =
+    following && position && followTrack.id === following.id ? (followTrack.next?.index ?? null) : null;
 
   // A numbered stop on the map, or in the header's list: show it in the
   // sheet and move the map to it.
   const selectStop = useCallback((index) => {
     setSelectedId(null);
+    setFromList(false);
     setSelectedStop(index);
     setStopsOpen(false);
     setSheetOpen(true);
@@ -295,6 +325,9 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const stopFollowing = useCallback(() => {
     setSelectedStop(null);
     setStopsOpen(false);
+    // A stop's card may have the sheet open; left open it would switch to
+    // the full list over the town being refitted.
+    setSheetOpen(false);
     onStopFollowing();
   }, [onStopFollowing]);
 
@@ -340,10 +373,14 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   // lapses whenever the app is put away, so without this a rider who chose it
   // would read the same message every time.
   const explained = useRef(false);
+  // Location off, by the button or because iOS took it away: everything that
+  // rests on it goes too. The run counter drops any fix still on its way.
   const stopLocating = () => {
+    locateRun.current += 1;
     setLocating(false);
     setPosition(null);
-    setRideToId(null);
+    setRideTo(null);
+    setPendingRideId(null);
   };
   const locate = async (fromPlace = false) => {
     // Each tap starts a new run; a fix that arrives after the rider has
@@ -379,7 +416,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     setLocating(true);
     try {
       const { coords } = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
-      if (run !== locateRun.current) return;
+      if (run !== locateRun.current) return false;
       setPosition({ latitude: coords.latitude, longitude: coords.longitude });
       if (isNearBrevard(coords)) {
         if (!fromPlace) {
@@ -436,26 +473,26 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
 
   // Riding to a place replaces any followed adventure, and the sheet drops to
   // peek so the way there gets the map.
-  const startRide = (id) => {
+  const startRide = () => {
+    if (!placeRide?.reachable) return;
     if (following) stopFollowing();
-    setRideToId(id);
+    setRideTo({ id: selected.id, line: placeRide.line });
     setSheetOpen(false);
   };
   // Start the ride the rider asked for once a route exists; drop the request
   // if there is none (outside Brevard, nothing drawn reaches the place) or the
   // place card has been closed.
-  if (pendingRideId && ride && (selected?.id !== pendingRideId || !ride.reachable)) {
+  if (pendingRideId && placeRide && (selected?.id !== pendingRideId || !placeRide.reachable)) {
     setPendingRideId(null);
-  } else if (pendingRideId && ride?.reachable) {
+  } else if (pendingRideId && placeRide?.reachable) {
     setPendingRideId(null);
     if (following) stopFollowing();
-    setRideToId(pendingRideId);
+    setRideTo({ id: pendingRideId, line: placeRide.line });
     setSheetOpen(false);
   }
 
   const endRide = () => {
-    setRideToId(null);
-    setRideLine(null);
+    setRideTo(null);
     setSelectedId(null);
   };
 
@@ -476,7 +513,8 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     setSelectedStop(null);
     setStopsOpen(false);
     setSheetOpen(false);
-    setRideToId(null);
+    setRideTo(null);
+    setPendingRideId(null);
   }
 
   // Android's back button peels the map back one layer at a time: the
@@ -485,7 +523,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   useEffect(() => {
     if (!inFront) return undefined;
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-      if (rideToId) endRide();
+      if (rideTo) endRide();
       else if (selectedId) setSelectedId(null);
       else if (sheetOpen) setSheetOpen(false);
       else if (selectedStop !== null) setSelectedStop(null);
@@ -494,7 +532,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
       return true;
     });
     return () => sub.remove();
-  }, [inFront, rideToId, selectedId, selectedStop, sheetOpen, following, stopFollowing]);
+  }, [inFront, rideTo, selectedId, selectedStop, sheetOpen, following, stopFollowing]);
 
   return (
     <View
@@ -521,7 +559,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
         // refits; panning around within one layout is left alone. The column's
         // width is in the key, not just whether it exists, because it settles
         // only once this screen's own layout reports the new size.
-        fitKey={`${rideToId ?? following?.id ?? 'trail'}-${rideRoute ? 'ride' : ''}-${recenter}-${showNonce}-${dock ? dock.width : 'upright'}`}
+        fitKey={`${rideTo?.id ?? following?.id ?? 'trail'}-${rideRoute ? 'ride' : ''}-${recenter}-${showNonce}-${dock ? dock.width : 'upright'}`}
         fitLatLngs={rideRoute ?? routeFit ?? networkLatLngs}
         // What the map must keep clear of: the header, sheet and rail. Docked,
         // the header and sheet are a column on the left and nothing covers
@@ -630,7 +668,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
           selected={selected}
           onSelect={rideDest ? (id) => id === null && endRide() : select}
           onSelectFromList={selectFromList}
-          onBackToList={fromList && !rideDest && !stopDest ? backToList : null}
+          onBackToList={fromList && !rideDest && !stop ? backToList : null}
           ride={ride}
           locating={locating}
           ridingHere={!!rideDest || !!stopDest}

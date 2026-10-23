@@ -118,7 +118,9 @@ export default function MapSheet({
         </Pressable>
       </View>
 
-      {selected || stop ? (
+      {/* Sliding away, the sheet shows nothing: drawing what it would hold
+          (the Getting around card, the list) flashes it on the way out. */}
+      {hidden ? null : selected || stop ? (
         <SelectedPlace
           destination={selected}
           category={selected ? displayCategory(selected, active) : null}
@@ -127,7 +129,7 @@ export default function MapSheet({
           ride={ride}
           locating={locating}
           ridingHere={ridingHere}
-          onRideTo={() => onRideTo(selected?.id)}
+          onRideTo={onRideTo}
           onTurnOnLocation={onTurnOnLocation}
           onMeasure={setCardHeight}
           stop={stop}
@@ -381,9 +383,17 @@ function SelectedPlace({
       {stop?.photo && stopImages[stop.photo] && (
         <Image source={stopImages[stop.photo]} style={styles.stopPhoto} resizeMode="cover" accessibilityIgnoresInvertColors />
       )}
-      <Text style={styles.selectedBlurb}>{stop ? stop.note : destination.description}</Text>
-
-      {stop && <StopSteps stop={stop} />}
+      {stop ? (
+        // Small arrows either side of the note, drawn like the close button,
+        // step to the stop before and after.
+        <View style={styles.stopNoteRow}>
+          <StepArrow icon={ChevronLeft} label="Previous stop" onPress={stop.onPrev} />
+          <Text style={[styles.selectedBlurb, styles.stopNote]}>{stop.note}</Text>
+          <StepArrow icon={ChevronRight} label="Next stop" onPress={stop.onNext} />
+        </View>
+      ) : (
+        <Text style={styles.selectedBlurb}>{destination.description}</Text>
+      )}
 
       {destination && (
         <PlaceDetails
@@ -402,35 +412,21 @@ function SelectedPlace({
   );
 }
 
-// Previous and next stop on a followed ride, big enough to hit from a bike.
-function StopSteps({ stop }) {
-  return (
-    <View style={styles.stopSteps}>
-      <StepButton label={`Stop ${stop.number - 1}`} onPress={stop.onPrev} icon={ChevronLeft} />
-      <StepButton label={`Stop ${stop.number + 1}`} onPress={stop.onNext} icon={ChevronRight} trailing />
-    </View>
-  );
-}
-
-function StepButton({ label, onPress, icon: Icon, trailing }) {
-  const disabled = !onPress;
+// Previous or next stop. At the first or last stop the arrow keeps its
+// place but is hidden, so the note does not shift.
+function StepArrow({ icon: Icon, label, onPress }) {
   return (
     <Pressable
       onPress={onPress ?? undefined}
-      disabled={disabled}
+      disabled={!onPress}
       accessibilityRole="button"
-      accessibilityState={{ disabled }}
-      accessibilityLabel={trailing ? 'Next stop' : 'Previous stop'}
-      style={({ pressed }) => [
-        styles.stepButton,
-        trailing && styles.stepButtonTrailing,
-        disabled && styles.stepButtonDisabled,
-        pressed && styles.backPressed,
-      ]}
+      accessibilityLabel={label}
+      accessibilityElementsHidden={!onPress}
+      importantForAccessibility={onPress ? 'auto' : 'no-hide-descendants'}
+      hitSlop={HIT_SLOP}
+      style={[styles.stepArrow, !onPress && styles.stepArrowHidden]}
     >
-      {!trailing && <Icon size={22} color={disabled ? colors.line : colors.forest} strokeWidth={2.4} />}
-      <Text style={[styles.stepText, disabled && styles.stepTextDisabled]}>{disabled ? '' : label}</Text>
-      {trailing && <Icon size={22} color={disabled ? colors.line : colors.forest} strokeWidth={2.4} />}
+      <Icon size={22} color={colors.inkFaint} />
     </Pressable>
   );
 }
@@ -714,35 +710,21 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     backgroundColor: colors.line,
   },
-  stopSteps: {
-    marginTop: 16,
-    flexDirection: 'row',
-    gap: 12,
-  },
-  stepButton: {
-    flex: 1,
-    minHeight: 56,
+  stopNoteRow: {
+    marginTop: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 14,
-    borderRadius: radius.pill,
-    borderWidth: 2,
-    borderColor: colors.forest,
+    marginHorizontal: -12,
   },
-  stepButtonTrailing: {
-    justifyContent: 'flex-end',
+  stopNote: {
+    flex: 1,
+    marginTop: 0,
   },
-  stepButtonDisabled: {
-    borderColor: colors.line,
+  stepArrow: {
+    padding: 12,
   },
-  stepText: {
-    fontFamily: fonts.sansSemiBold,
-    fontSize: 18,
-    color: colors.forest,
-  },
-  stepTextDisabled: {
-    color: colors.inkFaint,
+  stepArrowHidden: {
+    opacity: 0,
   },
   selectedTitle: fillRow,
   selectedEyebrow: text.eyebrow,

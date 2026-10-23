@@ -98,7 +98,8 @@ export default memo(function TrailMap({
   selected,
   onSelect,
   route,
-  // True while riding to a place: the fitted ride owns the camera.
+  // True while riding to a place: the fitted ride owns the camera, and the
+  // pins round it are there to look at, not to open.
   riding,
   // Riding to a place: the part of the way already ridden, drawn faint.
   routeDone,
@@ -185,6 +186,16 @@ export default memo(function TrailMap({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fitKey, ready]);
 
+  // The card's height and what covers the map are read when the centring
+  // runs, not watched: a card that grows or shrinks (a title wrapping as it
+  // slides down, a distance appearing) must not pull the map back to the
+  // place after the rider has panned away. Only a new place, or a new screen
+  // size, centres again.
+  const layoutRef = useRef({ sheetHeight, clear });
+  useEffect(() => {
+    layoutRef.current = { sheetHeight, clear };
+  }, [sheetHeight, clear]);
+
   useEffect(() => {
     // While riding to the place, the fitted ride owns the camera; centring
     // the place would zoom back in and push the rider off screen. A stop on
@@ -203,6 +214,7 @@ export default memo(function TrailMap({
     const timer = setTimeout(async () => {
       const map = mapRef.current;
       if (!map) return;
+      const { sheetHeight, clear } = layoutRef.current;
       const place = toLatLng(selected.coordinates);
       // Zoomed out past SELECT_SPAN: zoom in on the place first. Closer than
       // that, keep the rider's zoom; a tap never zooms out.
@@ -234,7 +246,7 @@ export default memo(function TrailMap({
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [selected, riding, docked, width, height, sheetHeight, clear.top, clear.left, clear.right]);
+  }, [selected, riding, docked, width, height]);
 
   useEffect(() => {
     if (!mapRef.current || !userFocus) return;
@@ -299,6 +311,7 @@ export default memo(function TrailMap({
             anchor={{ x: 0.5, y: 1 }}
             tracksViewChanges={tracking}
             zIndex={isSelected ? 10 : 1}
+            tappable={!riding}
             onPress={(e) => {
               e.stopPropagation();
               onSelect(d.id);
