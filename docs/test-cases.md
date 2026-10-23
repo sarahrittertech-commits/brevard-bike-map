@@ -106,7 +106,7 @@ Run before every release. A simulator does not count.
 | MT-36 | Any category, list open, with places whose miles have one and two digits | The miles sit in one right-aligned column beside each row's button, so they read straight down the list |
 | MT-37 | Switch on Breweries, zoom to the three King St pins (Noblebräu, Griffon & Sphynx, Squatch). Open one, then tap each of the others in turn, with and without closing the card between | Every tap opens the pin tapped, first time, whether or not a card is already open (UC-12) |
 | MT-38 | Open Griffon & Sphynx's card, and any place whose name has "ff", "fi" or "fl" | The title's letters look like the rest of the font: no joined or slanted f's |
-| MT-39 | Follow Ride to a Downtown Festival | Starts at Jameson's Joy, ends at "Downtown" on W Main; no Mid-Path Fix-It Stand or Rocky's stop; header says 3.1 mi, 25 min; every stop has a dot (MT-30); once F-18 is built, a cone at each crossing and a sign at the detour, none numbered |
+| MT-39 | Follow Ride to a Downtown Festival | Starts at Jameson's Joy, ends at "Downtown" on W Main; no Mid-Path Fix-It Stand or Rocky's stop; header says 3.1 mi, 25 min; every stop has a dot (MT-30); a cone and "Cross here" at each crossing in the stop list, none numbered (built 23 October; the detour sign is not built) |
 | MT-40 | Follow Downtown to the River, open the stop list; then follow Earth Mountain Shop Ride | No cones on the map. The header says "5 stops · 5 crossings"; the list puts "Cross here · <road>" with a cone between the stops in riding order, and again, reversed, under "On the way back". Earth Mountain has no crossings, so no count and no rows |
 | MT-41 | Follow an adventure (Show route on map). Tap each numbered stop in turn without closing the card between; then close it and tap each again; then pan and zoom and tap again | Every tap opens that stop's card at the first try, the map moves to it, and the brown route stays drawn (UC-15) |
 | MT-42 | Following an adventure, switch on a category, tap a place pin along the route, close its card, tap a numbered stop, then another place pin | Each card opens at the first tap; closing a place's card returns to the followed ride, not the plain map; the route stays (UC-15) |
@@ -154,7 +154,7 @@ both labels were removed on 23 October 2026.
 
 ### MT-28 checklist — every place, one by one
 
-The Bike Brevard Map's 36 entries across five categories, taken from
+The Bike Brevard Map's 37 entries across five categories, taken from
 `src/data/destinations.json` on 23 October 2026. A place in two categories
 (The Yard, Squatch, Weevil, The Hub) is run once from each, because the card
 and pin colour change with the category. Restaurants are switched off in this
@@ -179,6 +179,7 @@ table, which goes stale when a place is added.
 | Playgrounds | Franklin Park |  |
 | Playgrounds | Silvermont Mansion & Park |  |
 | Playgrounds | Jameson's Joy (Ninja Park) |  |
+| Playgrounds | Sports Complex Skate Park |  |
 | Breweries | Broad Street Wines |  |
 | Breweries | The Map Room at D.D. Bullwinkel’s |  |
 | Breweries | Brevard Brewing Company |  |
@@ -203,8 +204,8 @@ table, which goes stale when a place is added.
 
 ### MT-29 — the permutations
 
-36 entries (the MT-28 checklist) as the ride's destination × the other four
-categories switched on during the ride = 144 runs, before tapping any
+37 entries (the MT-28 checklist) as the ride's destination × the other four
+categories switched on during the ride = 148 runs, before tapping any
 particular pin. That is too many to do by hand, which is the point: this is
 the first case written for an agent to run. Two parts to it:
 
@@ -329,7 +330,7 @@ next build before it is closed:
 | F-5 (White Squirrel Arcade misplaced) | Moved 502 ft to 40 N Caldwell St |
 | F-6 (no brewery pins during a ride) | Switched-on categories still show while riding |
 | F-8, F-12, F-17, F-19 (pins and stops needing several taps) | Pins and numbered stops open every time. Found in the simulator on 23 October: a landmark label or trailhead square over a pin took the pin's tap and closed the card; they now hide under pins and stops |
-| F-15 (list miles not from the rider) | Location stays in step with the button — recheck MT-35 |
+| F-15 (list miles not from the rider) | Not built: the list's miles are still from the W Main St trailhead. A feature, not a location bug; UC-11's "from her with location on" describes what is wanted |
 | F-7 (pins not tappable mid-ride) | Decided for now: pins round a ride are deliberately not tappable. UC-15 asks for the opposite, so it stays a design question |
 
 ## Release gate

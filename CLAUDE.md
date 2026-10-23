@@ -66,8 +66,8 @@ touching route logic.
 
 ## Current state
 
-Built to the design, not yet run on a phone (as of 18 September 2026).
-Expo SDK 57, JavaScript, `react-native-maps` on Apple Maps. Both tabs, the
+1.1.0 (build 10) is on the App Store, approved 21 October 2026; 1.1.1
+(build 11) went to TestFlight on 23 October. Expo SDK 57, JavaScript, `react-native-maps` on Apple Maps. Both tabs, the
 detail screen and route-following are implemented. Metro bundles cleanly,
 lint, unit tests and validator pass.
 
@@ -95,7 +95,7 @@ src/lib/layout.js           useLayoutClass(): regular/wide from window size — 
 src/data/                   six JSON files (see docs/data-model.md)
 src/screens/                MapScreen, AdventuresScreen, AdventureDetailScreen
 src/components/TrailMap     MapView + network polylines + all markers
-src/components/MapPins      pin / landmark / trailhead / stop marker views
+src/components/MapPins      pin / landmark / trailhead / stop marker views, crossing cone
 src/components/MapSheet     draggable bottom sheet (Animated + PanResponder, no library)
 src/components/CategoryRail right-edge category toggles
 src/components/*Icon        Lucide icons + the custom playground glyph
@@ -104,7 +104,7 @@ assets/icon-{light,dark,tinted}.png   iOS 18 app icon variants
 assets/android-icon-*.png   Android adaptive icon layers
 assets/splash.png           launch screen mark + wordmark
 scripts/validate-data.cjs   data checks
-scripts/test-lib.cjs        unit tests UT-1 to UT-5, no test runner
+scripts/test-lib.cjs        unit tests UT-1 to UT-12, no test runner
 ```
 
 Dependencies beyond Expo: react-native-maps, react-native-svg,

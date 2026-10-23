@@ -4,7 +4,7 @@
 // This file is deliberately CommonJS and deliberately free of imports. Its
 // neighbour data.js imports JSON and require()s photographs, which only the
 // app's bundler can resolve, so data.js cannot be loaded by plain node. These
-// functions can, which is what lets scripts/test-lib.cjs run UT-1 to UT-6
+// functions can, which is what lets scripts/test-lib.cjs run UT-1 to UT-12
 // without a test runner. Keep this file dependency-free or that stops working.
 //
 // Nothing outside data.js should import from here; data.js binds the bundled

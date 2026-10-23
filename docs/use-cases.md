@@ -180,8 +180,8 @@ brewery, a bike shop or a repair station.
 4. Taps **Ride to here** (turning on location if asked). The way is drawn
    from her to the place.
 
-The list gives each place's miles: from the W Main St trailhead with location
-off, and from her with location on.
+The list gives each place's miles from the W Main St trailhead. Miles from
+her with location on are wanted but not built (F-15); the card shows them.
 
 **Requirements:** R2, R3, R5
 

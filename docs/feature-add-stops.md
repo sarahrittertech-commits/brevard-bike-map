@@ -21,8 +21,8 @@ header counts the stops.
 
 ## Why it is a separate release
 
-1.1.1 fixes what Sarah found on build 10 and should ship without waiting on
-new behaviour. This feature changes how a ride works, so it gets its own
+1.1.1 fixes what Sarah found on build 10. It took one addition, the road
+crossings in a followed ride's stop list, and nothing more should wait on it. This feature changes how a ride works, so it gets its own
 plan, test pass and TestFlight build.
 
 **How hard is it?** Smaller than it sounds. The routing already finds the way

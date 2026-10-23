@@ -16,9 +16,12 @@ Two apps are built from one codebase and one dataset:
 
 ## Next: Bike Brevard Map 1.1.1
 
-Fixes from Sarah's ride on 1.1.0 and the review that followed: see the
-[release notes](./release-notes). Needs one TestFlight build and a phone
-check (MT-14 to MT-19) before review.
+Fixes from Sarah's ride on 1.1.0 and the two reviews that followed, plus
+the road crossings in a followed ride's stop list: see the
+[release notes](./release-notes). Build 11 went to TestFlight on 23 October.
+Before review it needs a phone check of MT-14 to MT-19, and of what moved on
+23 October: the crossings (MT-40), the stops and pins (MT-27, MT-28, MT-31)
+and NEXT on a real ride.
 
 ## Shipped: Bike Brevard Map 1.1
 

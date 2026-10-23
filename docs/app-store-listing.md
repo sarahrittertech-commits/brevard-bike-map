@@ -35,8 +35,10 @@ the binary and sending it for review, whenever approval lands.
 | Age rating | Answer the questionnaire honestly — see below | — |
 
 Travel rather than Navigation as the primary: Navigation is the turn-by-turn
-category, and this app deliberately has no routing, no GPS and no turn-by-turn
-(ADR-0003). Travel describes what it is — a local guide to places worth going,
+category, and this app deliberately has no turn-by-turn directions and records
+nothing. Since 1.1 it draws the way to a place along the drawn path (ADR-0003,
+revised) and, with location on, shows how far along it the rider is; that is
+a map, not navigation. Travel describes what it is — a local guide to places worth going,
 with curated itineraries. Not Sports or Health & Fitness either: both imply
 activity tracking, which is explicitly out of scope. Categories can be changed
 in App Store Connect at any time without a new build.
