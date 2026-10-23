@@ -53,7 +53,7 @@ From Sarah's ride on build 10, 22 October 2026:
 **Art on the Path is now Sculpture on the Path, and every sculpture is
 pinned** (Sarah, 22–23 October). In 1.1.0 only 3 of its 12 stops had a
 place behind them, so the map showed numbers 1, 3 and 8 and nothing else.
-A stop can now carry its own location and photo, and Sarah gave the
+A stop can now carry its own location, and Sarah gave the
 location of each sculpture: the cows, the instruments at Brevard College,
 the Red Wolf and Elk, the Otter, the Red Fox, the deer, the Wild Turkey and
 the Black Bear. All eleven are within 150 ft of the drawn route. The NEXT
@@ -69,7 +69,7 @@ walking simulated riders along every ride with the real data):
   on Gateway to Pisgah, and ran backwards on Sculpture on the Path's legs
   drawn back over themselves. Now each stop is placed once along its route
   in itinerary order, and the rider is tracked forward from fix to fix.
-  Walked over all 16 rides with up to 45 ft of simulated GPS wobble, NEXT
+  Walked over all 14 rides the two apps show, with up to 45 ft of simulated GPS wobble, NEXT
   goes forward through every stop. DT-12 checks this on every data change.
 - **Ending a ride ends all of it.** Turning location off, iOS taking "Allow
   Once" away or tapping Show route on map left the old way behind, and a
@@ -155,8 +155,8 @@ OpenStreetMap):
 - **Riding to a place:** the ridden part, the miles to go and "You're here"
   follow how far the rider has got, so wobble at the place no longer flips
   the header back to "Riding to", and the last stretch reads 0.1 mi, not 0.
-  The way is redrawn only from a GPS-grade fix, never a Wi-Fi guess, and
-  not at all outside Brevard, where the header says distance shows in town.
+  The way is redrawn only from a fix sure to within 100 m, not a rough
+  cell or Wi-Fi guess, and not at all outside Brevard, where the header says distance shows in town.
   The card says "You're here" too.
 - **Ball Field to Library Loop, Concert Night and Short Track Social are
   drawn there and back**, as they are ridden. The Yard, on the way home, was

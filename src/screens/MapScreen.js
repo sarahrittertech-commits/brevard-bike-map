@@ -242,7 +242,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
   const stopDest = stop?.destination ? destinationById[stop.destination] : null;
   const selected = rideDest ?? stopDest ?? shown.find((d) => d.id === selectedId) ?? null;
   // A stop with its own location (a sculpture, not a place) is where the map
-  // goes, even though the sheet shows only its name, note and photo.
+  // goes, even though the sheet shows only its name and note.
   const stopSpot = useMemo(
     () => (stop?.coordinates ? { id: `stop-${selectedStop}`, coordinates: stop.coordinates } : null),
     [stop, selectedStop]
