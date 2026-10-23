@@ -7,7 +7,7 @@ import Ruler from 'lucide-react-native/icons/ruler';
 
 import { DIFFICULTY_LABEL, adventureImages, adventures } from '../lib/data';
 import { READING_WIDTH, photoHeight, useLayoutClass } from '../lib/layout';
-import { card, cardFloat, colors, fillRow, fonts, hairlineTop, radius, text } from '../theme';
+import { DISPLAY_VARIANT, card, cardFloat, colors, fillRow, fonts, hairlineTop, radius, text } from '../theme';
 
 
 export default function AdventuresScreen({ onOpen }) {
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
   h1: {
     marginTop: 4,
     fontFamily: fonts.display,
+    fontVariant: DISPLAY_VARIANT,
     fontSize: 28,
     lineHeight: 31,
     color: colors.ink,
@@ -172,6 +173,7 @@ const styles = StyleSheet.create({
   featuredTitle: {
     marginTop: 2,
     fontFamily: fonts.display,
+    fontVariant: DISPLAY_VARIANT,
     fontSize: 21,
     lineHeight: 25,
     color: colors.ink,
@@ -230,6 +232,7 @@ const styles = StyleSheet.create({
   rowBody: fillRow,
   rowTitle: {
     fontFamily: fonts.display,
+    fontVariant: DISPLAY_VARIANT,
     fontSize: 16,
     lineHeight: 20,
     color: colors.ink,

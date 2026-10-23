@@ -28,6 +28,11 @@ export const fonts = {
   display: 'Fraunces_600SemiBold',
 };
 
+// Fraunces joins "ff", "fi" and "fl" into single ligature glyphs, which in
+// a name like Griffon & Sphynx read as broken, slanted letters (F-16).
+// Every use of the display face turns them off.
+export const DISPLAY_VARIANT = ['no-common-ligatures'];
+
 export const radius = {
   sm: 8,
   md: 12,

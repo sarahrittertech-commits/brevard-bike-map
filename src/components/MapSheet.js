@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Animated, Linking, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Bike from 'lucide-react-native/icons/bike';
+import Compass from 'lucide-react-native/icons/compass';
 import ChevronLeft from 'lucide-react-native/icons/chevron-left';
 import ChevronRight from 'lucide-react-native/icons/chevron-right';
 import Crosshair from 'lucide-react-native/icons/crosshair';
 import LocateFixed from 'lucide-react-native/icons/locate-fixed';
 import ExternalLink from 'lucide-react-native/icons/external-link';
+import MapIcon from 'lucide-react-native/icons/map';
 import MapPinned from 'lucide-react-native/icons/map-pinned';
 import Route from 'lucide-react-native/icons/route';
 import Ruler from 'lucide-react-native/icons/ruler';
@@ -22,7 +24,7 @@ import {
   displayCategory,
   trailheads,
 } from '../lib/data';
-import { colors, fillRow, fonts, hairlineTop, radius, text, tint } from '../theme';
+import { DISPLAY_VARIANT, colors, fillRow, fonts, hairlineTop, radius, text, tint } from '../theme';
 
 export const PEEK = 112;
 export const SHEET_FRACTION = 0.64;
@@ -43,6 +45,8 @@ export default function MapSheet({
   dock,
   sideInsets,
   destinations,
+  // Miles from the rider to each listed place, by id, with location on.
+  listMiles,
   active,
   selected,
   onSelect,
@@ -143,12 +147,17 @@ export default function MapSheet({
             <Text style={styles.h2}>
               {destinations.length} {destinations.length === 1 ? 'stop' : 'stops'} on the path
             </Text>
-            <Text style={styles.listHint}>Miles from W Main St</Text>
+            <Text style={styles.listHint}>{listMiles ? 'Miles from you' : 'Miles from W Main St'}</Text>
           </Pressable>
           <ScrollView contentContainerStyle={styles.listBody} showsVerticalScrollIndicator={false}>
             {destinations.map((d, i) => (
               <View key={d.id} style={i > 0 && styles.rowDivider}>
-                <PlaceRow destination={d} category={displayCategory(d, active)} onSelect={() => onSelectFromList(d.id)} />
+                <PlaceRow
+                  destination={d}
+                  category={displayCategory(d, active)}
+                  miles={listMiles ? (listMiles[d.id] ?? null) : d.mileMarker}
+                  onSelect={() => onSelectFromList(d.id)}
+                />
               </View>
             ))}
           </ScrollView>
@@ -180,6 +189,15 @@ function TrailFacts({ onDismiss, onToggle }) {
           Tap a category on the right to see what is out there, or tap here for route details.
         </Text>
       </Pressable>
+
+      {/* What each tab is for, so a first-time rider knows an Adventure
+          before opening one (UC-13, F-1). */}
+      <Text style={styles.eyebrow}>Two ways in</Text>
+      <RailHelp icon={MapIcon} text="Trail Map: the places along the path, by kind. Switch one on to see them." />
+      <RailHelp
+        icon={Compass}
+        text="Adventures: rides locals actually do, with stops and notes. Show route on map draws one here."
+      />
 
       <View style={styles.facts}>
         <Fact icon={Ruler} label="Paved path" value={`${TRAIL_MILES} mi`} />
@@ -518,12 +536,14 @@ const styles = StyleSheet.create({
   },
   h1: {
     fontFamily: fonts.display,
+    fontVariant: DISPLAY_VARIANT,
     fontSize: 24,
     lineHeight: 29,
     color: colors.ink,
   },
   h2: {
     fontFamily: fonts.display,
+    fontVariant: DISPLAY_VARIANT,
     fontSize: 19,
     lineHeight: 23,
     color: colors.ink,

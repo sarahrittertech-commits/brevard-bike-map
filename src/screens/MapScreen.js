@@ -19,6 +19,7 @@ import {
   destinationById,
   isNearBrevard,
   lineToLatLngs,
+  milesFromRider,
   networkLatLngs,
   nextStopOf,
   rideProgress,
@@ -27,7 +28,7 @@ import {
   visibleDestinations,
 } from '../lib/data';
 import { useLayoutClass } from '../lib/layout';
-import { cardFloat, colors, fillRow, fonts, radius, text } from '../theme';
+import { DISPLAY_VARIANT, cardFloat, colors, fillRow, fonts, radius, text } from '../theme';
 
 // Room the floating header card takes, top inset aside.
 const HEADER_SPACE = 84;
@@ -181,10 +182,6 @@ const FollowingCard = memo(function FollowingCard({ adventure, open, onToggle, n
               </Pressable>
             );
           })}
-          {itinerary.back.length > 0 && <Text style={styles.wayBack}>On the way back</Text>}
-          {itinerary.back.map((item, k) => (
-            <CrossingRow key={`back-${item.id}-${k}`} id={item.id} />
-          ))}
         </ScrollView>
       )}
     </View>
@@ -267,6 +264,12 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
     return rideDest ? null : rideToPlace(position, selected);
   }, [rideDest, selected, position, away]);
   const ride = progress ?? placeRide;
+  // The list's miles: from the rider while location is on in Brevard (F-15),
+  // else along the path from W Main St.
+  const listMiles = useMemo(
+    () => (position && !away && shown.length ? milesFromRider(position, shown) : null),
+    [position, away, shown]
+  );
   const rideRoute = useMemo(() => (rideTo ? rideTo.line.map(toLatLng) : null), [rideTo]);
   // Nothing in the sheet to show: following an adventure (the header card
   // lists its stops), or the rider put the "Getting around" card away. The
@@ -729,6 +732,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
           dock={dock}
           sideInsets={{ left: insets.left, right: insets.right }}
           destinations={shown}
+          listMiles={listMiles}
           active={active}
           selected={selected}
           onSelect={rideDest ? (id) => id === null && endRide() : select}
@@ -853,14 +857,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: CROSSING_ORANGE,
   },
-  wayBack: {
-    marginTop: 10,
-    marginBottom: 2,
-    paddingHorizontal: 6,
-    fontFamily: fonts.sansSemiBold,
-    fontSize: 13,
-    color: colors.inkSoft,
-  },
   stopNote: {
     marginTop: 2,
     fontFamily: fonts.sans,
@@ -875,6 +871,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: fonts.display,
+    fontVariant: DISPLAY_VARIANT,
     fontSize: 18,
     lineHeight: 22,
     color: colors.ink,

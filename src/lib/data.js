@@ -80,14 +80,15 @@ export const visibleDestinations = (active) => select.selectVisible(destinations
 const REACH_FT = 1000;
 const routeGraph = select.buildRouteGraph(network);
 
-export function rideToPlace(position, destination) {
+export function rideToPlace(position, destination, routes = select.routesFrom(routeGraph, toLonLat(position))) {
   const from = toLonLat(position);
-  const route = select.routeOnGraph(routeGraph, from, destination.coordinates);
+  const route = routes(destination.coordinates);
   if (!route || route.endOffFt > REACH_FT) return { reachable: false };
   const miles = (route.startOffFt + route.pathFt + route.endOffFt) / 5280;
   return {
     reachable: true,
-    miles: Math.round(miles * 10) / 10,
+    // Never "0 mi": a place a few steps away reads 0.1.
+    miles: Math.max(0.1, Math.round(miles * 10) / 10),
     minutes: select.rideMinutes(miles),
     // Distance from the rider to the nearest drawn line, for saying when they
     // are well off it.
@@ -95,6 +96,18 @@ export function rideToPlace(position, destination) {
     // The way there, [lon, lat], kept fixed once the ride starts (rideProgress).
     line: [from, ...route.coordinates, destination.coordinates],
   };
+}
+
+// Miles by bike from the rider to each of a list of places, by id; a place
+// no drawn route reaches is left out. One search serves the whole list.
+export function milesFromRider(position, places) {
+  const routes = select.routesFrom(routeGraph, toLonLat(position));
+  const miles = {};
+  for (const d of places) {
+    const ride = rideToPlace(position, d, routes);
+    if (ride.reachable) miles[d.id] = ride.miles;
+  }
+  return miles;
 }
 
 // Where the rider is along a ride that has started: the way there stays as it
@@ -144,7 +157,7 @@ const placedStopsOf = (adventure) => {
 
 export const crossingById = byId(crossings);
 
-// A followed ride's stop list with its crossings ({ items, back }, see
+// A followed ride's stop list with its crossings ({ items }, see
 // rideItinerary) and how many different roads it crosses. Worked out once
 // per adventure.
 const itineraries = new Map();
@@ -152,8 +165,8 @@ export function adventureItinerary(adventure) {
   if (!itineraries.has(adventure.id)) {
     const line = adventure.route.coordinates;
     const passes = select.crossingPasses(line, crossings);
-    const { items, back } = select.rideItinerary(line, adventure.stops.length, placedStopsOf(adventure), passes);
-    itineraries.set(adventure.id, { items, back, crossingCount: new Set(passes.map((p) => p.id)).size });
+    const items = select.rideItinerary(adventure.stops.length, placedStopsOf(adventure), passes);
+    itineraries.set(adventure.id, { items, crossingCount: new Set(passes.map((p) => p.id)).size });
   }
   return itineraries.get(adventure.id);
 }

@@ -6,8 +6,11 @@ import { categoryById } from '../lib/data';
 import { colors, fillRow, fonts, radius, tint } from '../theme';
 
 // One destination in the sheet's list. `category` is which of the place's
-// categories to show it as — the one the rider actually switched on.
-export default function PlaceRow({ destination, category, onSelect }) {
+// categories to show it as — the one the rider actually switched on. `miles`
+// is from the rider, or along the path from W Main St with location off;
+// null when no drawn route reaches the place. The miles sit in a column of
+// their own on the right, so they line up from row to row (F-14).
+export default function PlaceRow({ destination, category, miles, onSelect }) {
   const cat = categoryById[category];
   const alsoIn = destination.categories.filter((c) => c !== category);
 
@@ -23,12 +26,9 @@ export default function PlaceRow({ destination, category, onSelect }) {
       </View>
 
       <View style={styles.body}>
-        <View style={styles.titleRow}>
-          <Text style={styles.name} numberOfLines={1}>
-            {destination.name}
-          </Text>
-          <Text style={styles.mile}>mi {destination.mileMarker.toFixed(1)}</Text>
-        </View>
+        <Text style={styles.name} numberOfLines={1}>
+          {destination.name}
+        </Text>
         <Text style={styles.blurb}>{destination.description}</Text>
         {(destination.hours || alsoIn.length > 0) && (
           <View style={styles.meta}>
@@ -42,7 +42,10 @@ export default function PlaceRow({ destination, category, onSelect }) {
         )}
       </View>
 
-      <ChevronRight size={16} color={colors.inkFaint} style={styles.chevron} />
+      <View style={styles.side}>
+        {miles !== null && <Text style={styles.mile}>{miles.toFixed(1)} mi</Text>}
+        <ChevronRight size={16} color={colors.inkFaint} />
+      </View>
     </Pressable>
   );
 }
@@ -67,20 +70,22 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   body: fillRow,
-  titleRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: 8,
-  },
   name: {
-    flexShrink: 1,
     fontFamily: fonts.sansSemiBold,
     fontSize: 15,
     color: colors.ink,
   },
+  side: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    marginTop: 1,
+  },
   mile: {
+    minWidth: 44,
+    textAlign: 'right',
     fontFamily: fonts.sansMedium,
-    fontSize: 11,
+    fontSize: 12,
     color: colors.inkFaint,
     fontVariant: ['tabular-nums'],
   },
@@ -113,8 +118,5 @@ const styles = StyleSheet.create({
     fontSize: 10.5,
     textTransform: 'uppercase',
     letterSpacing: 0.4,
-  },
-  chevron: {
-    marginTop: 8,
   },
 });

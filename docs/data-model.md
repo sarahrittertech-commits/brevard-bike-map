@@ -109,9 +109,10 @@ town at a glance.
 
 A road the path crosses. It is not a stop and it is not drawn on the map:
 it is a warning in a followed ride's stop list, a small traffic cone and
-"Cross here · <road>", between the stops where the line passes it. A ride
-drawn one way lists them again, in reverse, under "On the way back", and
-the header counts them ("5 stops · 5 crossings"). Located from where Sarah
+"Cross here · <road>", between the stops where the line passes it. Only
+the line as drawn: a ride drawn there and back lists the way home's
+crossings in their place, and one drawn one way lists no way back (Sarah,
+24 October). The header counts the roads ("5 stops · 5 crossings"). Located from where Sarah
 stood on each side of the road, 23 October 2026; the coordinate is the
 midpoint, and only decides where in the list a crossing falls.
 
@@ -157,7 +158,7 @@ lives: every route is a line someone has ridden.
 | `difficulty` | enum | `easy` · `moderate` · `ambitious` |
 | `stops[].destination` | string | Optional Destination `id`. Stops without one (a parking lot, "lunch downtown") are named but not pinned, unless they have `coordinates` |
 | `stops[].coordinates` | `[lon, lat]` | Optional. Pins a stop that is not a place, such as a sculpture, and wins over the destination's coordinates. Within 500 ft of the route (DT-11) |
-| `route` | LineString | Drawn as ridden. A ride that comes home the way it went is drawn there and back, so a stop on the way home is placed on the way home and NEXT reaches it (Ball Field to Library Loop, Concert Night, Short Track Social). One drawn one way only gets its crossings listed again under "On the way back"; `miles` is the full ride |
+| `route` | LineString | Drawn as ridden. A ride that comes home the way it went is drawn there and back, so a stop on the way home is placed on the way home and NEXT reaches it (Ball Field to Library Loop, Concert Night, Short Track Social). One drawn one way shows no way back, crossings included; `miles` is the full ride |
 
 ## Two apps from one dataset
 

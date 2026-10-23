@@ -189,24 +189,18 @@ function snapToGraph(graph, coord) {
   return { ...best, coord: [A[0] + best.t * (B[0] - A[0]), A[1] + best.t * (B[1] - A[1])] };
 }
 
-// The shortest way along the network between two [lon, lat] points. Returns
-// the route as [lon, lat] coordinates from the spot nearest `from` to the spot
-// nearest `to`, its length on the network, and how far each end is from the
-// network. Null if no drawn line connects them.
-function routeOnGraph(graph, from, to) {
+// The shortest ways along the network from one [lon, lat] point: a function
+// that, given a destination, returns the route as [lon, lat] coordinates
+// from the spot nearest `from` to the spot nearest it, its length on the
+// network, and how far each end is from the network; null if no drawn line
+// connects them. The search from `from` runs once, so one rider's position
+// serves a whole list of places.
+function routesFrom(graph, from) {
   const s = snapToGraph(graph, from);
-  const t = snapToGraph(graph, to);
   const edgeFt = (snap) => {
     const [a, b] = [graph.nodes[snap.a].xy, graph.nodes[snap.b].xy];
     return Math.hypot(a[0] - b[0], a[1] - b[1]);
   };
-  const result = (coords, pathFt) => ({ coordinates: coords, pathFt, startOffFt: s.dist, endOffFt: t.dist });
-
-  // Both ends on the same piece of line: no search needed.
-  if ((s.a === t.a && s.b === t.b) || (s.a === t.b && s.b === t.a)) {
-    const tOnS = s.a === t.a ? t.t : 1 - t.t;
-    return result([s.coord, t.coord], Math.abs(tOnS - s.t) * edgeFt(s));
-  }
 
   // Dijkstra from the start spot, which reaches the network at both ends of
   // its piece of line. The node count is small enough for a plain scan.
@@ -229,14 +223,26 @@ function routeOnGraph(graph, from, to) {
     }
   }
 
-  const viaA = dist[t.a] + t.t * edgeFt(t);
-  const viaB = dist[t.b] + (1 - t.t) * edgeFt(t);
-  if (!Number.isFinite(Math.min(viaA, viaB))) return null;
-  const last = viaA <= viaB ? t.a : t.b;
-  const path = [];
-  for (let u = last; u !== -1; u = prev[u]) path.unshift(graph.nodes[u].coord);
-  return result([s.coord, ...path, t.coord], Math.min(viaA, viaB));
+  return (to) => {
+    const t = snapToGraph(graph, to);
+    const result = (coords, pathFt) => ({ coordinates: coords, pathFt, startOffFt: s.dist, endOffFt: t.dist });
+    // Both ends on the same piece of line: no search needed.
+    if ((s.a === t.a && s.b === t.b) || (s.a === t.b && s.b === t.a)) {
+      const tOnS = s.a === t.a ? t.t : 1 - t.t;
+      return result([s.coord, t.coord], Math.abs(tOnS - s.t) * edgeFt(s));
+    }
+    const viaA = dist[t.a] + t.t * edgeFt(t);
+    const viaB = dist[t.b] + (1 - t.t) * edgeFt(t);
+    if (!Number.isFinite(Math.min(viaA, viaB))) return null;
+    const last = viaA <= viaB ? t.a : t.b;
+    const path = [];
+    for (let u = last; u !== -1; u = prev[u]) path.unshift(graph.nodes[u].coord);
+    return result([s.coord, ...path, t.coord], Math.min(viaA, viaB));
+  };
 }
+
+// The shortest way along the network between two [lon, lat] points.
+const routeOnGraph = (graph, from, to) => routesFrom(graph, from)(to);
 
 // Where a [lon, lat] point falls against each segment of a line: the nearest
 // spot on that segment, how far along the line it is, and how far off.
@@ -335,14 +341,13 @@ function crossingPasses(line, crossings) {
 }
 
 // A followed ride's list, top to bottom: its stops in order with the
-// crossings between them where the line passes them, then, for a ride drawn
-// one way only (it ends more than ONE_WAY_FT from where it starts), the same
-// crossings in reverse under "On the way back". A loop's way back is on its
-// line already. A stop with no location sits with the stop before it, and
+// crossings between them where the line passes them. Only the line as drawn:
+// a ride drawn there and back lists the way home's crossings in their place,
+// and one drawn one way lists none for a way back it does not show (Sarah,
+// 24 October). A stop with no location sits with the stop before it, and
 // one after every located stop (back to the start, say) at the end of the
 // line. Items are { kind: 'stop', index } or { kind: 'crossing', id }.
-const ONE_WAY_FT = 1000;
-function rideItinerary(line, stopCount, placed, passes) {
+function rideItinerary(stopCount, placed, passes) {
   const alongOf = new Map(placed.map((p) => [p.index, p.alongFt]));
   const lastPlaced = Math.max(-1, ...placed.map((p) => p.index));
   const items = [];
@@ -355,11 +360,7 @@ function rideItinerary(line, stopCount, placed, passes) {
     items.push({ kind: 'stop', index });
   }
   while (next < passes.length) items.push({ kind: 'crossing', id: passes[next++].id });
-  const cosLat = Math.cos((line[0][1] * Math.PI) / 180);
-  const [a, b] = [toFeet(line[0], cosLat), toFeet(line[line.length - 1], cosLat)];
-  const oneWay = Math.hypot(b[0] - a[0], b[1] - a[1]) > ONE_WAY_FT;
-  const back = oneWay ? passes.map((p) => ({ kind: 'crossing', id: p.id })).reverse() : [];
-  return { items, back };
+  return items;
 }
 
 // Where the rider is along a line, from a fix and how far along they had got
@@ -473,6 +474,7 @@ module.exports = {
   isNearArea,
   buildRouteGraph,
   routeOnGraph,
+  routesFrom,
   rideMinutes,
   placeStops,
   crossingPasses,

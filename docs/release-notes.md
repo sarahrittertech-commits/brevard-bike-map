@@ -141,8 +141,11 @@ walking simulated riders along every ride with the real data):
 - **"Cross here" warnings.** A followed ride's stop list now warns of each
   road it crosses — N Broad St at Blue Ridge Community College, Deerlake Rd,
   Jackson Ct, Ecusta Rd and Asheville Hwy at Lowe's — with a small traffic
-  cone between the stops where you meet it, and again for the way back. The
-  header counts them. Located from where Sarah stood on each side. A crossing
+  cone between the stops where you meet it. Only the way drawn: a ride drawn
+  there and back lists the way home's crossings in their place, and one
+  drawn one way lists none for a way back the map does not show (Sarah, 24
+  October; build 11 listed them again under "On the way back"). The header
+  counts the roads. Located from where Sarah stood on each side. A crossing
   is not a stop, so Lowe's Crossing leaves Downtown to the River's numbered
   stops.
 
@@ -175,6 +178,16 @@ OpenStreetMap):
   crossings are listed before lunch, where they are ridden.
 - The Apple Maps logo is no longer hidden under the sheet; Apple's terms
   want it seen.
+- **The list's miles line up, and are from you.** Each place's miles sit
+  in a column on the right, read "0.2 mi" rather than "mi 0.2", and, with
+  location on in Brevard, are the miles by bike from where you are; the
+  header says "Miles from you" (F-14, F-15). Noblebräu's name drops the
+  street address its description already gives.
+- **"Getting around" says what the two tabs are for**: the Trail Map for
+  places along the path, Adventures for rides locals do (F-1, MT-20).
+- **Names with "ff", "fi" or "fl" read normally** in the heading face;
+  Fraunces had joined them into ligatures that looked broken, as in
+  Griffon & Sphynx (F-16).
 - **Location comes back on by itself** (Sarah, after testing build 11).
   Location used to start off at every launch, so a rider who had already
   said "While Using the App" had to tap the button each time. Once it has
