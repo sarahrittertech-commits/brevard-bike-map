@@ -122,10 +122,30 @@
     "id": "jamesons-joy",
     "name": "Jameson's Joy (Ninja Park)",
     "categories": ["playground"],
-    "coordinates": [-82.7079, 35.2559],
+    "coordinates": [-82.708028, 35.256056],
     "description": "Ninja-course fitness park at the Parks & Rec fields. Open 24 hours and fully accessible.",
     "mileMarker": 2.9,
     "hours": "Open 24 hours"
+  },
+  {
+    "id": "rec-and-parks-building",
+    "name": "Transylvania County Parks & Recreation",
+    "categories": ["after-school", "fun-stop"],
+    "coordinates": [-82.705722, 35.256833],
+    "description": "The Rec & Parks building by the ball fields: indoor basketball courts, events for kids, and a room to rent for small birthday parties.",
+    "mileMarker": 3.1,
+    "apps": ["kids"]
+  },
+  {
+    "id": "sports-complex-skate-park",
+    "name": "Sports Complex Skate Park",
+    "categories": ["playground"],
+    "coordinates": [-82.707056, 35.260222],
+    "description": "Skate park at the Transylvania County Sports Complex, beside the turf soccer field.",
+    "mileMarker": 3.3,
+    "kids": {
+      "categories": ["playground", "fun-stop"]
+    }
   },
   {
     "id": "broad-street-wines",
@@ -379,7 +399,7 @@
     "id": "pisgah-forest-elementary",
     "name": "Pisgah Forest Elementary School",
     "categories": ["school"],
-    "coordinates": [-82.7038, 35.2564],
+    "coordinates": [-82.704389, 35.256361],
     "description": "Public elementary school, pre-K to 5th grade, right beside the path in Pisgah Forest.",
     "mileMarker": 3.1,
     "website": "https://pfe.tcsnc.org",
@@ -553,7 +573,7 @@
     "id": "library-kids",
     "name": "Transylvania County Library",
     "categories": ["fun-stop"],
-    "coordinates": [-82.7354, 35.2311],
+    "coordinates": [-82.736092, 35.231103],
     "description": "The public library at 212 S Gaston St, with kids' programs and an outdoor StoryWalk.",
     "mileMarker": 0.5,
     "hours": "Mon & Thu 9:30–8pm · Tue, Wed, Fri, Sat 9:30–5:30pm",

@@ -57,8 +57,14 @@
   {
     "id": "ball-fields",
     "name": "Ball Fields",
-    "coordinates": [-82.7085, 35.258],
-    "labelSide": "right"
+    "coordinates": [-82.706056, 35.259174],
+    "labelSide": "left"
+  },
+  {
+    "id": "dog-park",
+    "name": "Dog Park",
+    "coordinates": [-82.708333, 35.257556],
+    "labelSide": "left"
   },
   {
     "id": "library",

@@ -376,7 +376,8 @@
     "stops": [
       {
         "name": "Brevard Ball Fields",
-        "note": "Park here off Ecusta Rd. Restrooms and plenty of room to get sorted."
+        "note": "Park here off Ecusta Rd. Restrooms and plenty of room to get sorted.",
+        "coordinates": [-82.707417, 35.256056]
       },
       {
         "name": "Jameson's Joy (Ninja Park)",
@@ -601,57 +602,32 @@
     "id": "downtown-festival",
     "title": "Ride to a Downtown Festival",
     "tagline": "Skip the parking, arrive on two wheels",
-    "story": "Festival weekends turn downtown parking into a sport nobody wins. The path carries all the way to W Main instead, so you arrive a block from the tents. Leave from the Pisgah Forest end, ride southwest past the depot into town, and lock up on Main. Coming home after dark is easy, but bring a light — the far end is unlit by design.",
+    "story": "Festival weekends turn downtown parking into a sport nobody wins. Park for free at the Ninja Park instead, where getting in and out is easy, and ride the path into town past the depot. It ends on W Main a block from the tents; walk your bike from there to the bike valet posted on W Main. Coming home after dark is easy, but bring a light.",
     "image": "downtown-festival",
-    "miles": 4.3,
-    "minutes": 35,
+    "miles": 3.1,
+    "minutes": 25,
     "difficulty": "easy",
     "kidFriendly": true,
     "stops": [
       {
-        "name": "Pisgah Forest End",
-        "note": "Free parking near Ecusta Rd. Fills by late morning on festival days."
-      },
-      {
-        "name": "Mid-Path Fix-It Stand",
-        "note": "Halfway breather, with water.",
-        "destination": "repair-midpath"
+        "name": "Jameson's Joy (Ninja Park)",
+        "note": "Start here. Free parking that is easy to get in and out of, even on festival days, and a ninja course for anyone who arrives early.",
+        "destination": "jamesons-joy"
       },
       {
         "name": "Railroad Depot Park",
-        "note": "Lock up here. Restrooms, pavilion, and the ballerina sculpture.",
+        "note": "Restrooms, pavilion, and the ballerina sculpture. The last stop before town.",
         "destination": "repair-depot"
       },
       {
-        "name": "Rocky's Grill & Soda Shop",
-        "note": "Open late on festival nights. Shorter line after the band starts.",
-        "destination": "rockys"
+        "name": "Downtown",
+        "note": "The path ends here on W Main. Walk your bike from here to the bike valet posted on W Main St.",
+        "coordinates": [-82.7345, 35.2337]
       }
     ],
     "route": {
       "type": "LineString",
       "coordinates": [
-        [-82.7057, 35.2702],
-        [-82.7056, 35.2699],
-        [-82.7057, 35.2686],
-        [-82.7054, 35.268],
-        [-82.7057, 35.2678],
-        [-82.7058, 35.2673],
-        [-82.706, 35.2654],
-        [-82.7062, 35.2629],
-        [-82.7062, 35.2625],
-        [-82.7061, 35.2617],
-        [-82.706, 35.2611],
-        [-82.7062, 35.2609],
-        [-82.7056, 35.2599],
-        [-82.7053, 35.2594],
-        [-82.7054, 35.258],
-        [-82.7054, 35.2576],
-        [-82.7056, 35.2575],
-        [-82.7071, 35.2576],
-        [-82.7077, 35.2577],
-        [-82.7078, 35.2575],
-        [-82.7078, 35.2565],
         [-82.7078, 35.2561],
         [-82.7097, 35.2557],
         [-82.71, 35.2556],
@@ -845,7 +821,8 @@
     "stops": [
       {
         "name": "Brevard Ball Fields",
-        "note": "Park off Ecusta Rd. Free, and empty on concert nights."
+        "note": "Park off Ecusta Rd. Free, and empty on concert nights.",
+        "coordinates": [-82.707417, 35.256056]
       },
       {
         "name": "Railroad Depot Park",
@@ -940,25 +917,24 @@
         "destination": "repair-depot"
       },
       {
-        "name": "Lowe’s Crossing",
-        "note": "The path crosses the road here — dismount, cross, and pick it up on the far side."
-      },
-      {
         "name": "Dolly's Dairy Bar",
         "note": "Over the bridge. Worth stopping on the way out and the way back.",
         "destination": "dollys"
       },
       {
         "name": "Sycamore Flats",
-        "note": "Picnic tables under the sycamores, right on the river."
+        "note": "Picnic tables under the sycamores, on the far bank. There is no way across on a bike: leave it on this side and swim over. It's an easy swim.",
+        "coordinates": [-82.713944, 35.275361]
       },
       {
         "name": "River Pull-Off",
-        "note": "A flat dirt landing under a leaning tree, where the bank shelves straight into the water. The one to stop at if you came to swim."
+        "note": "A flat dirt landing under a leaning tree, where the bank shelves straight into the water. The one to stop at if you came to swim.",
+        "coordinates": [-82.713778, 35.277361]
       },
       {
         "name": "Davidson River Campground",
-        "note": "The turnaround, where the path meets the parking lot. The campground is across it — restrooms, water and river access — and this is the closest public parking to it."
+        "note": "The turnaround, where the path meets the parking lot. The campground is across it — restrooms, water and river access — and this is the closest public parking to it.",
+        "coordinates": [-82.719806, 35.281111]
       }
     ],
     "route": {
@@ -1094,7 +1070,8 @@
       },
       {
         "name": "Bracken Mountain Trailhead",
-        "note": "End of Probart St. Last chance to bail back into town if the legs are not there."
+        "note": "End of Probart St. Last chance to bail back into town if the legs are not there.",
+        "coordinates": [-82.7555, 35.240861]
       },
       {
         "name": "Bracken Mountain Trail",
@@ -1102,11 +1079,13 @@
       },
       {
         "name": "Davidson River Campground",
-        "note": "You pop out at the far end of the campground connector. Water and restrooms across the parking lot."
+        "note": "You pop out at the far end of the campground connector. Water and restrooms across the parking lot.",
+        "coordinates": [-82.722528, 35.281139]
       },
       {
         "name": "Sycamore Flats",
-        "note": "Picnic tables and the river on the way back — a good place to eat."
+        "note": "Picnic tables across the river on the way back — a good place to eat. There is no way across on a bike: leave it on this side and swim over. It's an easy swim.",
+        "coordinates": [-82.713944, 35.275361]
       },
       {
         "name": "Dolly's Dairy Bar",
