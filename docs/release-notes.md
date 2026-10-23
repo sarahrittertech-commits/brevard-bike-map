@@ -43,6 +43,16 @@ From Sarah's ride on build 10, 22 October 2026:
    "You're here". If the rider leaves the way by more than 600 ft, a fresh
    way is drawn from where they are.
 
+**Art on the Path is now Sculpture on the Path, and every sculpture is
+pinned** (Sarah, 22–23 October). In 1.1.0 only 3 of its 12 stops had a
+place behind them, so the map showed numbers 1, 3 and 8 and nothing else.
+A stop can now carry its own location and photo, and Sarah gave the
+location of each sculpture: the cows, the instruments at Brevard College,
+the Red Wolf and Elk, the Otter, the Red Fox, the deer, the Wild Turkey and
+the Black Bear. All eleven are within 150 ft of the drawn route. The NEXT
+marker also follows the loop in order now; on the way out it had skipped
+the cows, which sit beside the path the ride also comes back along.
+
 Also found while testing these: **a numbered stop on a followed adventure no
 longer moved the map to it** in build 10. The Ride to here fix stopped
 centring whenever any route was drawn, an adventure's included. Now only

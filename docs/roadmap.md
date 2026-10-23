@@ -24,7 +24,7 @@ Built from the `restaurants` branch. In TestFlight on 21 October 2026.
   Park, Silvermont, Brevard College, the King St row, Weevil, Sycamore Cycles
   and more
 - About twenty pins corrected from photos and OpenStreetMap
-- New rides: Art on the Path, Pisgah Short Track Social, Earth Mountain Shop
+- New rides: Sculpture on the Path (named Art on the Path in 1.1.0), Pisgah Short Track Social, Earth Mountain Shop
   Ride
 - **Show my location**, opt-in: the app explains what the dot is for before
   the system asks, and nothing is saved or sent
