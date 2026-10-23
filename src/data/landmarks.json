@@ -55,12 +55,6 @@
     "labelSide": "left"
   },
   {
-    "id": "courthouse",
-    "name": "Courthouse",
-    "coordinates": [-82.7345, 35.2337],
-    "labelSide": "left"
-  },
-  {
     "id": "railroad-depot",
     "name": "Depot Park",
     "coordinates": [-82.73353, 35.24078],
