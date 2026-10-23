@@ -1,12 +1,12 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Compass from 'lucide-react-native/icons/compass';
-import Map from 'lucide-react-native/icons/map';
+import MapIcon from 'lucide-react-native/icons/map';
 
 import { colors, fonts } from '../theme';
 
 const TABS = [
-  { id: 'map', label: 'Trail Map', Icon: Map },
+  { id: 'map', label: 'Trail Map', Icon: MapIcon },
   { id: 'adventures', label: 'Adventures', Icon: Compass },
 ];
 

@@ -120,6 +120,33 @@ const StaticLayers = memo(function StaticLayers({ faded, tracking }) {
   );
 });
 
+// One place's pin. Memoised: while riding to a place every position update
+// redraws the route, and without it every pin on the map would be rebuilt
+// with it.
+const PlaceMarker = memo(function PlaceMarker({ destination, category, selected, tracking, onSelect }) {
+  return (
+    <Marker
+      coordinate={toLatLng(destination.coordinates)}
+      anchor={{ x: 0.5, y: 1 }}
+      // Apple Maps: lift the view by half its height so the tip, not the
+      // middle of the pin, is on the place.
+      centerOffset={{ x: 0, y: -(PIN_HIT_TOP + (selected ? SELECTED_PIN_HEIGHT : PIN_HEIGHT)) / 2 }}
+      tracksViewChanges={tracking}
+      zIndex={selected ? 10 : 1}
+      onPress={(e) => {
+        e.stopPropagation();
+        onSelect(destination.id);
+      }}
+    >
+      {/* Clear space round the pin, so a rider on a bike does not have to hit
+          the 26pt pin itself. None below: the tip is the anchor. */}
+      <View style={styles.pinHitArea}>
+        <PlacePin category={category} color={categoryById[category].color} selected={selected} />
+      </View>
+    </Marker>
+  );
+});
+
 export default memo(function TrailMap({
   destinations,
   active,
@@ -179,8 +206,9 @@ export default memo(function TrailMap({
     active.join(),
     destinations.map((d) => d.id).join(),
     selected?.id,
-    routeStops?.length,
+    routeStops?.map((s) => s.index).join(),
     nextStop,
+    selectedStop,
   ].join('|');
   const [trackedKey, setTrackedKey] = useState(null);
   const [tracking, setTracking] = useState(false);
@@ -251,11 +279,13 @@ export default memo(function TrailMap({
         if (cancelled) return;
       }
       const visibleBottom = height - (docked ? 0 : sheetHeight);
-      // The pin hangs above its coordinate (anchored at the tip), so the tip
-      // goes half a pin below the middle and the pin's body sits on it.
+      // A place's pin hangs above its coordinate (anchored at the tip), so the
+      // tip goes half a pin below the middle and the pin's body sits on it. A
+      // numbered stop is a circle on its coordinate and goes in the middle.
+      const isStop = routeStops?.some((s) => s.index === selectedStop);
       const target = {
         x: docked ? (clear.left + width - clear.right) / 2 : width / 2,
-        y: (clear.top + visibleBottom) / 2 + SELECTED_PIN_HEIGHT / 2,
+        y: (clear.top + visibleBottom) / 2 + (isStop ? 0 : SELECTED_PIN_HEIGHT / 2),
       };
       try {
         const [now, camera] = await Promise.all([map.pointForCoordinate(place), map.getCamera()]);
@@ -273,7 +303,7 @@ export default memo(function TrailMap({
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [selected, riding, docked, width, height]);
+  }, [selected, selectedStop, routeStops, riding, docked, width, height]);
 
   useEffect(() => {
     if (!mapRef.current || !userFocus) return;
@@ -290,8 +320,11 @@ export default memo(function TrailMap({
       style={StyleSheet.absoluteFill}
       mapType={ANDROID ? 'standard' : 'mutedStandard'}
       customMapStyle={ANDROID ? GOOGLE_STYLE : undefined}
-      mapPadding={ANDROID ? { top: 0, right: 0, bottom: padBottom, left: padLeft } : undefined}
+      // Only once the map is ready: react-native-maps 1.27 on Android applies
+      // padding to a map that may not exist yet, and crashes.
+      mapPadding={ANDROID && ready ? { top: 0, right: 0, bottom: padBottom, left: padLeft } : undefined}
       legalLabelInsets={ANDROID ? undefined : { top: 0, right: 0, bottom: logoInset.bottom, left: logoInset.left }}
+      appleLogoInsets={ANDROID ? undefined : { top: 0, right: 0, bottom: logoInset.bottom, left: logoInset.left }}
       // Google-only behaviours the design does not have: a directions toolbar
       // on marker tap, and the camera jumping to a tapped marker, which would
       // fight the centring above.
@@ -336,26 +369,14 @@ export default memo(function TrailMap({
           // native marker only repaints on remount. The key must therefore name
           // every prop that changes how the pin looks, or a new visual state
           // will silently not appear.
-          <Marker
+          <PlaceMarker
             key={`${d.id}-${category}-${isSelected}`}
-            coordinate={toLatLng(d.coordinates)}
-            anchor={{ x: 0.5, y: 1 }}
-            // Apple Maps: lift the view by half its height so the tip, not the
-            // middle of the pin, is on the place.
-            centerOffset={{ x: 0, y: -(PIN_HIT_TOP + (isSelected ? SELECTED_PIN_HEIGHT : PIN_HEIGHT)) / 2 }}
-            tracksViewChanges={tracking}
-            zIndex={isSelected ? 10 : 1}
-            onPress={(e) => {
-              e.stopPropagation();
-              onSelect(d.id);
-            }}
-          >
-            {/* Clear space round the pin, so a rider on a bike does not have
-                to hit the 26pt pin itself. None below: the tip is the anchor. */}
-            <View style={styles.pinHitArea}>
-              <PlacePin category={category} color={categoryById[category].color} selected={isSelected} />
-            </View>
-          </Marker>
+            destination={d}
+            category={category}
+            selected={isSelected}
+            tracking={tracking}
+            onSelect={onSelect}
+          />
         );
       })}
 
