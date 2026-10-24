@@ -9,7 +9,7 @@ import Ruler from 'lucide-react-native/icons/ruler';
 
 import { DIFFICULTY_LABEL, adventureImages, categoryById, destinationById } from '../lib/data';
 import { READING_WIDTH, photoHeight, useLayoutClass } from '../lib/layout';
-import { DISPLAY_VARIANT, colors, fonts, radius, shadowFloat, text } from '../theme';
+import { colors, fonts, radius, shadowFloat, text, unjoin } from '../theme';
 
 
 export default function AdventureDetailScreen({ adventure, onBack, onShowOnMap }) {
@@ -51,7 +51,7 @@ export default function AdventureDetailScreen({ adventure, onBack, onShowOnMap }
           </Pressable>
           <View style={[styles.heroText, { left: insets.left + 20, right: insets.right + 20 }]}>
             <Text style={styles.heroTagline}>{adventure.tagline}</Text>
-            <Text style={styles.heroTitle}>{adventure.title}</Text>
+            <Text style={styles.heroTitle}>{unjoin(adventure.title)}</Text>
           </View>
         </View>
 
@@ -168,7 +168,6 @@ const styles = StyleSheet.create({
   heroTitle: {
     marginTop: 2,
     fontFamily: fonts.display,
-    fontVariant: DISPLAY_VARIANT,
     fontSize: 26,
     lineHeight: 29,
     color: colors.white,
@@ -218,7 +217,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 24,
     fontFamily: fonts.display,
-    fontVariant: DISPLAY_VARIANT,
     fontSize: 19,
     lineHeight: 23,
     color: colors.ink,

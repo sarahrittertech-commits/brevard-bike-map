@@ -28,7 +28,7 @@ import {
   visibleDestinations,
 } from '../lib/data';
 import { useLayoutClass } from '../lib/layout';
-import { DISPLAY_VARIANT, cardFloat, colors, fillRow, fonts, radius, text } from '../theme';
+import { cardFloat, colors, fillRow, fonts, radius, text, unjoin } from '../theme';
 
 // Room the floating header card takes, top inset aside.
 const HEADER_SPACE = 84;
@@ -135,7 +135,7 @@ const FollowingCard = memo(function FollowingCard({ adventure, open, onToggle, n
           <View style={styles.cardBody}>
             <Text style={styles.followingEyebrow}>Following adventure</Text>
             <Text style={styles.title} numberOfLines={1}>
-              {adventure.title}
+              {unjoin(adventure.title)}
             </Text>
             <Text style={styles.subtitle}>
               {adventure.miles} mi · {adventure.minutes} min · {adventure.stops.length} stops
@@ -674,7 +674,7 @@ export default function MapScreen({ following, showNonce, onStopFollowing, inFro
             <View style={styles.cardBody}>
               <Text style={styles.followingEyebrow}>{progress?.arrived ? 'You’re here' : 'Riding to'}</Text>
               <Text style={styles.title} numberOfLines={1}>
-                {rideDest.name}
+                {unjoin(rideDest.name)}
               </Text>
               <Text style={styles.subtitle}>{rideSummary(ride)}</Text>
             </View>
@@ -871,7 +871,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: fonts.display,
-    fontVariant: DISPLAY_VARIANT,
     fontSize: 18,
     lineHeight: 22,
     color: colors.ink,

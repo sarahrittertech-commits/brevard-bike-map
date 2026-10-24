@@ -24,7 +24,7 @@ import {
   displayCategory,
   trailheads,
 } from '../lib/data';
-import { DISPLAY_VARIANT, colors, fillRow, fonts, hairlineTop, radius, text, tint } from '../theme';
+import { colors, fillRow, fonts, hairlineTop, radius, text, tint, unjoin } from '../theme';
 
 export const PEEK = 112;
 export const SHEET_FRACTION = 0.64;
@@ -390,7 +390,7 @@ function SelectedPlace({
           {/* Slid down, the strip has room for one line: shorten the name
               rather than cut the second line in half. */}
           <Text style={styles.h1} numberOfLines={collapsed ? 1 : undefined}>
-            {stop ? stop.name : destination.name}
+            {unjoin(stop ? stop.name : destination.name)}
           </Text>
         </Pressable>
         <Pressable
@@ -536,14 +536,12 @@ const styles = StyleSheet.create({
   },
   h1: {
     fontFamily: fonts.display,
-    fontVariant: DISPLAY_VARIANT,
     fontSize: 24,
     lineHeight: 29,
     color: colors.ink,
   },
   h2: {
     fontFamily: fonts.display,
-    fontVariant: DISPLAY_VARIANT,
     fontSize: 19,
     lineHeight: 23,
     color: colors.ink,

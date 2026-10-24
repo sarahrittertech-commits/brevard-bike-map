@@ -30,8 +30,10 @@ export const fonts = {
 
 // Fraunces joins "ff", "fi" and "fl" into single ligature glyphs, which in
 // a name like Griffon & Sphynx read as broken, slanted letters (F-16).
-// Every use of the display face turns them off.
-export const DISPLAY_VARIANT = ['no-common-ligatures'];
+// React Native's fontVariant cannot turn ligatures off on iOS under the new
+// architecture, so a zero-width non-joiner goes between the letters of any
+// name set in the display face instead. Screen readers skip it.
+export const unjoin = (s) => s.replace(/f(?=[fil])/g, 'f\u200C');
 
 export const radius = {
   sm: 8,

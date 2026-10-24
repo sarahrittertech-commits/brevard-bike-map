@@ -183,7 +183,7 @@ table, which goes stale when a place is added.
 | Breweries | Broad Street Wines |  |
 | Breweries | The Map Room at D.D. Bullwinkel’s |  |
 | Breweries | Brevard Brewing Company |  |
-| Breweries | Noblebräu Brewing · 185 King Street |  |
+| Breweries | Noblebräu Brewing |  |
 | Breweries | Griffon & Sphynx |  |
 | Breweries | Oskar Blues (Tasty Weasel Taproom) |  |
 | Breweries | Ecusta Brewing Company |  |

@@ -187,7 +187,9 @@ OpenStreetMap):
   places along the path, Adventures for rides locals do (F-1, MT-20).
 - **Names with "ff", "fi" or "fl" read normally** in the heading face;
   Fraunces had joined them into ligatures that looked broken, as in
-  Griffon & Sphynx (F-16).
+  Griffon & Sphynx (F-16). An invisible non-joiner keeps the letters
+  apart, since iOS ignores React Native's setting for turning ligatures
+  off.
 - **Location comes back on by itself** (Sarah, after testing build 11).
   Location used to start off at every launch, so a rider who had already
   said "While Using the App" had to tap the button each time. Once it has

@@ -99,7 +99,8 @@ export function rideToPlace(position, destination, routes = select.routesFrom(ro
 }
 
 // Miles by bike from the rider to each of a list of places, by id; a place
-// no drawn route reaches is left out. One search serves the whole list.
+// no drawn route reaches is left out, and null if none is reached. One
+// search serves the whole list.
 export function milesFromRider(position, places) {
   const routes = select.routesFrom(routeGraph, toLonLat(position));
   const miles = {};
@@ -107,7 +108,7 @@ export function milesFromRider(position, places) {
     const ride = rideToPlace(position, d, routes);
     if (ride.reachable) miles[d.id] = ride.miles;
   }
-  return miles;
+  return Object.keys(miles).length ? miles : null;
 }
 
 // Where the rider is along a ride that has started: the way there stays as it

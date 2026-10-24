@@ -7,7 +7,7 @@ import Ruler from 'lucide-react-native/icons/ruler';
 
 import { DIFFICULTY_LABEL, adventureImages, adventures } from '../lib/data';
 import { READING_WIDTH, photoHeight, useLayoutClass } from '../lib/layout';
-import { DISPLAY_VARIANT, card, cardFloat, colors, fillRow, fonts, hairlineTop, radius, text } from '../theme';
+import { card, cardFloat, colors, fillRow, fonts, hairlineTop, radius, text, unjoin } from '../theme';
 
 
 export default function AdventuresScreen({ onOpen }) {
@@ -51,7 +51,7 @@ export default function AdventuresScreen({ onOpen }) {
         </View>
         <View style={styles.featuredBody}>
           <Text style={styles.tagline}>{featured.tagline}</Text>
-          <Text style={styles.featuredTitle}>{featured.title}</Text>
+          <Text style={styles.featuredTitle}>{unjoin(featured.title)}</Text>
           <Text style={styles.story} numberOfLines={2}>
             {featured.story}
           </Text>
@@ -75,7 +75,7 @@ export default function AdventuresScreen({ onOpen }) {
             <Image source={adventureImages[a.image]} style={styles.thumb} resizeMode="cover" />
             <View style={styles.rowBody}>
               <Text style={styles.rowTitle} numberOfLines={1}>
-                {a.title}
+                {unjoin(a.title)}
               </Text>
               <Text style={styles.rowTagline} numberOfLines={1}>
                 {a.tagline}
@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
   h1: {
     marginTop: 4,
     fontFamily: fonts.display,
-    fontVariant: DISPLAY_VARIANT,
     fontSize: 28,
     lineHeight: 31,
     color: colors.ink,
@@ -173,7 +172,6 @@ const styles = StyleSheet.create({
   featuredTitle: {
     marginTop: 2,
     fontFamily: fonts.display,
-    fontVariant: DISPLAY_VARIANT,
     fontSize: 21,
     lineHeight: 25,
     color: colors.ink,
@@ -232,7 +230,6 @@ const styles = StyleSheet.create({
   rowBody: fillRow,
   rowTitle: {
     fontFamily: fonts.display,
-    fontVariant: DISPLAY_VARIANT,
     fontSize: 16,
     lineHeight: 20,
     color: colors.ink,
