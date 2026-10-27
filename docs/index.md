@@ -58,3 +58,4 @@ That framing drives every scope decision on this project:
 | [App Store listing](./app-store-listing) | Listing copy and submission answers |
 | [Direction after 1.0](./post-1.0-direction) | What is decided, deferred and open after shipping |
 | [App Review response](./app-review-response) | Answers to Apple's Guideline 2.1 questionnaire |
+| [Brand guide](./brand) | Name, logo, colours, type and voice |
